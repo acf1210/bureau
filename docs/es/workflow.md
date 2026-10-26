@@ -56,7 +56,7 @@ Un sitio de campaña cabe en 5–7 días. Un producto con CMS y múltiples super
 - Aprobar una dirección a partir de una imagen generada sin layout.
 - Dejar que el comp se convierta en el build por accidente.
 
-**Salida:** `.bureau/comps/` con tres comps + `decision.md`.
+**Salida:** `.bureau/comps/` con tres comps + `decision.md` + `blend.md` (linaje: dominante × contrapunto × acento).
 
 ---
 
@@ -101,6 +101,8 @@ Un sitio de campaña cabe en 5–7 días. Un producto con CMS y múltiples super
 - Dejar un `div onclick` en lugar de un botón.
 
 **Salida:** página navegable, build reproducible, sin errores de consola.
+
+**Después refina:** siete pasadas de la estructura al detalle (`skill/references/24-refinement-passes.md`), registradas en `.bureau/evidence/refinement.md`.
 
 ---
 

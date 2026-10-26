@@ -56,7 +56,7 @@ A campaign site fits 5–7 days. A product with CMS and multiple surfaces, 2–4
 - Approve a direction from a generated image with no layout.
 - Let the comp become the build by accident.
 
-**Output:** `.bureau/comps/` with three comps + `decision.md`.
+**Output:** `.bureau/comps/` with three comps + `decision.md` + `blend.md` (lineage: dominant × counter × accent).
 
 ---
 
@@ -101,6 +101,8 @@ A campaign site fits 5–7 days. A product with CMS and multiple surfaces, 2–4
 - Leave a `div onclick` where a button belongs.
 
 **Output:** navigable page, reproducible build, clean console.
+
+**Then refine:** seven passes from structure to detail (`skill/references/24-refinement-passes.md`), logged in `.bureau/evidence/refinement.md`.
 
 ---
 

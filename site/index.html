@@ -114,17 +114,24 @@
   .film__copy p{max-width:32ch;color:var(--muted);font-size:12.5px;margin:0}
   .pause{position:absolute;right:var(--hero-pad);top:1.2rem;z-index:3;min-height:36px;padding:.5rem .6rem;border:1px solid var(--line);background:rgba(11,11,12,.65);color:var(--ink);font:400 10px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
   .pause:hover{border-color:var(--acid);color:var(--acid)}
-  .demos{display:grid;grid-template-columns:1.25fr .85fr;gap:1rem}
-  .demo{display:flex;flex-direction:column;border:1px solid var(--line);background:var(--bg-2);min-width:0;position:relative;overflow:clip}
-  .demo--wide{grid-row:span 2}
-  .demo__media{overflow:clip;aspect-ratio:16/10;background:var(--surface);position:relative}
-  .demo__media img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s cubic-bezier(.16,1,.3,1)}
-  .demo:hover .demo__media img{transform:scale(1.035)}
+  .demos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.25rem}
+  .demo{display:flex;flex-direction:column;border:1px solid var(--line);background:var(--bg-2);min-width:0;position:relative;text-decoration:none}
+  .demo--lead{grid-column:span 2;grid-row:span 2}
+  .demo__media{position:relative;overflow:clip;aspect-ratio:16/10;background:var(--surface)}
+  .demo__media > picture:first-child img{width:100%;height:100%;object-fit:cover;object-position:top;display:block;transition:transform .7s cubic-bezier(.16,1,.3,1)}
+  .demo:hover .demo__media > picture:first-child img{transform:scale(1.03)}
+  .demo--lead .demo__media{aspect-ratio:auto;flex:1;min-height:320px}
+  .demo--close{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr)}
+  .demo--close .demo__body{flex-direction:column;justify-content:center;padding:2rem}
+  .demo__phone{position:absolute;right:5%;bottom:-14%;width:22%;border:3px solid var(--bg);border-radius:14px;overflow:hidden;box-shadow:0 18px 40px -20px rgba(0,0,0,.6);transition:transform .7s cubic-bezier(.16,1,.3,1)}
+  .demo--lead .demo__phone{width:17%}
+  .demo:hover .demo__phone{transform:translateY(-6%)}
+  .demo__phone img{display:block;width:100%;height:auto}
   .demo__body{padding:1.1rem 1.2rem 1.2rem;display:flex;gap:1rem;align-items:flex-start;justify-content:space-between}
-  .demo__body h3{font:400 1.5rem/1.05 var(--display);margin:0 0 .3rem}
-  .demo__body p{color:var(--muted);font-size:12px;margin:0;max-width:40ch}
-  .demo__tag{font:400 9.5px/1 var(--mono);letter-spacing:.12em;color:var(--ember);border:1px solid var(--line);padding:.3rem .4rem;white-space:nowrap}
-  .demo__open{font:400 11px/1 var(--mono);color:var(--acid);white-space:nowrap;border-bottom:1px solid var(--acid);padding-bottom:2px}
+  .demo__body h3{font:400 1.4rem/1.05 var(--display);margin:0 0 .35rem}
+  .demo__body p{color:var(--muted);font-size:13px;margin:0;max-width:44ch}
+  .demo__body p b{color:var(--ink);font-weight:500}
+  .demo__tag{font:400 12px/1 var(--mono);color:var(--muted);border:1px solid var(--line);padding:.35rem .45rem;white-space:nowrap}
   .install{display:grid;grid-template-columns:repeat(12,1fr);gap:2rem}
   .install__copy{grid-column:1/5}
   .install__copy p{color:var(--muted);max-width:32ch}
@@ -150,8 +157,8 @@
   .site-foot a{border-bottom:1px solid var(--line)}
   .site-foot a:hover{color:var(--acid);border-color:var(--acid)}
   .site-foot .right{text-align:right}
-  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
-  .reveal.in{opacity:1;transform:none}
+  .js .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+  .js .reveal.in{opacity:1;transform:none}
   @media (max-width:1100px){
     .site-nav{display:none}
     .hero__inner{grid-template-columns:1fr;gap:2rem}
@@ -160,10 +167,14 @@
     .circuit__fig{grid-column:1/13}
     .circuit__side{grid-column:1/13;position:static}
     .install__copy,.install__panel{grid-column:1/13}
-    .demos{grid-template-columns:1fr}
-    .demo--wide{grid-row:auto}
+    .demos{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .demo--close{grid-column:auto;display:flex}
+    .demo--close .demo__body{padding:1.1rem 1.2rem 1.2rem}
+    .demo--lead{grid-column:1/-1;grid-row:auto}
   }
   @media (max-width:720px){
+    .demos{grid-template-columns:minmax(0,1fr)}
+    .demo__tag{display:none}
     .langs,.head-cta{display:none}
     .hero h1{font-size:clamp(5rem,23vw,8rem)}
     .hero__inner{padding-top:6.5rem}
@@ -179,7 +190,7 @@
   @media (prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
     *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
-    .hero h1 span,.reveal{opacity:1;transform:none}
+    .hero h1 span,.reveal,.js .reveal{opacity:1;transform:none}
   }
 </style>
 </head>
@@ -211,7 +222,7 @@
 
     <div class="hero__inner wrap">
       <div>
-        <p class="kicker"><i aria-hidden="true"></i> Open-source agent skill · v{{VERSION}} · MIT</p>
+        <p class="kicker"><i aria-hidden="true"></i> Open-source agent skill, v{{VERSION}}, MIT licence</p>
         <h1><span>Bureau</span></h1>
         <p class="hero__tagline">The autonomous digital design bureau.</p>
         <p class="hero__lede">Concept, art direction, motion, WebGL, Figma, Playwright evidence, accessibility, performance, and a review circuit that can say no. Installs into Claude, Codex, Antigravity and Hermes.</p>
@@ -338,31 +349,142 @@
 
   <section class="section wrap" id="demos">
     <div class="section-head">
-      <h2 class="reveal">Three worlds. One method.</h2>
-      <p class="reveal">Self-contained templates. Open them, inspect the source, break them, rebuild them with your own subject.</p>
+      <h2 class="reveal">Thirteen worlds. Thirteen lineages.</h2>
+      <p class="reveal">Each template blends three designers on three axes, has a mobile composition of its own, and shares no fingerprint with the others. Study the blend, then write your own.</p>
     </div>
     <div class="demos">
-      <a class="demo demo--wide reveal" href="demos/kinetic-editorial/index.html">
-        <div class="demo__media"><picture><source type="image/avif" srcset="assets/img/demo-kinetic.avif"><img src="assets/img/demo-kinetic.webp" alt="Kinetic Editorial template: huge serif headline over a dark film loop, with an index of features." width="1200" height="750" loading="lazy"></picture></div>
+      <!-- gallery:start -->
+      <a class="demo demo--lead" href="demos/kinetic-editorial/index.html">
+        <div class="demo__media">
+          <picture><source type="image/avif" srcset="assets/img/demos/kinetic-editorial-desktop.avif"><img src="assets/img/demos/kinetic-editorial-desktop.webp" alt="Kinetic Editorial: An italic Bodoni headline on a blue-black ground, with the issue contents in a margin column." width="1200" height="750" loading="lazy"></picture>
+          <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/kinetic-editorial-mobile.avif"><img src="assets/img/demos/kinetic-editorial-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
+        </div>
         <div class="demo__body">
-          <div><h3>Kinetic Editorial</h3><p>Bodoni display, acid signal, index-as-argument, scroll narrative and a fixed time rail.</p></div>
-          <span class="demo__open">Open ↗</span>
+          <div><h3>Kinetic Editorial</h3><p><b>Tschichold × Lubalin × Bass.</b> An index filed by the live Lisbon hour.</p></div>
+          <span class="demo__tag">Night journal</span>
         </div>
       </a>
-      <a class="demo reveal" href="demos/product-surface/index.html">
-        <div class="demo__media"><picture><source type="image/avif" srcset="assets/img/demo-product.avif"><img src="assets/img/demo-product.webp" alt="Product Surface template: paper-toned coastal planning desk with a live waterline scenario model." width="1200" height="750" loading="lazy"></picture></div>
+      <a class="demo" href="demos/product-surface/index.html">
+        <div class="demo__media">
+          <picture><source type="image/avif" srcset="assets/img/demos/product-surface-desktop.avif"><img src="assets/img/demos/product-surface-desktop.webp" alt="Product Surface: A coastal planning desk in IBM Plex with a waterline slider and a direct-labelled chart." width="1200" height="750" loading="lazy"></picture>
+          <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/product-surface-mobile.avif"><img src="assets/img/demos/product-surface-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
+        </div>
         <div class="demo__body">
-          <div><h3>Product Surface</h3><p>A live scenario model, not a fake dashboard.</p></div>
-          <span class="demo__open">Open ↗</span>
+          <div><h3>Product Surface</h3><p><b>Tufte × Vignelli × Aicher.</b> Raise the waterline; the order of failure follows.</p></div>
+          <span class="demo__tag">Planning desk</span>
         </div>
       </a>
-      <a class="demo reveal" href="demos/immersive-experience/index.html">
-        <div class="demo__media"><picture><source type="image/avif" srcset="assets/img/demo-immersive.avif"><img src="assets/img/demo-immersive.webp" alt="Immersive Experience template: full-screen WebGL light study with oversized HALFLIGHT typography." width="1200" height="750" loading="lazy"></picture></div>
+      <a class="demo" href="demos/immersive-experience/index.html">
+        <div class="demo__media">
+          <picture><source type="image/avif" srcset="assets/img/demos/immersive-experience-desktop.avif"><img src="assets/img/demos/immersive-experience-desktop.webp" alt="Immersive Experience: WebGL beams of ember light behind the word HALFLIGHT set on two planes." width="1200" height="750" loading="lazy"></picture>
+          <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/immersive-experience-mobile.avif"><img src="assets/img/demos/immersive-experience-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
+        </div>
         <div class="demo__body">
-          <div><h3>Immersive Experience</h3><p>Raw WebGL, pointer response, cinematic threshold.</p></div>
-          <span class="demo__open">Open ↗</span>
+          <div><h3>Immersive Experience</h3><p><b>Moholy-Nagy × Cooper × Eames.</b> Shift the light; shader, title and focus follow.</p></div>
+          <span class="demo__tag">Light installation</span>
         </div>
       </a>
+      <a class="demo" href="demos/legal-practice/index.html">
+        <div class="demo__media">
+          <picture><source type="image/avif" srcset="assets/img/demos/legal-practice-desktop.avif"><img src="assets/img/demos/legal-practice-desktop.webp" alt="Legal Practice: A serif headline beside an engagement letter with a Legal and Plain switch." width="1200" height="750" loading="lazy"></picture>
+          <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/legal-practice-mobile.avif"><img src="assets/img/demos/legal-practice-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
+        </div>
+        <div class="demo__body">
+          <div><h3>Legal Practice</h3><p><b>Sutnar × Rand × Ruder.</b> Every clause in two registers: legal and plain.</p></div>
+          <span class="demo__tag">Arbitration chambers</span>
+        </div>
+      </a>
+      <a class="demo" href="demos/architecture-studio/index.html">
+        <div class="demo__media">
+          <picture><source type="image/avif" srcset="assets/img/demos/architecture-studio-desktop.avif"><img src="assets/img/demos/architecture-studio-desktop.webp" alt="Architecture Studio: Condensed uppercase type on a dark concrete wall split by a vertical slit of light." width="1200" height="750" loading="lazy"></picture>
+          <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/architecture-studio-mobile.avif"><img src="assets/img/demos/architecture-studio-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
+        </div>
+        <div class="demo__body">
+          <div><h3>Architecture Studio</h3><p><b>Ando × Mies × Scarpa.</b> A slit of daylight that opens as you scroll.</p></div>
+          <span class="demo__tag">Architecture studio</span>
+        </div>
+      </a>
+      <a class="demo" href="demos/restaurant-table/index.html">
+        <div class="demo__media">
+          <picture><source type="image/avif" srcset="assets/img/demos/restaurant-table-desktop.avif"><img src="assets/img/demos/restaurant-table-desktop.webp" alt="Restaurant Table: Rosa, ochre and lavender colour planes with a ringed wordmark and a serif headline." width="1200" height="750" loading="lazy"></picture>
+          <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/restaurant-table-mobile.avif"><img src="assets/img/demos/restaurant-table-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
+        </div>
+        <div class="demo__body">
+          <div><h3>Restaurant Table</h3><p><b>Barragán × Wyman × J. Albers.</b> Choose your seats on the counter arc.</p></div>
+          <span class="demo__tag">Tasting counter</span>
+        </div>
+      </a>
+      <a class="demo" href="demos/private-bank/index.html">
+        <div class="demo__media">
+          <picture><source type="image/avif" srcset="assets/img/demos/private-bank-desktop.avif"><img src="assets/img/demos/private-bank-desktop.webp" alt="Private Bank: A modular grid with a large monospaced future value, sliders and stepped bars." width="1200" height="750" loading="lazy"></picture>
+          <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/private-bank-mobile.avif"><img src="assets/img/demos/private-bank-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
+        </div>
+        <div class="demo__body">
+          <div><h3>Private Bank</h3><p><b>Müller-Brockmann × Crouwel × Tufte.</b> Compounding with your numbers, formula shown.</p></div>
+          <span class="demo__tag">Family office</span>
+        </div>
+      </a>
+      <a class="demo" href="demos/clinic-care/index.html">
+        <div class="demo__media">
+          <picture><source type="image/avif" srcset="assets/img/demos/clinic-care-desktop.avif"><img src="assets/img/demos/clinic-care-desktop.webp" alt="Clinic Care: A calm serif headline in wide white space beside flat green lungs and a small sun." width="1200" height="750" loading="lazy"></picture>
+          <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/clinic-care-mobile.avif"><img src="assets/img/demos/clinic-care-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
+        </div>
+        <div class="demo__body">
+          <div><h3>Clinic Care</h3><p><b>Hara × Kare × Tanaka.</b> A breathing guide that starts only when pressed.</p></div>
+          <span class="demo__tag">Respiratory clinic</span>
+        </div>
+      </a>
+      <a class="demo" href="demos/developer-api/index.html">
+        <div class="demo__media">
+          <picture><source type="image/avif" srcset="assets/img/demos/developer-api-desktop.avif"><img src="assets/img/demos/developer-api-desktop.webp" alt="Developer API: A light console with a search query, a JSON response and a colour swatch derived from longitude." width="1200" height="750" loading="lazy"></picture>
+          <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/developer-api-mobile.avif"><img src="assets/img/demos/developer-api-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
+        </div>
+        <div class="demo__body">
+          <div><h3>Developer API</h3><p><b>Gerstner × Weingart × Greiman.</b> A playground that really matches typos.</p></div>
+          <span class="demo__tag">Geocoding API</span>
+        </div>
+      </a>
+      <a class="demo" href="demos/fashion-atelier/index.html">
+        <div class="demo__media">
+          <picture><source type="image/avif" srcset="assets/img/demos/fashion-atelier-desktop.avif"><img src="assets/img/demos/fashion-atelier-desktop.webp" alt="Fashion Atelier: A high-contrast serif headline beside three overprinted cloth colours and a cropped giant wordmark." width="1200" height="750" loading="lazy"></picture>
+          <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/fashion-atelier-mobile.avif"><img src="assets/img/demos/fashion-atelier-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
+        </div>
+        <div class="demo__body">
+          <div><h3>Fashion Atelier</h3><p><b>Brodovitch × A. Albers × B. Thompson.</b> A pattern drafted from your measurements.</p></div>
+          <span class="demo__tag">Tailoring atelier</span>
+        </div>
+      </a>
+      <a class="demo" href="demos/record-label/index.html">
+        <div class="demo__media">
+          <picture><source type="image/avif" srcset="assets/img/demos/record-label-desktop.avif"><img src="assets/img/demos/record-label-desktop.webp" alt="Record Label: Condensed blue numerals and a wide black headline beside a yellow and blue type-only record sleeve." width="1200" height="750" loading="lazy"></picture>
+          <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/record-label-mobile.avif"><img src="assets/img/demos/record-label-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
+        </div>
+        <div class="demo__body">
+          <div><h3>Record Label</h3><p><b>Reid Miles × Saville × Brody.</b> Type-only sleeves that play a synthesised sketch.</p></div>
+          <span class="demo__tag">Record label</span>
+        </div>
+      </a>
+      <a class="demo" href="demos/museum-archive/index.html">
+        <div class="demo__media">
+          <picture><source type="image/avif" srcset="assets/img/demos/museum-archive-desktop.avif"><img src="assets/img/demos/museum-archive-desktop.webp" alt="Museum Archive: A bold grotesque headline between two red beams, over a room of glass easels with abstract signs." width="1200" height="750" loading="lazy"></picture>
+          <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/museum-archive-mobile.avif"><img src="assets/img/demos/museum-archive-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
+        </div>
+        <div class="demo__body">
+          <div><h3>Museum Archive</h3><p><b>Bo Bardi × Lustig × Munari.</b> Glass easels with the record on the back.</p></div>
+          <span class="demo__tag">Photographic archive</span>
+        </div>
+      </a>
+      <a class="demo demo--close" href="demos/hardware-store/index.html">
+        <div class="demo__media">
+          <picture><source type="image/avif" srcset="assets/img/demos/hardware-store-desktop.avif"><img src="assets/img/demos/hardware-store-desktop.webp" alt="Hardware Store: A grey lamp configurator with colour options and an illustrated desk lamp with a yellow shade." width="1200" height="750" loading="lazy"></picture>
+          <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/hardware-store-mobile.avif"><img src="assets/img/demos/hardware-store-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
+        </div>
+        <div class="demo__body">
+          <div><h3>Hardware Store</h3><p><b>Rams × Sottsass × Castiglioni.</b> Configure the lamp, then see it apart, priced.</p></div>
+          <span class="demo__tag">Product shop</span>
+        </div>
+      </a>
+      <!-- gallery:end -->
     </div>
   </section>
 
@@ -422,13 +544,14 @@ bash installers/install.sh --agent hermes --scope user</code></div>
   </section>
 
   <footer class="site-foot wrap">
-    <p><b style="color:var(--ink);font-weight:500">BUREAU</b><br>Autonomous digital design bureau.<br>v{{VERSION}} · MIT · {{DATE}}</p>
-    <p>Concept · direction · motion · WebGL · video · Figma · Playwright · access · performance · anti-slop.<br><a href="https://github.com/acf1210/bureau" target="_blank" rel="noopener noreferrer">GitHub ↗</a> · <a href="pt-BR/install.html">Install</a> · <a href="pt-BR/review-circuit.html">Circuit</a></p>
+    <p><b style="color:var(--ink);font-weight:500">BUREAU</b><br>Autonomous digital design bureau.<br>v{{VERSION}}, MIT licence, {{DATE}}</p>
+    <p>Concept, direction, motion, WebGL, video, Figma, Playwright, access, performance and anti-slop review.<br><a href="https://github.com/acf1210/bureau" target="_blank" rel="noopener noreferrer">GitHub ↗</a><br><a href="pt-BR/install.html">Install</a><br><a href="pt-BR/review-circuit.html">Circuit</a></p>
     <p class="right">Inspired by Impeccable, Colorfigures, Font Awesome and the galleries in the reference library.<br>PANTONE® is a trademark of Pantone LLC. BUREAU is not affiliated.</p>
   </footer>
 </main>
 
 <script>
+document.documentElement.classList.add("js");
 (() => {
   const root = document.documentElement;
   const body = document.body;

@@ -10,6 +10,22 @@ is copied verbatim.
   Product-truth artifacts, deterministic design detection, and the discipline of
   naming AI-generated design tells. BUREAU's audit rules and gate structure are
   original, informed by the public conversation this project helped shape.
+- **Hallmark** by Together AI — https://github.com/Nutlope/hallmark (MIT) —
+  binding tiers (a floor that is never waived, reflexes waived only on the
+  record, finish details that are answered), a pre-build critique, render-tier
+  measurements such as a per-screen word budget, and fresh-context reviewers.
+- **antislop** by Miqdad Badjuber — https://github.com/miqdadbadjuber/anti-slop
+  (MIT) — the purpose test, a PASS/FAIL delivery gate with evidence on every
+  line, and liveliness dials (energy, rhythm, motion) that keep a filtered
+  page from going sterile.
+- **Diagram Design** by Cathryn Lavery — https://github.com/cathrynlavery/diagram-design
+  (MIT) — mechanical rules backed by fixtures in both polarities, an accessible
+  SVG contract, and the test of whether a figure teaches more than a sentence.
+- **Impeccable** critique method — https://impeccable.style — design review
+  before detector output, isolated assessments with a declared degraded mode,
+  Nielsen heuristics with `n/a` renormalization, and themed browser surfaces.
+  BUREAU's rules, IDs, thresholds and wording are its own; no text from these
+  projects is reproduced.
 - **Awwwards** criteria (Design 40 / Usability 20 / Creativity 20 / Content 20) —
   https://www.awwwards.com
 - **dao ho** — https://daoho.dev — editorial craft and interaction restraint.
@@ -19,6 +35,17 @@ is copied verbatim.
 - **Font Awesome** — https://github.com/FortAwesome/Font-Awesome — fallback icon
   system (icons are not bundled; Font Awesome Free is licensed under CC BY 4.0
   for icons and MIT for code).
+
+## Lineages
+
+The blend method (`skill/references/23-lineage-and-blend.md`) and the three
+templates extract documented principles from published work by Josef
+Müller-Brockmann, Jan Tschichold, Emil Ruder, Wim Crouwel, Karl Gerstner,
+Massimo Vignelli, Otl Aicher, Dieter Rams, Edward Tufte, Paula Scher,
+Herb Lubalin, Saul Bass, Muriel Cooper, László Moholy-Nagy, Charles and Ray
+Eames, April Greiman, Susan Kare and Ikko Tanaka. Each work is cited by title
+and year. No layout, glyph, pictogram, image or text from those works is
+reproduced; BUREAU is not affiliated with any of them or their estates.
 
 ## Inspiration libraries
 

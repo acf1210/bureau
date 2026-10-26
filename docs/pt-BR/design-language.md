@@ -184,3 +184,68 @@ Use para calibrar, não para montar:
 Protocolo de extração: impressão → estrutura → ofício → comportamento → princípio transferível. Nunca abra uma referência e code imediatamente.
 
 Lista completa e ética em `skill/references/20-reference-library.md`.
+
+---
+
+## 8. Linhagem e mescla
+
+BUREAU nunca copia uma fonte única. Toda direção é uma **mescla** de três linhagens documentadas, cada uma dona de um eixo diferente, passada pelo assunto até que nenhuma fonte isolada possa ser nomeada.
+
+| Designer | Obra documentada | Princípio | Eixo |
+|---|---|---|---|
+| Josef Müller-Brockmann | *Grid Systems in Graphic Design* (1981) | o grid modular como ordem objetiva | grid |
+| Jan Tschichold | *Die neue Typographie* (1928) | hierarquia assimétrica e funcional | composição |
+| Massimo Vignelli | NYC subway diagram (1972) | poucas fontes, o diagrama acima da imagem | tipo, navegação |
+| Otl Aicher | Munich 1972 | paleta restrita, pictogramas num só grid | cor, ícones |
+| Edward Tufte | *The Visual Display of Quantitative Information* (1983) | data-ink, small multiples, rótulos diretos | dados |
+| Herb Lubalin | *Avant Garde* (1968–71) | letras apertadas até a palavra virar imagem | voz |
+| Saul Bass | *Vertigo* (1958), *Anatomy of a Murder* (1959) | movimento que corta em vez de esmaecer | motion |
+| Muriel Cooper | *Information Landscapes* (1994) | tipo no espaço; profundidade como navegação | profundidade |
+| László Moholy-Nagy | *Light Prop for an Electric Stage* (1930) | a luz é o meio | luz |
+| Charles and Ray Eames | *Powers of Ten* (1977) | um movimento pela escala por um fator constante | scroll |
+
+Receita: **dominante** 50–60% (estrutura) × **contraponto** 25–35% (expressão, puxando contra) × **acento** 10–20% (um comportamento), mais um ingrediente que só o assunto tem. Escreva em `.bureau/comps/blend.md` (Gate 1).
+
+Os treze templates são exemplos resolvidos, cada um com um `LINEAGE.md`. Eles também contam como fontes:
+
+| Template | Dominant | Counter | Accent |
+|---|---|---|---|
+| `kinetic-editorial` | Tschichold | Lubalin | Bass |
+| `product-surface` | Tufte | Vignelli | Aicher |
+| `immersive-experience` | Moholy-Nagy | Cooper | Eames |
+| `legal-practice` | Sutnar | Rand | Ruder |
+| `architecture-studio` | Ando | Mies | Scarpa |
+| `restaurant-table` | Barragán | Wyman | J. Albers |
+| `private-bank` | Müller-Brockmann | Crouwel | Tufte |
+| `clinic-care` | Hara | Kare | Tanaka |
+| `developer-api` | Gerstner | Weingart | Greiman |
+| `fashion-atelier` | Brodovitch | A. Albers | B. Thompson |
+| `record-label` | Reid Miles | Saville | Brody |
+| `museum-archive` | Bo Bardi | Lustig | Munari |
+| `hardware-store` | Rams | Sottsass | Castiglioni |
+
+Um projeto criado a partir de um template começa como cópia. Antes do Gate 2 ele precisa estar em 0.35 ou menos contra todos os templates:
+
+```bash
+node skill/scripts/divergence.mjs index.html --templates --out .bureau/evidence/divergence.json
+```
+
+Cânone, regras e testes de originalidade em `skill/references/23-lineage-and-blend.md`.
+
+---
+
+## 9. Passes de refinamento
+
+Entre o primeiro build e o QA, sete passes da estrutura ao detalhe. Um por vez; nova captura após cada um.
+
+| Passe | Olha para |
+|---|---|
+| P1 | estrutura: espinha, densidade, dobra, uma quebra de grid |
+| P2 | tipo: tamanho óptico, tracking por tamanho, glifos no tamanho display, rag |
+| P3 | cor e luz: papéis, contagem do accent, todos os estados |
+| P4 | espaço: uma escala, proximidade, alvos |
+| P5 | motion: um caráter, uma entrada, reduced mode desenhado |
+| P6 | estados e bordas: foco, erros, vazio, controles de mídia |
+| P7 | distinção: testes de linhagem e divergência |
+
+Limites e evidências em `skill/references/24-refinement-passes.md`.

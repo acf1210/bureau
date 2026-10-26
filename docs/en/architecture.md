@@ -10,7 +10,7 @@ BUREAU is a **progressive-disclosure** system: a short router, 23 depth modules,
 |---|---|---|
 | **Doctrine** | `SKILL.md` | identity, hard rules, autonomy contract |
 | **Router** | `SKILL.md` §4 | intent → command → reference |
-| **Depth** | `references/00–22` | one domain per file, loaded on demand |
+| **Depth** | `references/00–24` | one domain per file, loaded on demand |
 | **Execution** | `scripts/*.mjs` | detector, QA, tokens, Figma, review, scaffold |
 | **Material** | `assets/templates`, `tokens`, `snippets`, `media` | real starting points |
 | **State** | `BUREAU.md`, `DESIGN.md`, `MOTION.md`, `.bureau/` | project memory and evidence |
@@ -45,6 +45,7 @@ If the request is vague, BUREAU chooses the most defensible route and states the
 | `figma-sync.mjs` | Figma/Tokens Studio export | normalized DTCG | handoff |
 | `doctor.mjs` | environment | capability report | install and support |
 | `new-project.mjs` | template | project + artifacts | starting point |
+| `divergence.mjs` | two or more pages | similarity per dimension | Gate 2, before shipping |
 
 All are plain Node, no telemetry. `visual-audit` uses Playwright; the others have no external dependencies.
 

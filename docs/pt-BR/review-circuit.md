@@ -33,6 +33,12 @@ Uma média de 95 com um P0 de acessibilidade é **Fail**. É esse o ponto.
 
 ---
 
+## Três regras de honestidade
+
+1. **Julgue antes de medir.** Escreva a revisão de design antes de ler a saída do detector.
+2. **Quem construiu é o revisor mais fraco.** O Tribunal roda em contexto novo, ou o run é declarado `degraded` e não alcança Award Track.
+3. **Regra checada se mantém; regra em prosa se perde.** Toda regra mecânica tem um fixture que falha e um que passa.
+
 ## Os portões
 
 | Portão | Persona | Peso | Pergunta |
@@ -62,7 +68,9 @@ Uma média de 95 com um P0 de acessibilidade é **Fail**. É esse o ponto.
 
 **Falhas duras:** a ideia serviria a qualquer concorrente; não há assinatura; depende de assets inexistentes.
 
-**Evidência:** três comps no mesmo viewport + `decision.md`.
+**Evidência:** três comps no mesmo viewport + `decision.md` + `blend.md` (três linhagens em três eixos). Falha dura se um revisor nomear uma fonte única.
+
+**Crítica pré-build:** philosophy, hierarchy, execution, specificity, restraint, variety, 1–5 cada, mais o eixo mais fraco e a correção. Qualquer eixo abaixo de 3 reprova o G1.
 
 ### G2 — Direction
 
@@ -70,7 +78,7 @@ Uma média de 95 com um P0 de acessibilidade é **Fail**. É esse o ponto.
 
 **Falhas duras:** template com logo trocado; duas assinaturas competindo; seção de outro mundo.
 
-**Evidência:** `DESIGN.md`, espécime tipográfico, folha de cor, viewports 1440/768/390.
+**Evidência:** `DESIGN.md`, espécime tipográfico, folha de cor, viewports 1440/768/390, `divergence.json`. Falha dura acima de 0.35 contra o scaffold ou qualquer template.
 
 ### G3 — Type & Color
 
@@ -111,6 +119,8 @@ Uma média de 95 com um P0 de acessibilidade é **Fail**. É esse o ponto.
 **Falhas duras:** qualquer barreira P0; label ausente; armadilha de teclado; contraste sobre mídia; sem legenda para fala.
 
 **Evidência:** axe/visual audit, notas de teclado, reduced, tabela de contraste, leitor de tela.
+
+**Heurísticas:** as dez de Nielsen, 0–4 cada, `n/a` com motivo. Abaixo da metade do máximo aplicável reprova o G7. Some uma caminhada de personas: o que quebrou, para quem, em qual elemento.
 
 ### G8 — Truth
 
@@ -175,6 +185,7 @@ O script recusa:
 ```bash
 node skill/scripts/review.mjs --status
 node skill/scripts/review.mjs --gate g0-intake --scores .bureau/review/g0.json
+node skill/scripts/review.mjs --delivery-init
 node skill/scripts/review.mjs --final --tribunal .bureau/review/tribunal.json
 node skill/scripts/review.mjs --report
 ```
@@ -184,6 +195,20 @@ Cada portão grava um hash de fonte e documentos. Se o código mudou, o portão 
 O estado fica em `.bureau/review/state.json`. O scorecard sai em `.md`, `.json` e `.html`.
 
 ---
+
+## Delivery Gate
+
+`node skill/scripts/review.mjs --delivery-init` escreve `.bureau/review/delivery.md`. Toda linha é `[PASS]` ou `[FAIL]` com evidência depois de um travessão.
+
+| Bloco | Itens |
+|---|---|
+| Floor | DG-F1–F8: prova, controles, contraste, teclado, reduced motion, overflow, dobra em 1280×800, conteúdo sem JS |
+| Reflex | DG-R1–R3: renúncias, teste de atribuição, divergência ≤ 0.35 |
+| Liveliness | DG-L1–L3: dials, ponto focal e accent, motivo de identidade |
+| Finish | DG-C1–C3: superfícies do navegador, acabamento tipográfico, estados |
+| Process | DG-P1–P2: julgado antes de medido, Tribunal em contexto novo |
+
+Linha sem marcação, `[PASS]` sem evidência ou `N/A` em Floor recusam o final.
 
 ## O Tribunal
 
@@ -209,6 +234,8 @@ Um veto exige motivo, menor correção e responsável. "Não gostei" não é vet
 ```
 
 ---
+
+**Método:** `tribunal.json` declara `"method": "isolated"` ou `"degraded"`. Degradado limita o veredito a PASS.
 
 ## Anti-jogo
 
