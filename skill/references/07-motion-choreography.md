@@ -43,6 +43,8 @@ Use the smallest number of tokens that covers the work. A page with 11 durations
 
 ## 3. The choreography sheet (`MOTION.md`)
 
+Choose implementation after defining the behavior: CSS or the Web Animations API for simple transitions; Motion for richer component, gesture or layout choreography; GSAP for complex timelines; a transition library as a reference for consistent UI states. These are optional project choices, not BUREAU dependencies. Check current license, bundle cost and framework compatibility. Capture start, intermediate, end, interrupted and reduced-motion states; inspect the rendered result and repeat after corrections.
+
 ```markdown
 # Motion — <project>
 

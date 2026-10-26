@@ -6,6 +6,16 @@ BUREAU works in **passes**, not one shot. Each pass leaves an artifact and a dec
 
 ## Overview
 
+For collaborative work, use the roles, handoff contract, technical illustration checks and source boundaries in `skill/references/25-collaborative-studio.md`. Roles can be performed sequentially by one agent; independent review must never be claimed unless it occurred. External tools and skills are optional and require license and provenance checks.
+
+To compare versions by design quality or approval rate, use the paired real-brief protocol in `skill/references/26-outcome-evaluation.md`. The design-quality rubric draws on Awwwards categories but is not an official award score. Record baseline and new results, independent verdicts and uncertainty; automated audit scores alone cannot establish an improvement.
+
+For an assessment independent of award rubrics and the review circuit, use `skill/references/28-independent-design-assessment.md` and `skill/assets/studio-templates/independent-assessment.md`. Independent reviewers score five dimensions using evidence; missing evidence leaves the total unassessed.
+
+For deeper briefs, reference research and optional candidate assessment, use `skill/references/27-design-intelligence.md` and `skill/assets/studio-templates/qualification.md`. The 25 requested source entries are a menu, including names still needing identification; the rubric requires evidence for every score. Continuous indexing and trend prediction are not implemented.
+
+`node skill/scripts/source-monitor.mjs --out source-report.json` records availability of identified sources' `robots.txt` endpoints. The repository workflow schedules it daily at 09:00 UTC and retains reports for 30 days when GitHub Actions is enabled. It does not index projects or classify designs and will not overwrite a report.
+
 | Phase | Gates | Deliverable | Typical time |
 |---|---|---|---|
 | A. Intake | G0 | `BUREAU.md`, `config.json` | 1–2 h |

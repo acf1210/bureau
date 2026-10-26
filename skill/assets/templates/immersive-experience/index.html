@@ -278,7 +278,7 @@
       gl_FragColor = vec4(col, 1.0);
     }`;
   let prog = null, uRes, uTime, uLight, uPhase, uScroll;
-  let w = 1, h = 1, raf = 0, onScreen = true;
+  let w = 1, h = 1, raf = 0, onScreen = true, contextLost = false;
   let phase = 0, phaseTo = 0, scroll = 0;
   const lightAt = { x: 0.68, y: 0.62 }, lightTo = { x: 0.68, y: 0.62 };
   const t0 = performance.now();
@@ -323,12 +323,32 @@
     gl.uniform1f(uScroll, scroll);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
   };
-  const loop = (now) => { raf = 0; if (!onScreen || document.hidden) return; draw(now); raf = requestAnimationFrame(loop); };
-  const wake = () => { if (!prog) return; if (reduce.matches) { phase = phaseTo; draw(performance.now()); return; } if (!raf && onScreen && !document.hidden) raf = requestAnimationFrame(loop); };
+  const stop = () => { if (raf) cancelAnimationFrame(raf); raf = 0; };
+  const loop = (now) => { raf = 0; if (contextLost || reduce.matches || !onScreen || document.hidden) return; draw(now); raf = requestAnimationFrame(loop); };
+  const wake = () => {
+    if (!prog || contextLost || !onScreen || document.hidden) { stop(); return; }
+    if (reduce.matches) { stop(); phase = phaseTo; draw(performance.now()); return; }
+    if (!raf) raf = requestAnimationFrame(loop);
+  };
+
+  canvas.addEventListener("webglcontextlost", (event) => {
+    event.preventDefault();
+    contextLost = true;
+    stop();
+    canvas.style.visibility = "hidden";
+  });
+  canvas.addEventListener("webglcontextrestored", () => {
+    contextLost = false;
+    prog = null;
+    if (!setup()) return;
+    size();
+    canvas.style.visibility = "";
+    wake();
+  });
 
   if (setup()) {
     size();
-    new ResizeObserver(() => { size(); wake(); }).observe(canvas);
+    new ResizeObserver(() => { if (!contextLost) size(); wake(); }).observe(canvas);
     new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; wake(); }).observe(canvas);
     document.addEventListener("visibilitychange", wake);
     reduce.addEventListener?.("change", wake);

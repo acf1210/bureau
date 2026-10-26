@@ -188,8 +188,8 @@
         <input id="rise" type="range" min="0" max="120" step="5" value="0" aria-describedby="rise-help">
       </div>
       <svg class="chart" viewBox="0 0 520 200" role="img" aria-labelledby="chart-title chart-desc">
-        <title id="chart-title">Sea level, observed and scenario, 2026 to 2100</title>
-        <desc id="chart-desc">Two lines. The current trend rises slowly; the scenario line bends upward with the slider.</desc>
+        <title id="chart-title">Illustrative sea-level trend and scenario, 2026 to 2100</title>
+        <desc id="chart-desc">Two illustrative lines, not observed measurements or a forecast. The scenario follows the trend at zero centimetres of rise.</desc>
         <g aria-hidden="true">
           <line class="base" x1="40" y1="170" x2="470" y2="170"></line>
           <text class="tick" x="40" y="188">2026</text>
@@ -197,8 +197,8 @@
           <text class="tick" x="440" y="188">2100</text>
           <text class="tick" x="0" y="24">2.4 m</text>
           <text class="tick" x="0" y="168">0.4 m</text>
-          <path class="obs" id="obs" d=""></path>
-          <path class="proj" id="proj" d=""></path>
+          <path class="obs" id="obs" d="M52 165 L131.1 158.8 L244.1 149.4 L357.1 138.1 L470 122.5"></path>
+          <path class="proj" id="proj" d="M52 165 L131.1 158.8 L244.1 149.4 L357.1 138.1 L470 122.5"></path>
           <text class="direct direct--obs" id="obs-label" x="476" y="136">Trend</text>
           <text class="direct direct--proj" id="proj-label" x="476" y="120">Scenario</text>
         </g>
@@ -318,6 +318,7 @@
   const obsLabel = document.getElementById("obs-label");
   const projLabel = document.getElementById("proj-label");
   const summary = document.getElementById("summary");
+  const chartDesc = document.getElementById("chart-desc");
   const failures = [...document.querySelectorAll("#failures li")];
   const datum = 1.42;
   const years = [2026, 2040, 2060, 2080, 2100];
@@ -339,6 +340,7 @@
     level.textContent = (datum + rise / 100 * 0.82).toFixed(2);
     delta.textContent = `+${(rise / 100).toFixed(2)} m`;
     const shown = Math.round(rise);
+    chartDesc.textContent = `Two illustrative lines, not observed measurements or a forecast. The scenario adds ${shown} centimetres of rise by 2100.`;
     out.textContent = `${shown} cm`;
     range.setAttribute("aria-valuetext", `${shown} centimetres of rise`);
     let under = 0;
@@ -361,9 +363,11 @@
   };
   const go = (value) => {
     target = value;
-    if (reduce.matches) { current = value; render(value); return; }
+    if (reduce.matches) { if (raf) cancelAnimationFrame(raf); raf = 0; current = value; render(value); return; }
     if (!raf) raf = requestAnimationFrame(settle);
   };
+
+  reduce.addEventListener?.("change", () => { if (reduce.matches) go(target); });
 
   range.addEventListener("input", () => go(Number(range.value)));
   document.querySelectorAll("[data-rise]").forEach((btn) => btn.addEventListener("click", () => {
