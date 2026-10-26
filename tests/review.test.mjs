@@ -1,0 +1,82 @@
+/* @bureau-internal — test fixture; excluded from design audits */
+import test from "node:test";
+import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+
+const root = path.resolve(import.meta.dirname, "..");
+const scaffold = path.join(root, "skill", "scripts", "new-project.mjs");
+const review = path.join(root, "skill", "scripts", "review.mjs");
+
+const gates = {
+  "g0-intake": ["BUREAU.md", ".bureau/config.json"],
+  "g1-concept": [".bureau/comps/decision.md", ".bureau/comps/a.html", ".bureau/comps/b.html", ".bureau/comps/c.html"],
+  "g2-direction": ["DESIGN.md", ".bureau/evidence/type-specimen.png", ".bureau/evidence/color-sheet.png"],
+  "g3-type-color": ["DESIGN.md", ".bureau/evidence/contrast.md"],
+  "g4-composition": [".bureau/qa/report.json", ".bureau/qa/screenshots/mobile-390-fold.png", ".bureau/qa/screenshots/tablet-768-fold.png", ".bureau/qa/screenshots/laptop-1440-fold.png"],
+  "g5-motion": ["MOTION.md", ".bureau/evidence/motion.mp4", ".bureau/qa/screenshots/laptop-1440-reduced-motion.png"],
+  "g6-engineering": [".bureau/qa/report.json"],
+  "g7-access": [".bureau/qa/report.json", ".bureau/evidence/keyboard-notes.md"],
+  "g8-truth": [".bureau/evidence/audit.json", ".bureau/evidence/copy-review.md"],
+  "g9-launch": [".bureau/evidence/launch-checklist.md", ".bureau/evidence/og.png"]
+};
+
+function run(script, args, cwd) {
+  return spawnSync(process.execPath, [script, ...args], { cwd, encoding: "utf8" });
+}
+
+test("review circuit gates in order and returns an award scorecard", () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "bureau-review-"));
+  const project = path.join(dir, "site");
+  let r = run(scaffold, ["site", "--dir", project, "--template", "kinetic-editorial"], dir);
+  assert.equal(r.status, 0, r.stderr);
+
+  fs.mkdirSync(path.join(project, ".bureau", "comps"), { recursive: true });
+  fs.mkdirSync(path.join(project, ".bureau", "evidence"), { recursive: true });
+  fs.mkdirSync(path.join(project, ".bureau", "qa", "screenshots"), { recursive: true });
+  fs.mkdirSync(path.join(project, ".bureau", "review"), { recursive: true });
+  for (const name of ["a", "b", "c"]) fs.writeFileSync(path.join(project, ".bureau", "comps", `${name}.html`), "<!doctype html><title>comp</title>");
+  fs.writeFileSync(path.join(project, ".bureau", "comps", "decision.md"), "# Decision\nA chosen.\n");
+  for (const f of ["type-specimen.png", "color-sheet.png", "contrast.md", "motion.mp4", "keyboard-notes.md", "audit.json", "copy-review.md", "launch-checklist.md", "og.png"]) {
+    fs.writeFileSync(path.join(project, ".bureau", "evidence", f), "evidence");
+  }
+  fs.writeFileSync(path.join(project, ".bureau", "qa", "report.json"), "{}");
+  for (const f of ["mobile-390-fold.png", "tablet-768-fold.png", "laptop-1440-fold.png", "laptop-1440-reduced-motion.png"]) {
+    fs.writeFileSync(path.join(project, ".bureau", "qa", "screenshots", f), "png");
+  }
+
+  for (const [gate, evidence] of Object.entries(gates)) {
+    fs.writeFileSync(path.join(project, ".bureau", "review", `${gate}.json`), JSON.stringify({
+      gate, score: 4.5, notes: "Reviewed against evidence at the same viewport.", issues: [], evidence
+    }));
+    r = run(review, ["--gate", gate, "--scores", `.bureau/review/${gate}.json`], project);
+    assert.equal(r.status, 0, `${gate}: ${r.stdout}\n${r.stderr}`);
+  }
+
+  fs.writeFileSync(path.join(project, ".bureau", "review", "tribunal.json"), JSON.stringify({
+    decision: "pass", notes: "The work keeps the brief and the evidence is real.", reviewer: "The Partner"
+  }));
+  r = run(review, ["--final", "--tribunal", ".bureau/review/tribunal.json"], project);
+  assert.equal(r.status, 0, r.stdout + r.stderr);
+  assert.match(r.stdout, /AWARD/);
+  const scorecard = JSON.parse(fs.readFileSync(path.join(project, ".bureau", "review", "scorecard.json"), "utf8"));
+  assert.equal(scorecard.verdict.verdict, "award");
+  assert.equal(scorecard.total, 90);
+  assert.ok(fs.existsSync(path.join(project, ".bureau", "review", "scorecard.html")));
+  fs.rmSync(dir, { recursive: true, force: true });
+});
+
+test("refuses out-of-order gates", () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "bureau-order-"));
+  const project = path.join(dir, "site");
+  run(scaffold, ["site", "--dir", project, "--template", "product-surface"], dir);
+  fs.mkdirSync(path.join(project, ".bureau", "review"), { recursive: true });
+  fs.writeFileSync(path.join(project, ".bureau", "review", "g1.json"), JSON.stringify({
+    gate: "g1-concept", score: 4, notes: "Concept reviewed with three real comps.", issues: [], evidence: []
+  }));
+  const r = run(review, ["--gate", "g1-concept", "--scores", ".bureau/review/g1.json"], project);
+  assert.equal(r.status, 3);
+  fs.rmSync(dir, { recursive: true, force: true });
+});

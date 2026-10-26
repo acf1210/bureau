@@ -1,0 +1,35 @@
+{
+  "variables": [
+    {
+      "name": "color/ground",
+      "resolvedType": "COLOR",
+      "description": "Cloud Dancer-inspired paper ground.",
+      "valuesByMode": { "light": { "r": 0.941, "g": 0.933, "b": 0.914, "a": 1 }, "dark": { "r": 0.043, "g": 0.043, "b": 0.047, "a": 1 } }
+    },
+    {
+      "name": "color/ink",
+      "resolvedType": "COLOR",
+      "valuesByMode": { "light": { "r": 0.086, "g": 0.082, "b": 0.075, "a": 1 }, "dark": { "r": 0.937, "g": 0.918, "b": 0.878, "a": 1 } }
+    },
+    {
+      "name": "color/accent",
+      "resolvedType": "COLOR",
+      "valuesByMode": { "light": { "r": 0.784, "g": 0.251, "b": 0.165, "a": 1 }, "dark": { "r": 1, "g": 0.290, "b": 0.110, "a": 1 } }
+    },
+    {
+      "name": "space/4",
+      "resolvedType": "FLOAT",
+      "valuesByMode": { "light": 16 }
+    },
+    {
+      "name": "radius/md",
+      "resolvedType": "FLOAT",
+      "valuesByMode": { "light": 6 }
+    },
+    {
+      "name": "font/display",
+      "resolvedType": "STRING",
+      "valuesByMode": { "light": "Bodoni Moda" }
+    }
+  ]
+}

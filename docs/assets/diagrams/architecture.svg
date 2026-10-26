@@ -1,0 +1,263 @@
+<!-- bureau-ignore-file BS-W02 BS-W03 BS-T01 -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+<title id="title">BUREAU architecture</title>
+<desc id="desc">Host agents connect to the SKILL.md router, which loads references, scripts and assets on demand, writes project state, and feeds the review circuit back into the next pass.</desc>
+<defs>
+  <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M0 0 L10 5 L0 10 Z" fill="#5A5A62"/>
+  </marker>
+  <marker id="arrowAccent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M0 0 L10 5 L0 10 Z" fill="#FF4A1C"/>
+  </marker>
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+    <path d="M40 0H0V40" fill="none" stroke="#17171B" stroke-width="1"/>
+  </pattern>
+  <style>
+    .bg{fill:#0B0B0C}
+    .title{font-family:Georgia,'Times New Roman',serif;font-size:42px;fill:#F1EDE6;letter-spacing:-1.2px}
+    .sub{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:11px;fill:#8F8A81;letter-spacing:2.4px}
+    .label{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:10px;fill:#8F8A81;letter-spacing:1.6px}
+    .t{font-family:Archivo,system-ui,sans-serif;font-size:14px;fill:#F1EDE6}
+    .ts{font-family:Archivo,system-ui,sans-serif;font-size:12px;fill:#B8B2A8}
+    .m{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:10.5px;fill:#9A948B}
+    .mono{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:11px;fill:#D8D2C6}
+    .accent{fill:#FF4A1C}
+    .acid{fill:#D6FF3E}
+    .blue{fill:#4D7CFE}
+    .box{fill:#111114;stroke:#2A2A30;stroke-width:1}
+    .boxA{fill:#131316;stroke:#FF4A1C;stroke-width:1}
+    .chip{fill:#17171B;stroke:#2C2C33;stroke-width:1}
+    .line{stroke:#3A3A42;stroke-width:1;fill:none}
+    .dash{stroke:#4A4A52;stroke-width:1;fill:none;stroke-dasharray:3 5}
+    .flow{stroke:#5A5A62;stroke-width:1.2;fill:none;marker-end:url(#arrow)}
+    .flowA{stroke:#FF4A1C;stroke-width:1.2;fill:none;marker-end:url(#arrowAccent)}
+  </style>
+</defs>
+
+<rect class="bg" width="1600" height="1000"/>
+<rect width="1600" height="1000" fill="url(#grid)" opacity=".55"/>
+<rect x="64" y="54" width="8" height="8" class="accent"/>
+<text x="86" y="64" class="sub">BUREAU / SYSTEM MAP · 01</text>
+<text x="64" y="106" class="title">Architecture of an autonomous design bureau</text>
+<text x="64" y="136" class="ts">One router. Twenty-three depth modules. Seven scripts. A project state that survives the session.</text>
+<text x="1536" y="64" class="sub" text-anchor="end">v1.0.0 / MIT</text>
+<text x="1536" y="86" class="m" text-anchor="end">progressive disclosure · no telemetry</text>
+
+<!-- HOSTS -->
+<rect x="64" y="176" width="260" height="424" class="box"/>
+<text x="84" y="204" class="label">HOSTS / DISCOVERY</text>
+<text x="84" y="222" class="m">same skill folder, four paths</text>
+
+<g>
+  <rect x="84" y="242" width="220" height="72" class="chip"/>
+  <text x="96" y="266" class="t">Claude Code</text>
+  <text x="96" y="284" class="m">~/.claude/skills/bureau</text>
+  <text x="96" y="300" class="m">/bureau command</text>
+
+  <rect x="84" y="326" width="220" height="72" class="chip"/>
+  <text x="96" y="350" class="t">Codex</text>
+  <text x="96" y="368" class="m">~/.codex/skills/bureau</text>
+  <text x="96" y="384" class="m">AGENTS.md block</text>
+
+  <rect x="84" y="410" width="220" height="72" class="chip"/>
+  <text x="96" y="434" class="t">Antigravity</text>
+  <text x="96" y="452" class="m">.agents/skills/bureau</text>
+  <text x="96" y="468" class="m">model_decision rule</text>
+
+  <rect x="84" y="494" width="220" height="72" class="chip"/>
+  <text x="96" y="518" class="t">Hermes</text>
+  <text x="96" y="536" class="m">~/.hermes/skills/creative</text>
+  <text x="96" y="552" class="m">categorized skill</text>
+</g>
+<text x="84" y="586" class="m" fill="#6F6A63">one payload · four hosts · zero drift</text>
+
+<!-- ROUTER -->
+<rect x="430" y="176" width="340" height="424" class="boxA"/>
+<rect x="430" y="176" width="6" height="424" class="accent"/>
+<text x="456" y="204" class="label">SKILL.md / ROUTER</text>
+<text x="456" y="236" class="t" style="font-size:22px">Read what decides</text>
+<text x="456" y="258" class="t" style="font-size:22px">what to read.</text>
+<text x="456" y="286" class="m">≈ 350 lines · not 3,000</text>
+
+<g>
+  <rect x="456" y="310" width="288" height="42" class="chip"/>
+  <text x="468" y="328" class="mono">01</text><text x="492" y="328" class="ts">Doctrine + non-negotiables</text>
+  <text x="492" y="343" class="m">concept before pixels · truth as material</text>
+
+  <rect x="456" y="360" width="288" height="42" class="chip"/>
+  <text x="468" y="378" class="mono">02</text><text x="492" y="378" class="ts">Autonomy contract</text>
+  <text x="492" y="393" class="m">decide with defaults · max 3 questions</text>
+
+  <rect x="456" y="410" width="288" height="42" class="chip"/>
+  <text x="468" y="428" class="mono">03</text><text x="492" y="428" class="ts">Routing table</text>
+  <text x="492" y="443" class="m">intent → command → reference</text>
+
+  <rect x="456" y="460" width="288" height="42" class="chip"/>
+  <text x="468" y="478" class="mono">04</text><text x="492" y="478" class="ts">Circuit + hard rules</text>
+  <text x="492" y="493" class="m">ten gates · evidence or it did not happen</text>
+
+  <rect x="456" y="510" width="288" height="42" class="chip"/>
+  <text x="468" y="528" class="mono">05</text><text x="492" y="528" class="ts">Tool protocol</text>
+  <text x="492" y="543" class="m">Figma · Playwright · media · degradation</text>
+</g>
+
+<!-- host arrows -->
+<path d="M304 270 C366 270 366 360 430 360" class="flow"/>
+<path d="M304 354 L430 354" class="flow"/>
+<path d="M304 438 L430 438" class="flow"/>
+<path d="M304 522 C366 522 366 500 430 500" class="flow"/>
+
+<!-- columns -->
+<rect x="820" y="176" width="220" height="424" class="box"/>
+<text x="838" y="204" class="label">REFERENCES / 23</text>
+<text x="838" y="222" class="m">loaded on demand</text>
+<g class="ts">
+  <rect x="838" y="240" width="184" height="26" class="chip"/><text x="848" y="257">00 Doctrine</text>
+  <rect x="838" y="274" width="184" height="26" class="chip"/><text x="848" y="291">01–02 Intake · Concept</text>
+  <rect x="838" y="308" width="184" height="26" class="chip"/><text x="848" y="325">03–06 Direction · Type</text>
+  <rect x="838" y="342" width="184" height="26" class="chip"/><text x="848" y="359">07–11 Motion · WebGL</text>
+  <rect x="838" y="376" width="184" height="26" class="chip"/><text x="848" y="393">12–13 Access · Perf</text>
+  <rect x="838" y="410" width="184" height="26" class="chip"/><text x="848" y="427">14–15 Figma · Playwright</text>
+  <rect x="838" y="444" width="184" height="26" class="chip"/><text x="848" y="461">16 Review circuit</text>
+  <rect x="838" y="478" width="184" height="26" class="chip"/><text x="848" y="495">17–18 Slop · Copy</text>
+  <rect x="838" y="512" width="184" height="26" class="chip"/><text x="848" y="529">19–22 Stack · Install</text>
+</g>
+<text x="838" y="566" class="m" fill="#6F6A63">one file per domain</text>
+
+<rect x="1060" y="176" width="220" height="424" class="box"/>
+<text x="1078" y="204" class="label">SCRIPTS / 7</text>
+<text x="1078" y="222" class="m">opinion → evidence</text>
+<g class="ts">
+  <text x="1078" y="252" class="mono" fill="#FF4A1C">audit.mjs</text>
+  <text x="1078" y="268" class="m">source → findings + score</text>
+  <text x="1078" y="294" class="mono" fill="#FF4A1C">visual-audit.mjs</text>
+  <text x="1078" y="310" class="m">URL → screenshots + JSON</text>
+  <text x="1078" y="336" class="mono" fill="#FF4A1C">review.mjs</text>
+  <text x="1078" y="352" class="m">scores → state + scorecard</text>
+  <text x="1078" y="378" class="mono" fill="#FF4A1C">tokens.mjs</text>
+  <text x="1078" y="394" class="m">JSON → CSS + contrast</text>
+  <text x="1078" y="420" class="mono" fill="#FF4A1C">figma-sync.mjs</text>
+  <text x="1078" y="436" class="m">variables → DTCG</text>
+  <text x="1078" y="462" class="mono" fill="#FF4A1C">doctor.mjs</text>
+  <text x="1078" y="478" class="m">environment → report</text>
+  <text x="1078" y="504" class="mono" fill="#FF4A1C">new-project.mjs</text>
+  <text x="1078" y="520" class="m">template → project</text>
+</g>
+<text x="1078" y="566" class="m" fill="#6F6A63">plain Node · no telemetry</text>
+
+<rect x="1300" y="176" width="236" height="424" class="box"/>
+<text x="1318" y="204" class="label">ASSETS / MATERIAL</text>
+<text x="1318" y="222" class="m">real starting points</text>
+<g class="ts">
+  <rect x="1318" y="240" width="200" height="42" class="chip"/>
+  <text x="1328" y="258">3 templates</text>
+  <text x="1328" y="273" class="m">editorial · product · immersive</text>
+
+  <rect x="1318" y="290" width="200" height="42" class="chip"/>
+  <text x="1328" y="308">Tokens</text>
+  <text x="1328" y="323" class="m">DTCG · CSS · Tailwind</text>
+
+  <rect x="1318" y="340" width="200" height="42" class="chip"/>
+  <text x="1328" y="358">Snippets</text>
+  <text x="1328" y="373" class="m">parallax · cursor · marquee</text>
+
+  <rect x="1318" y="390" width="200" height="42" class="chip"/>
+  <text x="1328" y="408">Media</text>
+  <text x="1328" y="423" class="m">film loop · poster</text>
+
+  <rect x="1318" y="440" width="200" height="42" class="chip"/>
+  <text x="1328" y="458">Diagrams</text>
+  <text x="1328" y="473" class="m">system · circuit · workflow</text>
+
+  <rect x="1318" y="490" width="200" height="42" class="chip"/>
+  <text x="1328" y="508">Figma samples</text>
+  <text x="1328" y="523" class="m">variables · token export</text>
+</g>
+<text x="1318" y="566" class="m" fill="#6F6A63">licensed · attributed</text>
+
+<!-- router to columns -->
+<path d="M770 300 C794 300 794 250 820 250" class="flow"/>
+<path d="M770 388 L820 388" class="flow"/>
+<path d="M770 476 C794 476 794 496 820 496" class="flow"/>
+
+<!-- STATE -->
+<rect x="64" y="650" width="1472" height="196" class="box"/>
+<text x="84" y="678" class="label">STATE ON DISK / MEMORY OF THE PROJECT</text>
+<text x="84" y="696" class="m">a new session can resume from these files alone</text>
+
+<g>
+  <rect x="84" y="714" width="172" height="104" class="chip"/>
+  <text x="96" y="738" class="mono">BUREAU.md</text>
+  <text x="96" y="756" class="m">truth · audience</text>
+  <text x="96" y="772" class="m">offer · proof · scope</text>
+  <text x="96" y="794" class="m" fill="#D6FF3E">G0</text>
+
+  <rect x="266" y="714" width="172" height="104" class="chip"/>
+  <text x="278" y="738" class="mono">DESIGN.md</text>
+  <text x="278" y="756" class="m">world · palette</text>
+  <text x="278" y="772" class="m">type · tokens</text>
+  <text x="278" y="794" class="m" fill="#D6FF3E">G1–G4</text>
+
+  <rect x="448" y="714" width="172" height="104" class="chip"/>
+  <text x="460" y="738" class="mono">MOTION.md</text>
+  <text x="460" y="756" class="m">primitives · timing</text>
+  <text x="460" y="772" class="m">narrative · fallback</text>
+  <text x="460" y="794" class="m" fill="#D6FF3E">G5</text>
+
+  <rect x="630" y="714" width="172" height="104" class="chip"/>
+  <text x="642" y="738" class="mono">config.json</text>
+  <text x="642" y="756" class="m">mode · viewports</text>
+  <text x="642" y="772" class="m">budgets · locales</text>
+  <text x="642" y="794" class="m" fill="#D6FF3E">G0</text>
+
+  <rect x="812" y="714" width="172" height="104" class="chip"/>
+  <text x="824" y="738" class="mono">comps/</text>
+  <text x="824" y="756" class="m">3 directions</text>
+  <text x="824" y="772" class="m">decision.md</text>
+  <text x="824" y="794" class="m" fill="#D6FF3E">G1</text>
+
+  <rect x="994" y="714" width="172" height="104" class="chip"/>
+  <text x="1006" y="738" class="mono">evidence/</text>
+  <text x="1006" y="756" class="m">audit · contrast</text>
+  <text x="1006" y="772" class="m">type · copy · launch</text>
+  <text x="1006" y="794" class="m" fill="#D6FF3E">G2–G9</text>
+
+  <rect x="1176" y="714" width="172" height="104" class="chip"/>
+  <text x="1188" y="738" class="mono">qa/</text>
+  <text x="1188" y="756" class="m">screenshots</text>
+  <text x="1188" y="772" class="m">report.json</text>
+  <text x="1188" y="794" class="m" fill="#D6FF3E">G4–G7</text>
+
+  <rect x="1358" y="714" width="158" height="104" class="chip"/>
+  <text x="1370" y="738" class="mono">review/</text>
+  <text x="1370" y="756" class="m">state · scores</text>
+  <text x="1370" y="772" class="m">scorecard</text>
+  <text x="1370" y="794" class="m" fill="#FF4A1C">TRIBUNAL</text>
+</g>
+
+<!-- columns to state (evidence) -->
+<path d="M930 600 L930 650" class="dash"/>
+<path d="M1170 600 L1170 650" class="dash"/>
+<path d="M1418 600 L1418 650" class="dash"/>
+<text x="946" y="628" class="m">loads</text>
+<text x="1186" y="628" class="m">writes</text>
+<text x="1434" y="628" class="m">indexes</text>
+
+<!-- feedback loop -->
+<path d="M1516 790 L1580 790 L1580 620 L600 620 L600 600" class="flowA"/>
+<text x="1160" y="612" class="m" fill="#FF4A1C" text-anchor="middle">review informs the next pass · stale gates must be re-run</text>
+
+<!-- legend -->
+<g>
+  <text x="64" y="910" class="label">LEGEND</text>
+  <line x1="64" y1="926" x2="104" y2="926" class="flow"/>
+  <text x="114" y="930" class="m">primary flow</text>
+  <line x1="214" y1="926" x2="254" y2="926" class="dash"/>
+  <text x="264" y="930" class="m">evidence / state</text>
+  <line x1="386" y1="926" x2="426" y2="926" class="flowA"/>
+  <text x="436" y="930" class="m">feedback loop</text>
+  <rect x="562" y="919" width="10" height="10" class="boxA"/>
+  <text x="580" y="930" class="m">gate boundary</text>
+</g>
+<text x="1536" y="930" class="m" text-anchor="end">BUREAU / architecture.svg · 1600×1000</text>
+</svg>

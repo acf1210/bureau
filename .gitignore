@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.DS_Store
+Thumbs.db
+*.log
+.bureau/
+reviews/
+.env
+.env.*
+!.env.example
+.playwright/
+test-results/
+playwright-report/
+site/assets/og.png.tmp

@@ -1,0 +1,33 @@
+/* BUREAU marquee — pause on hover/focus and honor reduced motion. */
+.marquee {
+  overflow: clip;
+  contain: paint;
+  border-block: 1px solid var(--line, rgba(255, 255, 255, 0.12));
+  padding-block: 0.8rem;
+}
+/* bureau-ignore BS-M04: pauses on hover/focus; reduced-motion fallback */
+.marquee__track {
+  display: flex;
+  gap: 2.5rem;
+  width: max-content;
+  animation: bureau-marquee 30s linear infinite;
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.marquee:hover .marquee__track,
+.marquee:focus-within .marquee__track {
+  animation-play-state: paused;
+}
+@keyframes bureau-marquee {
+  to { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track {
+    animation: none;
+    transform: none;
+    flex-wrap: wrap;
+    width: auto;
+  }
+}

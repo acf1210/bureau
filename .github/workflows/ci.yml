@@ -1,0 +1,45 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Unit and integration tests
+        run: npm test
+      - name: Static design audit (no P0/P1)
+        run: node skill/scripts/audit.mjs skill/assets/templates site/index.html --fail-on p1
+      - name: Build docs
+        run: npm run docs:build
+      - name: Serve built site
+        run: |
+          node scripts/serve.mjs dist 4173 &
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:4173/ >/dev/null; then break; fi
+            sleep 1
+          done
+      - name: Visual audit (no P0)
+        run: node skill/scripts/visual-audit.mjs http://localhost:4173/ --out .bureau/qa --viewports 390x844,1440x900 --full --fail-on p0
+      - name: Upload QA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bureau-qa
+          path: .bureau/qa
+          if-no-files-found: ignore

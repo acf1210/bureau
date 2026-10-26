@@ -1,0 +1,183 @@
+<!-- bureau-ignore-file BS-W02 BS-W03 BS-T01 -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+<title id="title">BUREAU workflow</title>
+<desc id="desc">Seven phases from intake to review, with Figma, Playwright and review loops, plus a five-day sprint timeline.</desc>
+<defs>
+  <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#5A5A62"/></marker>
+  <marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#FF4A1C"/></marker>
+  <pattern id="g" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#17171B" stroke-width="1"/></pattern>
+  <style>
+    .bg{fill:#0B0B0C}
+    .title{font-family:Georgia,'Times New Roman',serif;font-size:42px;fill:#F1EDE6;letter-spacing:-1.2px}
+    .sub{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:11px;fill:#8F8A81;letter-spacing:2.4px}
+    .label{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:10px;fill:#8F8A81;letter-spacing:1.6px}
+    .t{font-family:Archivo,system-ui,sans-serif;font-size:15px;fill:#F1EDE6}
+    .ts{font-family:Archivo,system-ui,sans-serif;font-size:11.5px;fill:#B8B2A8}
+    .m{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:10px;fill:#9A948B}
+    .mono{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:10.5px;fill:#D8D2C6}
+    .letter{font-family:Georgia,'Times New Roman',serif;font-size:46px;fill:#D6FF3E}
+    .box{fill:#111114;stroke:#2A2A30;stroke-width:1}
+    .boxA{fill:#141316;stroke:#FF4A1C;stroke-width:1}
+    .chip{fill:#17171B;stroke:#2C2C33;stroke-width:1}
+    .line{stroke:#3A3A42;stroke-width:1;fill:none}
+    .dash{stroke:#4A4A52;stroke-width:1;fill:none;stroke-dasharray:3 5}
+    .flow{stroke:#5A5A62;stroke-width:1.2;fill:none;marker-end:url(#a)}
+    .flowA{stroke:#FF4A1C;stroke-width:1.2;fill:none;marker-end:url(#aa)}
+    .acid{fill:#D6FF3E}
+  </style>
+</defs>
+
+<rect class="bg" width="1600" height="1000"/>
+<rect width="1600" height="1000" fill="url(#g)" opacity=".5"/>
+<rect x="64" y="54" width="8" height="8" fill="#FF4A1C"/>
+<text x="86" y="64" class="sub">BUREAU / WORKFLOW · 03</text>
+<text x="64" y="106" class="title">From a sentence to evidence.</text>
+<text x="64" y="136" class="ts">Seven passes. Each one leaves an artifact and a decision. No pass starts before the previous one is real.</text>
+<text x="1536" y="64" class="sub" text-anchor="end">5–7 DAYS / CAMPAIGN</text>
+<text x="1536" y="86" class="m" text-anchor="end">2–4 WEEKS / PRODUCT</text>
+
+<!-- phase cards -->
+<g>
+  <rect x="40" y="188" width="200" height="284" class="boxA"/>
+  <rect x="40" y="188" width="4" height="284" fill="#FF4A1C"/>
+  <text x="58" y="230" class="letter">A</text>
+  <text x="58" y="258" class="t">Intake</text>
+  <text x="58" y="276" class="m">G0</text>
+  <line x1="58" y1="292" x2="222" y2="292" class="line"/>
+  <text x="58" y="316" class="ts">BUREAU.md</text>
+  <text x="58" y="334" class="ts">config.json</text>
+  <text x="58" y="352" class="ts">evidence inventory</text>
+  <text x="58" y="440" class="m">1–2 H</text>
+
+  <rect x="260" y="188" width="200" height="284" class="box"/>
+  <text x="278" y="230" class="letter">B</text>
+  <text x="278" y="258" class="t">Concept</text>
+  <text x="278" y="276" class="m">G1</text>
+  <line x1="278" y1="292" x2="442" y2="292" class="line"/>
+  <text x="278" y="316" class="ts">3 directions</text>
+  <text x="278" y="334" class="ts">3 comps</text>
+  <text x="278" y="352" class="ts">decision.md</text>
+  <text x="278" y="440" class="m">4–8 H</text>
+
+  <rect x="480" y="188" width="200" height="284" class="box"/>
+  <text x="498" y="230" class="letter">C</text>
+  <text x="498" y="258" class="t">Direction</text>
+  <text x="498" y="276" class="m">G2–G4</text>
+  <line x1="498" y1="292" x2="662" y2="292" class="line"/>
+  <text x="498" y="316" class="ts">world sheet</text>
+  <text x="498" y="334" class="ts">tokens + type</text>
+  <text x="498" y="352" class="ts">first viewport</text>
+  <text x="498" y="440" class="m">1–2 DAYS</text>
+
+  <rect x="700" y="188" width="200" height="284" class="box"/>
+  <text x="718" y="230" class="letter">D</text>
+  <text x="718" y="258" class="t">Build</text>
+  <text x="718" y="276" class="m">G4 · G6</text>
+  <line x1="718" y1="292" x2="882" y2="292" class="line"/>
+  <text x="718" y="316" class="ts">real page</text>
+  <text x="718" y="334" class="ts">states + i18n</text>
+  <text x="718" y="352" class="ts">semantic HTML</text>
+  <text x="718" y="440" class="m">2–5 DAYS</text>
+
+  <rect x="920" y="188" width="200" height="284" class="box"/>
+  <text x="938" y="230" class="letter">E</text>
+  <text x="938" y="258" class="t">Motion</text>
+  <text x="938" y="276" class="m">G5</text>
+  <line x1="938" y1="292" x2="1102" y2="292" class="line"/>
+  <text x="938" y="316" class="ts">MOTION.md</text>
+  <text x="938" y="334" class="ts">one entrance</text>
+  <text x="938" y="352" class="ts">one narrative</text>
+  <text x="938" y="440" class="m">1–3 DAYS</text>
+
+  <rect x="1140" y="188" width="200" height="284" class="box"/>
+  <text x="1158" y="230" class="letter">F</text>
+  <text x="1158" y="258" class="t">QA</text>
+  <text x="1158" y="276" class="m">G6–G7</text>
+  <line x1="1158" y1="292" x2="1322" y2="292" class="line"/>
+  <text x="1158" y="316" class="ts">4 viewports</text>
+  <text x="1158" y="334" class="ts">contrast + keyboard</text>
+  <text x="1158" y="352" class="ts">before / after</text>
+  <text x="1158" y="440" class="m">4–8 H</text>
+
+  <rect x="1360" y="188" width="200" height="284" class="boxA"/>
+  <rect x="1360" y="188" width="4" height="284" fill="#D6FF3E"/>
+  <text x="1378" y="230" class="letter" fill="#FF4A1C">G</text>
+  <text x="1378" y="258" class="t">Review</text>
+  <text x="1378" y="276" class="m">G8–G9</text>
+  <line x1="1378" y1="292" x2="1542" y2="292" class="line"/>
+  <text x="1378" y="316" class="ts">scorecard</text>
+  <text x="1378" y="334" class="ts">Tribunal</text>
+  <text x="1378" y="352" class="ts">launch checklist</text>
+  <text x="1378" y="440" class="m">3–6 H</text>
+</g>
+
+<!-- phase arrows -->
+<path d="M240 330 L260 330" class="flow"/>
+<path d="M460 330 L480 330" class="flow"/>
+<path d="M680 330 L700 330" class="flow"/>
+<path d="M900 330 L920 330" class="flow"/>
+<path d="M1120 330 L1140 330" class="flow"/>
+<path d="M1340 330 L1360 330" class="flow"/>
+
+<!-- loops -->
+<rect x="40" y="520" width="480" height="230" class="box"/>
+<text x="60" y="548" class="label">FIGMA LOOP / FIDELITY</text>
+<text x="60" y="584" class="ts">frame → variables → code</text>
+<text x="60" y="604" class="ts">→ screenshot → compare → fix</text>
+<path d="M60 630 L460 630" class="dash"/>
+<circle cx="80" cy="660" r="4" class="acid"/>
+<text x="96" y="664" class="m">same viewport · same DPR</text>
+<circle cx="80" cy="686" r="4" class="acid"/>
+<text x="96" y="690" class="m">compare hero + signature first</text>
+<circle cx="80" cy="712" r="4" fill="#FF4A1C"/>
+<text x="96" y="716" class="m">code and Figma cannot both drift</text>
+
+<rect x="550" y="520" width="480" height="230" class="box"/>
+<text x="570" y="548" class="label">PLAYWRIGHT LOOP / EVIDENCE</text>
+<text x="570" y="584" class="ts">serve → audit → inspect</text>
+<text x="570" y="604" class="ts">→ fix → re-run identically</text>
+<path d="M570 630 L990 630" class="dash"/>
+<circle cx="590" cy="660" r="4" class="acid"/>
+<text x="606" y="664" class="m">4 viewports + reduced motion</text>
+<circle cx="590" cy="686" r="4" class="acid"/>
+<text x="606" y="690" class="m">contrast · overflow · console · LCP</text>
+<circle cx="590" cy="712" r="4" fill="#FF4A1C"/>
+<text x="606" y="716" class="m">screenshots must be opened</text>
+
+<rect x="1060" y="520" width="500" height="230" class="boxA"/>
+<text x="1080" y="548" class="label">REVIEW LOOP / TRUTH</text>
+<text x="1080" y="584" class="ts">gate in order → evidence → score</text>
+<text x="1080" y="604" class="ts">→ Tribunal → fix or ship</text>
+<path d="M1080 630 L1520 630" class="dash"/>
+<circle cx="1100" cy="660" r="4" fill="#D6FF3E"/>
+<text x="1116" y="664" class="m">any P0 vetoes the average</text>
+<circle cx="1100" cy="686" r="4" fill="#D6FF3E"/>
+<text x="1116" y="690" class="m">source hash marks stale gates</text>
+<circle cx="1100" cy="712" r="4" fill="#FF4A1C"/>
+<text x="1116" y="716" class="m">the Tribunal can say no</text>
+
+<!-- sprint -->
+<rect x="40" y="790" width="1520" height="150" class="box"/>
+<text x="60" y="818" class="label">FIVE-DAY SPRINT / EXAMPLE</text>
+<path d="M80 872 L1520 872" class="line"/>
+<g>
+  <circle cx="120" cy="872" r="5" fill="#D6FF3E"/><text x="108" y="902" class="mono">D1</text><text x="108" y="918" class="m">brief + comps</text>
+  <circle cx="400" cy="872" r="5" fill="#D6FF3E"/><text x="388" y="902" class="mono">D2</text><text x="388" y="918" class="m">world + hero</text>
+  <circle cx="680" cy="872" r="5" fill="#D6FF3E"/><text x="668" y="902" class="mono">D3</text><text x="668" y="918" class="m">page + motion</text>
+  <circle cx="960" cy="872" r="5" fill="#D6FF3E"/><text x="948" y="902" class="mono">D4</text><text x="948" y="918" class="m">QA + fixes</text>
+  <circle cx="1240" cy="872" r="5" fill="#FF4A1C"/><text x="1228" y="902" class="mono">D5</text><text x="1228" y="918" class="m">Tribunal + ship</text>
+</g>
+<text x="1520" y="818" class="m" text-anchor="end" fill="#FF4A1C">if day 5 becomes day 9, the scope was wrong on day 1.</text>
+
+<!-- legend -->
+<g>
+  <text x="64" y="972" class="label">LEGEND</text>
+  <line x1="64" y1="986" x2="104" y2="986" class="flow"/>
+  <text x="114" y="990" class="m">phase</text>
+  <line x1="180" y1="986" x2="220" y2="986" class="dash"/>
+  <text x="230" y="990" class="m">loop</text>
+  <rect x="290" y="979" width="10" height="10" class="boxA"/>
+  <text x="308" y="990" class="m">gate boundary</text>
+</g>
+<text x="1536" y="990" class="m" text-anchor="end">BUREAU / workflow.svg · 1600×1000</text>
+</svg>

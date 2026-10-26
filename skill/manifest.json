@@ -1,0 +1,47 @@
+{
+  "$schema": "https://agentskills.io/schema/skill.json",
+  "name": "bureau",
+  "version": "1.0.0",
+  "description": "Autonomous digital design bureau: concept, art direction, motion, WebGL, video, Figma, Playwright QA, accessibility, performance, anti-AI-slop review.",
+  "license": "MIT",
+  "homepage": "https://github.com/acf1210/bureau",
+  "repository": "https://github.com/acf1210/bureau",
+  "author": {
+    "name": "acf1210",
+    "url": "https://github.com/acf1210"
+  },
+  "entrypoint": "SKILL.md",
+  "keywords": [
+    "design",
+    "creative-direction",
+    "art-direction",
+    "frontend",
+    "motion",
+    "webgl",
+    "figma",
+    "playwright",
+    "accessibility",
+    "anti-ai-slop",
+    "awards",
+    "design-system"
+  ],
+  "hosts": ["claude", "codex", "antigravity", "hermes"],
+  "requires": {
+    "node": ">=20",
+    "optional": ["playwright", "figma-mcp", "ffmpeg"]
+  },
+  "commands": [
+    "init",
+    "concept",
+    "direction",
+    "build",
+    "motion",
+    "figma",
+    "qa",
+    "review",
+    "slop",
+    "ship",
+    "evolve",
+    "doctor"
+  ]
+}

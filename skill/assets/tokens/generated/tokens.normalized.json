@@ -1,0 +1,274 @@
+{
+  "color": {
+    "ground": {
+      "$value": "#F0EEE9",
+      "$type": "color",
+      "$description": "Cloud Dancer-inspired paper ground."
+    },
+    "surface": {
+      "$value": "#F7F5F0",
+      "$type": "color"
+    },
+    "surface-raised": {
+      "$value": "#FCFAF6",
+      "$type": "color"
+    },
+    "ink": {
+      "$value": "#161513",
+      "$type": "color"
+    },
+    "ink-muted": {
+      "$value": "#5E5A54",
+      "$type": "color"
+    },
+    "ink-faint": {
+      "$value": "#6E6960",
+      "$type": "color"
+    },
+    "line": {
+      "$value": "#D8D2C6",
+      "$type": "color"
+    },
+    "line-strong": {
+      "$value": "#B9B2A6",
+      "$type": "color"
+    },
+    "accent": {
+      "$value": "#C8402A",
+      "$type": "color",
+      "$description": "Vermilion. One accent, used with intent."
+    },
+    "accent-hover": {
+      "$value": "#A93321",
+      "$type": "color"
+    },
+    "accent-ink": {
+      "$value": "#FFF8F3",
+      "$type": "color"
+    },
+    "signal": {
+      "$value": "#B8D93A",
+      "$type": "color"
+    },
+    "success": {
+      "$value": "#2F6B4F",
+      "$type": "color"
+    },
+    "warning": {
+      "$value": "#8A5A00",
+      "$type": "color"
+    },
+    "danger": {
+      "$value": "#A8271C",
+      "$type": "color"
+    },
+    "info": {
+      "$value": "#1F5F8B",
+      "$type": "color"
+    },
+    "focus": {
+      "$value": "#1F5F8B",
+      "$type": "color"
+    }
+  },
+  "font": {
+    "display": {
+      "$value": [
+        "Bodoni Moda",
+        "Times New Roman",
+        "serif"
+      ],
+      "$type": "fontFamily"
+    },
+    "body": {
+      "$value": [
+        "Archivo",
+        "system-ui",
+        "sans-serif"
+      ],
+      "$type": "fontFamily"
+    },
+    "mono": {
+      "$value": [
+        "JetBrains Mono",
+        "ui-monospace",
+        "monospace"
+      ],
+      "$type": "fontFamily"
+    }
+  },
+  "text": {
+    "display-1": {
+      "$value": "clamp(3.5rem, 9vw, 9.5rem)",
+      "$type": "dimension"
+    },
+    "display-2": {
+      "$value": "clamp(2.5rem, 6vw, 5.5rem)",
+      "$type": "dimension"
+    },
+    "h1": {
+      "$value": "clamp(2.25rem, 4.5vw, 4rem)",
+      "$type": "dimension"
+    },
+    "h2": {
+      "$value": "clamp(1.75rem, 3vw, 2.75rem)",
+      "$type": "dimension"
+    },
+    "h3": {
+      "$value": "clamp(1.25rem, 1.8vw, 1.6rem)",
+      "$type": "dimension"
+    },
+    "body-lg": {
+      "$value": "clamp(1.125rem, 1.4vw, 1.3rem)",
+      "$type": "dimension"
+    },
+    "body": {
+      "$value": "clamp(1rem, 1.1vw, 1.0625rem)",
+      "$type": "dimension"
+    },
+    "small": {
+      "$value": "0.875rem",
+      "$type": "dimension"
+    },
+    "micro": {
+      "$value": "0.6875rem",
+      "$type": "dimension"
+    }
+  },
+  "leading": {
+    "display": {
+      "$value": 0.92,
+      "$type": "number"
+    },
+    "heading": {
+      "$value": 1.08,
+      "$type": "number"
+    },
+    "body": {
+      "$value": 1.6,
+      "$type": "number"
+    },
+    "small": {
+      "$value": 1.45,
+      "$type": "number"
+    }
+  },
+  "tracking": {
+    "display": {
+      "$value": "-0.03em",
+      "$type": "dimension"
+    },
+    "heading": {
+      "$value": "-0.015em",
+      "$type": "dimension"
+    },
+    "body": {
+      "$value": "0em",
+      "$type": "dimension"
+    },
+    "micro": {
+      "$value": "0.12em",
+      "$type": "dimension"
+    }
+  },
+  "space": {
+    "1": {
+      "$value": 4,
+      "$type": "dimension"
+    },
+    "2": {
+      "$value": 8,
+      "$type": "dimension"
+    },
+    "3": {
+      "$value": 12,
+      "$type": "dimension"
+    },
+    "4": {
+      "$value": 16,
+      "$type": "dimension"
+    },
+    "5": {
+      "$value": 24,
+      "$type": "dimension"
+    },
+    "6": {
+      "$value": 32,
+      "$type": "dimension"
+    },
+    "7": {
+      "$value": 48,
+      "$type": "dimension"
+    },
+    "8": {
+      "$value": 64,
+      "$type": "dimension"
+    },
+    "9": {
+      "$value": 96,
+      "$type": "dimension"
+    },
+    "10": {
+      "$value": 128,
+      "$type": "dimension"
+    },
+    "11": {
+      "$value": 192,
+      "$type": "dimension"
+    }
+  },
+  "radius": {
+    "sm": {
+      "$value": 2,
+      "$type": "dimension"
+    },
+    "md": {
+      "$value": 6,
+      "$type": "dimension"
+    },
+    "lg": {
+      "$value": 12,
+      "$type": "dimension"
+    },
+    "pill": {
+      "$value": 999,
+      "$type": "dimension"
+    }
+  },
+  "duration": {
+    "1": {
+      "$value": 120,
+      "$type": "duration"
+    },
+    "2": {
+      "$value": 200,
+      "$type": "duration"
+    },
+    "3": {
+      "$value": 320,
+      "$type": "duration"
+    },
+    "4": {
+      "$value": 600,
+      "$type": "duration"
+    },
+    "5": {
+      "$value": 1200,
+      "$type": "duration"
+    }
+  },
+  "ease": {
+    "out": {
+      "$value": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "$type": "string"
+    },
+    "in-out": {
+      "$value": "cubic-bezier(0.65, 0, 0.35, 1)",
+      "$type": "string"
+    },
+    "precise": {
+      "$value": "cubic-bezier(0.2, 0.7, 0.2, 1)",
+      "$type": "string"
+    }
+  }
+}

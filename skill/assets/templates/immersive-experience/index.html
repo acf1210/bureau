@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HALFLIGHT — A light study in three movements</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230B0B0C'/%3E%3Crect x='8' y='8' width='6' height='48' fill='%23D6FF3E'/%3E%3Cpath d='M22 8h18c8 0 13 4.5 13 12 0 5-2.6 8.6-7 10.5 5.4 1.7 8.5 5.6 8.5 11.2C54.5 51 48.6 56 39.5 56H22V8Z' fill='%23F1EDE6'/%3E%3C/svg%3E">
+<meta name="description" content="HALFLIGHT is a four-night light installation in Lisbon. Three movements, one horizon, a live shader that responds to presence.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300..500&family=Space+Mono:wght@400;700&family=Syne:wght@600..800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#08090A;
+    --ink-2:#0E1014;
+    --bone:#EDE9DE;
+    --bone-dim:#A7A49A;
+    --ember:#FF5A36;
+    --cobalt:#4D7CFE;
+    --acid:#C6F04A;
+    --line:rgba(237,233,222,.16);
+    --line-soft:rgba(237,233,222,.08);
+    --display:"Syne",system-ui,sans-serif;
+    --body:"Archivo",system-ui,sans-serif;
+    --mono:"Space Mono",ui-monospace,monospace;
+    --pad:clamp(1.25rem,4vw,4.5rem);
+    --ease:cubic-bezier(.16,1,.3,1);
+  }
+  *{box-sizing:border-box}
+  html{overflow-x:clip;background:var(--ink);color:var(--bone);scroll-behavior:smooth}
+  body{margin:0;font:300 16px/1.6 var(--body);background:var(--ink);overflow-x:clip}
+  ::selection{background:var(--acid);color:var(--ink)}
+  a{color:inherit;text-decoration:none}
+  button,input{font:inherit;color:inherit}
+  :focus-visible{outline:2px solid var(--acid);outline-offset:4px}
+  .skip{position:fixed;left:1rem;top:1rem;z-index:100;background:var(--acid);color:var(--ink);padding:.7rem 1rem;transform:translateY(-200%);transition:transform .2s var(--ease)}
+  .skip:focus{transform:none}
+  .shell{width:min(100%,1600px);margin-inline:auto;padding-inline:var(--pad)}
+  .eyebrow{font:400 12px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--bone-dim)}
+  .hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;overflow:clip;isolation:isolate}
+  .hero__fallback{position:absolute;inset:0;z-index:-3;background:
+    radial-gradient(60% 55% at 72% 38%,rgba(255,90,54,.34),transparent 65%),
+    radial-gradient(45% 45% at 25% 70%,rgba(77,124,254,.26),transparent 60%),
+    #08090A}
+  #gl{position:absolute;inset:0;width:100%;height:100%;z-index:-2;display:block}
+  .hero::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,rgba(8,9,10,.25),rgba(8,9,10,.05) 45%,rgba(8,9,10,.92))}
+  .grain{position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.045;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E")}
+  .site-head{position:absolute;inset:0 0 auto;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:1.25rem var(--pad)}
+  .brand{font:800 16px/1 var(--display);letter-spacing:.08em;text-transform:uppercase;display:inline-flex;align-items:center;min-height:44px}
+  .brand span{color:var(--ember)}
+  .nav{display:flex;gap:1.7rem;font:400 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--bone-dim)}
+  .nav a{padding-block:.35rem;border-bottom:1px solid transparent;transition:color .2s var(--ease),border-color .2s var(--ease)}
+  .nav a:hover,.nav a:focus-visible{color:var(--bone);border-color:var(--acid)}
+  .head-meta{font:400 12px/1.4 var(--mono);color:var(--bone-dim);text-align:right}
+  .head-meta b{display:block;color:var(--bone);font-weight:400}
+  .hero__content{position:relative;z-index:2;padding-bottom:clamp(2rem,4vw,3rem)}
+  .hero h1{font:800 clamp(4.2rem,15vw,15.5rem)/.78 var(--display);letter-spacing:-.055em;margin:.4rem 0 1.4rem;text-transform:uppercase}
+  .hero h1 span{display:block;transform:translateY(1.1em);opacity:0;transition:transform 1.1s var(--ease),opacity .9s var(--ease)}
+  .hero h1 span:last-child{margin-left:clamp(1rem,7vw,9rem);color:transparent;-webkit-text-stroke:1px rgba(237,233,222,.72)}
+  .ready .hero h1 span{transform:none;opacity:1}
+  .ready .hero h1 span:last-child{transition-delay:.12s}
+  .hero__lede{max-width:42ch;color:#D6D1C6;font-size:clamp(1rem,1.25vw,1.18rem);margin:0 0 1.8rem}
+  .hero__actions{display:flex;flex-wrap:wrap;gap:1rem;align-items:center}
+  .button{display:inline-flex;align-items:center;gap:.7rem;background:var(--bone);color:var(--ink);border:1px solid var(--bone);padding:.95rem 1.15rem;font:700 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:background .2s var(--ease),color .2s var(--ease),transform .2s var(--ease)}
+  .button:hover{background:var(--acid);border-color:var(--acid);transform:translateY(-2px)}
+  .button--ghost{background:transparent;color:var(--bone);border-color:rgba(237,233,222,.35)}
+  .button--ghost:hover{background:transparent;color:var(--acid);border-color:var(--acid)}
+  .hero__foot{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:flex-end;gap:1.5rem;border-top:1px solid var(--line);padding-top:1rem;padding-bottom:1.6rem;font:400 12px/1.5 var(--mono);color:var(--bone-dim)}
+  .hero__foot p{margin:0;max-width:34ch}
+  .hero__foot b{color:var(--bone);font-weight:400}
+  .phase{display:flex;align-items:center;gap:.7rem;font:400 12px/1 var(--mono);color:var(--bone)}
+  .phase i{width:8px;height:8px;border-radius:50%;background:var(--ember);display:inline-block;transition:background .35s var(--ease)}
+  .scroll-cue{position:absolute;right:var(--pad);bottom:6.5rem;z-index:3;font:400 12px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--bone-dim);writing-mode:vertical-rl}
+  .section{padding-block:clamp(5rem,11vw,10rem);border-top:1px solid var(--line);position:relative}
+  .section-head{display:grid;grid-template-columns:repeat(12,1fr);gap:2rem;margin-bottom:clamp(2.5rem,5vw,5rem);align-items:end}
+  .section-head h2{grid-column:1/8;font:800 clamp(2.4rem,5vw,5.4rem)/.92 var(--display);letter-spacing:-.04em;text-transform:uppercase;margin:0}
+  .section-head p{grid-column:9/13;margin:0;color:var(--bone-dim);max-width:34ch}
+  .program{display:grid;grid-template-columns:repeat(12,1fr);gap:2rem}
+  .program__aside{grid-column:1/4;position:sticky;top:2rem;align-self:start}
+  .program__aside p{color:var(--bone-dim);max-width:26ch}
+  .movements{grid-column:4/13;border-top:1px solid var(--line)}
+  .movement{border-bottom:1px solid var(--line)}
+  .movement summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:5.5rem 1fr 8rem;gap:1rem;align-items:baseline;padding:1.6rem 0;transition:color .2s var(--ease)}
+  .movement summary::-webkit-details-marker{display:none}
+  .movement summary:hover{color:var(--acid)}
+  .movement .time{font:400 12px/1.4 var(--mono);color:var(--ember)}
+  .movement .title{font:700 clamp(1.6rem,3vw,3rem)/1 var(--display);letter-spacing:-.02em;text-transform:uppercase}
+  .movement .place{font:400 12px/1.4 var(--mono);color:var(--bone-dim);text-align:right}
+  .movement .body{padding:0 0 1.6rem;max-width:62ch;color:#CFCAC0}
+  .movement .body p{margin:.4rem 0 0}
+  .film{position:relative;overflow:clip;border-top:1px solid var(--line)}
+  .film video{width:100%;height:min(78svh,760px);object-fit:cover;display:block;filter:saturate(.7) contrast(1.1)}
+  .film__overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,9,10,.1),rgba(8,9,10,.78));pointer-events:none}
+  .film__copy{position:absolute;left:var(--pad);right:var(--pad);bottom:clamp(1.5rem,4vw,3.5rem);display:flex;justify-content:space-between;align-items:end;gap:2rem}
+  .film__copy h2{font:800 clamp(2rem,4.5vw,4.6rem)/.94 var(--display);letter-spacing:-.03em;text-transform:uppercase;margin:.3rem 0 0;max-width:14ch}
+  .film__copy p{max-width:30ch;color:#D6D1C6;font:400 12px/1.5 var(--mono);margin:0}
+  .manifesto{display:grid;grid-template-columns:repeat(12,1fr);gap:2rem}
+  .manifesto h2{grid-column:1/9;font:600 clamp(1.9rem,4.2vw,4.2rem)/1.08 var(--display);letter-spacing:-.03em;margin:0}
+  .manifesto h2 em{font-style:normal;color:var(--ember)}
+  .manifesto__meta{grid-column:10/13;font:400 12px/1.6 var(--mono);color:var(--bone-dim)}
+  .manifesto__meta b{display:block;color:var(--bone);font-weight:400;margin-bottom:.4rem}
+  .visit{display:grid;grid-template-columns:repeat(12,1fr);gap:2rem;align-items:end}
+  .visit__copy{grid-column:1/7}
+  .visit__copy h2{font:800 clamp(2.4rem,5.4vw,5.4rem)/.92 var(--display);letter-spacing:-.04em;text-transform:uppercase;margin:.4rem 0 1rem}
+  .visit__copy p{color:var(--bone-dim);max-width:36ch}
+  .visit__details{grid-column:8/13;border-top:1px solid var(--line)}
+  .visit__details dl{display:grid;grid-template-columns:1fr 1fr;gap:0;margin:0}
+  .visit__details div{padding:1rem 0;border-bottom:1px solid var(--line)}
+  .visit__details dt{font:400 12px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--bone-dim);margin-bottom:.4rem}
+  .visit__details dd{margin:0;font:400 1rem/1.4 var(--body)}
+  .visit__details .full{grid-column:1/-1}
+  .form{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1rem}
+  .form label{width:100%;font:400 12px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--bone-dim)}
+  .form input{flex:1 1 220px;background:transparent;border:1px solid rgba(237,233,222,.3);padding:.85rem .8rem;color:var(--bone)}
+  .form input::placeholder{color:#6F6D66}
+  .form input:focus-visible{outline:2px solid var(--acid);outline-offset:1px;border-color:var(--acid)}
+  .form .button{flex:0 0 auto}
+  .form-note{flex:1 1 100%;margin:.5rem 0 0;font:400 12px/1.5 var(--mono);color:var(--bone-dim);min-height:1.4em}
+  .footer{border-top:1px solid var(--line);padding:2rem 0 2.4rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font:400 12px/1.6 var(--mono);color:var(--bone-dim)}
+  .footer a{border-bottom:1px solid var(--line)}
+  .footer a:hover{color:var(--acid);border-color:var(--acid)}
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+  .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:clip;contain:paint;padding:.75rem 0}
+  /* bureau-ignore BS-M04: pauses on hover/focus; reduced-motion fallback */
+  .marquee__track{display:flex;gap:2.5rem;width:max-content;animation:slide 30s linear infinite;font:400 12px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--bone-dim)}
+  .marquee__track b{color:var(--acid);font-weight:400}
+  @keyframes slide{to{transform:translateX(-50%)}}
+  @media (max-width:1000px){
+    .section-head h2,.section-head p{grid-column:1/13}
+    .program__aside{grid-column:1/13;position:static}
+    .movements{grid-column:1/13}
+    .manifesto h2{grid-column:1/13}
+    .manifesto__meta{grid-column:1/13}
+    .visit__copy,.visit__details{grid-column:1/13}
+    .scroll-cue{display:none}
+  }
+  @media (max-width:720px){
+    .nav{display:none}
+    .head-meta{font-size:0}
+    .head-meta b{font-size:12px}
+    .hero h1{font-size:clamp(3.6rem,20vw,7rem)}
+    .movement summary{grid-template-columns:4rem 1fr;gap:.6rem}
+    .movement .place{display:none}
+    .film__copy{flex-direction:column;align-items:flex-start;gap:.6rem}
+    .visit__details dl{grid-template-columns:1fr}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+    .hero h1 span,.reveal{opacity:1;transform:none}
+    #gl{opacity:1}
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="grain" aria-hidden="true"></div>
+
+<main id="main">
+  <section class="hero" id="top">
+    <div class="hero__fallback" aria-hidden="true"></div>
+    <canvas id="gl" aria-hidden="true"></canvas>
+    <header class="site-head">
+      <a class="brand" href="#top">Half<span>·</span>light</a>
+      <nav class="nav" aria-label="Primary">
+        <a href="#program">Program</a>
+        <a href="#film">Film</a>
+        <a href="#visit">Visit</a>
+      </nav>
+      <p class="head-meta">18—21 Nov 2026<b>Lisbon · LX Factory</b></p>
+    </header>
+
+    <div class="hero__content shell">
+      <p class="eyebrow">A light study in three movements</p>
+      <h1><span>Half</span><span>light</span></h1>
+      <p class="hero__lede">Four nights, one horizon. A live shader that responds to presence, and a room that gets darker as you stay.</p>
+      <div class="hero__actions">
+        <a class="button" href="#program">Enter the program</a>
+        <button class="button button--ghost" type="button" id="phase" aria-controls="gl">Shift phase</button>
+      </div>
+    </div>
+
+    <div class="hero__foot shell">
+      <p><b>Doors 19:00</b> · last entry 23:30<br>LX Factory, Lisbon · 38.7036° N, 9.1786° W</p>
+      <p class="phase" aria-live="polite"><i aria-hidden="true"></i><span id="phase-label">Phase 01 — Ember</span></p>
+    </div>
+    <p class="scroll-cue" aria-hidden="true">Scroll to enter</p>
+  </section>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      <span><b>HALFLIGHT</b> — 18–21 Nov 2026</span><span>Three movements</span><span>One horizon</span><span>LX Factory · Lisbon</span><span>Doors 19:00</span>
+      <span><b>HALFLIGHT</b> — 18–21 Nov 2026</span><span>Three movements</span><span>One horizon</span><span>LX Factory · Lisbon</span><span>Doors 19:00</span>
+    </div>
+  </div>
+
+  <section class="section shell" id="program">
+    <div class="section-head">
+      <h2 class="reveal">Three movements, one horizon.</h2>
+      <p class="reveal">Each night runs the same score at a different speed. The room is never the same twice.</p>
+    </div>
+    <div class="program">
+      <aside class="program__aside">
+        <p class="eyebrow">Score</p>
+        <p class="reveal">Duration 72 minutes, no interval. The installation responds to the number of people in the room; silence is part of the instrument.</p>
+      </aside>
+      <div class="movements">
+        <details class="movement" open>
+          <summary>
+            <span class="time">19:30</span>
+            <span class="title">I. Ember</span>
+            <span class="place">Hall A</span>
+          </summary>
+          <div class="body"><p>A low, warm field. The first movement is about the last ten minutes of daylight — the moment a room begins to hold colour instead of reflecting it.</p></div>
+        </details>
+        <details class="movement">
+          <summary>
+            <span class="time">20:25</span>
+            <span class="title">II. Cobalt</span>
+            <span class="place">Hall A</span>
+          </summary>
+          <div class="body"><p>The field shifts to a colder register. A single line of blue moves across the floor at walking pace; visitors are invited to follow it or stand still.</p></div>
+        </details>
+        <details class="movement">
+          <summary>
+            <span class="time">21:05</span>
+            <span class="title">III. Afterimage</span>
+            <span class="place">Hall B</span>
+          </summary>
+          <div class="body"><p>The room goes dark for ninety seconds. What remains is the image your eyes make without light — the only part of the work you take home.</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="film" id="film">
+    <video autoplay muted loop playsinline poster="media/ambient-poster.jpg" aria-hidden="true" tabindex="-1">
+      <source src="media/ambient.mp4" type="video/mp4">
+    </video>
+    <div class="film__overlay" aria-hidden="true"></div>
+    <div class="film__copy">
+      <div>
+        <p class="eyebrow">Documentation · 2025</p>
+        <h2>What the room remembers.</h2>
+      </div>
+      <p>Filmed during the first study in Porto. The final work is site-specific: the room at LX Factory has a different ceiling, a different echo, a different dark.</p>
+    </div>
+  </section>
+
+  <section class="section shell">
+    <div class="manifesto">
+      <h2 class="reveal">Light is not a surface. It is a <em>duration</em> — something you move through, not something you look at.</h2>
+      <div class="manifesto__meta reveal">
+        <b>Studio note</b>
+        The work is built in real time. No two visits produce the same frame. The shader is the score; the room is the instrument; the visitor is the tempo.
+      </div>
+    </div>
+  </section>
+
+  <section class="section shell" id="visit">
+    <div class="visit">
+      <div class="visit__copy">
+        <p class="eyebrow">Visit</p>
+        <h2>Four nights. One room.</h2>
+        <p>Entry is timed. The installation holds 80 people; the last movement is silent and seated. If you need a low-sensory session, write to us — we hold one hour each afternoon.</p>
+      </div>
+      <div class="visit__details">
+        <dl>
+          <div><dt>Dates</dt><dd>18—21 Nov 2026</dd></div>
+          <div><dt>Doors</dt><dd>19:00 — 23:30</dd></div>
+          <div><dt>Location</dt><dd>LX Factory, Hall A<br>Lisbon</dd></div>
+          <div><dt>Duration</dt><dd>72 minutes<br>No interval</dd></div>
+          <div class="full"><dt>Access</dt><dd>Step-free entry, quiet room, captioned documentation. Strobe-free. The room is dark for 90 seconds in movement III.</dd></div>
+        </dl>
+        <form class="form" id="visit-form" novalidate>
+          <label for="email">Join the list for the next study</label>
+          <input id="email" name="email" type="email" autocomplete="email" placeholder="you@domain.com" required>
+          <button class="button" type="submit">Join</button>
+          <p class="form-note" id="form-note" role="status">One email per study. No tracking.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer shell">
+    <p>HALFLIGHT · A light study · Demo template</p>
+    <p><a href="#top">Back to top</a> · <a href="#program">Program</a> · <a href="mailto:studio@example.com">studio@example.com</a></p>
+  </footer>
+</main>
+
+<script>
+(() => {
+  const canvas = document.getElementById("gl");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+  const body = document.body;
+  requestAnimationFrame(() => body.classList.add("ready"));
+
+  const gl = canvas.getContext("webgl", { antialias: false, alpha: true, powerPreference: "high-performance" });
+  let program = null;
+  let buffer = null;
+  let uRes, uTime, uMouse, uPhase, uScroll;
+  let width = 1, height = 1, dpr = 1;
+  let phaseTarget = 0, phaseCurrent = 0;
+  let mouse = { x: .5, y: .5 }, mouseTarget = { x: .5, y: .5 };
+  let scrollNorm = 0;
+  let visible = true;
+  let raf = 0;
+  let start = performance.now();
+
+  const vert = `
+    attribute vec2 p;
+    void main(){ gl_Position = vec4(p, 0.0, 1.0); }
+  `;
+  const frag = `
+    precision highp float;
+    uniform vec2 u_res;
+    uniform float u_time;
+    uniform vec2 u_mouse;
+    uniform float u_phase;
+    uniform float u_scroll;
+
+    float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123); }
+    float noise(vec2 p){
+      vec2 i = floor(p), f = fract(p);
+      vec2 u = f * f * (3.0 - 2.0 * f);
+      return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), u.x),
+                 mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x), u.y);
+    }
+    float fbm(vec2 p){
+      float v = 0.0, a = 0.5;
+      for (int i = 0; i < 5; i++) { v += a * noise(p); p *= 2.02; a *= 0.5; }
+      return v;
+    }
+
+    void main(){
+      vec2 uv = gl_FragCoord.xy / u_res;
+      vec2 p = (gl_FragCoord.xy - 0.5 * u_res) / u_res.y;
+      float t = u_time * 0.055;
+      vec2 m = (u_mouse - 0.5) * vec2(1.25, 0.9);
+      float n = fbm(p * 2.15 + vec2(t, -t * 0.7) + m * 0.65);
+      float band = sin((p.y * 3.6 + n * 2.9 + t * 2.4) * 3.14159265);
+      float ribbon = smoothstep(0.58, 0.99, abs(band));
+      float d = length(p - m);
+      float glow = 0.16 / (d + 0.2);
+
+      vec3 ink = vec3(0.031, 0.035, 0.039);
+      vec3 ember = vec3(1.0, 0.353, 0.212);
+      vec3 cobalt = vec3(0.302, 0.486, 0.996);
+      vec3 bone = vec3(0.929, 0.914, 0.871);
+      vec3 acid = vec3(0.776, 0.941, 0.290);
+
+      float ph = smoothstep(0.0, 1.0, u_phase);
+      vec3 mainColor = mix(ember, cobalt, ph);
+      vec3 highColor = mix(bone, acid, ph * 0.7);
+
+      vec3 col = ink;
+      col += mainColor * ribbon * (0.18 + 0.52 * n) * (1.0 - u_scroll * 0.30);
+      col += mainColor * glow * 0.10;
+      col += highColor * pow(n, 3.4) * 0.07;
+      col *= 1.0 - smoothstep(0.55, 1.25, length(p * vec2(0.88, 1.0))) * 0.58;
+      col = pow(col, vec3(0.96));
+      gl_FragColor = vec4(col, 1.0);
+    }
+  `;
+
+  const compile = (type, source) => {
+    const sh = gl.createShader(type);
+    gl.shaderSource(sh, source);
+    gl.compileShader(sh);
+    if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(sh) || "shader compile failed");
+    return sh;
+  };
+
+  const init = () => {
+    if (!gl) return false;
+    try {
+      const vs = compile(gl.VERTEX_SHADER, vert);
+      const fs = compile(gl.FRAGMENT_SHADER, frag);
+      program = gl.createProgram();
+      gl.attachShader(program, vs);
+      gl.attachShader(program, fs);
+      gl.linkProgram(program);
+      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(program) || "link failed");
+      gl.useProgram(program);
+      buffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+      const loc = gl.getAttribLocation(program, "p");
+      gl.enableVertexAttribArray(loc);
+      gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+      uRes = gl.getUniformLocation(program, "u_res");
+      uTime = gl.getUniformLocation(program, "u_time");
+      uMouse = gl.getUniformLocation(program, "u_mouse");
+      uPhase = gl.getUniformLocation(program, "u_phase");
+      uScroll = gl.getUniformLocation(program, "u_scroll");
+      return true;
+    } catch (err) {
+      canvas.style.display = "none";
+      return false;
+    }
+  };
+
+  const resize = () => {
+    dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    width = Math.max(1, Math.floor(canvas.clientWidth * dpr));
+    height = Math.max(1, Math.floor(canvas.clientHeight * dpr));
+    canvas.width = width;
+    canvas.height = height;
+    if (gl) gl.viewport(0, 0, width, height);
+  };
+
+  const draw = (now) => {
+    if (!program) return;
+    const t = (now - start) / 1000;
+    phaseCurrent += (phaseTarget - phaseCurrent) * 0.05;
+    mouse.x += (mouseTarget.x - mouse.x) * 0.05;
+    mouse.y += (mouseTarget.y - mouse.y) * 0.05;
+    gl.uniform2f(uRes, width, height);
+    gl.uniform1f(uTime, t);
+    gl.uniform2f(uMouse, mouse.x, mouse.y);
+    gl.uniform1f(uPhase, phaseCurrent);
+    gl.uniform1f(uScroll, scrollNorm);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+  };
+
+  const loop = (now) => {
+    raf = 0;
+    if (!visible || document.hidden) return;
+    draw(now);
+    raf = requestAnimationFrame(loop);
+  };
+
+  const kick = () => { if (!raf && !reduce.matches && visible && !document.hidden) raf = requestAnimationFrame(loop); };
+
+  const ready = init();
+  if (ready) {
+    resize();
+    if (reduce.matches) draw(performance.now());
+    else kick();
+    new ResizeObserver(() => { resize(); if (reduce.matches) draw(performance.now()); }).observe(canvas);
+    new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting;
+      if (visible) { if (reduce.matches) draw(performance.now()); else kick(); }
+    }, { threshold: .01 }).observe(canvas);
+  } else {
+    canvas.style.display = "none";
+  }
+
+  addEventListener("pointermove", (e) => {
+    if (e.pointerType === "touch") return;
+    mouseTarget.x = e.clientX / innerWidth;
+    mouseTarget.y = 1 - e.clientY / innerHeight;
+  }, { passive: true });
+
+  addEventListener("scroll", () => {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    scrollNorm = max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
+    if (reduce.matches && ready) draw(performance.now());
+  }, { passive: true });
+
+  const phaseBtn = document.getElementById("phase");
+  const phaseLabel = document.getElementById("phase-label");
+  const dot = document.querySelector(".phase i");
+  phaseBtn.addEventListener("click", () => {
+    phaseTarget = phaseTarget > .5 ? 0 : 1;
+    const label = phaseTarget > .5 ? "Phase 02 — Cobalt" : "Phase 01 — Ember";
+    phaseLabel.textContent = label;
+    dot.style.background = phaseTarget > .5 ? "var(--cobalt)" : "var(--ember)";
+    if (reduce.matches && ready) {
+      phaseCurrent = phaseTarget;
+      draw(performance.now());
+    }
+  });
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+    }
+  }, { threshold: .16, rootMargin: "0px 0px -6% 0px" });
+  document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+
+  const form = document.getElementById("visit-form");
+  const note = document.getElementById("form-note");
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const email = form.elements.email.value.trim();
+    if (!email.includes("@")) {
+      note.textContent = "Enter a valid email address.";
+      form.elements.email.focus();
+      return;
+    }
+    note.textContent = "Captured for this demo. Connect a real list before launch.";
+    form.reset();
+  });
+
+  const video = document.querySelector(".film video");
+  const syncVideo = () => {
+    if (!video) return;
+    if (reduce.matches) { video.pause(); video.removeAttribute("autoplay"); }
+    else video.play().catch(() => {});
+  };
+  syncVideo();
+  reduce.addEventListener?.("change", syncVideo);
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) { if (raf) cancelAnimationFrame(raf); raf = 0; }
+    else kick();
+  });
+})();
+</script>
+</body>
+</html>

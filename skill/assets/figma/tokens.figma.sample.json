@@ -1,0 +1,48 @@
+{
+  "global": {
+    "color": {
+      "ground": { "value": "#F0EEE9", "type": "color" },
+      "surface": { "value": "#F7F5F0", "type": "color" },
+      "ink": { "value": "#161513", "type": "color" },
+      "ink-muted": { "value": "#5E5A54", "type": "color" },
+      "line": { "value": "#D8D2C6", "type": "color" },
+      "accent": { "value": "#C8402A", "type": "color" },
+      "accent-ink": { "value": "#FFF8F3", "type": "color" }
+    },
+    "space": {
+      "1": { "value": "4", "type": "spacing" },
+      "2": { "value": "8", "type": "spacing" },
+      "4": { "value": "16", "type": "spacing" },
+      "6": { "value": "32", "type": "spacing" },
+      "8": { "value": "64", "type": "spacing" },
+      "10": { "value": "128", "type": "spacing" }
+    },
+    "radius": {
+      "sm": { "value": "2", "type": "borderRadius" },
+      "md": { "value": "6", "type": "borderRadius" },
+      "lg": { "value": "12", "type": "borderRadius" }
+    },
+    "font": {
+      "display": { "value": "Bodoni Moda", "type": "fontFamilies" },
+      "body": { "value": "Archivo", "type": "fontFamilies" },
+      "mono": { "value": "JetBrains Mono", "type": "fontFamilies" }
+    }
+  },
+  "light": {
+    "color": {
+      "ground": { "value": "{color.ground}", "type": "color" },
+      "ink": { "value": "{color.ink}", "type": "color" }
+    }
+  },
+  "dark": {
+    "color": {
+      "ground": { "value": "#0B0B0C", "type": "color" },
+      "surface": { "value": "#121214", "type": "color" },
+      "ink": { "value": "#EFEAE0", "type": "color" },
+      "ink-muted": { "value": "#A9A399", "type": "color" },
+      "line": { "value": "#2A2A2E", "type": "color" },
+      "accent": { "value": "#FF4A1C", "type": "color" },
+      "accent-ink": { "value": "#0B0B0C", "type": "color" }
+    }
+  }
+}
