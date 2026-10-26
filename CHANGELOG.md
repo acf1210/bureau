@@ -4,7 +4,21 @@ All notable changes to BUREAU are recorded here. The format follows Keep a Chang
 
 ## [Unreleased]
 
+## [2.0.0] — 2026-10-26
+
+### Breaking
+
+The review circuit asks for more evidence. Projects reviewed under 1.0.0 need these files before their gates pass again:
+
+- Gate 1: `.bureau/comps/blend.md` and a six-axis `critique` in the scores file.
+- Gate 2: `.bureau/evidence/divergence.json`.
+- Gate 7: ten `heuristics` in the scores file.
+- Final: a clean `.bureau/review/delivery.md` (`review.mjs --delivery-init`) and `"method"` in `tribunal.json`.
+- `bureau-ignore` waives nothing without a rule ID and a reason of 20+ characters, and never waives a P0.
+
 ### Added
+
+- **Versioning on every update**: `scripts/release.mjs <x.y.z>` bumps every version reference and dates the changelog; `tests/version.test.mjs` fails if any reference drifts.
 
 - **Ten new templates**, each a different professional world with its own blend, signature move and designed mobile composition: `legal-practice` (Sutnar × Rand × Ruder), `architecture-studio` (Ando × Mies × Scarpa), `restaurant-table` (Barragán × Wyman × J. Albers), `private-bank` (Müller-Brockmann × Crouwel × Tufte), `clinic-care` (Hara × Kare × Tanaka), `developer-api` (Gerstner × Weingart × Greiman), `fashion-atelier` (Brodovitch × A. Albers × B. Thompson), `record-label` (Reid Miles × Saville × Brody), `museum-archive` (Bo Bardi × Lustig × Munari), `hardware-store` (Rams × Sottsass × Castiglioni). All thirteen pass the static and visual audits with no P0 or P1 from 320 to 1920 px; the closest pair shares 0.197 of its fingerprint.
 - **Metric-matched font fallbacks** (`size-adjust`, ascent and descent overrides, measured per face and, for width-axis faces, per width) keep CLS ≤ 0.013 while web fonts load.
@@ -67,4 +81,6 @@ All notable changes to BUREAU are recorded here. The format follows Keep a Chang
 - `visual-audit` uses hash-level screenshot comparison, not pixel diff.
 - The three templates use fictional demo content, clearly labeled where it could be mistaken for proof.
 
+[Unreleased]: https://github.com/acf1210/bureau/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/acf1210/bureau/compare/v1.0.0...v2.0.0
 [1.0.0]: https://github.com/acf1210/bureau/releases/tag/v1.0.0
