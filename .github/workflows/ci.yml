@@ -27,15 +27,16 @@ jobs:
         run: node skill/scripts/audit.mjs skill/assets/templates site/index.html --fail-on p1
       - name: Build docs
         run: npm run docs:build
-      - name: Serve built site
+      - name: Visual audit (no P0)
         run: |
           node scripts/serve.mjs dist 4173 &
+          SERVER_PID=$!
+          trap "kill $SERVER_PID" EXIT
           for i in $(seq 1 30); do
             if curl -sf http://localhost:4173/ >/dev/null; then break; fi
             sleep 1
           done
-      - name: Visual audit (no P0)
-        run: node skill/scripts/visual-audit.mjs http://localhost:4173/ --out .bureau/qa --viewports 390x844,1440x900 --full --fail-on p0
+          node skill/scripts/visual-audit.mjs http://localhost:4173/ --out .bureau/qa --viewports 390x844,1440x900 --full --fail-on p0
       - name: Upload QA evidence
         if: always()
         uses: actions/upload-artifact@v4
