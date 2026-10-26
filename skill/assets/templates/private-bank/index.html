@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Halvø — A family office, Copenhagen</title>
+<script>document.documentElement.classList.add("js")</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23E9ECE8'/%3E%3Cpath d='M8 56h8V44h8v12h8V32h8v24h8V20h8v36' fill='%2324573F'/%3E%3Crect x='48' y='12' width='8' height='4' fill='%23C6402A'/%3E%3C/svg%3E">
+<meta name="description" content="A family office that writes its arithmetic down. Model compounding with your own numbers and read how we report. Demo template; not a regulated firm, not advice.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Martian+Mono:wdth,wght@112.5,400;112.5,600&family=Schibsted+Grotesk:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  /* Lineage: Müller-Brockmann (the modular grid) × Crouwel (figures that obey the grid) × Tufte (data-ink, direct labels). See LINEAGE.md. */
+  @font-face{font-family:"Schibsted Grotesk Fallback";src:local("Arial"),local("Liberation Sans");size-adjust:104.2%;ascent-override:94.0%;descent-override:24.9%;line-gap-override:0%}
+  @font-face{font-family:"Martian Mono Fallback";src:local("Courier New"),local("Liberation Mono");size-adjust:116.6%;ascent-override:85.7%;descent-override:17.1%;line-gap-override:0%}
+  :root{
+    --vault:#E9ECE8;
+    --vault-2:#DDE2DD;
+    --ledger:#0D1F1A;
+    --ledger-2:#43544D;
+    --line:#B9C2BC;
+    --green:#24573F;
+    --marker:#C6402A;
+    --prose:"Schibsted Grotesk","Schibsted Grotesk Fallback",sans-serif;
+    --figure:"Martian Mono","Martian Mono Fallback",monospace;
+    --col:calc((min(100vw,1440px) - 2 * var(--margin) - 7 * var(--gap)) / 8);
+    --margin:clamp(16px,4vw,64px);
+    --gap:clamp(12px,1.6vw,24px);
+    --tick:cubic-bezier(.25,.1,0,1);
+  }
+  *{box-sizing:border-box}
+  html{background:var(--vault);color:var(--ledger);overflow-x:clip}
+  body{margin:0;font:400 1.0625rem/1.6 var(--prose)}
+  ::selection{background:var(--green);color:var(--vault)}
+  a{color:inherit;text-underline-offset:.2em}
+  :focus-visible{outline:2px solid var(--marker);outline-offset:2px}
+  .skip{position:absolute;left:var(--margin);top:-5rem;background:var(--ledger);color:var(--vault);padding:.7rem 1rem}
+  .skip:focus{top:.75rem}
+  .module{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));column-gap:var(--gap);padding-inline:var(--margin);max-width:1440px;margin-inline:auto}
+
+  .masthead{padding-block:1.2rem;align-items:center;border-bottom:2px solid var(--ledger)}
+  .masthead__mark{grid-column:1/3;font:600 1.1rem/1 var(--figure);letter-spacing:.02em;text-decoration:none;display:inline-flex;align-items:center;min-height:44px}
+  .masthead nav{grid-column:4/9;display:flex;justify-content:flex-end;gap:1.8rem}
+  .masthead nav a{text-decoration:none;display:inline-flex;align-items:center;min-height:44px;color:var(--ledger-2);transition:color .2s var(--tick)}
+  .masthead nav a:hover{color:var(--ledger)}
+
+  .opening{padding-block:clamp(2.5rem,6vw,5rem);row-gap:2rem}
+  .opening__words{grid-column:1/5}
+  .opening h1{font:600 clamp(2.8rem,5.6vw,5.4rem)/.98 var(--prose);letter-spacing:-.035em;margin:0 0 1.4rem}
+  .opening__words > p{max-width:34ch;font-size:1.15rem;color:var(--ledger-2);margin:0 0 2rem}
+  .act{display:inline-flex;align-items:center;min-height:48px;padding:0 1.3rem;background:var(--green);color:var(--vault);font:600 1rem/1 var(--prose);text-decoration:none;border:0;cursor:pointer;transition:background-color .2s var(--tick)}
+  .act:hover{background:var(--ledger)}
+  .act--hair{background:transparent;color:var(--ledger);box-shadow:inset 0 0 0 1px var(--ledger)}
+  .act--hair:hover{background:var(--vault-2)}
+  .opening__acts{display:flex;gap:1rem;flex-wrap:wrap}
+
+  .model{grid-column:5/9;border-top:6px solid var(--ledger);padding-top:1rem}
+  .model h2{font:600 1rem/1.3 var(--prose);margin:0 0 1rem}
+  .result{font:600 clamp(2.4rem,4.6vw,4.4rem)/1 var(--figure);letter-spacing:-.04em;margin:0}
+  .result small{display:block;font:400 .95rem/1.4 var(--prose);letter-spacing:0;color:var(--ledger-2);margin-top:.5rem}
+  .inputs{display:grid;grid-template-columns:1fr 1fr;gap:1rem 1.5rem;margin:1.6rem 0}
+  .inputs label{display:flex;justify-content:space-between;gap:.5rem;font-size:.9rem;font-weight:600}
+  .inputs output{font:400 .9rem/1.4 var(--figure)}
+  .inputs input{width:100%;accent-color:var(--green);height:32px;margin:.2rem 0 0}
+  .decades{display:block;width:100%;height:auto}
+  .decades .base{stroke:var(--ledger);stroke-width:1}
+  .decades .paid{fill:var(--line)}
+  .decades .grown{fill:var(--green)}
+  .decades .tag{fill:var(--ledger-2);font:400 12px var(--figure)}
+  .decades .val{fill:var(--ledger);font:600 12px var(--figure)}
+  .formula{margin:1rem 0 0;padding:.9rem 1rem;background:var(--vault-2);font:400 .9rem/1.6 var(--figure);overflow-wrap:anywhere}
+  .formula span{display:block;font:400 .875rem/1.5 var(--prose);color:var(--ledger-2);margin-top:.4rem}
+
+  .rule{border-top:1px solid var(--ledger)}
+  .band{padding-block:clamp(3.5rem,8vw,7rem);row-gap:2rem}
+  .band h2{grid-column:1/4;font:600 clamp(2rem,3.6vw,3.2rem)/1.02 var(--prose);letter-spacing:-.03em;margin:0}
+  .band__lede{grid-column:5/9;margin:0;color:var(--ledger-2);max-width:46ch}
+  .services{grid-column:1/9;width:100%;border-collapse:collapse}
+  .services th,.services td{text-align:left;vertical-align:top;padding:1.1rem 0;border-top:1px solid var(--line)}
+  .services thead th{font-size:.875rem;color:var(--ledger-2);font-weight:600;border-top:2px solid var(--ledger)}
+  .services tbody th{font:600 1.2rem/1.3 var(--prose);width:28%;padding-right:1.5rem}
+  .services td{color:var(--ledger-2);padding-right:1.5rem}
+  .services td.fee{font:400 1rem/1.4 var(--figure);color:var(--ledger);white-space:nowrap;padding-right:0;text-align:right}
+
+  .report{grid-column:1/9;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:var(--gap);row-gap:1.5rem}
+  .quarter{border-top:2px solid var(--ledger);padding-top:.8rem}
+  .quarter h3{font:400 .9rem/1.3 var(--figure);margin:0 0 .6rem}
+  .quarter svg{display:block;width:100%;height:auto}
+  .quarter .spark{fill:none;stroke:var(--green);stroke-width:2}
+  .quarter .end{fill:var(--marker)}
+  .quarter p{margin:.6rem 0 0;font-size:.95rem;color:var(--ledger-2)}
+  .report__note{grid-column:1/-1;margin:0;font-size:.875rem;color:var(--ledger-2)}
+
+  .meeting{background:var(--ledger);color:var(--vault);max-width:none}
+  .meeting > *{max-width:1440px}
+  .meeting__in{padding-block:clamp(3.5rem,8vw,7rem);row-gap:2rem}
+  .meeting h2{grid-column:1/4;font:600 clamp(2rem,3.6vw,3.2rem)/1.02 var(--prose);letter-spacing:-.03em;margin:0}
+  .meeting__copy{grid-column:1/4;margin:0;color:#B9C8C0}
+  .meeting form{grid-column:5/9;grid-row:1/3;display:grid;grid-template-columns:1fr 1fr;gap:1rem 1.5rem}
+  .meeting .full{grid-column:1/-1}
+  .meeting label{display:block;font-size:.9rem;font-weight:600;margin-bottom:.35rem}
+  .meeting input,.meeting select{width:100%;min-height:48px;background:#16302A;border:1px solid #4E655C;color:var(--vault);font:400 1rem/1 var(--prose);padding:0 .8rem}
+  .meeting .act{background:var(--vault);color:var(--ledger);justify-self:start}
+  .meeting .act:hover{background:#C9D6CF}
+  .meeting :focus-visible{outline-color:var(--vault)}
+  .meeting__status{grid-column:1/-1;margin:0;min-height:1.6em;color:#B9C8C0;font-size:.95rem}
+
+  .disclosure{padding-block:1.6rem 2.4rem;row-gap:1rem;font-size:.875rem;color:var(--ledger-2)}
+  .disclosure p{grid-column:span 4;margin:0}
+
+  @media (max-width:960px){
+    .opening__words,.model,.band h2,.band__lede,.meeting h2,.meeting__copy,.meeting form,.disclosure p{grid-column:1/-1;grid-row:auto}
+    .report{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .masthead nav{grid-column:3/9}
+  }
+  @media (max-width:640px){
+    .masthead nav a:not(:last-child){display:none}
+    .inputs{grid-template-columns:1fr}
+    .inputs input{height:44px}
+    .decades .tag,.decades .val{font-size:19px}
+    .services thead{display:none}
+    .services tr{display:grid;grid-template-columns:1fr auto;border-top:1px solid var(--line);padding:1rem 0}
+    .services th,.services td{border:0;padding:.15rem 0;width:auto}
+    .services td:not(.fee){grid-column:1/-1;grid-row:2}
+    .services tbody th{grid-row:1}
+    .meeting form{grid-template-columns:1fr}
+    .report{grid-template-columns:1fr}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .act,.masthead nav a{transition:none}
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the model</a>
+<header class="masthead module">
+  <a class="masthead__mark" href="#top">HALVØ</a>
+  <nav aria-label="Primary">
+    <a href="#services">Services</a>
+    <a href="#reporting">Reporting</a>
+    <a href="#meeting">First meeting</a>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="opening module" id="top" aria-labelledby="title">
+    <div class="opening__words">
+      <h1 id="title">Patience, written down as arithmetic.</h1>
+      <p>A family office in Copenhagen for people who would rather not think about money every day. We show our working, then we wait.</p>
+      <div class="opening__acts">
+        <a class="act" href="#meeting">Arrange a first meeting</a>
+        <a class="act act--hair" href="#reporting">See how we report</a>
+      </div>
+    </div>
+
+    <div class="model" role="group" aria-labelledby="model-title">
+      <h2 id="model-title">Compounding, with your numbers</h2>
+      <p class="result" aria-live="polite"><span id="fv">DKK 0</span><small id="fv-note">after 25 years</small></p>
+      <div class="inputs">
+        <div><label for="start">Starting amount <output id="start-out" for="start"></output></label><input id="start" type="range" min="0" max="5000000" step="50000" value="1000000"></div>
+        <div><label for="monthly">Added each month <output id="monthly-out" for="monthly"></output></label><input id="monthly" type="range" min="0" max="50000" step="1000" value="10000"></div>
+        <div><label for="rate">Yearly return you assume <output id="rate-out" for="rate"></output></label><input id="rate" type="range" min="0" max="8" step=".25" value="4"></div>
+        <div><label for="years">Years <output id="years-out" for="years"></output></label><input id="years" type="range" min="5" max="40" step="1" value="25"></div>
+      </div>
+      <svg class="decades" id="decades" viewBox="0 0 560 170" role="img" aria-labelledby="decades-title">
+        <title id="decades-title">Bars for every fifth year: the grey part is money you put in, the green part is growth</title>
+      </svg>
+      <p class="formula">FV = P(1 + r)<sup>n</sup> + C · ((1 + r)<sup>n</sup> − 1) / r<span>Monthly compounding. You choose the return; this is arithmetic, not a forecast or advice.</span></p>
+    </div>
+  </section>
+
+  <section class="band module rule" id="services" aria-labelledby="services-title">
+    <h2 id="services-title">Four services, one fee schedule.</h2>
+    <p class="band__lede">We do not sell products, take commissions or receive anything from the funds we choose. The fee is the whole of what we earn from you.</p>
+    <table class="services">
+      <thead><tr><th scope="col">Service</th><th scope="col">What it means</th><th scope="col">Fee</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Allocation</th><td>A written policy for how your capital is split, reviewed once a year with you.</td><td class="fee">0.40% / yr</td></tr>
+        <tr><th scope="row">Custody oversight</th><td>We check every statement from every custodian, so you do not have to.</td><td class="fee">included</td></tr>
+        <tr><th scope="row">Succession</th><td>A plan for the next generation, drafted with your lawyer and read aloud to the family.</td><td class="fee">DKK 60,000</td></tr>
+        <tr><th scope="row">Tax filing</th><td>Annual Danish returns for every family member with assets we oversee.</td><td class="fee">DKK 9,000 / person</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="band module rule" id="reporting" aria-labelledby="reporting-title">
+    <h2 id="reporting-title">One page, four times a year.</h2>
+    <p class="band__lede">Each quarter you receive a single sheet: one line per quarter, the number at its end, and a paragraph in plain Danish or English about what we did and why.</p>
+    <div class="report">
+      <div class="quarter"><h3>Q1</h3><svg viewBox="0 0 200 60" aria-hidden="true"><path class="spark" d="M0 40 L40 36 L80 42 L120 30 L160 28 L196 24"/><circle class="end" cx="196" cy="24" r="4"/></svg><p>Rebalanced after equities ran ahead of the policy.</p></div>
+      <div class="quarter"><h3>Q2</h3><svg viewBox="0 0 200 60" aria-hidden="true"><path class="spark" d="M0 24 L40 30 L80 38 L120 36 L160 34 L196 32"/><circle class="end" cx="196" cy="32" r="4"/></svg><p>Did nothing during the drawdown, on purpose.</p></div>
+      <div class="quarter"><h3>Q3</h3><svg viewBox="0 0 200 60" aria-hidden="true"><path class="spark" d="M0 32 L40 28 L80 26 L120 22 L160 20 L196 18"/><circle class="end" cx="196" cy="18" r="4"/></svg><p>Moved cash for the house purchase to a deposit account.</p></div>
+      <div class="quarter"><h3>Q4</h3><svg viewBox="0 0 200 60" aria-hidden="true"><path class="spark" d="M0 18 L40 20 L80 16 L120 14 L160 15 L196 12"/><circle class="end" cx="196" cy="12" r="4"/></svg><p>Annual review; policy unchanged for next year.</p></div>
+      <p class="report__note">Sample sheet with an invented path. No line on this page is a real result.</p>
+    </div>
+  </section>
+
+  <section class="meeting" id="meeting" aria-labelledby="meeting-title">
+    <div class="meeting__in module">
+      <h2 id="meeting-title">A first meeting is an hour, and free.</h2>
+      <p class="meeting__copy">Bring the statements you have. We will tell you, in that hour, whether we think we would be useful.</p>
+      <form id="meeting-form" novalidate>
+        <div><label for="name">Name</label><input id="name" name="name" autocomplete="name" required></div>
+        <div><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
+        <div class="full"><label for="where">Where would you like to meet?</label><select id="where" name="where"><option>At our office, Nyhavn</option><option>At your home</option><option>By video</option></select></div>
+        <button class="act" type="submit">Ask for a meeting</button>
+        <p class="meeting__status" id="meeting-status" role="status"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="disclosure module">
+  <p>Halvø is a fictional family office in a demo template. It is not a regulated firm and nothing here is investment advice.</p>
+  <p><a href="mailto:office@example.com">office@example.com</a></p>
+</footer>
+
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const dkk = new Intl.NumberFormat("en-GB", { maximumFractionDigits: 0 });
+  const money = (n) => `DKK ${dkk.format(Math.round(n))}`;
+  const fv = (P, C, rate, years) => {
+    const r = rate / 100 / 12, n = years * 12;
+    if (r === 0) return P + C * n;
+    return P * (1 + r) ** n + C * (((1 + r) ** n - 1) / r);
+  };
+  const svg = $("decades");
+  const ns = "http://www.w3.org/2000/svg";
+  const render = () => {
+    const P = +$("start").value, C = +$("monthly").value, rate = +$("rate").value, years = +$("years").value;
+    $("start-out").textContent = money(P);
+    $("monthly-out").textContent = money(C);
+    $("rate-out").textContent = `${rate.toFixed(2)}%`;
+    $("years-out").textContent = years;
+    $("fv").textContent = money(fv(P, C, rate, years));
+    $("fv-note").textContent = `after ${years} years, of which ${money(P + C * years * 12)} you put in`;
+    const marks = [];
+    for (let y = 5; y <= years; y += 5) marks.push(y);
+    if (marks[marks.length - 1] !== years) marks.push(years);
+    const max = fv(P, C, rate, years) || 1;
+    const w = 520 / marks.length;
+    svg.querySelectorAll("g").forEach((g) => g.remove());
+    const g = document.createElementNS(ns, "g");
+    g.innerHTML = `<line class="base" x1="20" y1="140" x2="540" y2="140"/>` + marks.map((y, i) => {
+      const total = fv(P, C, rate, y), paid = P + C * y * 12;
+      const x = 20 + i * w + w * 0.18, bw = w * 0.64;
+      const ht = (total / max) * 110, hp = Math.min(ht, (paid / max) * 110);
+      return `<rect class="grown" x="${x}" y="${140 - ht}" width="${bw}" height="${ht - hp}"/><rect class="paid" x="${x}" y="${140 - hp}" width="${bw}" height="${hp}"/>` +
+        `<text class="tag" x="${x + bw / 2}" y="158" text-anchor="middle">${y}y</text>` +
+        (i === marks.length - 1 ? `<text class="val" x="${x + bw / 2}" y="${132 - ht}" text-anchor="middle">${dkk.format(Math.round(total / 1000))}k</text>` : "");
+    }).join("");
+    svg.append(g);
+  };
+  ["start", "monthly", "rate", "years"].forEach((id) => $(id).addEventListener("input", render));
+  render();
+
+  const form = $("meeting-form");
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (!form.elements.name.value.trim() || !form.elements.email.value.includes("@")) {
+      $("meeting-status").textContent = "A name and an email with an @, please.";
+      (form.elements.name.value.trim() ? form.elements.email : form.elements.name).focus();
+      return;
+    }
+    $("meeting-status").textContent = "Nothing was sent: this demo form is not connected to the office yet.";
+  });
+})();
+</script>
+</body>
+</html>

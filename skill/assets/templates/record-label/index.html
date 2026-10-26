@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kreis — A record label in Leipzig</title>
+<script>
+  // Sleeve art waits for the display face (at most 3 s) so the numerals never jump; with scripts off it shows at once.
+  document.documentElement.classList.add("js", "sleeves-wait");
+  window.liftSleeves = () => document.documentElement.classList.remove("sleeves-wait");
+  window.waitSleeves = () => Promise.race([document.fonts.load('900 1em "Anybody"'), new Promise((r) => setTimeout(r, 3000))]).then(liftSleeves, liftSleeves);
+  setTimeout(liftSleeves, 3000);
+</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23F2C230'/%3E%3Ccircle cx='32' cy='32' r='22' fill='%23121212'/%3E%3Ccircle cx='32' cy='32' r='7' fill='%231E4FD6'/%3E%3C/svg%3E">
+<meta name="description" content="A small label pressing 300 copies of each record. Every sleeve is set in type, and every record can be heard as a ten-second sketch before you order. Demo template; the label is fictional.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,400..900&family=Libre+Franklin:wght@400;600&display=swap" rel="stylesheet" onload="waitSleeves()" onerror="liftSleeves()">
+<style>
+  /* Lineage: Reid Miles (type as rhythm, extreme scale) × Peter Saville (the sound drawn as data) × Neville Brody (width and angle as voice). See LINEAGE.md. */
+  /* A fallback cannot fake the width axis, so each width the page uses gets its own measured fallback. */
+  @font-face{font-family:"Anybody 50 Fallback";src:local("Arial"),local("Liberation Sans");size-adjust:65.6%;ascent-override:122%;descent-override:37%}
+  @font-face{font-family:"Anybody 60 Fallback";src:local("Arial"),local("Liberation Sans");size-adjust:78%;ascent-override:103%;descent-override:31%}
+  @font-face{font-family:"Anybody 110 Fallback";src:local("Arial"),local("Liberation Sans");size-adjust:135.4%;ascent-override:59%;descent-override:18%}
+  @font-face{font-family:"Anybody 120 Fallback";src:local("Arial"),local("Liberation Sans");size-adjust:148%;ascent-override:54%;descent-override:16%}
+  @font-face{font-family:"Anybody 130 Fallback";src:local("Arial"),local("Liberation Sans");size-adjust:160.6%;ascent-override:50%;descent-override:15%}
+  @font-face{font-family:"Anybody 150 Fallback";src:local("Arial"),local("Liberation Sans");size-adjust:186%;ascent-override:43%;descent-override:13%}
+  @font-face{font-family:"Libre Franklin Fallback";src:local("Arial"),local("Liberation Sans");size-adjust:104.8%;ascent-override:92.5%;descent-override:23.9%;line-gap-override:0%}
+  :root{
+    --sleeve:#EDEBE4;
+    --vinyl:#121212;
+    --vinyl-2:#4A4844;
+    --blue:#1E4FD6;
+    --yellow:#F2C230;
+    --press:"Anybody","Anybody 50 Fallback",sans-serif;
+    --press-60:"Anybody","Anybody 60 Fallback",sans-serif;
+    --press-110:"Anybody","Anybody 110 Fallback",sans-serif;
+    --press-120:"Anybody","Anybody 120 Fallback",sans-serif;
+    --press-130:"Anybody","Anybody 130 Fallback",sans-serif;
+    --press-150:"Anybody","Anybody 150 Fallback",sans-serif;
+    --liner:"Libre Franklin","Libre Franklin Fallback",sans-serif;
+    --edge:clamp(14px,3.5vw,56px);
+    --needle:cubic-bezier(.16,.84,.44,1);
+  }
+  *{box-sizing:border-box}
+  html{background:var(--sleeve);color:var(--vinyl);overflow-x:clip}
+  body{margin:0;font:400 1.0625rem/1.55 var(--liner)}
+  ::selection{background:var(--yellow);color:var(--vinyl)}
+  a{color:inherit}
+  :focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+  .skip{position:absolute;left:var(--edge);top:-5rem;z-index:30;background:var(--vinyl);color:var(--sleeve);padding:.7rem 1rem}
+  .skip:focus{top:.75rem}
+
+  .bar{display:flex;align-items:center;gap:1.5rem;padding:.9rem var(--edge);border-bottom:3px solid var(--vinyl)}
+  .bar__mark{font:900 1.4rem/1 var(--press-150);font-stretch:150%;text-decoration:none;display:inline-flex;align-items:center;min-height:44px;letter-spacing:-.02em}
+  .bar nav{display:flex;gap:1.4rem;margin-left:auto}
+  .bar nav a{font-weight:600;text-decoration:none;display:inline-flex;align-items:center;min-height:44px;border-bottom:3px solid transparent;transition:border-color .2s var(--needle)}
+  .bar nav a:hover{border-color:var(--blue)}
+  .bag{display:inline-flex;align-items:center;gap:.5rem;min-height:44px;padding:0 1rem;background:var(--vinyl);color:var(--sleeve);font-weight:600;text-decoration:none}
+  .bag b{display:inline-grid;place-items:center;min-width:1.6em;height:1.6em;background:var(--yellow);color:var(--vinyl);border-radius:50%;font-size:.875rem}
+
+  .side-a{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:3px;background:var(--vinyl);border-bottom:3px solid var(--vinyl)}
+  .side-a__type{padding:clamp(1.5rem,4vw,3rem) var(--edge) clamp(2rem,5vw,3.5rem);background:var(--sleeve);display:grid;align-content:space-between;gap:2rem}
+  .side-a__giant{display:block;font:900 clamp(6rem,19vw,19rem)/.78 var(--press);font-stretch:50%;letter-spacing:.01em;color:var(--blue);margin:0}
+  .side-a h1{font:800 clamp(2rem,3.6vw,3.4rem)/1 var(--press-120);font-stretch:120%;letter-spacing:-.03em;margin:0 0 1rem;max-width:11em}
+  .side-a p{margin:0;max-width:34ch;color:var(--vinyl-2)}
+  .drop{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:48px;padding:0 1.2rem;background:var(--blue);color:var(--sleeve);font:600 1rem/1 var(--liner);text-decoration:none;border:0;cursor:pointer;transition:background-color .2s var(--needle),color .2s var(--needle)}
+  .drop:hover{background:var(--vinyl)}
+  .drop--y{background:var(--yellow);color:var(--vinyl)}
+  .drop--y:hover{background:var(--vinyl);color:var(--yellow)}
+  .side-a__acts{display:flex;gap:.8rem;flex-wrap:wrap}
+  .side-a__latest{background:var(--yellow);display:grid;grid-template-rows:auto 1fr auto;padding:clamp(1.25rem,3vw,2rem);gap:1rem}
+  .side-a__latest h2{font:600 1rem/1.3 var(--liner);margin:0}
+  .side-a__latest .cover{box-shadow:none}
+
+  .crate{padding:clamp(3rem,7vw,6rem) var(--edge)}
+  .crate__head{display:flex;justify-content:space-between;align-items:end;gap:2rem;flex-wrap:wrap;margin-bottom:2rem}
+  .crate h2,.press h2{font:900 clamp(2.4rem,5vw,4.8rem)/.9 var(--press-60);font-stretch:60%;letter-spacing:0;margin:0;text-transform:uppercase}
+  .crate h2 span{font-family:var(--press-150);font-stretch:150%;font-weight:400;display:block;font-size:.5em;letter-spacing:0;text-transform:none}
+  .crate__head p{margin:0;max-width:36ch;color:var(--vinyl-2)}
+  .releases{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(1rem,2.5vw,2rem)}
+  .release{display:grid;gap:.8rem}
+  .cover{position:relative;aspect-ratio:1;overflow:hidden;background:var(--c-bg);color:var(--c-ink);display:grid;padding:7%;container-type:inline-size}
+  .sleeves-wait .cover span{visibility:hidden}
+  .cover canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+  .cover__a{font:900 64cqi/.76 var(--press);font-stretch:var(--c-w,50%);letter-spacing:0;align-self:end}
+  .cover__b{font:400 max(12px,6.5cqi)/1.15 var(--press-150);font-stretch:150%;align-self:start;max-width:80%}
+  .cover--stack{grid-template-rows:1fr auto}
+  .cover--stack .cover__a{font-size:22cqi;font-weight:700;line-height:.86;align-self:start;text-transform:uppercase;letter-spacing:.01em}
+  .cover--stack .cover__b{align-self:end}
+  .cover--tilt .cover__a{transform:rotate(-8deg) translate(-2%,2%);transform-origin:0 100%;font-size:30cqi;font-stretch:150%}
+  .cover--edge{padding:0}
+  .cover--edge .cover__a{font-size:92cqi;line-height:.7;margin:0 0 -5% -5%}
+  .cover--edge .cover__b{position:absolute;top:7%;right:7%;text-align:right}
+  .release h3{font:800 1.3rem/1.1 var(--press-110);font-stretch:110%;margin:0}
+  .release__meta{margin:0;color:var(--vinyl-2);font-size:.95rem}
+  .side-a .release__meta--on{color:var(--vinyl)}
+  .release__acts{display:flex;gap:.5rem;flex-wrap:wrap}
+  .release__acts .drop{min-height:44px;padding:0 .9rem;font-size:.95rem}
+  .release__acts .drop[aria-pressed="true"]{background:var(--vinyl);color:var(--yellow)}
+  .listen-note{margin:1.8rem 0 0;font-size:.95rem;color:var(--vinyl-2);max-width:62ch}
+
+  .press{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:3px;background:var(--sleeve);color:var(--sleeve)}
+  .press > *{padding:clamp(3rem,7vw,6rem) var(--edge);background:var(--vinyl)}
+  .press h2{color:var(--yellow)}
+  .press p{color:#CFCCC4;max-width:40ch}
+  .facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 2rem;margin:0;align-content:center}
+  .facts div{padding:1.2rem 0;border-top:1px solid #4A4844}
+  .facts dt{font-size:.95rem;color:#CFCCC4}
+  .facts dd{margin:.2rem 0 0;font:800 clamp(1.6rem,3vw,2.4rem)/1 var(--press-130);font-stretch:130%}
+
+  .order{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(2rem,5vw,4rem);padding:clamp(3rem,7vw,6rem) var(--edge);border-top:3px solid var(--vinyl)}
+  .order h2{font:900 clamp(2.4rem,5vw,4.8rem)/.9 var(--press-60);font-stretch:60%;margin:0 0 1rem;text-transform:uppercase}
+  .order > div > p{color:var(--vinyl-2);max-width:34ch}
+  .basket{list-style:none;margin:0 0 1rem;padding:0;border-top:3px solid var(--vinyl)}
+  .basket li{display:flex;justify-content:space-between;gap:1rem;padding:.8rem 0;border-bottom:1px solid #C9C5BB}
+  .basket li.empty{color:var(--vinyl-2)}
+  .basket__total{display:flex;justify-content:space-between;font:800 1.4rem/1 var(--press-120);font-stretch:120%;margin:0 0 1.5rem}
+  .order form{display:grid;grid-template-columns:1fr 1fr;gap:1rem 1.4rem}
+  .order .full{grid-column:1/-1}
+  .order label{display:block;font-weight:600;font-size:.95rem;margin-bottom:.3rem}
+  .order input{width:100%;min-height:48px;border:3px solid var(--vinyl);background:#F8F6F1;font:400 1rem/1 var(--liner);padding:0 .8rem;color:var(--vinyl)}
+  .order__status{grid-column:1/-1;margin:0;min-height:1.6em;color:var(--vinyl-2)}
+
+  .runout{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem 2rem;padding:1.4rem var(--edge) 2.2rem;border-top:3px solid var(--vinyl);font-size:.95rem}
+  .runout p{margin:0}
+
+  .player{position:fixed;left:var(--edge);right:var(--edge);bottom:12px;z-index:20;display:flex;align-items:center;gap:1rem;padding:.6rem .6rem .6rem 1rem;background:var(--vinyl);color:var(--sleeve);}
+  .player[hidden]{display:none}
+  .player p{margin:0;flex:1;font-size:.95rem}
+  .player .drop{min-height:44px}
+
+  @media (max-width:980px){
+    .side-a{grid-template-columns:minmax(0,1fr)}
+
+    .releases{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .press,.order{grid-template-columns:minmax(0,1fr)}
+
+  }
+  @media (max-width:640px){
+    .bar nav{display:none}
+    .bag{margin-left:auto}
+    .side-a__latest{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:auto;align-items:end}
+    .side-a__latest h2{grid-column:1/-1}
+    .releases{gap:1rem .75rem}
+    .release h3{font-size:1.05rem}
+    .release__acts .drop{flex:1 1 100%;justify-content:center}
+    .order form{grid-template-columns:1fr}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .player,.drop,.bar nav a{transition:none}
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the records</a>
+<header class="bar">
+  <a class="bar__mark" href="#top">KREIS</a>
+  <nav aria-label="Primary">
+    <a href="#crate">Records</a>
+    <a href="#press">Pressing</a>
+  </nav>
+  <a class="bag" href="#order">Order <b id="bag-count">0</b></a>
+</header>
+
+<main id="main">
+  <section class="side-a" id="top" aria-labelledby="title">
+    <div class="side-a__type">
+      <span class="side-a__giant" aria-hidden="true">300</span>
+      <div>
+        <h1 id="title">Six records a year, three hundred copies of each.</h1>
+        <p>A label in Leipzig for music made in rooms, not in rows of plugins. Every sleeve is set in type. Every record can be heard as a ten-second sketch before you order.</p>
+      </div>
+      <div class="side-a__acts">
+        <a class="drop" href="#crate">Hear the records</a>
+        <a class="drop drop--y" href="#order">Order a copy</a>
+      </div>
+    </div>
+    <div class="side-a__latest">
+      <h2>Out this month</h2>
+      <div class="cover cover--edge" style="--c-bg:#1E4FD6;--c-ink:#F2C230" aria-hidden="true"><span class="cover__a">47</span><span class="cover__b">Ida Brandt<br>Hall Recordings</span></div>
+      <p class="release__meta release__meta--on">KR-047, 180 g, gatefold sleeve</p>
+    </div>
+  </section>
+
+  <section class="crate" id="crate" aria-labelledby="crate-title">
+    <div class="crate__head">
+      <h2 id="crate-title">The crate<span>six records, in order of pressing</span></h2>
+      <p>Press a sketch to hear it. The sound is generated in your browser from each record's tempo and key, and drawn on the sleeve as it plays.</p>
+    </div>
+    <ul class="releases" id="releases">
+      <li class="release">
+        <div class="cover cover--edge" style="--c-bg:#1E4FD6;--c-ink:#F2C230;--c-w:50%" aria-hidden="true"><span class="cover__a">47</span><span class="cover__b">Ida Brandt<br>Hall Recordings</span><canvas aria-hidden="true"></canvas></div>
+        <h3>Hall Recordings</h3>
+        <p class="release__meta">Ida Brandt, KR-047, €26</p>
+        <div class="release__acts">
+          <button class="drop drop--y" type="button" data-play="KR-047" aria-pressed="false">Play sketch</button>
+          <button class="drop" type="button" data-add="KR-047">Add to order</button>
+        </div>
+      </li>
+      <li class="release">
+        <div class="cover cover--stack" style="--c-bg:#121212;--c-ink:#EDEBE4;--c-w:50%" aria-hidden="true"><span class="cover__a">Night Freight</span><span class="cover__b">Otto & Ries<br>Night Freight</span><canvas aria-hidden="true"></canvas></div>
+        <h3>Night Freight</h3>
+        <p class="release__meta">Otto & Ries, KR-046, €26</p>
+        <div class="release__acts">
+          <button class="drop drop--y" type="button" data-play="KR-046" aria-pressed="false">Play sketch</button>
+          <button class="drop" type="button" data-add="KR-046">Add to order</button>
+        </div>
+      </li>
+      <li class="release">
+        <div class="cover cover--tilt" style="--c-bg:#F2C230;--c-ink:#121212;--c-w:50%" aria-hidden="true"><span class="cover__a">Licht</span><span class="cover__b">Mareike Sol<br>Lichtspiel</span><canvas aria-hidden="true"></canvas></div>
+        <h3>Lichtspiel</h3>
+        <p class="release__meta">Mareike Sol, KR-045, €26</p>
+        <div class="release__acts">
+          <button class="drop drop--y" type="button" data-play="KR-045" aria-pressed="false">Play sketch</button>
+          <button class="drop" type="button" data-add="KR-045">Add to order</button>
+        </div>
+      </li>
+      <li class="release">
+        <div class="cover" style="--c-bg:#D7D3C8;--c-ink:#1E4FD6;--c-w:150%" aria-hidden="true"><span class="cover__a">11</span><span class="cover__b">Plattenbau Trio<br>Eleven Floors</span><canvas aria-hidden="true"></canvas></div>
+        <h3>Eleven Floors</h3>
+        <p class="release__meta">Plattenbau Trio, KR-044, €26</p>
+        <div class="release__acts">
+          <button class="drop drop--y" type="button" data-play="KR-044" aria-pressed="false">Play sketch</button>
+          <button class="drop" type="button" data-add="KR-044">Add to order</button>
+        </div>
+      </li>
+      <li class="release">
+        <div class="cover cover--stack" style="--c-bg:#1E4FD6;--c-ink:#EDEBE4;--c-w:50%" aria-hidden="true"><span class="cover__a">Small rain</span><span class="cover__b">Hanne Vey<br>Small Rain</span><canvas aria-hidden="true"></canvas></div>
+        <h3>Small Rain</h3>
+        <p class="release__meta">Hanne Vey, KR-043, €26</p>
+        <div class="release__acts">
+          <button class="drop drop--y" type="button" data-play="KR-043" aria-pressed="false">Play sketch</button>
+          <button class="drop" type="button" data-add="KR-043">Add to order</button>
+        </div>
+      </li>
+      <li class="release">
+        <div class="cover cover--edge" style="--c-bg:#121212;--c-ink:#F2C230;--c-w:50%" aria-hidden="true"><span class="cover__a">15</span><span class="cover__b">Kollektiv Ost<br>Tram 15</span><canvas aria-hidden="true"></canvas></div>
+        <h3>Tram 15</h3>
+        <p class="release__meta">Kollektiv Ost, KR-042, €26</p>
+        <div class="release__acts">
+          <button class="drop drop--y" type="button" data-play="KR-042" aria-pressed="false">Play sketch</button>
+          <button class="drop" type="button" data-add="KR-042">Add to order</button>
+        </div>
+      </li>
+    </ul>
+    <p class="listen-note">Sound only starts when you press it, and stops on its own after ten seconds. The sketches are synthesised stand-ins for a demo template, not the records.</p>
+  </section>
+
+  <section class="press" id="press" aria-labelledby="press-title">
+    <div>
+      <h2 id="press-title">Pressed slowly, in Saxony.</h2>
+      <p>We cut lacquers at a plant two hours from the office and listen to the test pressing in the room the music was made in. If it does not survive that room, it does not ship.</p>
+    </div>
+    <dl class="facts">
+      <div><dt>Copies of each record</dt><dd>300</dd></div>
+      <div><dt>Weight</dt><dd>180 g</dd></div>
+      <div><dt>Records a year</dt><dd>6</dd></div>
+      <div><dt>Price</dt><dd>€26</dd></div>
+    </dl>
+  </section>
+
+  <section class="order" id="order" aria-labelledby="order-title">
+    <div>
+      <h2 id="order-title">Your order</h2>
+      <p>Records ship in a stiff mailer, from Leipzig, within five days. Add records from the crate above.</p>
+    </div>
+    <div>
+      <ul class="basket" id="basket" aria-live="polite"><li class="empty">Nothing yet. Add a record from the crate.</li></ul>
+      <p class="basket__total"><span>Total</span><span id="total">€0</span></p>
+      <form id="order-form" novalidate>
+        <div><label for="name">Name</label><input id="name" name="name" autocomplete="name" required></div>
+        <div><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
+        <div class="full"><label for="address">Shipping address</label><input id="address" name="address" autocomplete="street-address" required></div>
+        <button class="drop" type="submit">Place the order</button>
+        <p class="order__status" id="order-status" role="status"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="runout">
+  <p>Kreis is a fictional label in a demo template. The artists are invented.</p>
+  <p><a href="mailto:label@example.com">label@example.com</a></p>
+</footer>
+
+<div class="player" id="player" hidden><p id="player-now"></p><button class="drop drop--y" type="button" id="player-stop">Stop</button></div>
+
+<script>
+(() => {
+  const releases = [
+    { id: "KR-047", artist: "Ida Brandt", title: "Hall Recordings", big: "47", layout: "edge", bg: "#1E4FD6", ink: "#F2C230", bpm: 84, root: 220, scale: [0, 3, 5, 7, 10], wave: "triangle" },
+    { id: "KR-046", artist: "Otto & Ries", title: "Night Freight", big: "Night Freight", layout: "stack", bg: "#121212", ink: "#EDEBE4", bpm: 118, root: 110, scale: [0, 2, 3, 7, 8], wave: "sawtooth" },
+    { id: "KR-045", artist: "Mareike Sol", title: "Lichtspiel", big: "Licht", layout: "tilt", bg: "#F2C230", ink: "#121212", bpm: 96, root: 261.6, scale: [0, 2, 4, 7, 9], wave: "sine" },
+    { id: "KR-044", artist: "Plattenbau Trio", title: "Eleven Floors", big: "11", layout: "", bg: "#D7D3C8", ink: "#1E4FD6", w: "150%", bpm: 132, root: 146.8, scale: [0, 3, 5, 6, 7, 10], wave: "square" },
+    { id: "KR-043", artist: "Hanne Vey", title: "Small Rain", big: "Small rain", layout: "stack", bg: "#1E4FD6", ink: "#EDEBE4", bpm: 72, root: 196, scale: [0, 2, 5, 7, 9], wave: "sine" },
+    { id: "KR-042", artist: "Kollektiv Ost", title: "Tram 15", big: "15", layout: "edge", bg: "#121212", ink: "#F2C230", bpm: 124, root: 164.8, scale: [0, 2, 3, 5, 7, 8, 10], wave: "triangle" }
+  ];
+  const PRICE = 26;
+  const list = document.getElementById("releases");
+
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+  const player = document.getElementById("player");
+  const now = document.getElementById("player-now");
+  let ctx = null, session = null;
+
+  const stop = () => {
+    if (!session) return;
+    session.nodes.forEach((n) => { try { n.stop(); } catch {} });
+    session.master.gain.setTargetAtTime(0, ctx.currentTime, 0.05);
+    cancelAnimationFrame(session.raf);
+    clearTimeout(session.timer);
+    session.button.setAttribute("aria-pressed", "false");
+    session.button.textContent = "Play sketch";
+    session = null;
+    player.hidden = true;
+  };
+
+  const play = (r, button) => {
+    ctx ||= new (window.AudioContext || window.webkitAudioContext)();
+    stop();
+    const master = ctx.createGain(); master.gain.value = 0.18;
+    const analyser = ctx.createAnalyser(); analyser.fftSize = 512;
+    master.connect(analyser); analyser.connect(ctx.destination);
+    const beat = 60 / r.bpm, t0 = ctx.currentTime + 0.05, nodes = [];
+    let seed = [...r.id].reduce((a, c) => a * 31 + c.charCodeAt(0), 7);
+    const rand = () => ((seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648);
+    for (let t = 0, i = 0; t < 10; t += beat / 2, i++) {
+      const note = r.scale[Math.floor(rand() * r.scale.length)] + (rand() > 0.8 ? 12 : 0);
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = r.wave; o.frequency.value = r.root * 2 ** (note / 12);
+      g.gain.setValueAtTime(0, t0 + t); g.gain.linearRampToValueAtTime(0.6, t0 + t + 0.02); g.gain.exponentialRampToValueAtTime(0.001, t0 + t + beat * 0.45);
+      o.connect(g); g.connect(master); o.start(t0 + t); o.stop(t0 + t + beat * 0.5); nodes.push(o);
+      if (i % 2 === 0) {
+        const k = ctx.createOscillator(), kg = ctx.createGain();
+        k.frequency.setValueAtTime(120, t0 + t); k.frequency.exponentialRampToValueAtTime(40, t0 + t + 0.15);
+        kg.gain.setValueAtTime(0.9, t0 + t); kg.gain.exponentialRampToValueAtTime(0.001, t0 + t + 0.2);
+        k.connect(kg); kg.connect(master); k.start(t0 + t); k.stop(t0 + t + 0.22); nodes.push(k);
+      }
+    }
+    // Saville's ridge lines: each frame of the analyser becomes one line, stacked down the sleeve.
+    const canvas = button.closest(".release").querySelector("canvas");
+    const c2 = canvas.getContext("2d");
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    canvas.width = canvas.clientWidth * dpr; canvas.height = canvas.clientHeight * dpr;
+    const data = new Uint8Array(analyser.frequencyBinCount);
+    const rows = 40; let row = 0, frame = 0;
+    c2.clearRect(0, 0, canvas.width, canvas.height);
+    const draw = () => {
+      frame++;
+      if (frame % 6 === 0 && row < rows) {
+        analyser.getByteTimeDomainData(data);
+        const y0 = (canvas.height * 0.14) + row * (canvas.height * 0.72 / rows);
+        c2.beginPath();
+        for (let x = 0; x <= 64; x++) {
+          const v = (data[Math.floor((x / 64) * (data.length - 1))] - 128) / 128;
+          const mid = 1 - Math.abs(x / 32 - 1);
+          const px = (x / 64) * canvas.width, py = y0 - Math.abs(v) * canvas.height * 0.18 * mid;
+          x ? c2.lineTo(px, py) : c2.moveTo(px, py);
+        }
+        c2.lineTo(canvas.width, y0); c2.lineTo(0, y0); c2.closePath();
+        c2.fillStyle = r.bg; c2.fill();
+        c2.strokeStyle = r.ink; c2.lineWidth = 1.2 * dpr; c2.stroke();
+        row++;
+      }
+      if (session) session.raf = requestAnimationFrame(draw);
+    };
+    session = { nodes, master, button, raf: 0, timer: setTimeout(stop, 10200) };
+    button.setAttribute("aria-pressed", "true");
+    button.textContent = "Stop sketch";
+    now.textContent = `Playing a sketch of ${r.title} by ${r.artist}`;
+    player.hidden = false;
+    if (!reduce.matches) session.raf = requestAnimationFrame(draw);
+  };
+
+  const basket = new Map();
+  const renderBasket = () => {
+    const el = document.getElementById("basket");
+    el.innerHTML = basket.size ? [...basket].map(([id, n]) => {
+      const r = releases.find((x) => x.id === id);
+      return `<li><span>${r.title}, ${r.artist} × ${n}</span><span>€${n * PRICE}</span></li>`;
+    }).join("") : '<li class="empty">Nothing yet. Add a record from the crate.</li>';
+    const count = [...basket.values()].reduce((a, b) => a + b, 0);
+    document.getElementById("total").textContent = `€${count * PRICE}`;
+    document.getElementById("bag-count").textContent = count;
+  };
+
+  list.addEventListener("click", (e) => {
+    const p = e.target.closest("[data-play]");
+    if (p) { const r = releases.find((x) => x.id === p.dataset.play); if (session?.button === p) stop(); else play(r, p); }
+    const a = e.target.closest("[data-add]");
+    if (a) { basket.set(a.dataset.add, (basket.get(a.dataset.add) || 0) + 1); renderBasket(); a.textContent = "Added, add another"; }
+  });
+  document.getElementById("player-stop").addEventListener("click", stop);
+
+  const form = document.getElementById("order-form");
+  const status = document.getElementById("order-status");
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (!basket.size) { status.textContent = "Add at least one record from the crate first."; return; }
+    const missing = ["name", "email", "address"].find((k) => !form.elements[k].value.trim());
+    if (missing) { status.textContent = "Name, email and a shipping address are all needed."; form.elements[missing].focus(); return; }
+    status.textContent = "Nothing was sent: this demo shop is not connected to payments yet.";
+  });
+})();
+</script>
+</body>
+</html>

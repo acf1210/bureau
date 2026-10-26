@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oficina Sal — Architecture, Porto</title>
+<script>document.documentElement.classList.add("js")</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%2326241F'/%3E%3Crect x='29' y='8' width='6' height='48' fill='%23FFF1D2'/%3E%3C/svg%3E">
+<meta name="description" content="A small architecture studio in Porto that designs houses and workplaces around the light a site already has. Demo template; the studio and projects are fictional.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Antonio:wght@600&family=Hanken+Grotesk:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  /* Lineage: Ando (light cut into mass) × Mies (planes that slide past each other) × Scarpa (the joint as the event). See LINEAGE.md. */
+  @font-face{font-family:"Antonio Fallback";src:local("Arial"),local("Liberation Sans");size-adjust:78.3%;ascent-override:146.8%;descent-override:17.9%;line-gap-override:0%}
+  @font-face{font-family:"Hanken Grotesk Fallback";src:local("Arial"),local("Liberation Sans");size-adjust:100.6%;ascent-override:99.4%;descent-override:29.8%;line-gap-override:0%}
+  :root{
+    --concrete:#D6D2CA;
+    --concrete-pale:#E7E4DE;
+    --formwork:#26241F;
+    --formwork-2:#33302A;
+    --daylight:#FFF1D2;
+    --mortar:#4D4A43;
+    --bronze:#6E4F24;
+    --tie:#1E1D1A;
+    --letter:"Antonio","Antonio Fallback",sans-serif;
+    --note:"Hanken Grotesk","Hanken Grotesk Fallback",sans-serif;
+    --bay:clamp(16px,4.5vw,80px);
+    --dusk:cubic-bezier(.45,.05,.2,1);
+  }
+  *{box-sizing:border-box}
+  html{background:var(--concrete);color:var(--tie);overflow-x:clip}
+  body{margin:0;font:400 1.0625rem/1.6 var(--note)}
+  ::selection{background:var(--formwork);color:var(--daylight)}
+  a{color:inherit}
+  :focus-visible{outline:2px solid var(--bronze);outline-offset:3px}
+  .skip{position:absolute;left:var(--bay);top:-5rem;z-index:10;background:var(--daylight);color:var(--formwork);padding:.7rem 1rem}
+  .skip:focus{top:.75rem}
+
+  .wall{position:relative;min-height:92svh;background:var(--formwork);color:#EAE5DA;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto 1fr auto;overflow:clip}
+  .wall::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 179px,rgba(255,255,255,.035) 179px 180px),repeating-linear-gradient(0deg,transparent 0 89px,rgba(255,255,255,.035) 89px 90px);pointer-events:none}
+  .slit{position:absolute;top:0;bottom:0;left:38%;width:42vw;margin-left:-21vw;background:linear-gradient(90deg,rgba(255,241,210,0),var(--daylight) 44%,var(--daylight) 56%,rgba(255,241,210,0));transform:scaleX(.03);transform-origin:50% 50%}
+  @supports (animation-timeline: scroll()){
+    .slit{animation:open linear both;animation-timeline:scroll(root);animation-range:0 75vh}
+    @keyframes open{from{transform:scaleX(.03)}to{transform:scaleX(1)}}
+  }
+  .floor{position:absolute;left:0;right:0;bottom:0;height:40%;background:linear-gradient(180deg,transparent,rgba(255,241,210,.06) 35%,transparent);pointer-events:none}
+  .top{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;padding:1.3rem var(--bay)}
+  .top__mark{font:600 1.35rem/1 var(--letter);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;display:inline-flex;align-items:center;min-height:44px}
+  .top nav{display:flex;gap:1.8rem}
+  .top nav a{text-decoration:none;color:#BDB6A8;display:inline-flex;align-items:center;min-height:44px;transition:color .3s var(--dusk)}
+  .top nav a:hover{color:var(--daylight)}
+  .wall__text{position:relative;z-index:2;align-self:end;margin-left:auto;width:min(100%,46rem);padding:0 var(--bay) clamp(2rem,5vw,4rem)}
+  .wall h1{font:600 clamp(3.2rem,7.4vw,7.6rem)/.94 var(--letter);text-transform:uppercase;letter-spacing:-.005em;margin:0 0 1.4rem}
+  .wall p{margin:0 0 2rem;max-width:36ch;color:#D3CCBE;font-size:1.1rem}
+  .door{display:inline-flex;align-items:center;min-height:50px;padding:0 1.5rem;background:var(--daylight);color:var(--formwork);font:600 1rem/1 var(--note);text-decoration:none;border:0;cursor:pointer;transition:background-color .3s var(--dusk)}
+  .door:hover{background:#FFF9EC}
+  .door--shadow{background:transparent;color:inherit;box-shadow:inset 0 0 0 1px currentColor}
+  .door--shadow:hover{background:rgba(255,255,255,.08)}
+  .wall__acts{display:flex;gap:1rem;flex-wrap:wrap}
+  .wall .wall__foot{position:relative;z-index:2;margin:0;max-width:none;display:flex;justify-content:space-between;gap:1rem;padding:1rem var(--bay) 1.4rem;border-top:1px solid rgba(255,255,255,.12);color:#A9A293;font-size:.9rem}
+
+  .plans{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:clamp(2rem,5vw,5rem);padding:clamp(4rem,9vw,8rem) var(--bay)}
+  .plans h2,.detail h2,.commission h2{font:600 clamp(2.2rem,4.4vw,4rem)/.98 var(--letter);text-transform:uppercase;margin:0 0 1.2rem}
+  .plans__intro p{max-width:34ch;color:var(--mortar);margin:0 0 2rem}
+  .projects{list-style:none;margin:0;padding:0;border-top:1px solid var(--tie)}
+  .projects button{display:grid;grid-template-columns:1fr auto;gap:1rem;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid #B7B1A6;padding:1rem 0;font:600 1.5rem/1.1 var(--letter);text-transform:uppercase;color:var(--tie);cursor:pointer;min-height:56px;transition:padding .3s var(--dusk),color .3s var(--dusk)}
+  .projects button span{font:400 .95rem/1.4 var(--note);text-transform:none;color:var(--mortar);align-self:center}
+  .projects button[aria-pressed="true"]{color:var(--bronze)}
+  .projects button[aria-pressed="true"] span{color:var(--tie)}
+  .sheet{margin:0;background:var(--concrete-pale);border:1px solid #B7B1A6;padding:clamp(1rem,2.5vw,2rem)}
+  .sheet svg{display:block;width:100%;height:auto}
+  .sheet .wallline{fill:none;stroke:var(--tie);stroke-width:6}
+  .sheet .glass{fill:none;stroke:var(--bronze);stroke-width:2}
+  .sheet .light{fill:var(--daylight);stroke:none}
+  .sheet .dim{fill:var(--mortar);font:400 12px var(--note)}
+  .sheet figcaption{display:flex;justify-content:space-between;gap:1rem;margin-top:1rem;font-size:.95rem;color:var(--mortar)}
+  .sheet figcaption b{color:var(--tie);font-weight:600}
+  .js .sheet g[data-plan]{display:none}
+  .js .sheet g[data-plan].is-shown{display:inline}
+
+  .detail{background:var(--formwork);color:#EAE5DA;padding:clamp(4rem,9vw,8rem) var(--bay);display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(2rem,5vw,5rem);align-items:start}
+  .detail svg{width:100%;height:auto;display:block;background:var(--formwork-2)}
+  .detail .part{fill:none;stroke:#8F887A;stroke-width:2;transition:stroke .3s var(--dusk)}
+  .detail .part.is-lit{stroke:var(--daylight);stroke-width:3}
+  .detail .tag{fill:#BDB6A8;font:600 14px var(--note)}
+  .detail p{color:#C9C2B4;max-width:40ch}
+  .joints{list-style:none;margin:2rem 0 0;padding:0;border-top:1px solid rgba(255,255,255,.18)}
+  .joints button{width:100%;display:grid;grid-template-columns:2rem 1fr;gap:.8rem;text-align:left;background:none;border:0;border-bottom:1px solid rgba(255,255,255,.18);color:#EAE5DA;padding:1rem 0;font:400 1rem/1.5 var(--note);cursor:pointer;min-height:48px}
+  .joints b{font:600 1.2rem/1.3 var(--letter);color:var(--daylight)}
+  .joints button:hover,.joints button:focus-visible{background:rgba(255,255,255,.05)}
+  .detail :focus-visible{outline-color:var(--daylight)}
+
+  .commission{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(2rem,5vw,5rem);padding:clamp(4rem,9vw,8rem) var(--bay)}
+  .commission > div > p{color:var(--mortar);max-width:36ch}
+  .brief{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem 1.5rem}
+  .brief .full{grid-column:1/-1}
+  .brief label{display:block;font-weight:600;font-size:.95rem;margin-bottom:.4rem}
+  .brief input,.brief select,.brief textarea{width:100%;min-height:48px;background:var(--concrete-pale);border:1px solid var(--mortar);color:var(--tie);font:400 1rem/1.4 var(--note);padding:.7rem .8rem}
+  .brief textarea{min-height:110px;resize:vertical}
+  .brief .door{background:var(--formwork);color:var(--daylight);justify-self:start}
+  .brief .door:hover{background:var(--bronze);color:#FFF9EC}
+  .brief__status{grid-column:1/-1;margin:0;min-height:1.6em;color:var(--mortar)}
+
+  .site{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2rem;padding:2rem var(--bay) 2.6rem;border-top:1px solid var(--tie);font-size:.95rem;color:var(--mortar)}
+  .site p{margin:0}
+  .site b{display:block;color:var(--tie)}
+
+  @media (max-width:960px){
+    .plans,.detail,.commission{grid-template-columns:minmax(0,1fr)}
+    .site{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:640px){
+    .slit{left:0;right:0;top:11%;bottom:auto;width:auto;height:9svh;margin:0;background:linear-gradient(180deg,rgba(255,241,210,0),var(--daylight) 44%,var(--daylight) 56%,rgba(255,241,210,0));transform:scaleY(.03)}
+    @supports (animation-timeline: scroll()){
+      .slit{animation-name:open-y}
+      @keyframes open-y{from{transform:scaleY(.03)}to{transform:scaleY(1)}}
+    }
+    .top nav a:not(:last-child){display:none}
+    .wall__text{margin-left:0}
+    .wall__foot{flex-direction:column}
+    .projects{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:.75rem;border-top:0;padding-bottom:.5rem}
+    .projects li{flex:0 0 78%;scroll-snap-align:start}
+    .projects button{grid-template-columns:1fr;border:1px solid #B7B1A6;padding:1rem;height:100%}
+    .brief{grid-template-columns:1fr}
+    .site{grid-template-columns:1fr}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .slit{animation:none;transform:scaleX(.35)}
+    .projects button,.detail .part,.door,.top nav a{transition:none}
+  }
+  @media (prefers-reduced-motion:reduce) and (max-width:640px){
+    .slit{transform:scaleY(.35)}
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the projects</a>
+<header class="wall" id="top">
+  <div class="slit" aria-hidden="true"></div>
+  <div class="floor" aria-hidden="true"></div>
+  <div class="top">
+    <a class="top__mark" href="#top">Oficina Sal</a>
+    <nav aria-label="Primary">
+      <a href="#plans">Projects</a>
+      <a href="#detail">Detail</a>
+      <a href="#commission">Commission</a>
+    </nav>
+  </div>
+  <div class="wall__text">
+    <h1>We build with the light a site already has.</h1>
+    <p>A studio of four architects in Porto. Houses and workplaces drawn from where the sun falls at nine, at noon and at five.</p>
+    <div class="wall__acts">
+      <a class="door" href="#commission">Start a commission</a>
+      <a class="door door--shadow" href="#plans">See the plans</a>
+    </div>
+  </div>
+  <p class="wall__foot"><span>Rua do Almada, Porto</span><span>Scroll and the opening widens</span></p>
+</header>
+
+<main id="main">
+  <section class="plans" id="plans" aria-labelledby="plans-title">
+    <div class="plans__intro">
+      <h2 id="plans-title">Plans, not renders.</h2>
+      <p>A plan shows the decisions: where a wall stops, where the light enters, how one room slides into the next. Choose a project to read its plan.</p>
+      <ul class="projects">
+        <li><button type="button" data-show="casa" aria-pressed="true" aria-controls="sheet">Casa do Pátio<span>House, Matosinhos, 180 m²</span></button></li>
+        <li><button type="button" data-show="oficina" aria-pressed="false" aria-controls="sheet">Oficina Norte<span>Workshop, Maia, 420 m²</span></button></li>
+        <li><button type="button" data-show="loja" aria-pressed="false" aria-controls="sheet">Loja Funda<span>Bookshop, Porto, 95 m²</span></button></li>
+      </ul>
+    </div>
+    <figure class="sheet" id="sheet">
+      <svg viewBox="0 0 640 420" role="img" aria-labelledby="sheet-title">
+        <title id="sheet-title">Ground floor plan of the selected project, with the light it receives marked in pale yellow</title>
+        <g data-plan="casa" class="is-shown">
+          <rect class="light" x="250" y="60" width="140" height="300"/>
+          <path class="wallline" d="M40 60H250M390 60H600V360H390M250 360H40V60M150 60V230M490 200V360"/>
+          <path class="glass" d="M250 60H390M250 360H390"/>
+          <text class="dim" x="262" y="215">Courtyard, open to the sky</text>
+          <text class="dim" x="60" y="300">Kitchen</text><text class="dim" x="60" y="140">Study</text><text class="dim" x="420" y="140">Living</text><text class="dim" x="510" y="300">Bedroom</text>
+        </g>
+        <g data-plan="oficina">
+          <rect class="light" x="40" y="60" width="560" height="40"/>
+          <path class="wallline" d="M40 60H600V360H40ZM40 260H260M380 260H600"/>
+          <path class="glass" d="M40 60H600"/>
+          <text class="dim" x="60" y="88">North rooflight, the full length of the hall</text>
+          <text class="dim" x="60" y="180">Workshop floor, no columns</text><text class="dim" x="60" y="320">Office</text><text class="dim" x="400" y="320">Store</text>
+        </g>
+        <g data-plan="loja">
+          <rect class="light" x="40" y="320" width="560" height="40"/>
+          <path class="wallline" d="M40 60H600V360M40 60V360M180 60V300M460 60V300"/>
+          <path class="glass" d="M40 360H600"/>
+          <text class="dim" x="60" y="348">Shopfront, glazed to the street</text>
+          <text class="dim" x="60" y="180">Poetry</text><text class="dim" x="280" y="180">Long table</text><text class="dim" x="480" y="180">Children</text>
+        </g>
+      </svg>
+      <figcaption><span id="sheet-caption"><b>Casa do Pátio.</b> The courtyard is the only window the street never sees.</span><span>1:200, illustrative</span></figcaption>
+    </figure>
+  </section>
+
+  <section class="detail" id="detail" aria-labelledby="detail-title">
+    <svg viewBox="0 0 600 440" role="img" aria-labelledby="detail-svg-title">
+      <title id="detail-svg-title">Section through a window head: concrete lintel, bronze frame, timber reveal and a drip channel</title>
+      <path class="part" data-part="a" d="M60 60H540V150H60Z"/>
+      <path class="part" data-part="b" d="M300 150V380M330 150V380M300 380H330"/>
+      <path class="part" data-part="c" d="M120 150H300V180H120Z"/>
+      <path class="part" data-part="d" d="M330 160H520L520 176L500 190H330"/>
+      <text class="tag" x="72" y="110">a</text><text class="tag" x="342" y="300">b</text><text class="tag" x="132" y="172">c</text><text class="tag" x="440" y="210">d</text>
+    </svg>
+    <div>
+      <h2 id="detail-title">The joint is where the building speaks.</h2>
+      <p>Every project gets one detail drawn at full size before anything else. If the joint is honest, the rest of the building usually follows. Choose a part to find it in the section.</p>
+      <ul class="joints">
+        <li><button type="button" data-part="a"><b>a</b>Board-marked concrete lintel, cast in one pour with the wall.</button></li>
+        <li><button type="button" data-part="b"><b>b</b>Bronze frame, set back 30 mm so the reveal throws a shadow line.</button></li>
+        <li><button type="button" data-part="c"><b>c</b>Oak reveal, oiled, replaceable without touching the glass.</button></li>
+        <li><button type="button" data-part="d"><b>d</b>Drip channel cut into the sill, so rain never stains the concrete below.</button></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="commission" id="commission" aria-labelledby="commission-title">
+    <div>
+      <h2 id="commission-title">Tell us about the site.</h2>
+      <p>We take on four projects a year. The first conversation is about orientation, neighbours and what you do at each hour of the day; drawings come later.</p>
+    </div>
+    <form class="brief" id="brief" novalidate>
+      <div><label for="name">Name</label><input id="name" name="name" autocomplete="name" required></div>
+      <div><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
+      <div><label for="kind">Project</label><select id="kind" name="kind"><option>House</option><option>Workplace</option><option>Renovation</option></select></div>
+      <div><label for="where">Where is the site?</label><input id="where" name="where"></div>
+      <div class="full"><label for="light">Where does the sun fall in the morning?</label><textarea id="light" name="light"></textarea></div>
+      <button class="door" type="submit">Send the site description</button>
+      <p class="brief__status" id="brief-status" role="status"></p>
+    </form>
+  </section>
+</main>
+
+<footer class="site">
+  <p><b>Oficina Sal</b>A fictional studio in a demo template.</p>
+  <p><b>Studio</b>Rua do Almada, Porto</p>
+  <p><b>Write</b><a href="mailto:studio@example.com">studio@example.com</a></p>
+</footer>
+
+<script>
+(() => {
+  const captions = {
+    casa: "<b>Casa do Pátio.</b> The courtyard is the only window the street never sees.",
+    oficina: "<b>Oficina Norte.</b> One rooflight to the north: even light, no glare on the benches.",
+    loja: "<b>Loja Funda.</b> Light enters from the street and fades towards the back shelves."
+  };
+  const caption = document.getElementById("sheet-caption");
+  const projectButtons = [...document.querySelectorAll("[data-show]")];
+  projectButtons.forEach((btn) => btn.addEventListener("click", () => {
+    for (const b of projectButtons) b.setAttribute("aria-pressed", String(b === btn));
+    for (const g of document.querySelectorAll("[data-plan]")) g.classList.toggle("is-shown", g.dataset.plan === btn.dataset.show);
+    caption.innerHTML = captions[btn.dataset.show];
+  }));
+
+  const parts = [...document.querySelectorAll(".detail .part")];
+  const light = (id) => parts.forEach((p) => p.classList.toggle("is-lit", p.dataset.part === id));
+  document.querySelectorAll(".joints [data-part]").forEach((btn) => {
+    for (const ev of ["mouseenter", "focus", "click"]) btn.addEventListener(ev, () => light(btn.dataset.part));
+  });
+
+  const form = document.getElementById("brief");
+  const status = document.getElementById("brief-status");
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (!form.elements.name.value.trim() || !form.elements.email.value.includes("@")) {
+      status.textContent = "A name and an email with an @ are enough to start.";
+      (form.elements.name.value.trim() ? form.elements.email : form.elements.name).focus();
+      return;
+    }
+    status.textContent = "Nothing was sent: this demo form is not connected to the studio yet.";
+  });
+})();
+</script>
+</body>
+</html>

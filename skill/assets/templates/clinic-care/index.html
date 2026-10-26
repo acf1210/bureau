@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Respira — Respiratory clinic, Buenos Aires</title>
+<script>document.documentElement.classList.add("js")</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23F3F6F5'/%3E%3Ccircle cx='32' cy='32' r='20' fill='%23CFE5E3'/%3E%3Cpath d='M30 18C18 22 14 38 18 48c6 0 12-6 12-14ZM34 18c12 4 16 20 12 30-6 0-12-6-12-14Z' fill='%23236A65'/%3E%3C/svg%3E">
+<meta name="description" content="A respiratory clinic in Palermo: lung function tests, sleep studies and asthma care, with a breathing guide you can use now. Demo template; the clinic is fictional.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Gilda+Display&display=swap" rel="stylesheet">
+<style>
+  /* Lineage: Kenya Hara (emptiness as a receptacle) × Susan Kare (meaning in a small grid) × Ikko Tanaka (a figure reduced to flat planes). See LINEAGE.md. */
+  @font-face{font-family:"Atkinson Hyperlegible Fallback";src:local("Arial"),local("Liberation Sans");size-adjust:99.1%;ascent-override:95.8%;descent-override:29.3%;line-gap-override:0%}
+  @font-face{font-family:"Gilda Display Fallback";src:local("Times New Roman"),local("Liberation Serif");size-adjust:109.3%;ascent-override:81.4%;descent-override:26.5%;line-gap-override:0%}
+  :root{
+    --air:#F3F6F5;
+    --air-2:#E6EEEC;
+    --mist:#CFE5E3;
+    --deep:#16322F;
+    --deep-2:#45615D;
+    --leaf:#236A65;
+    --sun:#E9B44C;
+    --calm:"Gilda Display","Gilda Display Fallback",serif;
+    --clear:"Atkinson Hyperlegible","Atkinson Hyperlegible Fallback",sans-serif;
+    --room:clamp(20px,6vw,120px);
+    --exhale:cubic-bezier(.37,0,.63,1);
+  }
+  *{box-sizing:border-box}
+  html{background:var(--air);color:var(--deep);overflow-x:clip}
+  body{margin:0;font:400 1.125rem/1.65 var(--clear)}
+  ::selection{background:var(--mist);color:var(--deep)}
+  a{color:inherit;text-underline-offset:.22em}
+  :focus-visible{outline:3px solid var(--leaf);outline-offset:3px;border-radius:4px}
+  .skip{position:absolute;left:var(--room);top:-5rem;background:var(--deep);color:var(--air);padding:.7rem 1rem;border-radius:8px}
+  .skip:focus{top:.75rem}
+
+  .entry{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.5rem var(--room)}
+  .entry__name{font:400 1.6rem/1 var(--calm);text-decoration:none;display:inline-flex;align-items:center;min-height:44px}
+  .entry nav{display:flex;gap:2rem;align-items:center}
+  .entry nav a{text-decoration:none;color:var(--deep-2);display:inline-flex;align-items:center;min-height:44px;transition:color .4s var(--exhale)}
+  .entry nav a:hover{color:var(--deep)}
+  .entry nav a.call{color:var(--deep);font-weight:700}
+
+  .calm{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(2rem,6vw,7rem);align-items:center;padding:clamp(2rem,6vw,5rem) var(--room) clamp(4rem,9vw,8rem)}
+  .calm h1{font:400 clamp(2.6rem,5vw,4.9rem)/1.06 var(--calm);letter-spacing:-.01em;margin:0 0 1.6rem;max-width:13ch}
+  .calm__lede{max-width:34ch;color:var(--deep-2);margin:0 0 2.2rem}
+  .go{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 1.6rem;border-radius:999px;background:var(--deep);color:var(--air);font:700 1rem/1 var(--clear);text-decoration:none;border:0;cursor:pointer;transition:background-color .4s var(--exhale)}
+  .go:hover{background:var(--leaf)}
+  .go--soft{background:var(--mist);color:var(--deep)}
+  .go--soft:hover{background:#BBDAD7}
+  .calm__acts{display:flex;gap:1rem;flex-wrap:wrap}
+
+  .pacer{display:grid;justify-items:center;gap:1.4rem;text-align:center}
+  .pacer__figure{position:relative;width:min(100%,380px);aspect-ratio:1}
+  .pacer__figure svg{position:absolute;inset:0;width:100%;height:100%}
+  .pacer__breath{transform-origin:50% 50%;transform:scale(var(--b,.62))}
+  .pacer__lungs{fill:var(--leaf)}
+  .pacer__sun{fill:var(--sun)}
+  .pacer__cue{font:400 2rem/1.1 var(--calm);margin:0;min-height:2.2em}
+  .pacer__cue small{display:block;font:400 1rem/1.4 var(--clear);color:var(--deep-2)}
+  .pacer__note{margin:0;font-size:.95rem;color:var(--deep-2);max-width:32ch}
+
+  .rooms{padding:clamp(4rem,9vw,8rem) var(--room);background:var(--air-2)}
+  .rooms__head{max-width:40rem;margin-bottom:clamp(2.5rem,5vw,4rem)}
+  .rooms h2,.visit h2,.book h2{font:400 clamp(2.2rem,4.2vw,3.8rem)/1.05 var(--calm);margin:0 0 1rem}
+  .rooms__head p{margin:0;color:var(--deep-2)}
+  .services{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(1rem,2.5vw,2rem)}
+  .service{display:grid;grid-template-columns:64px 1fr;gap:1.2rem;align-items:start;background:var(--air);border-radius:20px;padding:clamp(1.25rem,3vw,2rem)}
+  .service svg{width:64px;height:64px;shape-rendering:crispEdges}
+  .service svg path{fill:var(--leaf)}
+  .service h3{font:700 1.2rem/1.3 var(--clear);margin:0 0 .4rem}
+  .service p{margin:0;color:var(--deep-2)}
+  .service dl{display:flex;flex-wrap:wrap;gap:.4rem 1.6rem;margin:.9rem 0 0;font-size:1rem}
+  .service dt{color:var(--deep-2)}
+  .service dd{margin:0 0 0 .4rem;font-weight:700}
+  .service dl div{display:flex}
+
+  .visit{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(2rem,6vw,6rem);padding:clamp(4rem,9vw,8rem) var(--room)}
+  .visit > div > p{color:var(--deep-2);max-width:36ch;margin:0}
+  .steps{list-style:none;margin:0;padding:0;counter-reset:s}
+  .steps li{display:grid;grid-template-columns:3rem 1fr;gap:1rem;padding:1.3rem 0;border-top:1px solid var(--mist)}
+  .steps li::before{counter-increment:s;content:counter(s);display:grid;place-items:center;width:2.4rem;height:2.4rem;border-radius:50%;background:var(--mist);font-weight:700}
+  .steps b{display:block}
+  .steps span{color:var(--deep-2)}
+
+  .book{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(2rem,6vw,6rem);padding:clamp(4rem,9vw,8rem) var(--room);background:var(--deep);color:var(--air)}
+  .book > div > p{color:#BCD3CF;max-width:36ch}
+  .book form{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem 1.5rem}
+  .book .full{grid-column:1/-1}
+  .book label,.book legend{display:block;font-weight:700;font-size:1rem;margin-bottom:.45rem;padding:0}
+  .book input[type=text],.book input[type=tel],.book select{width:100%;min-height:52px;border-radius:12px;border:2px solid #5E7D78;background:#1E3D3A;color:var(--air);font:400 1.05rem/1 var(--clear);padding:0 1rem}
+  .book fieldset{border:0;margin:0;padding:0}
+  .days{display:flex;flex-wrap:wrap;gap:.5rem}
+  .days label{display:inline-flex;align-items:center;gap:.5rem;min-height:48px;padding:0 1rem;border-radius:999px;border:2px solid #5E7D78;font-weight:400;margin:0;cursor:pointer}
+  .days input{width:24px;height:24px;accent-color:var(--sun)}
+  .book .go{background:var(--sun);color:var(--deep);justify-self:start}
+  .book .go:hover{background:#F2C874}
+  .book :focus-visible{outline-color:var(--sun)}
+  .book__status{grid-column:1/-1;margin:0;min-height:1.6em;color:#BCD3CF}
+
+  .care{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem 2rem;padding:1.8rem var(--room) 2.6rem;font-size:1rem;color:var(--deep-2)}
+  .care p{margin:0}
+  .care strong{color:var(--deep)}
+
+  .mcall{display:none}
+
+  @media (max-width:960px){
+    .calm,.visit,.book{grid-template-columns:minmax(0,1fr)}
+    .services{grid-template-columns:minmax(0,1fr)}
+    .pacer__figure{width:min(62vw,260px)}
+  }
+  @media (max-width:640px){
+    body{padding-bottom:80px}
+    .entry nav a:not(.call){display:none}
+    .entry nav a.call{display:none}
+    .book form{grid-template-columns:1fr}
+    .mcall{display:flex;position:fixed;left:12px;right:12px;bottom:12px;z-index:10;gap:.6rem}
+    .mcall a{flex:1}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .go,.entry nav a{transition:none}
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the clinic</a>
+<header class="entry">
+  <a class="entry__name" href="#top">Respira</a>
+  <nav aria-label="Primary">
+    <a href="#services">Tests and care</a>
+    <a href="#visit">Your visit</a>
+    <a class="call" href="tel:+541100000000">Call the clinic</a>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="calm" id="top" aria-labelledby="title">
+    <div>
+      <h1 id="title">Breathe out. We will take it from here.</h1>
+      <p class="calm__lede">A respiratory clinic in Palermo for lung function tests, sleep studies and long-term asthma care. Most visits take under an hour.</p>
+      <div class="calm__acts">
+        <a class="go" href="#book">Book an appointment</a>
+        <button class="go go--soft" type="button" id="pace-toggle" aria-controls="pacer">Breathe with the guide</button>
+      </div>
+    </div>
+    <div class="pacer" id="pacer">
+      <div class="pacer__figure" aria-hidden="true">
+        <svg viewBox="0 0 200 200">
+          <circle class="pacer__sun" cx="146" cy="52" r="16"/>
+          <g class="pacer__breath" id="breath">
+            <circle cx="100" cy="104" r="78" fill="#CFE5E3"/>
+            <path class="pacer__lungs" d="M94 54C62 62 48 106 58 146c18 2 36-14 36-40ZM106 54c32 8 46 52 36 92-18 2-36-14-36-40Z"/>
+          </g>
+        </svg>
+      </div>
+      <p class="pacer__cue" id="cue" aria-live="polite">Four counts in, four held, four out, four held.<small>Press the guide when you are ready.</small></p>
+      <p class="pacer__note">Box breathing can help you slow down while you wait. It is not a treatment. If you are short of breath now, call 107.</p>
+    </div>
+  </section>
+
+  <section class="rooms" id="services" aria-labelledby="services-title">
+    <div class="rooms__head">
+      <h2 id="services-title">Four kinds of visit.</h2>
+      <p>Each one has a room of its own and a person who will explain the result to you before you leave.</p>
+    </div>
+    <ul class="services">
+      <li class="service">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M7 2h2v5H7zM5 6h1v1H5zM4 7h2v6H4zM3 9h1v5H3zM10 6h1v1h-1zM10 7h2v6h-2zM12 9h1v5h-1zM6 12h1v2H6zM9 12h1v2H9z"/></svg>
+        <div><h3>Lung function test</h3><p>Spirometry and gas transfer: you breathe into a mouthpiece, hard and then slowly.</p><dl><div><dt>Takes</dt><dd>40 min</dd></div><div><dt>Bring</dt><dd>your inhalers</dd></div></dl></div>
+      </li>
+      <li class="service">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 10h12v2H2zM2 8h1v2H2zM13 7h1v3h-1zM4 8h4v2H4zM9 3h2v1H9zM10 4h1v1h-1zM9 5h2v1H9zM12 1h2v1h-2zM13 2h1v1h-1zM12 3h2v1h-2z"/></svg>
+        <div><h3>Sleep study</h3><p>One night in a quiet room, with sensors that record breathing, oxygen and movement.</p><dl><div><dt>Takes</dt><dd>one night</dd></div><div><dt>Bring</dt><dd>your pillow</dd></div></dl></div>
+      </li>
+      <li class="service">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 1h4v2H6zM5 3h6v1H5zM4 4h8v8H4zM7 6h2v2H7zM6 7h4v1H6zM5 12h6v1H5zM7 13h2v2H7z"/></svg>
+        <div><h3>Asthma and COPD care</h3><p>A plan for daily treatment and for bad days, reviewed with the same doctor every visit.</p><dl><div><dt>Takes</dt><dd>30 min</dd></div><div><dt>Bring</dt><dd>a symptom diary</dd></div></dl></div>
+      </li>
+      <li class="service">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M7 1h2v2H7zM6 4h4v5H6zM4 5h2v1H4zM3 6h1v2H3zM10 5h2v1h-2zM12 6h1v2h-1zM6 9h1v5H6zM9 9h1v5H9zM5 14h2v1H5zM9 14h2v1H9z"/></svg>
+        <div><h3>Breathing rehabilitation</h3><p>Eight weekly sessions of exercise and breathing technique, in small groups.</p><dl><div><dt>Takes</dt><dd>8 weeks</dd></div><div><dt>Bring</dt><dd>trainers</dd></div></dl></div>
+      </li>
+    </ul>
+  </section>
+
+  <section class="visit" id="visit" aria-labelledby="visit-title">
+    <div>
+      <h2 id="visit-title">What happens on the day.</h2>
+      <p>No surprises. If anything in this list worries you, call us before you come and we will talk it through.</p>
+    </div>
+    <ol class="steps">
+      <li><div><b>Arrive ten minutes early.</b><span>The waiting room is on the ground floor, with step-free access from Calle Gorriti.</span></div></li>
+      <li><div><b>Skip your inhaler for four hours.</b><span>Only for a lung function test, and only if your doctor agrees.</span></div></li>
+      <li><div><b>The test itself.</b><span>A respiratory technician stays with you the whole time and tells you what each step is for.</span></div></li>
+      <li><div><b>Leave with the result explained.</b><span>A written summary in plain Spanish or English, and a copy sent to your doctor if you wish.</span></div></li>
+    </ol>
+  </section>
+
+  <section class="book" id="book" aria-labelledby="book-title">
+    <div>
+      <h2 id="book-title">Ask for an appointment.</h2>
+      <p>Tell us which visit and which days suit you. A person from the clinic will call you back to agree a time.</p>
+    </div>
+    <form id="book-form" novalidate>
+      <div class="full"><label for="visit-kind">Visit</label><select id="visit-kind" name="visit"><option>Lung function test</option><option>Sleep study</option><option>Asthma and COPD care</option><option>Breathing rehabilitation</option></select></div>
+      <fieldset class="full"><legend>Days that suit you</legend>
+        <div class="days">
+          <label><input type="checkbox" name="day" value="mon">Mon</label>
+          <label><input type="checkbox" name="day" value="tue">Tue</label>
+          <label><input type="checkbox" name="day" value="wed">Wed</label>
+          <label><input type="checkbox" name="day" value="thu">Thu</label>
+          <label><input type="checkbox" name="day" value="fri">Fri</label>
+        </div>
+      </fieldset>
+      <div><label for="patient">Your name</label><input id="patient" name="patient" type="text" autocomplete="name" required></div>
+      <div><label for="tel">Phone</label><input id="tel" name="tel" type="tel" autocomplete="tel" required></div>
+      <button class="go" type="submit">Ask for a call back</button>
+      <p class="book__status" id="book-status" role="status"></p>
+    </form>
+  </section>
+</main>
+
+<footer class="care">
+  <p><strong>In an emergency, call 107.</strong> This page cannot help you in a crisis.</p>
+  <p>Respira is a fictional clinic in a demo template. <a href="mailto:clinic@example.com">clinic@example.com</a></p>
+</footer>
+
+<div class="mcall"><a class="go" href="tel:+541100000000">Call the clinic</a><a class="go go--soft" href="#book">Book</a></div>
+
+<script>
+(() => {
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+  const breath = document.getElementById("breath");
+  const cue = document.getElementById("cue");
+  const toggle = document.getElementById("pace-toggle");
+  const phases = [["Breathe in", 0.62, 1], ["Hold", 1, 1], ["Breathe out", 1, 0.62], ["Hold", 0.62, 0.62]];
+  const PHASE = 4000, LIMIT = 60000;
+  let start = 0, raf = 0, last = -1;
+
+  const stop = (message) => {
+    cancelAnimationFrame(raf); raf = 0; last = -1;
+    breath.style.setProperty("--b", 0.62);
+    toggle.textContent = "Breathe with the guide";
+    cue.innerHTML = message;
+  };
+  const frame = (now) => {
+    const t = now - start;
+    if (t > LIMIT) { stop("That was one minute.<small>Press the guide again whenever you like.</small>"); return; }
+    const i = Math.floor(t / PHASE) % 4, p = (t % PHASE) / PHASE;
+    const [label, from, to] = phases[i];
+    const eased = from + (to - from) * (0.5 - Math.cos(Math.PI * p) / 2);
+    if (!reduce.matches) breath.style.setProperty("--b", eased.toFixed(3));
+    if (i !== last) { last = i; cue.innerHTML = `${label}<small>count to four</small>`; }
+    else if (reduce.matches) cue.querySelector("small").textContent = `${4 - Math.floor(p * 4)}`;
+    raf = requestAnimationFrame(frame);
+  };
+  toggle.addEventListener("click", () => {
+    if (raf) { stop("Paused.<small>Press the guide to start again.</small>"); return; }
+    start = performance.now();
+    toggle.textContent = "Stop the guide";
+    raf = requestAnimationFrame(frame);
+  });
+
+  const form = document.getElementById("book-form");
+  const status = document.getElementById("book-status");
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (!form.elements.patient.value.trim() || !form.elements.tel.value.trim()) {
+      status.textContent = "We need a name and a phone number to call you back.";
+      (form.elements.patient.value.trim() ? form.elements.tel : form.elements.patient).focus();
+      return;
+    }
+    status.textContent = "Nothing was sent: this demo form is not connected to the clinic yet.";
+  });
+})();
+</script>
+</body>
+</html>

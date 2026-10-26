@@ -4,508 +4,377 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>HALFLIGHT — A light study in three movements</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230B0B0C'/%3E%3Crect x='8' y='8' width='6' height='48' fill='%23D6FF3E'/%3E%3Cpath d='M22 8h18c8 0 13 4.5 13 12 0 5-2.6 8.6-7 10.5 5.4 1.7 8.5 5.6 8.5 11.2C54.5 51 48.6 56 39.5 56H22V8Z' fill='%23F1EDE6'/%3E%3C/svg%3E">
-<meta name="description" content="HALFLIGHT is a four-night light installation in Lisbon. Three movements, one horizon, a live shader that responds to presence.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230D0A08'/%3E%3Ccircle cx='32' cy='32' r='20' fill='none' stroke='%23F3E9DC' stroke-width='3'/%3E%3Cpath d='M32 12a20 20 0 0 1 0 40Z' fill='%23FF6B3D'/%3E%3C/svg%3E">
+<meta name="description" content="HALFLIGHT is a four-night light installation at LX Factory, Lisbon. Three movements at three scales: the room, the body, the eye. Demo template.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300..500&family=Space+Mono:wght@400;700&family=Syne:wght@600..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300..500&family=Syne:wght@600..800&display=swap" rel="stylesheet">
 <style>
+  /* Lineage: Moholy-Nagy (light as the medium) × Muriel Cooper (type in depth) × Eames, Powers of Ten (scale by a constant factor). See LINEAGE.md. */
   :root{
-    --ink:#08090A;
-    --ink-2:#0E1014;
-    --bone:#EDE9DE;
-    --bone-dim:#A7A49A;
-    --ember:#FF5A36;
-    --cobalt:#4D7CFE;
-    --acid:#C6F04A;
-    --line:rgba(237,233,222,.16);
-    --line-soft:rgba(237,233,222,.08);
-    --display:"Syne",system-ui,sans-serif;
-    --body:"Archivo",system-ui,sans-serif;
-    --mono:"Space Mono",ui-monospace,monospace;
-    --pad:clamp(1.25rem,4vw,4.5rem);
-    --ease:cubic-bezier(.16,1,.3,1);
+    --umbra:#0D0A08;
+    --penumbra:#1A1410;
+    --lit:#F3E9DC;
+    --dim:#B9AD9C;
+    --ember:#FF6B3D;
+    --cobalt:#7C93FF;
+    --glow:var(--ember);
+    --stage:"Syne","Arial Black",sans-serif;
+    --voice:"Archivo","Helvetica Neue",sans-serif;
+    --side:clamp(20px,5vw,88px);
+    --slow:cubic-bezier(.65,0,.35,1);
   }
   *{box-sizing:border-box}
-  html{overflow-x:clip;background:var(--ink);color:var(--bone);scroll-behavior:smooth}
-  body{margin:0;font:300 16px/1.6 var(--body);background:var(--ink);overflow-x:clip}
-  ::selection{background:var(--acid);color:var(--ink)}
-  a{color:inherit;text-decoration:none}
-  button,input{font:inherit;color:inherit}
-  :focus-visible{outline:2px solid var(--acid);outline-offset:4px}
-  .skip{position:fixed;left:1rem;top:1rem;z-index:100;background:var(--acid);color:var(--ink);padding:.7rem 1rem;transform:translateY(-200%);transition:transform .2s var(--ease)}
-  .skip:focus{transform:none}
-  .shell{width:min(100%,1600px);margin-inline:auto;padding-inline:var(--pad)}
-  .eyebrow{font:400 12px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--bone-dim)}
-  .hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;overflow:clip;isolation:isolate}
-  .hero__fallback{position:absolute;inset:0;z-index:-3;background:
-    radial-gradient(60% 55% at 72% 38%,rgba(255,90,54,.34),transparent 65%),
-    radial-gradient(45% 45% at 25% 70%,rgba(77,124,254,.26),transparent 60%),
-    #08090A}
-  #gl{position:absolute;inset:0;width:100%;height:100%;z-index:-2;display:block}
-  .hero::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,rgba(8,9,10,.25),rgba(8,9,10,.05) 45%,rgba(8,9,10,.92))}
-  .grain{position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.045;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E")}
-  .site-head{position:absolute;inset:0 0 auto;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:1.25rem var(--pad)}
-  .brand{font:800 16px/1 var(--display);letter-spacing:.08em;text-transform:uppercase;display:inline-flex;align-items:center;min-height:44px}
-  .brand span{color:var(--ember)}
-  .nav{display:flex;gap:1.7rem;font:400 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--bone-dim)}
-  .nav a{padding-block:.35rem;border-bottom:1px solid transparent;transition:color .2s var(--ease),border-color .2s var(--ease)}
-  .nav a:hover,.nav a:focus-visible{color:var(--bone);border-color:var(--acid)}
-  .head-meta{font:400 12px/1.4 var(--mono);color:var(--bone-dim);text-align:right}
-  .head-meta b{display:block;color:var(--bone);font-weight:400}
-  .hero__content{position:relative;z-index:2;padding-bottom:clamp(2rem,4vw,3rem)}
-  .hero h1{font:800 clamp(4.2rem,15vw,15.5rem)/.78 var(--display);letter-spacing:-.055em;margin:.4rem 0 1.4rem;text-transform:uppercase}
-  .hero h1 span{display:block;transform:translateY(1.1em);opacity:0;transition:transform 1.1s var(--ease),opacity .9s var(--ease)}
-  .hero h1 span:last-child{margin-left:clamp(1rem,7vw,9rem);color:transparent;-webkit-text-stroke:1px rgba(237,233,222,.72)}
-  .ready .hero h1 span{transform:none;opacity:1}
-  .ready .hero h1 span:last-child{transition-delay:.12s}
-  .hero__lede{max-width:42ch;color:#D6D1C6;font-size:clamp(1rem,1.25vw,1.18rem);margin:0 0 1.8rem}
-  .hero__actions{display:flex;flex-wrap:wrap;gap:1rem;align-items:center}
-  .button{display:inline-flex;align-items:center;gap:.7rem;background:var(--bone);color:var(--ink);border:1px solid var(--bone);padding:.95rem 1.15rem;font:700 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:background .2s var(--ease),color .2s var(--ease),transform .2s var(--ease)}
-  .button:hover{background:var(--acid);border-color:var(--acid);transform:translateY(-2px)}
-  .button--ghost{background:transparent;color:var(--bone);border-color:rgba(237,233,222,.35)}
-  .button--ghost:hover{background:transparent;color:var(--acid);border-color:var(--acid)}
-  .hero__foot{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:flex-end;gap:1.5rem;border-top:1px solid var(--line);padding-top:1rem;padding-bottom:1.6rem;font:400 12px/1.5 var(--mono);color:var(--bone-dim)}
-  .hero__foot p{margin:0;max-width:34ch}
-  .hero__foot b{color:var(--bone);font-weight:400}
-  .phase{display:flex;align-items:center;gap:.7rem;font:400 12px/1 var(--mono);color:var(--bone)}
-  .phase i{width:8px;height:8px;border-radius:50%;background:var(--ember);display:inline-block;transition:background .35s var(--ease)}
-  .scroll-cue{position:absolute;right:var(--pad);bottom:6.5rem;z-index:3;font:400 12px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--bone-dim);writing-mode:vertical-rl}
-  .section{padding-block:clamp(5rem,11vw,10rem);border-top:1px solid var(--line);position:relative}
-  .section-head{display:grid;grid-template-columns:repeat(12,1fr);gap:2rem;margin-bottom:clamp(2.5rem,5vw,5rem);align-items:end}
-  .section-head h2{grid-column:1/8;font:800 clamp(2.4rem,5vw,5.4rem)/.92 var(--display);letter-spacing:-.04em;text-transform:uppercase;margin:0}
-  .section-head p{grid-column:9/13;margin:0;color:var(--bone-dim);max-width:34ch}
-  .program{display:grid;grid-template-columns:repeat(12,1fr);gap:2rem}
-  .program__aside{grid-column:1/4;position:sticky;top:2rem;align-self:start}
-  .program__aside p{color:var(--bone-dim);max-width:26ch}
-  .movements{grid-column:4/13;border-top:1px solid var(--line)}
-  .movement{border-bottom:1px solid var(--line)}
-  .movement summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:5.5rem 1fr 8rem;gap:1rem;align-items:baseline;padding:1.6rem 0;transition:color .2s var(--ease)}
-  .movement summary::-webkit-details-marker{display:none}
-  .movement summary:hover{color:var(--acid)}
-  .movement .time{font:400 12px/1.4 var(--mono);color:var(--ember)}
-  .movement .title{font:700 clamp(1.6rem,3vw,3rem)/1 var(--display);letter-spacing:-.02em;text-transform:uppercase}
-  .movement .place{font:400 12px/1.4 var(--mono);color:var(--bone-dim);text-align:right}
-  .movement .body{padding:0 0 1.6rem;max-width:62ch;color:#CFCAC0}
-  .movement .body p{margin:.4rem 0 0}
-  .film{position:relative;overflow:clip;border-top:1px solid var(--line)}
-  .film video{width:100%;height:min(78svh,760px);object-fit:cover;display:block;filter:saturate(.7) contrast(1.1)}
-  .film__overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,9,10,.1),rgba(8,9,10,.78));pointer-events:none}
-  .film__copy{position:absolute;left:var(--pad);right:var(--pad);bottom:clamp(1.5rem,4vw,3.5rem);display:flex;justify-content:space-between;align-items:end;gap:2rem}
-  .film__copy h2{font:800 clamp(2rem,4.5vw,4.6rem)/.94 var(--display);letter-spacing:-.03em;text-transform:uppercase;margin:.3rem 0 0;max-width:14ch}
-  .film__copy p{max-width:30ch;color:#D6D1C6;font:400 12px/1.5 var(--mono);margin:0}
-  .manifesto{display:grid;grid-template-columns:repeat(12,1fr);gap:2rem}
-  .manifesto h2{grid-column:1/9;font:600 clamp(1.9rem,4.2vw,4.2rem)/1.08 var(--display);letter-spacing:-.03em;margin:0}
-  .manifesto h2 em{font-style:normal;color:var(--ember)}
-  .manifesto__meta{grid-column:10/13;font:400 12px/1.6 var(--mono);color:var(--bone-dim)}
-  .manifesto__meta b{display:block;color:var(--bone);font-weight:400;margin-bottom:.4rem}
-  .visit{display:grid;grid-template-columns:repeat(12,1fr);gap:2rem;align-items:end}
-  .visit__copy{grid-column:1/7}
-  .visit__copy h2{font:800 clamp(2.4rem,5.4vw,5.4rem)/.92 var(--display);letter-spacing:-.04em;text-transform:uppercase;margin:.4rem 0 1rem}
-  .visit__copy p{color:var(--bone-dim);max-width:36ch}
-  .visit__details{grid-column:8/13;border-top:1px solid var(--line)}
-  .visit__details dl{display:grid;grid-template-columns:1fr 1fr;gap:0;margin:0}
-  .visit__details div{padding:1rem 0;border-bottom:1px solid var(--line)}
-  .visit__details dt{font:400 12px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--bone-dim);margin-bottom:.4rem}
-  .visit__details dd{margin:0;font:400 1rem/1.4 var(--body)}
-  .visit__details .full{grid-column:1/-1}
-  .form{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1rem}
-  .form label{width:100%;font:400 12px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--bone-dim)}
-  .form input{flex:1 1 220px;background:transparent;border:1px solid rgba(237,233,222,.3);padding:.85rem .8rem;color:var(--bone)}
-  .form input::placeholder{color:#6F6D66}
-  .form input:focus-visible{outline:2px solid var(--acid);outline-offset:1px;border-color:var(--acid)}
-  .form .button{flex:0 0 auto}
-  .form-note{flex:1 1 100%;margin:.5rem 0 0;font:400 12px/1.5 var(--mono);color:var(--bone-dim);min-height:1.4em}
-  .footer{border-top:1px solid var(--line);padding:2rem 0 2.4rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font:400 12px/1.6 var(--mono);color:var(--bone-dim)}
-  .footer a{border-bottom:1px solid var(--line)}
-  .footer a:hover{color:var(--acid);border-color:var(--acid)}
-  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
-  .reveal.in{opacity:1;transform:none}
-  .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:clip;contain:paint;padding:.75rem 0}
-  /* bureau-ignore BS-M04: pauses on hover/focus; reduced-motion fallback */
-  .marquee__track{display:flex;gap:2.5rem;width:max-content;animation:slide 30s linear infinite;font:400 12px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--bone-dim)}
-  .marquee__track b{color:var(--acid);font-weight:400}
-  @keyframes slide{to{transform:translateX(-50%)}}
-  @media (max-width:1000px){
-    .section-head h2,.section-head p{grid-column:1/13}
-    .program__aside{grid-column:1/13;position:static}
-    .movements{grid-column:1/13}
-    .manifesto h2{grid-column:1/13}
-    .manifesto__meta{grid-column:1/13}
-    .visit__copy,.visit__details{grid-column:1/13}
-    .scroll-cue{display:none}
+  html{background:var(--umbra);color:var(--lit)}
+  body{margin:0;font:300 1.0625rem/1.65 var(--voice);font-variant-numeric:tabular-nums;overflow-x:clip}
+  ::selection{background:var(--glow);color:var(--umbra)}
+  a{color:inherit}
+  :focus-visible{outline:2px dashed var(--glow);outline-offset:6px}
+  .skip{position:absolute;left:var(--side);top:-6rem;z-index:30;background:var(--lit);color:var(--umbra);padding:.75rem 1rem;font-weight:500}
+  .skip:focus{top:1rem}
+  .phase-cobalt{--glow:var(--cobalt)}
+
+  .stage{position:relative;min-height:100svh;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto 1fr auto;isolation:isolate;overflow:clip}
+  .stage__still{position:absolute;inset:0;z-index:-3;background:radial-gradient(42% 55% at 68% 36%,rgba(255,107,61,.32),transparent 70%),var(--umbra)}
+  .phase-cobalt .stage__still{background:radial-gradient(42% 55% at 68% 36%,rgba(124,147,255,.3),transparent 70%),var(--umbra)}
+  #light{position:absolute;inset:0;width:100%;height:100%;z-index:-2;display:block}
+  .stage::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,rgba(13,10,8,.35),rgba(13,10,8,0) 30%,rgba(13,10,8,.2) 55%,var(--umbra) 96%)}
+  .top{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.4rem var(--side)}
+  .top__mark{font:800 1rem/1 var(--stage);letter-spacing:.18em;text-transform:uppercase;text-decoration:none;display:inline-flex;align-items:center;min-height:44px}
+  .top nav{display:flex;gap:2rem}
+  .top nav a{text-decoration:none;display:inline-flex;align-items:center;min-height:44px;color:var(--dim);transition:color .4s var(--slow)}
+  .top nav a:hover{color:var(--lit)}
+
+  .title{align-self:end;padding:0 var(--side);perspective:900px}
+  .title h1{margin:0;font:800 clamp(3rem,14vw,15rem)/.78 var(--stage);letter-spacing:-.06em;text-transform:uppercase;transform-style:preserve-3d}
+  .title h1 span{display:block;transform:translate3d(calc(var(--px,0) * -14px),calc(var(--py,0) * -8px),0)}
+  .title h1 span + span{margin-left:.9em;color:var(--glow);transform:translate3d(calc(var(--px,0) * 22px),calc(var(--py,0) * 12px),60px)}
+  .js .title h1 span{opacity:0;translate:0 .35em}
+  .js.lit .title h1 span{opacity:1;translate:0 0;transition:opacity 1.2s var(--slow),translate 1.2s var(--slow)}
+  .js.lit .title h1 span + span{transition-delay:.25s}
+  .under{display:grid;grid-template-columns:minmax(0,34rem) 1fr auto;gap:2rem;align-items:end;padding:2rem var(--side) 2.4rem}
+  .under p{margin:0;font-size:clamp(1.05rem,1.3vw,1.25rem);color:var(--lit)}
+  .under__acts{display:flex;gap:1rem;flex-wrap:wrap;justify-self:end}
+  .door{display:inline-flex;align-items:center;min-height:48px;padding:0 1.3rem;background:var(--lit);color:var(--umbra);font:600 .95rem/1 var(--voice);letter-spacing:.04em;text-decoration:none;border:0;cursor:pointer;transition:background-color .4s var(--slow)}
+  .door:hover{background:var(--glow)}
+  .door--quiet{background:transparent;color:var(--lit);box-shadow:inset 0 0 0 1px var(--dim)}
+  .door--quiet:hover{background:transparent;box-shadow:inset 0 0 0 1px var(--glow);color:var(--glow)}
+  .under__time{color:var(--dim);font-size:.95rem;text-align:right;margin:0}
+  .under__time b{display:block;color:var(--lit);font-weight:400}
+
+  .program{position:relative;padding:clamp(6rem,14vw,12rem) var(--side) clamp(4rem,10vw,9rem);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:clamp(2rem,6vw,7rem);view-timeline:--program block;background:linear-gradient(180deg,var(--umbra),var(--penumbra) 50%,var(--umbra))}
+  .program__lens{position:sticky;top:12vh;align-self:start}
+  .program__lens h2{font:700 clamp(2.2rem,4.6vw,4.6rem)/.92 var(--stage);letter-spacing:-.04em;margin:0 0 1.2rem;text-transform:uppercase}
+  .program__lens p{margin:0 0 2rem;color:var(--dim);max-width:30ch}
+  .lens{width:min(100%,26rem);aspect-ratio:1;display:block;overflow:hidden;background:var(--penumbra)}
+  .lens rect{fill:none;stroke:var(--dim);vector-effect:non-scaling-stroke;stroke-width:1}
+  .lens rect.eye{stroke:var(--glow);stroke-width:2}
+  .lens text{fill:var(--dim);font-family:var(--voice);font-weight:500}
+  .lens g{transform-origin:150px 150px;transform-box:view-box}
+  @supports (animation-timeline: view()){
+    .lens g{animation:powers linear both;animation-timeline:--program;animation-range:contain 0% contain 100%}
+    @keyframes powers{from{transform:scale(1)}50%{transform:scale(10)}to{transform:scale(100)}}
   }
-  @media (max-width:720px){
-    .nav{display:none}
-    .head-meta{font-size:0}
-    .head-meta b{font-size:12px}
-    .hero h1{font-size:clamp(3.6rem,20vw,7rem)}
-    .movement summary{grid-template-columns:4rem 1fr;gap:.6rem}
-    .movement .place{display:none}
-    .film__copy{flex-direction:column;align-items:flex-start;gap:.6rem}
-    .visit__details dl{grid-template-columns:1fr}
+  .movements{list-style:none;margin:0;padding:0}
+  .movement{padding:0 0 clamp(5rem,12vw,10rem)}
+  .movement__scale{display:flex;gap:1.2rem;align-items:baseline;color:var(--glow);font-size:.95rem;margin:0 0 .6rem}
+  .movement__scale span{color:var(--dim)}
+  .movement__scale span + span{margin-left:-.6rem}
+  .movement h3{margin:0 0 1rem;font:700 clamp(2.4rem,5.4vw,5.6rem)/.9 var(--stage);letter-spacing:-.045em;text-transform:uppercase}
+  .movement p{margin:0;max-width:44ch;color:var(--lit)}
+  .movement:nth-child(2) h3{font-size:clamp(2rem,4.2vw,4.2rem)}
+  .movement:nth-child(3) h3{font-size:clamp(1.7rem,3.2vw,3.1rem)}
+
+  .film{position:relative;margin:0}
+  .film video{display:block;width:100%;height:min(80svh,780px);object-fit:cover;filter:saturate(.75) contrast(1.08)}
+  .film::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,var(--umbra),rgba(13,10,8,.25) 45%,rgba(13,10,8,0))}
+  .film figcaption{position:absolute;z-index:1;left:var(--side);bottom:clamp(1.5rem,5vw,4rem);max-width:30rem}
+  .film figcaption h2{margin:0 0 .8rem;font:700 clamp(2rem,4vw,4rem)/.92 var(--stage);letter-spacing:-.035em;text-transform:uppercase}
+  .film figcaption p{margin:0 0 1.2rem;color:var(--lit)}
+
+  .depth{padding:clamp(6rem,14vw,12rem) var(--side);perspective:1000px}
+  .depth p{margin:0;font:700 clamp(2rem,5.6vw,5.8rem)/.98 var(--stage);letter-spacing:-.045em;max-width:16ch}
+  .depth p + p{margin:-.15em 0 0 18%;color:var(--dim);transform:translateZ(-120px)}
+  .depth small{display:block;margin:2.5rem 0 0 18%;max-width:36ch;font:300 1rem/1.6 var(--voice);color:var(--dim)}
+
+  .visit{padding:clamp(4rem,10vw,8rem) var(--side);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(2rem,6vw,6rem);background:var(--penumbra)}
+  .visit h2{margin:0 0 1rem;font:700 clamp(2.2rem,4.8vw,4.8rem)/.92 var(--stage);letter-spacing:-.04em;text-transform:uppercase}
+  .visit > div > p{color:var(--dim);max-width:38ch;margin:0}
+  .facts{display:grid;grid-template-columns:auto 1fr;gap:.9rem 2rem;margin:0}
+  .facts dt{color:var(--dim)}
+  .facts dd{margin:0}
+  .list{grid-column:2/3;margin-top:1rem}
+  .list label{display:block;color:var(--dim);margin-bottom:.5rem}
+  .list__row{display:flex;gap:.8rem;flex-wrap:wrap}
+  .list input{flex:1 1 15rem;min-height:48px;background:var(--umbra);color:var(--lit);border:1px solid var(--dim);padding:0 1rem;font:300 1rem/1 var(--voice)}
+  .list input:focus-visible{outline:2px dashed var(--glow);outline-offset:3px}
+  .list__status{margin:.8rem 0 0;min-height:1.6em;color:var(--dim);font-size:.95rem}
+
+  .afterimage{padding:clamp(5rem,12vw,10rem) var(--side) 2.4rem;text-align:left}
+  .afterimage p{margin:0;font:800 clamp(1.6rem,9vw,11rem)/.8 var(--stage);letter-spacing:-.06em;text-transform:uppercase;color:transparent;-webkit-text-stroke:1px var(--dim)}
+  .afterimage div{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-top:3rem;color:var(--dim);font-size:.95rem}
+  .afterimage a{text-underline-offset:.3em}
+
+  @media (max-width:960px){
+    .under{grid-template-columns:1fr}
+    .under__acts,.under__time{justify-self:start;text-align:left}
+    .program,.visit{grid-template-columns:1fr}
+    .program__lens{position:static}
+    .lens{width:min(100%,18rem)}
+    .list{grid-column:1/-1}
+    .depth p + p,.depth small{margin-left:0}
+  }
+  @media (max-width:640px){
+    .top nav{gap:1rem}
+    .top nav a:not(:last-child){display:none}
+    .title h1 span + span{margin-left:.35em}
+    .facts{grid-template-columns:1fr;gap:.2rem}
+    .facts dd{margin-bottom:.8rem}
   }
   @media (prefers-reduced-motion:reduce){
-    html{scroll-behavior:auto}
-    *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
-    .hero h1 span,.reveal{opacity:1;transform:none}
-    #gl{opacity:1}
+    .js .title h1 span,.js.lit .title h1 span{opacity:1;translate:none;transition:none}
+    .title h1 span,.title h1 span + span{transform:none}
+    .lens g{animation:none}
+    .door,.top nav a{transition:none}
   }
 </style>
 </head>
 <body>
-<a class="skip" href="#main">Skip to content</a>
-<div class="grain" aria-hidden="true"></div>
+<a class="skip" href="#main">Skip to the program</a>
 
-<main id="main">
-  <section class="hero" id="top">
-    <div class="hero__fallback" aria-hidden="true"></div>
-    <canvas id="gl" aria-hidden="true"></canvas>
-    <header class="site-head">
-      <a class="brand" href="#top">Half<span>·</span>light</a>
-      <nav class="nav" aria-label="Primary">
-        <a href="#program">Program</a>
-        <a href="#film">Film</a>
-        <a href="#visit">Visit</a>
-      </nav>
-      <p class="head-meta">18—21 Nov 2026<b>Lisbon · LX Factory</b></p>
-    </header>
-
-    <div class="hero__content shell">
-      <p class="eyebrow">A light study in three movements</p>
-      <h1><span>Half</span><span>light</span></h1>
-      <p class="hero__lede">Four nights, one horizon. A live shader that responds to presence, and a room that gets darker as you stay.</p>
-      <div class="hero__actions">
-        <a class="button" href="#program">Enter the program</a>
-        <button class="button button--ghost" type="button" id="phase" aria-controls="gl">Shift phase</button>
-      </div>
-    </div>
-
-    <div class="hero__foot shell">
-      <p><b>Doors 19:00</b> · last entry 23:30<br>LX Factory, Lisbon · 38.7036° N, 9.1786° W</p>
-      <p class="phase" aria-live="polite"><i aria-hidden="true"></i><span id="phase-label">Phase 01 — Ember</span></p>
-    </div>
-    <p class="scroll-cue" aria-hidden="true">Scroll to enter</p>
-  </section>
-
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee__track">
-      <span><b>HALFLIGHT</b> — 18–21 Nov 2026</span><span>Three movements</span><span>One horizon</span><span>LX Factory · Lisbon</span><span>Doors 19:00</span>
-      <span><b>HALFLIGHT</b> — 18–21 Nov 2026</span><span>Three movements</span><span>One horizon</span><span>LX Factory · Lisbon</span><span>Doors 19:00</span>
+<header class="stage" id="top">
+  <div class="stage__still" aria-hidden="true"></div>
+  <canvas id="light" aria-hidden="true"></canvas>
+  <div class="top">
+    <a class="top__mark" href="#top">Halflight</a>
+    <nav aria-label="Primary">
+      <a href="#program">Program</a>
+      <a href="#film">Film</a>
+      <a href="#visit">Visit</a>
+    </nav>
+  </div>
+  <div class="title">
+    <h1><span>Half</span><span>light</span></h1>
+  </div>
+  <div class="under">
+    <p>A light study in three movements. The room, the body, the eye: each one ten times closer than the last.</p>
+    <p class="under__time" aria-live="polite"><b>18–21 Nov 2026 · LX Factory, Lisbon</b><span id="phase-label">Light: ember</span></p>
+    <div class="under__acts">
+      <a class="door" href="#program">Enter the program</a>
+      <button class="door door--quiet" type="button" id="phase">Shift the light</button>
     </div>
   </div>
+</header>
 
-  <section class="section shell" id="program">
-    <div class="section-head">
-      <h2 class="reveal">Three movements, one horizon.</h2>
-      <p class="reveal">Each night runs the same score at a different speed. The room is never the same twice.</p>
+<main id="main">
+  <section class="program" id="program" aria-labelledby="program-title">
+    <div class="program__lens">
+      <h2 id="program-title">Three scales, one score.</h2>
+      <p>Seventy-two minutes, no interval. Each movement moves the frame ten times closer, from the hall to the back of your eye.</p>
+      <svg class="lens" viewBox="0 0 300 300" aria-hidden="true">
+        <g>
+          <rect x="15" y="15" width="270" height="270"></rect>
+          <text x="20" y="11" font-size="9">10 m · the room</text>
+          <rect x="136.5" y="136.5" width="27" height="27"></rect>
+          <text x="137" y="134.6" font-size="2.4">1 m · the body</text>
+          <rect class="eye" x="148.65" y="148.65" width="2.7" height="2.7"></rect>
+          <text x="148.7" y="148.4" font-size=".3">1 cm · the eye</text>
+        </g>
+      </svg>
     </div>
-    <div class="program">
-      <aside class="program__aside">
-        <p class="eyebrow">Score</p>
-        <p class="reveal">Duration 72 minutes, no interval. The installation responds to the number of people in the room; silence is part of the instrument.</p>
-      </aside>
-      <div class="movements">
-        <details class="movement" open>
-          <summary>
-            <span class="time">19:30</span>
-            <span class="title">I. Ember</span>
-            <span class="place">Hall A</span>
-          </summary>
-          <div class="body"><p>A low, warm field. The first movement is about the last ten minutes of daylight — the moment a room begins to hold colour instead of reflecting it.</p></div>
-        </details>
-        <details class="movement">
-          <summary>
-            <span class="time">20:25</span>
-            <span class="title">II. Cobalt</span>
-            <span class="place">Hall A</span>
-          </summary>
-          <div class="body"><p>The field shifts to a colder register. A single line of blue moves across the floor at walking pace; visitors are invited to follow it or stand still.</p></div>
-        </details>
-        <details class="movement">
-          <summary>
-            <span class="time">21:05</span>
-            <span class="title">III. Afterimage</span>
-            <span class="place">Hall B</span>
-          </summary>
-          <div class="body"><p>The room goes dark for ninety seconds. What remains is the image your eyes make without light — the only part of the work you take home.</p></div>
-        </details>
-      </div>
-    </div>
+    <ol class="movements">
+      <li class="movement">
+        <p class="movement__scale"><time datetime="19:30">I, 19:30</time><span>10 m</span><span>Hall A</span></p>
+        <h3>Ember</h3>
+        <p>A low, warm field fills the hall. The first movement is the last ten minutes of daylight, when a room starts to hold colour instead of reflecting it.</p>
+      </li>
+      <li class="movement">
+        <p class="movement__scale"><time datetime="20:25">II, 20:25</time><span>1 m</span><span>Hall A</span></p>
+        <h3>Cobalt</h3>
+        <p>The field cools. A single line of blue crosses the floor at walking pace, at the height of your hands. Follow it, or stand still and let it pass through you.</p>
+      </li>
+      <li class="movement">
+        <p class="movement__scale"><time datetime="21:05">III, 21:05</time><span>1 cm</span><span>Hall B</span></p>
+        <h3>Afterimage</h3>
+        <p>The room goes dark for ninety seconds. What remains is the image your eye makes without light, the only part of the work you take home.</p>
+      </li>
+    </ol>
   </section>
 
-  <section class="film" id="film">
-    <video autoplay muted loop playsinline poster="media/ambient-poster.jpg" aria-hidden="true" tabindex="-1">
+  <figure class="film" id="film">
+    <video id="film-video" autoplay muted loop playsinline poster="media/ambient-poster.jpg" aria-label="Documentation loop from the first study in Porto, no sound">
       <source src="media/ambient.mp4" type="video/mp4">
     </video>
-    <div class="film__overlay" aria-hidden="true"></div>
-    <div class="film__copy">
-      <div>
-        <p class="eyebrow">Documentation · 2025</p>
-        <h2>What the room remembers.</h2>
-      </div>
-      <p>Filmed during the first study in Porto. The final work is site-specific: the room at LX Factory has a different ceiling, a different echo, a different dark.</p>
-    </div>
+    <figcaption>
+      <h2>What the room remembers.</h2>
+      <p>Filmed at the first study in Porto, 2025. The Lisbon room has a different ceiling, a different echo and a different dark.</p>
+      <button class="door door--quiet" type="button" id="film-toggle" aria-controls="film-video">Pause the film</button>
+    </figcaption>
+  </figure>
+
+  <section class="depth" aria-label="Studio note">
+    <p>Light is not a surface.</p>
+    <p>It is a duration you walk through.</p>
+    <small>The work renders in real time. No two visits produce the same frame: the shader is the score, the room is the instrument, and the visitor sets the tempo.</small>
   </section>
 
-  <section class="section shell">
-    <div class="manifesto">
-      <h2 class="reveal">Light is not a surface. It is a <em>duration</em> — something you move through, not something you look at.</h2>
-      <div class="manifesto__meta reveal">
-        <b>Studio note</b>
-        The work is built in real time. No two visits produce the same frame. The shader is the score; the room is the instrument; the visitor is the tempo.
-      </div>
+  <section class="visit" id="visit" aria-labelledby="visit-title">
+    <div>
+      <h2 id="visit-title">Four nights. Eighty people a night.</h2>
+      <p>Entry is timed. The last movement is seated and silent. If you need a low-sensory session, write to us: we hold one hour each afternoon.</p>
     </div>
-  </section>
-
-  <section class="section shell" id="visit">
-    <div class="visit">
-      <div class="visit__copy">
-        <p class="eyebrow">Visit</p>
-        <h2>Four nights. One room.</h2>
-        <p>Entry is timed. The installation holds 80 people; the last movement is silent and seated. If you need a low-sensory session, write to us — we hold one hour each afternoon.</p>
+    <dl class="facts">
+      <dt>Dates</dt><dd>18–21 November 2026</dd>
+      <dt>Doors</dt><dd>19:00, last entry 23:30</dd>
+      <dt>Where</dt><dd>LX Factory, Hall A and B, Lisbon</dd>
+      <dt>Access</dt><dd>Step-free, quiet room, captioned documentation, no strobe. Movement III is dark for 90 seconds.</dd>
+    </dl>
+    <form class="list" id="list" novalidate>
+      <label for="email">Hear about the next study</label>
+      <div class="list__row">
+        <input id="email" name="email" type="email" autocomplete="email" required aria-describedby="list-status">
+        <button class="door" type="submit">Join the list</button>
       </div>
-      <div class="visit__details">
-        <dl>
-          <div><dt>Dates</dt><dd>18—21 Nov 2026</dd></div>
-          <div><dt>Doors</dt><dd>19:00 — 23:30</dd></div>
-          <div><dt>Location</dt><dd>LX Factory, Hall A<br>Lisbon</dd></div>
-          <div><dt>Duration</dt><dd>72 minutes<br>No interval</dd></div>
-          <div class="full"><dt>Access</dt><dd>Step-free entry, quiet room, captioned documentation. Strobe-free. The room is dark for 90 seconds in movement III.</dd></div>
-        </dl>
-        <form class="form" id="visit-form" novalidate>
-          <label for="email">Join the list for the next study</label>
-          <input id="email" name="email" type="email" autocomplete="email" placeholder="you@domain.com" required>
-          <button class="button" type="submit">Join</button>
-          <p class="form-note" id="form-note" role="status">One email per study. No tracking.</p>
-        </form>
-      </div>
-    </div>
+      <p class="list__status" id="list-status" role="status">One email per study. No tracking.</p>
+    </form>
   </section>
-
-  <footer class="footer shell">
-    <p>HALFLIGHT · A light study · Demo template</p>
-    <p><a href="#top">Back to top</a> · <a href="#program">Program</a> · <a href="mailto:studio@example.com">studio@example.com</a></p>
-  </footer>
 </main>
+
+<footer class="afterimage">
+  <p aria-hidden="true">Halflight</p>
+  <div><span>HALFLIGHT, a light study. Demo template.</span><span><a href="#top">Back to the light</a></span><span><a href="mailto:studio@example.com">studio@example.com</a></span></div>
+</footer>
 
 <script>
 (() => {
-  const canvas = document.getElementById("gl");
+  const root = document.documentElement;
   const reduce = matchMedia("(prefers-reduced-motion: reduce)");
-  const body = document.body;
-  requestAnimationFrame(() => body.classList.add("ready"));
+  const fine = matchMedia("(pointer: fine)");
+  root.classList.add("js");
+  requestAnimationFrame(() => requestAnimationFrame(() => root.classList.add("lit")));
 
-  const gl = canvas.getContext("webgl", { antialias: false, alpha: true, powerPreference: "high-performance" });
-  let program = null;
-  let buffer = null;
-  let uRes, uTime, uMouse, uPhase, uScroll;
-  let width = 1, height = 1, dpr = 1;
-  let phaseTarget = 0, phaseCurrent = 0;
-  let mouse = { x: .5, y: .5 }, mouseTarget = { x: .5, y: .5 };
-  let scrollNorm = 0;
-  let visible = true;
-  let raf = 0;
-  let start = performance.now();
-
-  const vert = `
-    attribute vec2 p;
-    void main(){ gl_Position = vec4(p, 0.0, 1.0); }
-  `;
+  // Light-space modulator: one full-screen pass, DPR ≤ 1.5, paused off-screen.
+  const canvas = document.getElementById("light");
+  const gl = canvas.getContext("webgl", { antialias: false, alpha: false, powerPreference: "low-power" });
   const frag = `
-    precision highp float;
-    uniform vec2 u_res;
-    uniform float u_time;
-    uniform vec2 u_mouse;
-    uniform float u_phase;
-    uniform float u_scroll;
-
-    float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123); }
-    float noise(vec2 p){
-      vec2 i = floor(p), f = fract(p);
-      vec2 u = f * f * (3.0 - 2.0 * f);
-      return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), u.x),
-                 mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x), u.y);
-    }
-    float fbm(vec2 p){
-      float v = 0.0, a = 0.5;
-      for (int i = 0; i < 5; i++) { v += a * noise(p); p *= 2.02; a *= 0.5; }
-      return v;
-    }
-
+    precision mediump float;
+    uniform vec2 u_res; uniform float u_time; uniform vec2 u_light; uniform float u_phase; uniform float u_scroll;
     void main(){
-      vec2 uv = gl_FragCoord.xy / u_res;
       vec2 p = (gl_FragCoord.xy - 0.5 * u_res) / u_res.y;
-      float t = u_time * 0.055;
-      vec2 m = (u_mouse - 0.5) * vec2(1.25, 0.9);
-      float n = fbm(p * 2.15 + vec2(t, -t * 0.7) + m * 0.65);
-      float band = sin((p.y * 3.6 + n * 2.9 + t * 2.4) * 3.14159265);
-      float ribbon = smoothstep(0.58, 0.99, abs(band));
-      float d = length(p - m);
-      float glow = 0.16 / (d + 0.2);
-
-      vec3 ink = vec3(0.031, 0.035, 0.039);
-      vec3 ember = vec3(1.0, 0.353, 0.212);
-      vec3 cobalt = vec3(0.302, 0.486, 0.996);
-      vec3 bone = vec3(0.929, 0.914, 0.871);
-      vec3 acid = vec3(0.776, 0.941, 0.290);
-
-      float ph = smoothstep(0.0, 1.0, u_phase);
-      vec3 mainColor = mix(ember, cobalt, ph);
-      vec3 highColor = mix(bone, acid, ph * 0.7);
-
-      vec3 col = ink;
-      col += mainColor * ribbon * (0.18 + 0.52 * n) * (1.0 - u_scroll * 0.30);
-      col += mainColor * glow * 0.10;
-      col += highColor * pow(n, 3.4) * 0.07;
-      col *= 1.0 - smoothstep(0.55, 1.25, length(p * vec2(0.88, 1.0))) * 0.58;
-      col = pow(col, vec3(0.96));
+      vec2 l = (u_light - 0.5) * vec2(u_res.x / u_res.y, 1.0);
+      vec2 d = p - l;
+      float r = length(d);
+      float a = atan(d.y, d.x);
+      float t = u_time * 0.12;
+      float slots = smoothstep(0.55, 0.95, 0.5 + 0.5 * sin(a * 9.0 + t * 2.0));
+      float rings = smoothstep(0.6, 1.0, 0.5 + 0.5 * sin(r * 14.0 - t * 3.0));
+      float beam = slots * (0.65 + 0.35 * rings) * exp(-r * 1.7);
+      float core = 0.035 / (r + 0.03);
+      vec3 light = mix(vec3(1.0, 0.42, 0.24), vec3(0.49, 0.58, 1.0), smoothstep(0.0, 1.0, u_phase));
+      vec3 col = vec3(0.051, 0.039, 0.031);
+      col += light * beam * 0.5 * (1.0 - u_scroll * 0.6) + light * core * 0.07;
+      col += light * smoothstep(0.006, 0.0, abs(p.y + 0.34)) * 0.22 * exp(-abs(p.x - l.x) * 1.4);
+      col *= 1.0 - smoothstep(0.6, 1.4, length(p)) * 0.6;
       gl_FragColor = vec4(col, 1.0);
-    }
-  `;
+    }`;
+  let prog = null, uRes, uTime, uLight, uPhase, uScroll;
+  let w = 1, h = 1, raf = 0, onScreen = true;
+  let phase = 0, phaseTo = 0, scroll = 0;
+  const lightAt = { x: 0.68, y: 0.62 }, lightTo = { x: 0.68, y: 0.62 };
+  const t0 = performance.now();
 
-  const compile = (type, source) => {
-    const sh = gl.createShader(type);
-    gl.shaderSource(sh, source);
-    gl.compileShader(sh);
-    if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(sh) || "shader compile failed");
-    return sh;
-  };
-
-  const init = () => {
+  const setup = () => {
     if (!gl) return false;
     try {
-      const vs = compile(gl.VERTEX_SHADER, vert);
-      const fs = compile(gl.FRAGMENT_SHADER, frag);
-      program = gl.createProgram();
-      gl.attachShader(program, vs);
-      gl.attachShader(program, fs);
-      gl.linkProgram(program);
-      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(program) || "link failed");
-      gl.useProgram(program);
-      buffer = gl.createBuffer();
-      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+      const sh = (type, src) => {
+        const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+        if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s) || "compile");
+        return s;
+      };
+      prog = gl.createProgram();
+      gl.attachShader(prog, sh(gl.VERTEX_SHADER, "attribute vec2 p;void main(){gl_Position=vec4(p,0.0,1.0);}"));
+      gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, frag));
+      gl.linkProgram(prog);
+      if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error("link");
+      gl.useProgram(prog);
+      gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
       gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
-      const loc = gl.getAttribLocation(program, "p");
+      const loc = gl.getAttribLocation(prog, "p");
       gl.enableVertexAttribArray(loc);
       gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-      uRes = gl.getUniformLocation(program, "u_res");
-      uTime = gl.getUniformLocation(program, "u_time");
-      uMouse = gl.getUniformLocation(program, "u_mouse");
-      uPhase = gl.getUniformLocation(program, "u_phase");
-      uScroll = gl.getUniformLocation(program, "u_scroll");
+      [uRes, uTime, uLight, uPhase, uScroll] = ["u_res", "u_time", "u_light", "u_phase", "u_scroll"].map((n) => gl.getUniformLocation(prog, n));
       return true;
-    } catch (err) {
-      canvas.style.display = "none";
-      return false;
-    }
+    } catch { return false; }
   };
-
-  const resize = () => {
-    dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-    width = Math.max(1, Math.floor(canvas.clientWidth * dpr));
-    height = Math.max(1, Math.floor(canvas.clientHeight * dpr));
-    canvas.width = width;
-    canvas.height = height;
-    if (gl) gl.viewport(0, 0, width, height);
+  const size = () => {
+    const dpr = Math.min(devicePixelRatio || 1, 1.5);
+    w = canvas.width = Math.max(1, Math.floor(canvas.clientWidth * dpr));
+    h = canvas.height = Math.max(1, Math.floor(canvas.clientHeight * dpr));
+    gl.viewport(0, 0, w, h);
   };
-
   const draw = (now) => {
-    if (!program) return;
-    const t = (now - start) / 1000;
-    phaseCurrent += (phaseTarget - phaseCurrent) * 0.05;
-    mouse.x += (mouseTarget.x - mouse.x) * 0.05;
-    mouse.y += (mouseTarget.y - mouse.y) * 0.05;
-    gl.uniform2f(uRes, width, height);
-    gl.uniform1f(uTime, t);
-    gl.uniform2f(uMouse, mouse.x, mouse.y);
-    gl.uniform1f(uPhase, phaseCurrent);
-    gl.uniform1f(uScroll, scrollNorm);
+    phase += (phaseTo - phase) * 0.04;
+    lightAt.x += (lightTo.x - lightAt.x) * 0.04;
+    lightAt.y += (lightTo.y - lightAt.y) * 0.04;
+    gl.uniform2f(uRes, w, h);
+    gl.uniform1f(uTime, reduce.matches ? 8 : (now - t0) / 1000);
+    gl.uniform2f(uLight, lightAt.x, lightAt.y);
+    gl.uniform1f(uPhase, phase);
+    gl.uniform1f(uScroll, scroll);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
   };
+  const loop = (now) => { raf = 0; if (!onScreen || document.hidden) return; draw(now); raf = requestAnimationFrame(loop); };
+  const wake = () => { if (!prog) return; if (reduce.matches) { phase = phaseTo; draw(performance.now()); return; } if (!raf && onScreen && !document.hidden) raf = requestAnimationFrame(loop); };
 
-  const loop = (now) => {
-    raf = 0;
-    if (!visible || document.hidden) return;
-    draw(now);
-    raf = requestAnimationFrame(loop);
-  };
+  if (setup()) {
+    size();
+    new ResizeObserver(() => { size(); wake(); }).observe(canvas);
+    new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; wake(); }).observe(canvas);
+    document.addEventListener("visibilitychange", wake);
+    reduce.addEventListener?.("change", wake);
+    wake();
+  } else canvas.remove();
 
-  const kick = () => { if (!raf && !reduce.matches && visible && !document.hidden) raf = requestAnimationFrame(loop); };
-
-  const ready = init();
-  if (ready) {
-    resize();
-    if (reduce.matches) draw(performance.now());
-    else kick();
-    new ResizeObserver(() => { resize(); if (reduce.matches) draw(performance.now()); }).observe(canvas);
-    new IntersectionObserver(([e]) => {
-      visible = e.isIntersecting;
-      if (visible) { if (reduce.matches) draw(performance.now()); else kick(); }
-    }, { threshold: .01 }).observe(canvas);
-  } else {
-    canvas.style.display = "none";
-  }
-
+  const stage = document.getElementById("top");
   addEventListener("pointermove", (e) => {
-    if (e.pointerType === "touch") return;
-    mouseTarget.x = e.clientX / innerWidth;
-    mouseTarget.y = 1 - e.clientY / innerHeight;
+    if (!fine.matches) return;
+    const x = e.clientX / innerWidth, y = e.clientY / innerHeight;
+    lightTo.x = 0.45 + x * 0.45;
+    lightTo.y = 0.85 - y * 0.45;
+    if (!reduce.matches) { stage.style.setProperty("--px", (x - 0.5).toFixed(3)); stage.style.setProperty("--py", (y - 0.5).toFixed(3)); }
+    if (reduce.matches) wake();
   }, { passive: true });
-
-  addEventListener("scroll", () => {
-    const max = document.documentElement.scrollHeight - innerHeight;
-    scrollNorm = max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
-    if (reduce.matches && ready) draw(performance.now());
-  }, { passive: true });
+  addEventListener("scroll", () => { scroll = Math.min(1, scrollY / innerHeight); if (reduce.matches) wake(); }, { passive: true });
 
   const phaseBtn = document.getElementById("phase");
   const phaseLabel = document.getElementById("phase-label");
-  const dot = document.querySelector(".phase i");
   phaseBtn.addEventListener("click", () => {
-    phaseTarget = phaseTarget > .5 ? 0 : 1;
-    const label = phaseTarget > .5 ? "Phase 02 — Cobalt" : "Phase 01 — Ember";
-    phaseLabel.textContent = label;
-    dot.style.background = phaseTarget > .5 ? "var(--cobalt)" : "var(--ember)";
-    if (reduce.matches && ready) {
-      phaseCurrent = phaseTarget;
-      draw(performance.now());
-    }
+    phaseTo = phaseTo > 0.5 ? 0 : 1;
+    root.classList.toggle("phase-cobalt", phaseTo > 0.5);
+    phaseLabel.textContent = phaseTo > 0.5 ? "Light: cobalt" : "Light: ember";
+    wake();
   });
 
-  const io = new IntersectionObserver((entries) => {
-    for (const e of entries) {
-      if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
-    }
-  }, { threshold: .16, rootMargin: "0px 0px -6% 0px" });
-  document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+  const video = document.getElementById("film-video");
+  const toggle = document.getElementById("film-toggle");
+  const syncLabel = () => { toggle.textContent = video.paused ? "Play the film" : "Pause the film"; };
+  toggle.addEventListener("click", () => { if (video.paused) video.play().catch(() => {}); else video.pause(); });
+  video.addEventListener("play", syncLabel);
+  video.addEventListener("pause", syncLabel);
+  if (reduce.matches) { video.removeAttribute("autoplay"); video.pause(); }
+  syncLabel();
 
-  const form = document.getElementById("visit-form");
-  const note = document.getElementById("form-note");
+  const form = document.getElementById("list");
+  const status = document.getElementById("list-status");
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    const email = form.elements.email.value.trim();
-    if (!email.includes("@")) {
-      note.textContent = "Enter a valid email address.";
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(form.elements.email.value.trim())) {
+      status.textContent = "That address is missing something. Check the part after the @.";
       form.elements.email.focus();
       return;
     }
-    note.textContent = "Captured for this demo. Connect a real list before launch.";
+    status.textContent = "Nothing was sent: this demo form is not connected to a list yet.";
     form.reset();
-  });
-
-  const video = document.querySelector(".film video");
-  const syncVideo = () => {
-    if (!video) return;
-    if (reduce.matches) { video.pause(); video.removeAttribute("autoplay"); }
-    else video.play().catch(() => {});
-  };
-  syncVideo();
-  reduce.addEventListener?.("change", syncVideo);
-
-  document.addEventListener("visibilitychange", () => {
-    if (document.hidden) { if (raf) cancelAnimationFrame(raf); raf = 0; }
-    else kick();
   });
 })();
 </script>

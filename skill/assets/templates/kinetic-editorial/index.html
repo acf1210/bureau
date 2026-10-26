@@ -4,447 +4,284 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Marginal / Night — An independent journal after dark</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230B0B0C'/%3E%3Crect x='8' y='8' width='6' height='48' fill='%23D6FF3E'/%3E%3Cpath d='M22 8h18c8 0 13 4.5 13 12 0 5-2.6 8.6-7 10.5 5.4 1.7 8.5 5.6 8.5 11.2C54.5 51 48.6 56 39.5 56H22V8Z' fill='%23F1EDE6'/%3E%3C/svg%3E">
-<meta name="description" content="A field journal on nightlife, architecture, sound and the people who keep cities awake. Issue 07: the city recomputes.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%2311151C'/%3E%3Cpath d='M10 52V14h7l15 22 15-22h7v38h-7V27L32 47 17 27v25Z' fill='%23EDE4D3'/%3E%3Crect x='10' y='56' width='44' height='3' fill='%23F2A12E'/%3E%3C/svg%3E">
+<meta name="description" content="A journal on the hours when cities keep working. Issue 07 is filed by the hour each story happened. Specimen issue; people and places are fictional.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300..600&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..500;1,6..96,400..500&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&display=swap" rel="stylesheet">
 <style>
+  /* Lineage: Tschichold (asymmetric hierarchy) × Lubalin (letters as image) × Bass (cuts, not fades). See LINEAGE.md. */
   :root{
-    --ink:#0B0B0C;
-    --ink-2:#121214;
-    --bone:#EFEAE0;
-    --bone-dim:#A9A399;
-    --acid:#D8FF3E;
-    --ember:#FF4A1C;
-    --line:rgba(239,234,224,.16);
-    --line-soft:rgba(239,234,224,.08);
-    --display:"Bodoni Moda","Times New Roman",serif;
-    --body:"Archivo",system-ui,sans-serif;
-    --mono:"JetBrains Mono",ui-monospace,monospace;
-    --pad:clamp(1.25rem,4vw,4.5rem);
-    --ease:cubic-bezier(.16,1,.3,1);
+    --asphalt:#11151C;
+    --asphalt-lift:#181D26;
+    --sodium-paper:#EDE4D3;
+    --moon:#A3A8B2;
+    --sodium:#F2A12E;
+    --rule:#2A303B;
+    --display:"Bodoni Moda","Didot","Bodoni 72",serif;
+    --text:"Newsreader","Iowan Old Style","Georgia",serif;
+    --folio:clamp(4.5rem,9vw,9rem);
+    --measure:36rem;
+    --margin-col:clamp(11rem,18vw,16rem);
+    --gutter:clamp(1rem,3vw,3rem);
+    --cut:steps(5,end);
+    --settle:cubic-bezier(.7,0,.3,1);
   }
   *{box-sizing:border-box}
-  html{overflow-x:clip;background:var(--ink);color:var(--bone);scroll-behavior:smooth}
-  body{margin:0;font:400 16px/1.55 var(--body);background:var(--ink);overflow-x:clip}
-  ::selection{background:var(--acid);color:var(--ink)}
-  a{color:inherit;text-decoration:none}
-  button,input{font:inherit;color:inherit}
-  :focus-visible{outline:2px solid var(--acid);outline-offset:4px}
-  .skip{position:fixed;left:1rem;top:1rem;z-index:100;background:var(--acid);color:var(--ink);padding:.7rem 1rem;transform:translateY(-200%);transition:transform .2s var(--ease)}
-  .skip:focus{transform:none}
-  .grain{position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E")}
-  .rules{position:fixed;inset:0;z-index:0;pointer-events:none;display:grid;grid-template-columns:repeat(4,1fr);padding-inline:var(--pad)}
-  .rules span{border-left:1px solid var(--line-soft)}
-  .rules span:last-child{border-right:1px solid var(--line-soft)}
-  .shell{width:min(100%,1680px);margin-inline:auto;padding-inline:var(--pad)}
-  .eyebrow{font:500 12px/1.2 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--bone-dim)}
-  .site-head{position:fixed;inset:0 0 auto;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:1.2rem var(--pad);background:linear-gradient(to bottom,rgba(11,11,12,.96),rgba(11,11,12,0));border-bottom:0}
-  .brand{font:500 14px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;display:inline-flex;align-items:center;min-height:44px}
-  .brand b{color:var(--acid);font-weight:500}
-  .nav{display:flex;gap:1.6rem;font:500 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--bone-dim)}
-  .nav a{position:relative;padding-block:.4rem;transition:color .2s var(--ease)}
-  .nav a::after{content:"";position:absolute;left:0;right:100%;bottom:0;height:1px;background:var(--acid);transition:right .35s var(--ease)}
-  .nav a:hover,.nav a:focus-visible{color:var(--bone)}
-  .nav a:hover::after,.nav a:focus-visible::after{right:0}
-  .clock{font:500 12px/1 var(--mono);letter-spacing:.08em;color:var(--bone-dim);white-space:nowrap}
-  .clock b{color:var(--bone);font-weight:500}
-  main{position:relative;z-index:1}
-  .hero{min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;padding-top:7rem;padding-bottom:2rem}
-  .hero__grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:clamp(1rem,2vw,2rem);align-items:end}
-  .hero__type{grid-column:1/8;padding-bottom:1rem}
-  .hero h1{font:400 clamp(3.6rem,8.8vw,10.2rem)/.86 var(--display);letter-spacing:-.045em;margin:.45rem 0 1.6rem}
-  .line{display:block;overflow:hidden;padding-bottom:.04em}
-  .line>span{display:block;transform:translateY(112%);transition:transform 1s var(--ease)}
-  .line:nth-child(2)>span{transition-delay:.07s}
-  .line:nth-child(3)>span{transition-delay:.14s}
-  .line:nth-child(4)>span{transition-delay:.21s}
-  .ready .line>span{transform:none}
-  .hero h1 em{font-style:italic;color:var(--acid)}
-  .lede{max-width:34ch;color:var(--bone-dim);font-size:clamp(1rem,1.25vw,1.15rem);margin:0 0 2rem}
-  .cta{display:inline-flex;align-items:center;gap:1.2rem;font:500 13px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;border-bottom:1px solid var(--bone);padding-bottom:.7rem;transition:color .25s var(--ease),border-color .25s var(--ease)}
-  .cta span{display:inline-block;transition:transform .3s var(--ease)}
-  .cta:hover,.cta:focus-visible{color:var(--acid);border-color:var(--acid)}
-  .cta:hover span,.cta:focus-visible span{transform:translate(3px,3px)}
-  .hero__media{grid-column:8/13;position:relative;margin:0;aspect-ratio:4/5;max-height:72svh;overflow:hidden;background:var(--ink-2)}
-  .hero__media video{width:100%;height:100%;object-fit:cover;filter:saturate(.8) contrast(1.06);transform:scale(1.03)}
-  .hero__media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,11,12,.05),rgba(11,11,12,.55));pointer-events:none}
-  .hero__media figcaption{position:absolute;left:1rem;right:1rem;bottom:1rem;z-index:2;display:flex;justify-content:space-between;gap:1rem;font:400 12px/1.4 var(--mono);color:var(--bone)}
-  .hero__media figcaption span:last-child{color:var(--bone-dim);text-align:right}
-  .media-tag{position:absolute;top:1rem;left:1rem;z-index:2;background:var(--acid);color:var(--ink);font:500 12px/1 var(--mono);letter-spacing:.1em;padding:.45rem .6rem;text-transform:uppercase}
-  .hero__meta{display:flex;justify-content:space-between;gap:2rem;border-top:1px solid var(--line);margin-top:2.2rem;padding-top:1rem;font:400 12px/1.5 var(--mono);color:var(--bone-dim)}
-  .hero__meta p{margin:0;max-width:32ch}
-  .hero__meta b{color:var(--bone);font-weight:500}
-  .rail{position:fixed;right:1.2rem;top:50%;transform:translateY(-50%);z-index:45;display:flex;flex-direction:column;align-items:center;gap:1rem;font:500 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--bone-dim);writing-mode:vertical-rl}
-  .rail__bar{width:1px;height:120px;background:var(--line);position:relative;writing-mode:horizontal-tb}
-  .rail__bar i{position:absolute;left:0;top:0;width:100%;height:calc(var(--progress,0)*100%);background:var(--acid)}
-  .section{padding-block:clamp(5rem,11vw,10rem);border-top:1px solid var(--line);position:relative}
-  .section-head{display:flex;justify-content:space-between;align-items:baseline;gap:2rem;margin-bottom:clamp(2.5rem,5vw,5rem)}
-  .section-head h2{font:400 clamp(2.2rem,4.6vw,4.6rem)/.98 var(--display);letter-spacing:-.03em;margin:0;max-width:16ch}
-  .section-head p{max-width:30ch;margin:0;color:var(--bone-dim);font-size:.95rem}
-  .manifesto{display:grid;grid-template-columns:repeat(12,1fr);gap:2rem;align-items:start}
-  .manifesto__label{grid-column:1/3}
-  .manifesto__text{grid-column:4/12;font:400 clamp(1.6rem,3.1vw,3.1rem)/1.18 var(--display);letter-spacing:-.02em;margin:0}
-  .manifesto__text em{color:var(--acid)}
-  .manifesto__aside{grid-column:12/13;font:400 12px/1.6 var(--mono);color:var(--bone-dim)}
-  .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
-  .reveal.in{opacity:1;transform:none}
-  .index-list{border-top:1px solid var(--line)}
-  .row{display:grid;grid-template-columns:3rem minmax(0,1.8fr) minmax(0,1fr) 6rem;gap:1rem;align-items:center;padding:1.35rem 0;border-bottom:1px solid var(--line);position:relative;cursor:default}
-  .row__n{font:500 12px/1 var(--mono);color:var(--ember)}
-  .row__title{font:400 clamp(1.4rem,2.6vw,2.6rem)/1 var(--display);letter-spacing:-.02em;display:inline-flex;align-items:center;min-height:44px;transition:color .25s var(--ease),transform .35s var(--ease)}
-  .row__cat,.row__time{font:400 12px/1.4 var(--mono);color:var(--bone-dim)}
-  .row__time{text-align:right}
-  .row:hover .row__title,.row:focus-within .row__title{color:var(--acid);transform:translateX(6px)}
-  .row a::after{content:"";position:absolute;inset:0}
-  .preview{position:fixed;z-index:40;width:240px;aspect-ratio:4/5;pointer-events:none;opacity:0;transform:scale(.94);transition:opacity .2s var(--ease),transform .25s var(--ease);transform-origin:top left;background:var(--ink-2);border:1px solid var(--line);overflow:hidden}
-  .preview.on{opacity:1;transform:scale(1)}
-  .preview__art{position:absolute;inset:0;background:radial-gradient(circle at 30% 20%,var(--ember),transparent 45%),radial-gradient(circle at 70% 80%,#1B2A4A,transparent 55%),#0B0B0C}
-  .preview__art::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 5px,rgba(239,234,224,.08) 5px 6px)}
-  .preview p{position:absolute;left:1rem;right:1rem;bottom:1rem;margin:0;font:400 12px/1.35 var(--mono);color:var(--bone)}
-  .feature{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(1.5rem,3vw,3rem);align-items:start}
-  .feature__sticky{grid-column:1/5;position:sticky;top:7rem}
-  .feature__sticky h2{font:400 clamp(2rem,3.6vw,3.6rem)/.98 var(--display);letter-spacing:-.03em;margin:0 0 1rem}
-  .feature__sticky p{color:var(--bone-dim);max-width:28ch}
-  .feature__body{grid-column:5/13}
-  .feature__figure{margin:0 0 2.5rem;position:relative;overflow:hidden;aspect-ratio:16/9;background:var(--ink-2)}
-  .feature__figure video{width:100%;height:100%;object-fit:cover;transform:scale(1.12) translateY(var(--parallax,0px));filter:saturate(.7) contrast(1.08)}
-  .feature__figure figcaption{position:absolute;left:1rem;bottom:1rem;z-index:2;font:400 12px/1.4 var(--mono);color:var(--bone);background:rgba(11,11,12,.55);padding:.4rem .55rem}
-  .feature__copy{columns:1;max-width:65ch;color:#D4CEC3;font-size:1.03rem}
-  .feature__copy p:first-child::first-letter{float:left;font:400 4.6rem/.8 var(--display);padding:.15rem .5rem .1rem 0;color:var(--acid)}
-  .feature__copy blockquote{margin:2rem 0;padding-left:1.4rem;border-left:1px solid var(--acid);font:400 clamp(1.3rem,2vw,1.8rem)/1.25 var(--display);color:var(--bone)}
-  .data{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;border-top:1px solid var(--line);margin-top:2.5rem;padding-top:1.2rem}
-  .data div{padding-top:.4rem}
-  .data dt{font:500 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--bone-dim);margin-bottom:.6rem}
-  .data dd{margin:0;font:400 clamp(1.6rem,2.4vw,2.4rem)/1 var(--display)}
-  .data dd span{font-size:12px;font-family:var(--mono);color:var(--bone-dim);display:block;margin-top:.5rem;letter-spacing:.02em}
-  .quotes{display:grid;grid-template-columns:repeat(12,1fr);gap:2rem}
-  .quote{grid-column:span 4;margin:0;padding:1.5rem 0 0;border-top:1px solid var(--line)}
-  .quote p{font:400 clamp(1.15rem,1.7vw,1.55rem)/1.3 var(--display);margin:0 0 1.4rem}
-  .quote footer{font:400 12px/1.5 var(--mono);color:var(--bone-dim)}
-  .closing{display:grid;grid-template-columns:repeat(12,1fr);gap:2rem;align-items:end}
-  .closing__title{grid-column:1/8}
-  .closing__title h2{font:400 clamp(2.6rem,6vw,6rem)/.93 var(--display);letter-spacing:-.04em;margin:0}
-  .closing__title h2 em{color:var(--acid)}
-  .closing__form{grid-column:9/13}
-  .field label{display:block;font:500 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--bone-dim);margin-bottom:.7rem}
-  .field input{width:100%;background:transparent;border:0;border-bottom:1px solid var(--bone-dim);padding:.8rem 0;font:400 1.2rem/1.2 var(--body);color:var(--bone)}
-  .field input::placeholder{color:#6E6A63}
-  .field input:focus-visible{outline:0;border-color:var(--acid)}
-  .field button{margin-top:1rem;background:var(--acid);color:var(--ink);border:0;padding:.9rem 1.2rem;font:500 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:transform .2s var(--ease),background .2s var(--ease)}
-  .field button:hover{background:var(--bone);transform:translateY(-2px)}
-  .form-note{font:400 12px/1.5 var(--mono);color:var(--bone-dim);margin:.9rem 0 0;min-height:1.5em}
-  .site-foot{border-top:1px solid var(--line);padding:2rem 0 2.5rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font:400 12px/1.5 var(--mono);color:var(--bone-dim)}
-  .site-foot a{border-bottom:1px solid var(--line);padding-bottom:1px}
-  .site-foot a:hover{color:var(--acid);border-color:var(--acid)}
-  .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:.8rem 0;background:var(--ink)}
-  /* bureau-ignore BS-M04: pauses on hover/focus; reduced-motion fallback */
-  .marquee__track{display:flex;gap:3rem;width:max-content;animation:slide 26s linear infinite;font:500 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--bone-dim)}
-  .marquee__track b{color:var(--acid);font-weight:500}
-  @keyframes slide{to{transform:translateX(-50%)}}
-  @media (max-width:1000px){
-    .hero__type{grid-column:1/13}
-    .hero__media{grid-column:1/13;aspect-ratio:16/10;max-height:none;margin-top:2rem}
-    .hero h1{font-size:clamp(3.2rem,12vw,7rem)}
-    .manifesto__label{grid-column:1/13}
-    .manifesto__text{grid-column:1/13}
-    .manifesto__aside{grid-column:1/13}
-    .feature__sticky{grid-column:1/13;position:static}
-    .feature__body{grid-column:1/13}
-    .quote{grid-column:span 6}
-    .closing__title,.closing__form{grid-column:1/13}
+  html{background:var(--asphalt);color:var(--sodium-paper);overflow-x:clip}
+  body{margin:0;font:400 1.125rem/1.62 var(--text);font-optical-sizing:auto;font-kerning:normal;hanging-punctuation:first}
+  ::selection{background:var(--sodium);color:var(--asphalt)}
+  a{color:inherit}
+  :focus-visible{outline:1px solid var(--sodium);outline-offset:5px}
+  .skip{position:absolute;left:var(--gutter);top:-4rem;background:var(--sodium);color:var(--asphalt);padding:.6rem .9rem;font-weight:600}
+  .skip:focus{top:1rem}
+  .sc{font-variant-caps:all-small-caps;letter-spacing:.04em;font-feature-settings:"lnum" 1}
+  .page{display:grid;grid-template-columns:var(--folio) minmax(0,var(--measure)) var(--gutter) var(--margin-col) minmax(0,1fr);padding-inline:var(--gutter);column-gap:var(--gutter)}
+  .page>*{grid-column:2/3}
+
+  .masthead{display:grid;grid-template-columns:var(--folio) 1fr auto;column-gap:var(--gutter);align-items:baseline;padding:1.4rem var(--gutter) 0}
+  .masthead__brand{font:italic 600 1.35rem/1 var(--display);text-decoration:none;display:inline-flex;align-items:center;min-height:44px;grid-column:1/3}
+  .masthead__brand span{color:var(--sodium);font-style:normal;padding-inline:.12em}
+  .masthead__nav{display:flex;gap:1.6rem;justify-self:end}
+  .masthead__nav a{text-decoration:none;color:var(--moon);display:inline-flex;align-items:center;min-height:44px;transition:color .18s var(--settle)}
+  .masthead__nav a:hover{color:var(--sodium-paper)}
+
+  .opening{padding-top:clamp(3rem,9vh,7rem);padding-bottom:clamp(3rem,8vh,6rem);row-gap:1.6rem;align-items:start}
+  .opening__folio{grid-column:1/2;grid-row:1/4;color:var(--moon);font-size:1rem;line-height:1.45;margin:.6rem 0 0}
+  .opening__folio b{display:block;font:italic 500 2.4rem/1 var(--display);color:var(--sodium);font-variant-caps:normal;letter-spacing:0;margin-bottom:.3rem}
+  .opening h1{grid-column:2/5;margin:0;font:italic 500 clamp(3.6rem,10.4vw,11.5rem)/.8 var(--display);letter-spacing:-.055em;font-variation-settings:"opsz" 96}
+  .opening h1 .ln{display:block}
+  .opening h1 .ln:nth-child(2){padding-left:1.1em}
+  .opening h1 .ln:nth-child(3){padding-left:.35em;font-style:normal;font-weight:700;letter-spacing:-.045em;font-variation-settings:"opsz" 20;padding-bottom:.14em}
+  .opening h1 .hy{color:var(--sodium)}
+  .opening__lede{grid-column:2/3;margin:0;font-size:clamp(1.2rem,1.6vw,1.45rem);line-height:1.45;max-width:30ch}
+  .opening__go{grid-column:2/3;justify-self:start;font:italic 500 1.25rem/1 var(--display);text-decoration:none;display:inline-flex;align-items:center;gap:.6rem;min-height:44px;text-decoration:underline 1px transparent;text-underline-offset:.35em;transition:text-decoration-color .32s var(--settle)}
+  .opening__go:hover,.opening__go:focus-visible{text-decoration-color:var(--sodium)}
+  .opening__contents{grid-column:4/5;grid-row:2/4;margin:0;padding:0;list-style:none;border-left:1px solid var(--rule);padding-left:1rem;font-size:1rem;line-height:1.4;color:var(--moon)}
+  .opening__contents li{padding:.2rem 0 .9rem}
+  .opening__contents time{display:block;color:var(--sodium-paper)}
+
+  /* Entrance: three cuts, like title cards. No fades. */
+  .js .opening h1 .ln{clip-path:inset(-.1em 100% -.2em -.3em)}
+  .js.ready .opening h1 .ln{clip-path:inset(-.1em -.3em -.2em -.3em);transition:clip-path .3s var(--cut)}
+  .js.ready .opening h1 .ln:nth-child(2){transition-delay:.18s}
+  .js.ready .opening h1 .ln:nth-child(3){transition-delay:.36s}
+
+  .running{grid-column:1/-1;display:flex;justify-content:space-between;gap:1rem;color:var(--moon);font-size:1rem;padding-top:1rem;margin:0 0 clamp(2rem,5vw,4rem)}
+  .running span:last-child{font-feature-settings:"tnum" 1}
+
+  .night{padding-block:clamp(3rem,8vw,7rem) clamp(4rem,9vw,8rem);background:var(--asphalt-lift)}
+  .night h2,.essay h2{grid-column:2/4;margin:0 0 1rem;font:italic 500 clamp(2.2rem,4.6vw,4.4rem)/.95 var(--display);letter-spacing:-.035em}
+  .night__note{grid-column:4/5;margin:0;color:var(--moon);font-size:1rem;align-self:end}
+  .night__note b{color:var(--sodium);font-weight:500}
+  .clockface{grid-column:1/-1;position:relative;margin-top:clamp(2.5rem,5vw,4rem);padding-top:3.2rem}
+  .clockface__scale{display:flex;justify-content:space-between;border-top:1px solid var(--rule);padding-top:.5rem;color:var(--moon);font-size:.95rem;font-feature-settings:"tnum" 1;margin:0;list-style:none;padding-left:0}
+  .clockface__now{position:absolute;top:0;bottom:-1.5rem;left:calc(var(--now,0) * 100%);width:0;margin:0;transition:left .6s var(--settle)}
+  .clockface__now::before{content:"";position:absolute;inset:0 auto 0 -1px;width:2px;background:var(--sodium)}
+  .clockface__now span{position:absolute;top:0;left:.6rem;white-space:nowrap;color:var(--sodium);font-size:1rem;font-feature-settings:"tnum" 1}
+  .clockface.late .clockface__now span{left:auto;right:.6rem}
+  .filed{list-style:none;margin:2.2rem 0 0;padding:0;position:relative;min-height:17rem}
+  .filed li{position:absolute;left:calc(var(--at) * 100%);top:var(--row,0);width:min(19rem,30%);padding-left:.9rem;border-left:1px solid var(--rule);transition:border-color .2s var(--settle)}
+  .filed li:nth-child(2){--row:9rem}
+  .filed li:nth-child(3){--row:0rem;transform:translateX(-100%);border-left:0;border-right:1px solid var(--rule);padding:0 .9rem 0 0;text-align:right}
+  .filed time{color:var(--sodium);font-feature-settings:"tnum" 1}
+  .filed a{display:block;font:italic 500 clamp(1.35rem,2.1vw,1.9rem)/1.05 var(--display);letter-spacing:-.02em;text-decoration:none;padding:.25rem 0;min-height:44px}
+  .filed a:hover,.filed a:focus-visible{color:var(--sodium)}
+  .filed p{margin:0;color:var(--moon);font-size:1rem;line-height:1.4}
+  .filed li.pending time::after{content:" · not yet tonight";color:var(--moon)}
+
+  .essay{padding-block:clamp(3rem,8vw,7rem)}
+  .essay__dek{grid-column:2/3;margin:0 0 2.5rem;font-style:italic;font-size:1.3rem;line-height:1.45;color:var(--moon)}
+  .essay__body{grid-column:2/3}
+  .essay__body p{margin:0 0 1.1em;text-wrap:pretty}
+  .essay__body p:first-child::first-letter{font:500 5.4em/.74 var(--display);float:left;padding:.08em .08em 0 0;color:var(--sodium)}
+  .essay__body .pull{margin:2.2rem 0 2.2rem calc(-1 * (var(--folio) + var(--gutter)));font:italic 500 clamp(1.8rem,3.4vw,3rem)/1.02 var(--display);letter-spacing:-.03em;text-indent:-.4em;padding-left:.4em}
+  .mark{font-size:.68em;vertical-align:super;line-height:0;color:var(--sodium);text-decoration:none;padding:.4em .25em;margin:-.4em -.1em}
+  .notes{grid-column:4/5;grid-row:2/4;margin:0;padding:0;list-style:none;font-size:1rem;line-height:1.45;color:var(--moon);align-self:start;position:sticky;top:2rem}
+  .notes li{padding:.2rem 0 1.1rem .9rem;border-left:1px solid var(--rule);transition:border-color .2s var(--settle),color .2s var(--settle)}
+  .notes b{color:var(--sodium);font-weight:500;margin-right:.35rem}
+  .essay:has(#m1:hover,#m1:focus-visible) #n1,
+  .essay:has(#m2:hover,#m2:focus-visible) #n2,
+  .essay:has(#m3:hover,#m3:focus-visible) #n3,
+  .notes li:target{border-color:var(--sodium);color:var(--sodium-paper)}
+
+  .colophon{padding-block:clamp(3.5rem,8vw,7rem) 2rem;border-top:2px solid var(--sodium)}
+  .colophon h2{grid-column:2/4;margin:0;font:italic 500 clamp(2.4rem,5.4vw,5.2rem)/.92 var(--display);letter-spacing:-.04em}
+  .colophon__form{grid-column:2/3;margin-top:2.2rem}
+  .colophon__form label{display:block;color:var(--moon);margin-bottom:.4rem}
+  .colophon__row{display:flex;gap:1rem;align-items:end;flex-wrap:wrap}
+  .colophon__form input{flex:1 1 16rem;background:transparent;border:0;border-bottom:1px solid var(--moon);color:var(--sodium-paper);font:italic 400 1.35rem/1.2 var(--text);padding:.55rem 0;min-height:44px}
+  .colophon__form input:focus-visible{outline:0;border-bottom-color:var(--sodium);box-shadow:0 1px 0 var(--sodium)}
+  .colophon__form button{background:var(--sodium);color:var(--asphalt);border:0;font:600 1.05rem/1 var(--text);padding:.85rem 1.1rem;min-height:44px;cursor:pointer;transition:background-color .18s var(--settle)}
+  .colophon__form button:hover{background:var(--sodium-paper)}
+  .colophon__status{min-height:1.6em;margin:.8rem 0 0;color:var(--moon);font-size:1rem}
+  .colophon__set{grid-column:4/5;grid-row:1/3;margin:0;color:var(--moon);font-size:1rem;line-height:1.45}
+  .colophon__set dt{color:var(--sodium-paper)}
+  .colophon__set dd{margin:0 0 .9rem}
+  .endline{grid-column:1/-1;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-top:clamp(3rem,6vw,5rem);color:var(--moon);font-size:1rem}
+  .endline a{text-decoration-color:var(--rule);text-underline-offset:.25em}
+
+  @media (max-width:1100px){
+    :root{--folio:0px}
+    .page{grid-template-columns:minmax(0,1fr) minmax(0,15rem);column-gap:var(--gutter)}
+    .page>*,.opening h1,.night h2,.essay h2,.colophon h2,.opening__lede,.opening__go,.essay__dek,.essay__body,.colophon__form{grid-column:1/2}
+    .opening h1,.night h2,.colophon h2,.clockface,.running,.endline{grid-column:1/-1}
+    .opening__folio{grid-column:1/-1;grid-row:auto;display:flex;gap:1rem;align-items:baseline}
+    .opening__folio b{display:inline;font-size:1.6rem}
+    .opening__contents,.notes,.colophon__set,.night__note{grid-column:2/3;grid-row:auto}
+    .opening__contents{grid-row:3/6}
+    .notes{grid-row:2/5}
+    .essay__body .pull{margin-left:0}
+    .masthead{grid-template-columns:1fr auto}
+    .masthead__brand{grid-column:auto}
   }
   @media (max-width:720px){
-    .nav{display:none}
-    .rail{display:none}
-    .rules{grid-template-columns:repeat(2,1fr)}
-    .row{grid-template-columns:2.2rem 1fr 5.5rem;row-gap:.45rem}
-    .row__cat{grid-column:2/3;grid-row:2}
-    .row__time{grid-column:3/4;grid-row:1/3}
-    .quote{grid-column:1/13}
-    .data{grid-template-columns:1fr}
-    .hero__meta{flex-direction:column;gap:1rem}
-    .feature__copy{font-size:1rem}
+    .page{grid-template-columns:minmax(0,1fr)}
+    .page>*,.opening__contents,.notes,.colophon__set,.night__note{grid-column:1/-1;grid-row:auto}
+    .notes{position:static}
+    .masthead{grid-template-columns:1fr}
+    .masthead__nav{justify-self:start;gap:1.2rem;flex-wrap:wrap}
+    .opening h1 .ln:nth-child(2){padding-left:.5em}
+    .clockface{padding-top:3.8rem}
+    .notes{order:5}
+    .clockface__scale li:nth-child(even){display:none}
+    .clockface__now span{white-space:normal;width:11rem}
+    .filed{min-height:0}
+    .filed li,.filed li:nth-child(3){position:static;width:auto;transform:none;text-align:left;border-right:0;border-left:1px solid var(--rule);padding:0 0 1.2rem .9rem}
   }
   @media (prefers-reduced-motion:reduce){
-    html{scroll-behavior:auto}
-    *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
-    .line>span{transform:none}
-    .reveal{opacity:1;transform:none}
-    .preview{display:none}
-    .hero__media video,.feature__figure video{display:none}
+    .js .opening h1 .ln,.js.ready .opening h1 .ln{clip-path:none;transition:none}
+    .clockface__now,.opening__go,.notes li{transition:none}
   }
 </style>
 </head>
 <body>
-<a class="skip" href="#main">Skip to content</a>
-<div class="grain" aria-hidden="true"></div>
-<div class="rules" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
-
-<header class="site-head">
-  <a class="brand" href="#top">Marginal<b>/</b>Night</a>
-  <nav class="nav" aria-label="Primary">
+<a class="skip" href="#main">Skip to the issue</a>
+<header class="masthead">
+  <a class="masthead__brand" href="#top">Marginal<span>/</span>Night</a>
+  <nav class="masthead__nav" aria-label="Primary">
     <a href="#index">Index</a>
-    <a href="#feature">Feature</a>
-    <a href="#notes">Notes</a>
-    <a href="#subscribe">Subscribe</a>
+    <a href="#essay">Essay</a>
+    <a href="#colophon">Colophon</a>
   </nav>
-  <p class="clock" aria-label="Local time in Lisbon"><span id="clock-time">--:--:--</span> <b>LIS</b></p>
 </header>
 
-<div class="rail" aria-hidden="true">
-  <span>Issue 07</span>
-  <span class="rail__bar"><i></i></span>
-  <span><b id="rail-pct">00</b>%</span>
-</div>
-
 <main id="main">
-  <section class="hero shell" id="top">
-    <div class="hero__grid">
-      <div class="hero__type">
-        <p class="eyebrow">Independent journal · Issue 07 · Autumn 2026</p>
-        <h1>
-          <span class="line"><span>After</span></span>
-          <span class="line"><span>dark, the</span></span>
-          <span class="line"><span>city <em>re-</em></span></span>
-          <span class="line"><span><em>computes.</em></span></span>
-        </h1>
-        <p class="lede">A field journal on the hours when architecture, sound and human behaviour stop pretending to be separate things.</p>
-        <a class="cta" href="#index">Read the index <span aria-hidden="true">↘</span></a>
+  <section class="opening page" id="top" aria-labelledby="issue-title">
+    <p class="opening__folio sc"><b>Nº 07</b>Autumn 2026<br>Lisbon</p>
+    <h1 id="issue-title">
+      <span class="ln">After dark,</span>
+      <span class="ln">the city</span>
+      <span class="ln">re<span class="hy">-</span>computes.</span>
+    </h1>
+    <p class="opening__lede">A journal about the hours when a city keeps working and nobody is watching it do so.</p>
+    <a class="opening__go" href="#index">Read the night index <span aria-hidden="true">→</span></a>
+    <ol class="opening__contents" aria-label="In this issue">
+      <li><time datetime="23:40">23:40</time>The listening room in the silo</li>
+      <li><time datetime="02:14">02:14</time>The last manual intersection</li>
+      <li><time datetime="04:47">04:47</time>What staying open costs</li>
+    </ol>
+  </section>
+
+  <section class="night page" id="index" aria-labelledby="index-title">
+    <p class="running sc"><span>Marginal / Night · The index</span><span>p. 2</span></p>
+    <h2 id="index-title">The issue is filed by the hour it happened.</h2>
+    <p class="night__note">The <b>amber line</b> is the time in Lisbon right now. Stories to its right have not happened yet tonight.</p>
+    <div class="clockface" id="clockface">
+      <p class="clockface__now" aria-live="off"><span id="now-label">Lisbon --:--</span></p>
+      <ol class="clockface__scale" aria-hidden="true">
+        <li>22:00</li><li>23:00</li><li>00:00</li><li>01:00</li><li>02:00</li><li>03:00</li><li>04:00</li><li>05:00</li><li>06:00</li>
+      </ol>
+      <ol class="filed" aria-label="Stories by time of night">
+        <li style="--at:.208" data-at="23:40"><time datetime="23:40">23:40</time><a href="#essay">A room inside a silo</a><p>Nine metres of reverb, tuned by ear.</p></li>
+        <li style="--at:.529" data-at="02:14"><time datetime="02:14">02:14</time><a href="#essay">The last manual intersection</a><p>Eight levers, one square, no automation.</p></li>
+        <li style="--at:.848" data-at="04:47"><time datetime="04:47">04:47</time><a href="#essay">The economics of staying open</a><p>What a 24-hour licence asks of a bar.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <article class="essay page" id="essay" aria-labelledby="essay-title">
+    <p class="running sc"><span>Marginal / Night · 02:14</span><span>p. 3</span></p>
+    <h2 id="essay-title">The intersection that waits for you to finish your thought.</h2>
+    <ol class="notes" aria-label="Margin notes">
+      <li id="n1"><b>1</b>Lisbon still runs a handful of manually supervised junctions at night. This one is a composite drawn for the specimen issue.</li>
+      <li id="n2"><b>2</b>Four seconds is the delay the operator gives a late bus. We kept her unit: a breath, not a metric.</li>
+      <li id="n3"><b>3</b>Every person named in this specimen is fictional. Replace with reported work before you publish.</li>
+    </ol>
+    <p class="essay__dek">At two in the morning a square stops being a diagram and becomes a room. Someone is still holding the levers.</p>
+    <div class="essay__body">
+      <p>The first thing you notice is not the noise. It is the choreography: a bus that is allowed four extra seconds, a cyclist who takes none, an operator who lifts one finger and changes the mood of the square.<a class="mark" id="m1" href="#n1" aria-label="Note 1">1</a> Automation promises consistency. The night prefers negotiation.</p>
+      <p>Ana has run the same console for eleven years. It is a metal box with eight levers and a fan that sounds like it is thinking. She never says “flow”. She says she lets people finish their thought, and then she counts to four.<a class="mark" id="m2" href="#n2" aria-label="Note 2">2</a></p>
+      <p class="pull">A city is not a machine that runs. It is a conversation that keeps going.</p>
+      <p>By four the square has changed hands three times. The delivery vans leave, the cleaners arrive, the first runners appear like a rumour. The operator stays and the lights keep her rhythm. None of it is automatic, and none of it is in the plan.<a class="mark" id="m3" href="#n3" aria-label="Note 3">3</a></p>
+    </div>
+  </article>
+
+  <section class="colophon page" id="colophon" aria-labelledby="colophon-title">
+    <h2 id="colophon-title">Issue 08 arrives in winter, before the city wakes up.</h2>
+    <form class="colophon__form" id="subscribe" novalidate>
+      <label for="email">Email for the next issue</label>
+      <div class="colophon__row">
+        <input id="email" name="email" type="email" autocomplete="email" required aria-describedby="status">
+        <button type="submit">Subscribe · €18 a year</button>
       </div>
-      <figure class="hero__media">
-        <span class="media-tag">Field study 01</span>
-        <video autoplay muted loop playsinline poster="media/ambient-poster.jpg" aria-hidden="true" tabindex="-1">
-          <source src="media/ambient.mp4" type="video/mp4">
-        </video>
-        <figcaption><span>Light study, 02:14</span><span>Camera: fixed<br>Exposure: 8s</span></figcaption>
-      </figure>
-    </div>
-    <div class="hero__meta">
-      <p><b>Inside:</b> the last manual traffic controller in Lisbon, a listening room built inside a grain silo, and the economics of staying open.</p>
-      <p>36 pages · 7 essays · 1 fold-out map<br>Printed in Porto on 90 gsm uncoated.</p>
-    </div>
+      <p class="colophon__status" id="status" role="status">Four letters a year. No tracking pixels.</p>
+    </form>
+    <dl class="colophon__set">
+      <dt>Set in</dt><dd>Bodoni Moda for the night, Newsreader for the reading.</dd>
+      <dt>Grid</dt><dd>A folio, one reading column and a margin for what the text could not hold.</dd>
+      <dt>Specimen</dt><dd>A demo template. The stories and people are fictional.</dd>
+    </dl>
+    <p class="endline"><span>Marginal / Night, Lisbon</span><span><a href="#top">Back to the cover</a></span><span><a href="mailto:desk@example.com">desk@example.com</a></span></p>
   </section>
-
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee__track">
-      <span><b>Issue 07</b> — After dark</span><span>Lisbon 38.7223° N</span><span>The city recomputes</span><span>Night economics</span><span>Sound &amp; architecture</span>
-      <span><b>Issue 07</b> — After dark</span><span>Lisbon 38.7223° N</span><span>The city recomputes</span><span>Night economics</span><span>Sound &amp; architecture</span>
-    </div>
-  </div>
-
-  <section class="section shell">
-    <div class="manifesto">
-      <p class="eyebrow manifesto__label">Manifesto</p>
-      <p class="manifesto__text reveal">The night is not a pause. It is a second <em>operating system</em> — with its own logistics, its own architecture and its own idea of who belongs.</p>
-      <p class="manifesto__aside reveal">Filed from<br>Lisbon,<br>02:14–05:40</p>
-    </div>
-  </section>
-
-  <section class="section shell" id="index">
-    <div class="section-head">
-      <h2 class="reveal">The index is the argument.</h2>
-      <p class="reveal">Three entries from the issue. Hover a row to see the field note attached to it.</p>
-    </div>
-    <div class="index-list" id="index-list">
-      <article class="row">
-        <span class="row__n">01</span>
-        <a class="row__title" href="#feature">The last manual controller</a>
-        <span class="row__cat">Infrastructure · 12 min</span>
-        <span class="row__time">02:14</span>
-        <div class="preview" aria-hidden="true"><div class="preview__art"></div><p>Eight levers, one intersection, zero automation.</p></div>
-      </article>
-      <article class="row">
-        <span class="row__n">02</span>
-        <a class="row__title" href="#feature">A room inside a silo</a>
-        <span class="row__cat">Architecture · 18 min</span>
-        <span class="row__time">03:02</span>
-        <div class="preview" aria-hidden="true"><div class="preview__art" style="background:radial-gradient(circle at 70% 30%,#D8FF3E,transparent 42%),radial-gradient(circle at 20% 80%,#25304A,transparent 55%),#0B0B0C"></div><p>Nine metres of reverb, tuned by hand.</p></div>
-      </article>
-      <article class="row">
-        <span class="row__n">03</span>
-        <a class="row__title" href="#feature">The economics of staying open</a>
-        <span class="row__cat">Cities · 9 min</span>
-        <span class="row__time">04:47</span>
-        <div class="preview" aria-hidden="true"><div class="preview__art" style="background:radial-gradient(circle at 50% 50%,#FF4A1C,transparent 38%),linear-gradient(140deg,#14161F,#0B0B0C)"></div><p>What a 24-hour licence actually costs.</p></div>
-      </article>
-    </div>
-  </section>
-
-  <section class="section shell" id="feature">
-    <div class="feature">
-      <div class="feature__sticky">
-        <p class="eyebrow reveal">Feature 01</p>
-        <h2 class="reveal">The intersection has a heartbeat.</h2>
-        <p class="reveal">At 02:14, the city stops being a diagram and becomes a room. We spent three nights with the people who keep it lit.</p>
-      </div>
-      <div class="feature__body">
-        <figure class="feature__figure">
-          <video autoplay muted loop playsinline poster="media/ambient-poster.jpg" aria-hidden="true" tabindex="-1">
-            <source src="media/ambient.mp4" type="video/mp4">
-          </video>
-          <figcaption>Fig. 1 — Signal drift, 02:14–04:47</figcaption>
-        </figure>
-        <div class="feature__copy">
-          <p>The first thing you notice is not the noise. It is the choreography: a bus that waits four extra seconds, a cyclist who does not, a traffic controller who lifts one finger and changes the mood of a square. Automation is a promise of consistency. The night is a negotiation.</p>
-          <p>We met Ana at the edge of the Baixa at 02:00. She has operated the same intersection for eleven years. Her console is a metal box with eight levers and a fan that sounds like it is thinking. She does not use the word “flow”. She says: “I let people finish their thought.”</p>
-          <blockquote>“A city is not a machine that runs. It is a conversation that continues.”</blockquote>
-          <p>By 04:00 the square has changed hands three times. The delivery vans leave; the cleaners arrive; the first runners appear like a rumour. The controller stays. The lights keep their rhythm. Nothing about it is automatic.</p>
-        </div>
-        <dl class="data reveal">
-          <div><dt>Observation window</dt><dd>3 nights<span>02:14 — 05:40</span></dd></div>
-          <div><dt>Manual signal cycles</dt><dd>1,284<span>recorded at the intersection</span></dd></div>
-          <div><dt>Average delay added</dt><dd>4.2s<span>when the controller intervenes</span></dd></div>
-        </dl>
-      </div>
-    </div>
-  </section>
-
-  <section class="section shell" id="notes">
-    <div class="section-head">
-      <h2 class="reveal">Field notes, not conclusions.</h2>
-      <p class="reveal">Three observations that did not fit the essays, kept because they changed how we listened.</p>
-    </div>
-    <div class="quotes">
-      <blockquote class="quote reveal">
-        <p>“The city at night is quieter, but it is not calmer. It is more precise.”</p>
-        <footer>— Ana R., traffic controller</footer>
-      </blockquote>
-      <blockquote class="quote reveal">
-        <p>“A room is a instrument. You do not decorate it. You tune it.”</p>
-        <footer>— Tomás L., acoustician</footer>
-      </blockquote>
-      <blockquote class="quote reveal">
-        <p>“Staying open is a design decision, not a business model.”</p>
-        <footer>— Inês M., venue operator</footer>
-      </blockquote>
-    </div>
-  </section>
-
-  <section class="section shell" id="subscribe">
-    <div class="closing">
-      <div class="closing__title">
-        <p class="eyebrow">Issue 08 · Winter</p>
-        <h2>Get the next issue <em>before</em> the city does.</h2>
-      </div>
-      <form class="closing__form field" id="subscribe-form" novalidate>
-        <label for="email">Email address</label>
-        <input id="email" name="email" type="email" autocomplete="email" placeholder="you@studio.com" aria-describedby="form-note" required>
-        <button type="submit">Subscribe — €18/year</button>
-        <p class="form-note" id="form-note" role="status">One letter, every quarter. No tracking pixels.</p>
-      </form>
-    </div>
-  </section>
-
-  <footer class="site-foot shell">
-    <p>Marginal / Night · Independent journal · Lisbon</p>
-    <p><a href="#top">Back to top</a> · <a href="#index">Index</a> · <a href="mailto:desk@example.com">desk@example.com</a></p>
-  </footer>
 </main>
 
 <script>
 (() => {
   const root = document.documentElement;
-  const body = document.body;
-  const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+  root.classList.add("js");
+  requestAnimationFrame(() => requestAnimationFrame(() => root.classList.add("ready")));
 
-  requestAnimationFrame(() => body.classList.add("ready"));
-
-  const clock = document.getElementById("clock-time");
-  const tick = () => {
+  // The night runs 22:00 → 06:00; position the amber line on it.
+  const face = document.getElementById("clockface");
+  const label = document.getElementById("now-label");
+  const items = [...document.querySelectorAll(".filed li")];
+  const toNight = (h, m) => (((h + 2) % 24) * 60 + m) / (8 * 60);
+  const lisbon = () => {
     try {
-      clock.textContent = new Intl.DateTimeFormat("en-GB", {
-        timeZone: "Europe/Lisbon", hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false
-      }).format(new Date());
-    } catch { clock.textContent = new Date().toLocaleTimeString("en-GB"); }
+      const parts = new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/Lisbon", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).formatToParts(new Date());
+      const get = (t) => Number(parts.find((p) => p.type === t).value);
+      return [get("hour"), get("minute")];
+    } catch { const d = new Date(); return [d.getHours(), d.getMinutes()]; }
   };
-  tick(); setInterval(tick, 1000);
-
-  const onScroll = () => {
-    const max = document.documentElement.scrollHeight - innerHeight;
-    const p = max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
-    root.style.setProperty("--progress", p.toFixed(4));
-    const pct = document.getElementById("rail-pct");
-    if (pct) pct.textContent = String(Math.round(p * 100)).padStart(2, "0");
-  };
-  addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
-
-  const io = new IntersectionObserver((entries) => {
-    for (const e of entries) {
-      if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+  const tick = () => {
+    const [h, m] = lisbon();
+    const at = toNight(h, m);
+    const inNight = at <= 1;
+    face.style.setProperty("--now", inNight ? at.toFixed(4) : "0");
+    face.classList.toggle("late", inNight && at > 0.6);
+    label.textContent = `Lisbon ${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}${inNight ? "" : " · the index opens at 22:00"}`;
+    for (const li of items) {
+      const [ih, im] = li.dataset.at.split(":").map(Number);
+      li.classList.toggle("pending", inNight && toNight(ih, im) > at);
     }
-  }, { threshold: .18, rootMargin: "0px 0px -8% 0px" });
-  document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
-
-  // Parallax, transform-only and capped.
-  const figures = [...document.querySelectorAll(".feature__figure")];
-  let raf = 0;
-  const parallax = () => {
-    raf = 0;
-    if (reduce.matches) { figures.forEach((f) => f.style.setProperty("--parallax", "0px")); return; }
-    const y = scrollY;
-    figures.forEach((f) => {
-      const r = f.getBoundingClientRect();
-      const center = r.top + r.height / 2 - innerHeight / 2;
-      const shift = Math.max(-26, Math.min(26, -center * 0.045));
-      f.style.setProperty("--parallax", shift.toFixed(1) + "px");
-    });
   };
-  addEventListener("scroll", () => { if (!raf) raf = requestAnimationFrame(parallax); }, { passive: true });
-  parallax();
+  tick();
+  setInterval(tick, 30000);
 
-  // Index preview follows the pointer; native cursor stays visible.
-  const previews = [...document.querySelectorAll(".preview")];
-  const fine = matchMedia("(pointer: fine)");
-  let px = 0, py = 0, tx = 0, ty = 0, pvRaf = 0;
-  const move = () => {
-    pvRaf = 0;
-    px += (tx - px) * .18; py += (ty - py) * .18;
-    previews.forEach((p) => { if (p.classList.contains("on")) p.style.translate = `${px + 28}px ${py - 20}px`; });
-    if (previews.some((p) => p.classList.contains("on"))) pvRaf = requestAnimationFrame(move);
-  };
-  document.querySelectorAll(".row").forEach((row) => {
-    const p = row.querySelector(".preview");
-    const show = () => {
-      if (!fine.matches || reduce.matches) return;
-      p.classList.add("on");
-      tx = px; ty = py;
-      if (!pvRaf) pvRaf = requestAnimationFrame(move);
-    };
-    const hide = () => { p.classList.remove("on"); };
-    row.addEventListener("pointerenter", show);
-    row.addEventListener("pointerleave", hide);
-  });
-  addEventListener("pointermove", (e) => { tx = e.clientX; ty = e.clientY; }, { passive: true });
-
-  const form = document.getElementById("subscribe-form");
-  const note = document.getElementById("form-note");
+  const form = document.getElementById("subscribe");
+  const status = document.getElementById("status");
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     const email = form.elements.email.value.trim();
-    if (!email || !email.includes("@")) {
-      note.textContent = "Enter a valid email address.";
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+      status.textContent = "That address is missing something. Check the part after the @.";
       form.elements.email.focus();
       return;
     }
-    note.textContent = "Saved locally for this demo. Connect a real form endpoint before launch.";
+    status.textContent = "Nothing was sent: this demo form is not connected to a list yet.";
     form.reset();
   });
-
-  const videos = [...document.querySelectorAll("video")];
-  const syncVideo = () => {
-    for (const v of videos) {
-      if (reduce.matches) { v.pause(); v.removeAttribute("autoplay"); }
-      else { v.play().catch(() => {}); }
-    }
-  };
-  syncVideo();
-  reduce.addEventListener?.("change", syncVideo);
-
-  const pct = document.querySelector(".rail__bar i");
-  if (pct) pct.style.height = "0%";
 })();
 </script>
 </body>
