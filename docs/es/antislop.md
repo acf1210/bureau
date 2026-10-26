@@ -31,6 +31,22 @@ Tres o más "no" → es slop, independientemente del pulido.
 | **BS-C07** | radio de 24px en todo | familia de radio ligada al mundo |
 | **BS-C08** | todo centrado | columna dominante + peso asimétrico |
 | **BS-C09** | footer con wordmark gigante + cuatro columnas | footer como argumento final |
+| **BS-C11** | deriva de plantilla: favicon, easing y footer del scaffold sobreviven | nueva mezcla; `divergence.mjs` ≤ 0.35 |
+| **BS-C12** | acto de tributo: un diseñador o sitio es reconocible | tres fuentes en tres ejes |
+| **BS-C13** | eyebrow: texto inerte sobre el título que solo lo anuncia | bórralo; conserva solo un dato (fecha, lugar, cifra) |
+| **BS-C14** | anatomía de stock: hero, tres features, pasos, logos, banda de email | las secciones que tienen los sitios reales de la categoría |
+| **BS-C15** | cierre de stock: suscripción por email al final cuando el trabajo no es suscribir | termina en el trabajo: reserva, compra, próxima fecha |
+| **BS-C16** | eco: un dato repetido en cuatro o más secciones | dilo una vez, donde trabaja |
+| **BS-T11** | palabra destacada en el título | el título entero de una sola manera |
+| **BS-T12** | mono como disfraz en etiquetas | la fuente del cuerpo, un paso menor |
+| **BS-K11** | franja lateral gruesa en cards | hairline, cambio de ground, peso |
+| **BS-K12** | sombra dura desplazada | desplazamiento y blur, o pasos de luminosidad |
+| **BS-W13** | puntuación de plantilla `A · B · C` | saltos de línea, columnas, una frase |
+| **BS-W14** | envío falso: éxito sin petición | conéctalo, o di que no se envió nada |
+| **BS-B11** | contenido oculto en reposo sin `.js` | visible por defecto |
+| **BS-E10** | enlace interno a una sección inexistente | un id real, o ningún enlace |
+| **BS-A13** | referencia ARIA o label a un id inexistente | corrige la referencia |
+| **BS-E11** | superficies del navegador sin tema | selección, caret, foco de la paleta |
 | **BS-T01** | Space Grotesk + Inter | display con voz propia |
 | **BS-T02** | display en la fuente estándar de UI | rol y face propios |
 | **BS-T03** | micro-label en mayúsculas en cada sección | label solo cuando informa |
@@ -96,6 +112,44 @@ La taxonomía completa está en `skill/references/17-anti-ai-slop.md`.
 Un solo P0 define la página. No hay promedio que lo salve.
 
 ---
+
+## Niveles de vinculación
+
+| Nivel | Severidad | Renuncia |
+|---|---|---|
+| **Floor** | P0 | nunca; una renuncia de línea sobre un P0 se rechaza (BS-E12) |
+| **Reflex** | P1 | ID de la regla + un motivo de 20+ caracteres sobre esta página |
+| **Finish** | P2 | respondido en `refinement.md`, nunca bloquea |
+
+```html
+<!-- bureau-ignore BS-K11: the red stripe marks overdue rows in the ledger -->
+```
+
+Más de tres renuncias de la misma regla es un estilo de la casa (BS-E13): regístralo en `DESIGN.md`. El JSON del audit lista toda renuncia en `waivers`.
+
+**Prueba de propósito:** ¿lo elegiríamos si ningún modelo lo hubiera sugerido? Si el motivo necesita más de una línea, no es un motivo.
+
+## Capa de render
+
+| Chequeo | Nivel | Umbral |
+|---|---|---|
+| VA-OVERFLOW | Floor | ningún scroll horizontal 320–1920 px |
+| VA-CONTRAST | Floor | 4.5:1 cuerpo, 3:1 grande |
+| VA-FOLD | Reflex | en ≥ 1024 px el h1 y la primera acción terminan sobre el pliegue |
+| VA-BUDGET | Finish | unas 80 palabras por ventana de 900 px en ≥ 1280 px |
+| VA-HEAD | Finish | el título queda más cerca de lo que encabeza que de lo que lo precede |
+
+## Vitalidad
+
+Una página limpia no es una página buena. Declara tres dials en `DESIGN.md` y cúmplelos:
+
+| Dial | 1 | 2 | 3 |
+|---|---|---|---|
+| **ENERGY** | tranquilo | seguro | experimental |
+| **RHYTHM** | uniforme | algunas rupturas | asimétrico |
+| **MOTION** | cambios de estado | una entrada | coreografía |
+
+RHYTHM 3 con secciones uniformes falla. Una página sin dirección es un *borrador sin dirección* (1 / 1 / 1), no una entrega.
 
 ## Detector
 

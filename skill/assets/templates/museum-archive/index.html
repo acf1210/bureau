@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arquivo Vivo — A photographic archive in Salvador</title>
+<script>document.documentElement.classList.add("js")</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23E7E6E1'/%3E%3Crect y='10' width='64' height='8' fill='%23B3261E'/%3E%3Crect x='22' y='24' width='20' height='28' fill='%23DDE4E2' stroke='%231C1B19' stroke-width='2'/%3E%3Crect x='18' y='52' width='28' height='6' fill='%23807C73'/%3E%3C/svg%3E">
+<meta name="description" content="A public archive of Bahian photography. Every print is shown on a glass easel with its catalogue record on the back; turn it around to read it. Demo template; the archive and photographers are fictional.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@500;700&family=Libre+Caslon+Text:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  /* Lineage: Lina Bo Bardi (works float on glass; the label is on the back) × Alvin Lustig (abstract signs for contents) × Bruno Munari (reading made playful). See LINEAGE.md. */
+  @font-face{font-family:"Epilogue Fallback";src:local("Arial"),local("Liberation Sans");size-adjust:110.0%;ascent-override:71.8%;descent-override:21.8%;line-gap-override:0%}
+  @font-face{font-family:"Libre Caslon Text Fallback";src:local("Times New Roman"),local("Liberation Serif");size-adjust:115.8%;ascent-override:83.8%;descent-override:22.4%;line-gap-override:0%}
+  :root{
+    --floor:#E7E6E1;
+    --floor-2:#D9D7D0;
+    --glass:#DDE4E2;
+    --ink:#1C1B19;
+    --ink-2:#55524B;
+    --pillar:#B3261E;
+    --block:#807C73;
+    --plaque:"Epilogue","Epilogue Fallback",sans-serif;
+    --caption:"Libre Caslon Text","Libre Caslon Text Fallback",serif;
+    --span:clamp(16px,4.5vw,80px);
+    --turn:cubic-bezier(.7,0,.2,1);
+  }
+  *{box-sizing:border-box}
+  html{background:var(--floor);color:var(--ink);overflow-x:clip}
+  body{margin:0;font:400 1.0625rem/1.65 var(--caption)}
+  ::selection{background:var(--pillar);color:var(--floor)}
+  a{color:inherit;text-underline-offset:.22em}
+  :focus-visible{outline:2px solid var(--pillar);outline-offset:3px}
+  .skip{position:absolute;left:var(--span);top:-5rem;background:var(--ink);color:var(--floor);padding:.7rem 1rem;font-family:var(--plaque)}
+  .skip:focus{top:.75rem}
+
+  .portico{position:relative;padding:0 var(--span) clamp(3rem,7vw,6rem)}
+  .beam{height:clamp(14px,1.6vw,22px);background:var(--pillar);margin:0 calc(-1 * var(--span))}
+  .portico__bar{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0}
+  .portico__name{font:700 1.15rem/1 var(--plaque);letter-spacing:.01em;text-decoration:none;display:inline-flex;align-items:center;min-height:44px}
+  .portico nav{display:flex;gap:1.8rem;font-family:var(--plaque);font-weight:500}
+  .portico nav a{text-decoration:none;display:inline-flex;align-items:center;min-height:44px;border-bottom:2px solid transparent;transition:border-color .3s var(--turn)}
+  .portico nav a:hover{border-color:var(--pillar)}
+  .portico__hall{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(2rem,6vw,6rem);padding-top:clamp(2.5rem,6vw,5rem);align-items:end}
+  .portico h1{font:700 clamp(2.8rem,6vw,5.8rem)/.98 var(--plaque);letter-spacing:-.035em;margin:0}
+  .portico__side p{margin:0 0 1.8rem;max-width:34ch;color:var(--ink-2)}
+  .enter{display:inline-flex;align-items:center;min-height:48px;padding:0 1.3rem;background:var(--ink);color:var(--floor);font:700 .95rem/1 var(--plaque);text-decoration:none;border:0;cursor:pointer;transition:background-color .3s var(--turn)}
+  .enter:hover{background:var(--pillar)}
+  .enter--glass{background:var(--glass);color:var(--ink)}
+  .enter--glass:hover{background:var(--floor-2)}
+  .portico__acts{display:flex;gap:.8rem;flex-wrap:wrap}
+  .beam--low{margin-top:clamp(3rem,7vw,6rem)}
+
+  .gallery{padding:clamp(1rem,3vw,2rem) var(--span) clamp(4rem,9vw,8rem)}
+  .gallery__head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:1.5rem;margin-bottom:clamp(2rem,4vw,3rem)}
+  .gallery h2,.visit h2{font:700 clamp(2rem,3.6vw,3.2rem)/1 var(--plaque);letter-spacing:-.03em;margin:0}
+  .signs{display:flex;gap:.5rem;flex-wrap:wrap;font-family:var(--plaque)}
+  .signs button{display:inline-flex;align-items:center;gap:.5rem;min-height:44px;padding:0 .9rem;background:transparent;border:2px solid var(--ink);color:var(--ink);font:500 .95rem/1 var(--plaque);cursor:pointer;transition:background-color .3s var(--turn),color .3s var(--turn)}
+  .signs button svg{width:16px;height:16px}
+  .signs button[aria-pressed="true"]{background:var(--ink);color:var(--floor)}
+  .signs button[aria-pressed="true"] svg *{fill:var(--floor)}
+  .easels{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(1.5rem,3vw,3rem) clamp(1rem,2.5vw,2.5rem)}
+  .easel{display:grid;justify-items:center;perspective:1200px}
+  .easel[hidden]{display:none}
+  .pane{position:relative;width:100%;aspect-ratio:3/4;transform-style:preserve-3d;transition:transform .9s var(--turn)}
+  .easel.is-turned .pane{transform:rotateY(180deg)}
+  .face{position:absolute;inset:0;backface-visibility:hidden;background:rgba(221,228,226,.82);border:1px solid rgba(28,27,25,.22);padding:12%;display:grid;align-content:space-between}
+  .face--back{transform:rotateY(180deg);padding:9%;align-content:start;gap:.4rem;font-size:.95rem;overflow:auto}
+  .face svg{width:100%;height:auto}
+  .face h3{font:700 1.1rem/1.2 var(--plaque);margin:0}
+  .face p{margin:0;font-style:italic;color:var(--ink-2);font-size:.95rem}
+  .record{margin:0;display:grid;grid-template-columns:auto 1fr;gap:.25rem .8rem}
+  .record dt{font:500 .875rem/1.4 var(--plaque);color:var(--ink-2)}
+  .record dd{margin:0;font-size:.95rem;line-height:1.4}
+  .face--back h3{margin-bottom:.4rem}
+  .stand{width:34%;height:18px;background:var(--block);margin-top:-1px}
+  .stand::after{content:"";display:block;width:2px;height:22px;margin:-22px auto 0;background:var(--ink)}
+  .turn{margin-top:.9rem;display:inline-flex;align-items:center;min-height:44px;padding:0 1rem;background:none;border:0;border-bottom:2px solid var(--pillar);font:700 .95rem/1 var(--plaque);color:var(--ink);cursor:pointer}
+  .turn:hover{background:var(--floor-2)}
+  .gallery__note{margin:2.5rem 0 0;font-style:italic;color:var(--ink-2);max-width:60ch}
+
+  .visit{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(2rem,6vw,6rem);padding:clamp(4rem,9vw,8rem) var(--span);background:var(--ink);color:var(--floor)}
+  .visit > div > p{color:#C9C6BD;max-width:36ch}
+  .hours{margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 2rem}
+  .hours div{padding:1.1rem 0;border-top:1px solid #4A4842}
+  .hours dt{font:500 .9rem/1.4 var(--plaque);color:#C9C6BD}
+  .hours dd{margin:.2rem 0 0;font:700 1.3rem/1.3 var(--plaque)}
+  .visit form{grid-column:2;display:grid;grid-template-columns:1fr auto;gap:.6rem;align-items:end;margin-top:1.5rem}
+  .visit label{grid-column:1/-1;font:500 .95rem/1.4 var(--plaque)}
+  .visit input{min-height:48px;background:#2A2925;border:1px solid #6B6860;color:var(--floor);font:400 1rem/1 var(--caption);padding:0 .8rem;min-width:0}
+  .visit .enter{background:var(--pillar);color:var(--floor)}
+  .visit .enter:hover{background:#D23A30}
+  .visit :focus-visible{outline-color:var(--floor)}
+  .visit__status{grid-column:1/-1;margin:0;min-height:1.6em;color:#C9C6BD;font-size:.95rem}
+
+  .colophon{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2rem;padding:2rem var(--span) 2.6rem;font-size:.95rem;color:var(--ink-2)}
+  .colophon p{margin:0}
+  .colophon b{display:block;font-family:var(--plaque);color:var(--ink)}
+
+  @media (max-width:1100px){
+    .easels{grid-template-columns:repeat(3,minmax(0,1fr))}
+  }
+  @media (max-width:860px){
+    .portico__hall,.visit{grid-template-columns:minmax(0,1fr)}
+    .visit form{grid-column:1}
+    .colophon{grid-template-columns:1fr}
+  }
+  @media (max-width:640px){
+    .portico nav a:not(:last-child){display:none}
+    .easels{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:1rem;margin-inline:calc(-1 * var(--span));padding:0 var(--span) 1rem;scroll-padding-inline:var(--span)}
+    .easel{flex:0 0 78%;scroll-snap-align:start}
+    .hours{grid-template-columns:1fr}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .pane{transition:none}
+    .enter,.signs button,.portico nav a{transition:none}
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the collection</a>
+<header class="portico" id="top">
+  <div class="beam" aria-hidden="true"></div>
+  <div class="portico__bar">
+    <a class="portico__name" href="#top">Arquivo Vivo</a>
+    <nav aria-label="Primary">
+      <a href="#collection">Collection</a>
+      <a href="#visit">Visit</a>
+    </nav>
+  </div>
+  <div class="portico__hall">
+    <h1>Every photograph has a back. We show you both.</h1>
+    <div class="portico__side">
+      <p>A public archive of Bahian photography in the Pelourinho. Prints stand on glass easels in one open room, with their records written on the reverse.</p>
+      <div class="portico__acts">
+        <a class="enter" href="#collection">Walk the collection</a>
+        <a class="enter enter--glass" href="#visit">Plan a visit</a>
+      </div>
+    </div>
+  </div>
+  <div class="beam beam--low" aria-hidden="true"></div>
+</header>
+
+<main id="main">
+  <section class="gallery" id="collection" aria-labelledby="collection-title">
+    <div class="gallery__head">
+      <h2 id="collection-title">The open room</h2>
+      <div class="signs" role="group" aria-label="Filter by sign">
+        <button type="button" data-sign="all" aria-pressed="true">Everything</button>
+        <button type="button" data-sign="port" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7"/></svg>The port</button>
+        <button type="button" data-sign="feast" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1 15 15H1Z"/></svg>Feasts</button>
+        <button type="button" data-sign="street" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1" y="1" width="14" height="14"/></svg>Streets</button>
+      </div>
+    </div>
+    <ol class="easels" id="easels">
+      <li class="easel" data-sign="port">
+        <div class="pane">
+          <div class="face face--front"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="44" fill="#1C1B19"/><rect x="10" y="74" width="100" height="10" fill="#B3261E"/><circle cx="80" cy="44" r="10" fill="#E7E6E1"/></svg><div><h3>Saveiros at dawn</h3><p>Rampa do Mercado, 1961</p></div></div>
+          <div class="face face--back"><h3>AV-0112</h3><dl class="record"><dt>Photographer</dt><dd>Celina Prado</dd><dt>Process</dt><dd>Gelatin silver print</dd><dt>Size</dt><dd>24 × 30 cm</dd><dt>Verso</dt><dd>“Maré baixa, 5h40” in pencil</dd><dt>Gift of</dt><dd>The Prado family, 2004</dd></dl></div>
+        </div>
+        <div class="stand" aria-hidden="true"></div>
+        <button class="turn" type="button" aria-pressed="false">See the back</button>
+      </li>
+      <li class="easel" data-sign="feast">
+        <div class="pane">
+          <div class="face face--front"><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M60 12 108 104H12Z" fill="#B3261E"/><path d="M60 46 84 92H36Z" fill="#E7E6E1"/><circle cx="60" cy="74" r="6" fill="#1C1B19"/></svg><div><h3>Washing of the steps</h3><p>Igreja do Bonfim, 1968</p></div></div>
+          <div class="face face--back"><h3>AV-0347</h3><dl class="record"><dt>Photographer</dt><dd>Joaquim Sá</dd><dt>Process</dt><dd>Gelatin silver print</dd><dt>Size</dt><dd>30 × 40 cm</dd><dt>Verso</dt><dd>Studio stamp, Rua Chile</dd><dt>Bought</dt><dd>At auction, 1999</dd></dl></div>
+        </div>
+        <div class="stand" aria-hidden="true"></div>
+        <button class="turn" type="button" aria-pressed="false">See the back</button>
+      </li>
+      <li class="easel" data-sign="street">
+        <div class="pane">
+          <div class="face face--front"><svg viewBox="0 0 120 120" aria-hidden="true"><rect x="14" y="14" width="92" height="92" fill="#1C1B19"/><rect x="34" y="34" width="52" height="52" fill="#DDE4E2"/><rect x="52" y="14" width="16" height="92" fill="#B3261E"/></svg><div><h3>Ladeira do Carmo</h3><p>Pelourinho, 1974</p></div></div>
+          <div class="face face--back"><h3>AV-0561</h3><dl class="record"><dt>Photographer</dt><dd>Celina Prado</dd><dt>Process</dt><dd>Chromogenic print</dd><dt>Size</dt><dd>20 × 25 cm</dd><dt>Verso</dt><dd>Lab sticker, date torn</dd><dt>Gift of</dt><dd>The Prado family, 2004</dd></dl></div>
+        </div>
+        <div class="stand" aria-hidden="true"></div>
+        <button class="turn" type="button" aria-pressed="false">See the back</button>
+      </li>
+      <li class="easel" data-sign="port">
+        <div class="pane">
+          <div class="face face--front"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="44" cy="60" r="32" fill="#B3261E"/><circle cx="76" cy="60" r="32" fill="none" stroke="#1C1B19" stroke-width="6"/></svg><div><h3>Ferry to Itaparica</h3><p>Baía de Todos os Santos, 1959</p></div></div>
+          <div class="face face--back"><h3>AV-0090</h3><dl class="record"><dt>Photographer</dt><dd>Unknown</dd><dt>Process</dt><dd>Gelatin silver contact print</dd><dt>Size</dt><dd>6 × 9 cm</dd><dt>Verso</dt><dd>“Para Lúcia, com saudade”</dd><dt>Found</dt><dd>In a donated album, 2011</dd></dl></div>
+        </div>
+        <div class="stand" aria-hidden="true"></div>
+        <button class="turn" type="button" aria-pressed="false">See the back</button>
+      </li>
+      <li class="easel" data-sign="feast">
+        <div class="pane">
+          <div class="face face--front"><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M20 104 60 24 100 104Z" fill="#1C1B19"/><path d="M40 104 60 64 80 104Z" fill="#B3261E"/></svg><div><h3>Iemanjá, 2 February</h3><p>Rio Vermelho, 1982</p></div></div>
+          <div class="face face--back"><h3>AV-0820</h3><dl class="record"><dt>Photographer</dt><dd>Joaquim Sá</dd><dt>Process</dt><dd>Gelatin silver print</dd><dt>Size</dt><dd>40 × 50 cm</dd><dt>Verso</dt><dd>Exhibition label, 1983</dd><dt>Bought</dt><dd>From the estate, 2016</dd></dl></div>
+        </div>
+        <div class="stand" aria-hidden="true"></div>
+        <button class="turn" type="button" aria-pressed="false">See the back</button>
+      </li>
+      <li class="easel" data-sign="street">
+        <div class="pane">
+          <div class="face face--front"><svg viewBox="0 0 120 120" aria-hidden="true"><rect x="14" y="62" width="44" height="44" fill="#B3261E"/><rect x="62" y="14" width="44" height="92" fill="#1C1B19"/><rect x="14" y="14" width="44" height="44" fill="none" stroke="#1C1B19" stroke-width="4"/></svg><div><h3>Elevador Lacerda</h3><p>Cidade Baixa, 1977</p></div></div>
+          <div class="face face--back"><h3>AV-0644</h3><dl class="record"><dt>Photographer</dt><dd>Marta Oyá</dd><dt>Process</dt><dd>Chromogenic print</dd><dt>Size</dt><dd>28 × 35 cm</dd><dt>Verso</dt><dd>Negative number 77-112</dd><dt>Gift of</dt><dd>The photographer, 2019</dd></dl></div>
+        </div>
+        <div class="stand" aria-hidden="true"></div>
+        <button class="turn" type="button" aria-pressed="false">See the back</button>
+      </li>
+      <li class="easel" data-sign="port">
+        <div class="pane">
+          <div class="face face--front"><svg viewBox="0 0 120 120" aria-hidden="true"><rect x="10" y="40" width="100" height="6" fill="#1C1B19"/><rect x="10" y="58" width="100" height="6" fill="#1C1B19"/><rect x="10" y="76" width="100" height="6" fill="#B3261E"/><circle cx="60" cy="26" r="12" fill="#1C1B19"/></svg><div><h3>Fishermen's nets</h3><p>Itapuã, 1965</p></div></div>
+          <div class="face face--back"><h3>AV-0233</h3><dl class="record"><dt>Photographer</dt><dd>Celina Prado</dd><dt>Process</dt><dd>Gelatin silver print</dd><dt>Size</dt><dd>18 × 24 cm</dd><dt>Verso</dt><dd>Water damage, lower edge</dd><dt>Gift of</dt><dd>The Prado family, 2004</dd></dl></div>
+        </div>
+        <div class="stand" aria-hidden="true"></div>
+        <button class="turn" type="button" aria-pressed="false">See the back</button>
+      </li>
+      <li class="easel" data-sign="street">
+        <div class="pane">
+          <div class="face face--front"><svg viewBox="0 0 120 120" aria-hidden="true"><rect x="22" y="22" width="76" height="76" fill="none" stroke="#B3261E" stroke-width="8"/><circle cx="60" cy="60" r="18" fill="#1C1B19"/></svg><div><h3>Window, Santo Antônio</h3><p>Rua Direita, 1988</p></div></div>
+          <div class="face face--back"><h3>AV-0915</h3><dl class="record"><dt>Photographer</dt><dd>Marta Oyá</dd><dt>Process</dt><dd>Inkjet on cotton paper</dd><dt>Size</dt><dd>30 × 30 cm</dd><dt>Verso</dt><dd>Signed and numbered 2/5</dd><dt>Gift of</dt><dd>The photographer, 2019</dd></dl></div>
+        </div>
+        <div class="stand" aria-hidden="true"></div>
+        <button class="turn" type="button" aria-pressed="false">See the back</button>
+      </li>
+    </ol>
+    <p class="gallery__note">The prints are drawn here as signs, one shape per subject, the way a book cover stands for a novel. The archive and photographers in this demo template are fictional.</p>
+  </section>
+
+  <section class="visit" id="visit" aria-labelledby="visit-title">
+    <div>
+      <h2 id="visit-title">One room, open six days.</h2>
+      <p>Entry is free. The reading room holds the full catalogue; ask at the desk and a print can be brought to the table for you.</p>
+    </div>
+    <div>
+      <dl class="hours">
+        <div><dt>Tuesday to Sunday</dt><dd>10:00 to 18:00</dd></div>
+        <div><dt>Where</dt><dd>Largo do Pelourinho</dd></div>
+        <div><dt>Reading room</dt><dd>By appointment</dd></div>
+        <div><dt>Entry</dt><dd>Free</dd></div>
+      </dl>
+      <form id="reading" novalidate>
+        <label for="email">Ask for a reading-room appointment</label>
+        <input id="email" name="email" type="email" autocomplete="email" required aria-describedby="reading-status">
+        <button class="enter" type="submit">Ask</button>
+        <p class="visit__status" id="reading-status" role="status"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="colophon">
+  <p><b>Arquivo Vivo</b>A fictional archive in a demo template.</p>
+  <p><b>Address</b>Largo do Pelourinho, Salvador</p>
+  <p><b>Write</b><a href="mailto:arquivo@example.com">arquivo@example.com</a></p>
+</footer>
+
+<script>
+(() => {
+  const easels = [...document.querySelectorAll(".easel")];
+  for (const e of easels) {
+    const back = e.querySelector(".face--back"), front = e.querySelector(".face--front"), btn = e.querySelector(".turn");
+    back.inert = true; back.setAttribute("aria-hidden", "true");
+    btn.addEventListener("click", () => {
+      const turned = e.classList.toggle("is-turned");
+      btn.setAttribute("aria-pressed", String(turned));
+      btn.textContent = turned ? "See the front" : "See the back";
+      back.inert = !turned; back.setAttribute("aria-hidden", String(!turned));
+      front.inert = turned; front.setAttribute("aria-hidden", String(turned));
+    });
+  }
+  const signs = [...document.querySelectorAll("[data-sign]")].filter((b) => b.tagName === "BUTTON");
+  signs.forEach((b) => b.addEventListener("click", () => {
+    for (const x of signs) x.setAttribute("aria-pressed", String(x === b));
+    for (const e of easels) e.hidden = b.dataset.sign !== "all" && e.dataset.sign !== b.dataset.sign;
+  }));
+
+  const form = document.getElementById("reading");
+  const status = document.getElementById("reading-status");
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (!form.elements.email.value.includes("@")) { status.textContent = "An email address with an @, please."; form.elements.email.focus(); return; }
+    status.textContent = "Nothing was sent: this demo form is not connected to the archive yet.";
+  });
+})();
+</script>
+</body>
+</html>

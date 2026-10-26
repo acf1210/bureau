@@ -33,6 +33,12 @@ A 95 average with one accessibility P0 is a **Fail**. That is the point.
 
 ---
 
+## Three honesty rules
+
+1. **Judge before you measure.** Write the design review before reading the detector output.
+2. **The builder is the weakest reviewer.** The Tribunal runs in a fresh context, or the run is declared `degraded` and cannot reach Award Track.
+3. **Checked rules hold; prose rules drift.** Every mechanical rule has a failing and a passing fixture.
+
 ## The gates
 
 | Gate | Persona | Weight | Question |
@@ -62,7 +68,9 @@ A 95 average with one accessibility P0 is a **Fail**. That is the point.
 
 **Hard fails:** the idea could serve any competitor; no signature; depends on assets that do not exist.
 
-**Evidence:** three comps at the same viewport + `decision.md`.
+**Evidence:** three comps at the same viewport + `decision.md` + `blend.md` (three lineages on three axes). Hard fail if a reviewer names a single source.
+
+**Pre-build critique:** philosophy, hierarchy, execution, specificity, restraint, variety, 1–5 each, plus the weakest axis and the fix. Any axis under 3 fails G1.
 
 ### G2 — Direction
 
@@ -70,7 +78,7 @@ A 95 average with one accessibility P0 is a **Fail**. That is the point.
 
 **Hard fails:** template with the logo swapped; two competing signatures; a section from another world.
 
-**Evidence:** `DESIGN.md`, type specimen, color sheet, 1440/768/390 viewports.
+**Evidence:** `DESIGN.md`, type specimen, color sheet, 1440/768/390 viewports, `divergence.json`. Hard fail above 0.35 against the scaffold or any template.
 
 ### G3 — Type & Color
 
@@ -111,6 +119,8 @@ A 95 average with one accessibility P0 is a **Fail**. That is the point.
 **Hard fails:** any P0 barrier; missing labels; keyboard trap; contrast failure over media; no captions for speech.
 
 **Evidence:** axe/visual audit, keyboard notes, reduced shot, contrast table, screen-reader notes.
+
+**Heuristics:** Nielsen's ten, 0–4 each, `n/a` with a reason. Under half the applicable maximum fails G7. Add a persona walk: what broke, for whom, on which element.
 
 ### G8 — Truth
 
@@ -175,6 +185,7 @@ The script refuses:
 ```bash
 node skill/scripts/review.mjs --status
 node skill/scripts/review.mjs --gate g0-intake --scores .bureau/review/g0.json
+node skill/scripts/review.mjs --delivery-init
 node skill/scripts/review.mjs --final --tribunal .bureau/review/tribunal.json
 node skill/scripts/review.mjs --report
 ```
@@ -184,6 +195,20 @@ Each gate stores a source/docs hash. If the code changes, the gate becomes `STAL
 State lives in `.bureau/review/state.json`. The scorecard is written as `.md`, `.json`, and `.html`.
 
 ---
+
+## Delivery Gate
+
+`node skill/scripts/review.mjs --delivery-init` writes `.bureau/review/delivery.md`. Every line is `[PASS]` or `[FAIL]` with evidence after an em dash.
+
+| Block | Items |
+|---|---|
+| Floor | DG-F1–F8: proof, controls, contrast, keyboard, reduced motion, overflow, fold at 1280×800, content without JS |
+| Reflex | DG-R1–R3: waivers, attribution test, divergence ≤ 0.35 |
+| Liveliness | DG-L1–L3: dials, focal point and accent, identity motif |
+| Finish | DG-C1–C3: browser surfaces, typographic finish, states |
+| Process | DG-P1–P2: judged before measured, fresh-context Tribunal |
+
+An unchecked line, a `[PASS]` without evidence, or a Floor `N/A` refuses the final.
 
 ## The Tribunal
 
@@ -209,6 +234,8 @@ A veto requires a reason, the smallest fix, and an owner. "I don't like it" is n
 ```
 
 ---
+
+**Method:** `tribunal.json` declares `"method": "isolated"` or `"degraded"`. Degraded caps the verdict at PASS.
 
 ## Anti-gaming
 

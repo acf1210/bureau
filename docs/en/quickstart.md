@@ -61,9 +61,19 @@ cd my-site
 
 | Template | Use |
 |---|---|
-| `kinetic-editorial` | dark editorial, large type, scroll narrative |
-| `product-surface` | technical product with a live demo and data |
-| `immersive-experience` | WebGL, shader, atmosphere, installation |
+| `kinetic-editorial` | Night journal: Tschichold × Lubalin × Bass. An index filed by the live Lisbon hour |
+| `product-surface` | Planning desk: Tufte × Vignelli × Aicher. Raise the waterline; the order of failure follows |
+| `immersive-experience` | Light installation: Moholy-Nagy × Cooper × Eames. Shift the light; shader, title and focus follow |
+| `legal-practice` | Arbitration chambers: Sutnar × Rand × Ruder. Every clause in two registers: legal and plain |
+| `architecture-studio` | Architecture studio: Ando × Mies × Scarpa. A slit of daylight that opens as you scroll |
+| `restaurant-table` | Tasting counter: Barragán × Wyman × J. Albers. Choose your seats on the counter arc |
+| `private-bank` | Family office: Müller-Brockmann × Crouwel × Tufte. Compounding with your numbers, formula shown |
+| `clinic-care` | Respiratory clinic: Hara × Kare × Tanaka. A breathing guide that starts only when pressed |
+| `developer-api` | Geocoding API: Gerstner × Weingart × Greiman. A playground that really matches typos |
+| `fashion-atelier` | Tailoring atelier: Brodovitch × A. Albers × B. Thompson. A pattern drafted from your measurements |
+| `record-label` | Record label: Reid Miles × Saville × Brody. Type-only sleeves that play a synthesised sketch |
+| `museum-archive` | Photographic archive: Bo Bardi × Lustig × Munari. Glass easels with the record on the back |
+| `hardware-store` | Product shop: Rams × Sottsass × Castiglioni. Configure the lamp, then see it apart, priced |
 
 Each template is self-contained: HTML, CSS, JS, media, tokens.
 
@@ -94,7 +104,7 @@ Or do it manually:
 2. Produce three comps at the same viewport (1440×900) with real content.
 3. Name each direction; write the thesis, signature move, and risk.
 4. Score with the matrix in `skill/references/02-concept-engine.md`.
-5. Record the decision in `.bureau/comps/decision.md`.
+5. Record the decision in `.bureau/comps/decision.md` and the blend in `.bureau/comps/blend.md`.
 
 Without three directions there is no decision — only the first impulse.
 

@@ -18,7 +18,7 @@ Weak concept: "Modern, clean, trustworthy fintech." No tension, no form, no owne
 
 ## 2. Generate three, not one
 
-Three directions force a real decision. They must differ on **at least three of the four axes** (ground, voice, light, motion) and on the signature move.
+Three directions force a real decision. They must differ on **at least three of the four axes** (ground, voice, light, motion), on the signature move, and on the lineage: no source may appear in two directions.
 
 For each direction write:
 
@@ -32,6 +32,7 @@ For each direction write:
 - Technological proof: <one sentence>
 - Content logic: <how the real content will be organized>
 - Risk: <what could make it fail>
+- Lineage: <dominant × counter × accent — designer, work, axis each (see the blend reference)>
 - Precedent (not to copy): <2 links / works>
 ```
 
@@ -129,7 +130,8 @@ Use these as starting points, never as answers.
 
 ## 9. Output of Gate 1
 
-- Three directions with the template above.
+- Three directions with the template above, each with its own lineage.
+- `.bureau/comps/blend.md` for the chosen direction.
 - Three comps at the same viewport.
 - A decision matrix with a chosen direction.
 - A one-page `decision.md` naming the signature move, the technological proof, and the first three sections.

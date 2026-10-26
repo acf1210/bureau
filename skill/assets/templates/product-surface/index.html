@@ -4,460 +4,398 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>TIDE — Coastal planning desk</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230B0B0C'/%3E%3Crect x='8' y='8' width='6' height='48' fill='%23D6FF3E'/%3E%3Cpath d='M22 8h18c8 0 13 4.5 13 12 0 5-2.6 8.6-7 10.5 5.4 1.7 8.5 5.6 8.5 11.2C54.5 51 48.6 56 39.5 56H22V8Z' fill='%23F1EDE6'/%3E%3C/svg%3E">
-<meta name="description" content="A live scenario desk for coastal planners. Raise the waterline, see which assets, people and years are exposed. Demo dataset.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%231D6A86'/%3E%3Cpath d='M0 40c8 0 8-5 16-5s8 5 16 5 8-5 16-5 8 5 16 5v24H0Z' fill='%23F1F2EE'/%3E%3Crect y='28' width='64' height='3' fill='%23D9581A'/%3E%3C/svg%3E">
+<meta name="description" content="A scenario desk for coastal planners. Raise the waterline and read what stops working first, in order. Illustrative dataset.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400..500&family=Instrument+Serif:ital@0;1&family=Libre+Franklin:wght@300..600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
 <style>
+  /* Lineage: Tufte (data-ink, small multiples) × Vignelli (one family, strict grid, line diagram) × Aicher (restricted colour, pictograms). See LINEAGE.md. */
   :root{
-    --paper:#EDE8DE;
-    --paper-2:#F5F1E9;
-    --ink:#14211C;
-    --ink-2:#0E3B2E;
-    --muted:#5B5F55;
-    --line:#C9C1B2;
-    --line-dark:rgba(237,232,222,.18);
-    --clay:#9C3F2A;
-    --lime:#C9E265;
-    --sea:#2E6B5B;
-    --display:"Instrument Serif",Georgia,serif;
-    --body:"Libre Franklin",system-ui,sans-serif;
-    --mono:"IBM Plex Mono",ui-monospace,monospace;
-    --pad:clamp(1.25rem,4vw,4.5rem);
-    --ease:cubic-bezier(.16,1,.3,1);
+    --survey:#F1F2EE;
+    --survey-deep:#E4E8E3;
+    --chart-ink:#0F2A33;
+    --chart-ink-2:#4A5B60;
+    --hairline:#C5CCC8;
+    --sea:#1D6A86;
+    --sea-deep:#134B60;
+    --waterline:#D9581A;
+    --waterline-text:#A33F0C;
+    --sans:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;
+    --data:"IBM Plex Mono","SFMono-Regular",Menlo,monospace;
+    --s-12:.75rem;--s-16:1rem;--s-28:1.75rem;--s-72:clamp(2.75rem,6.2vw,4.5rem);
+    --u:8px;
+    --edge:clamp(16px,3.2vw,48px);
+    --snap:cubic-bezier(.2,.7,.2,1);
   }
   *{box-sizing:border-box}
-  html{overflow-x:clip;background:var(--paper);color:var(--ink);scroll-behavior:smooth}
-  body{margin:0;font:400 16px/1.6 var(--body);background:var(--paper);overflow-x:clip}
-  ::selection{background:var(--lime);color:var(--ink)}
-  a{color:inherit;text-decoration:none}
-  button,input,select{font:inherit;color:inherit}
-  :focus-visible{outline:2px solid var(--clay);outline-offset:3px}
-  .skip{position:fixed;left:1rem;top:1rem;z-index:100;background:var(--ink);color:var(--paper);padding:.7rem 1rem;transform:translateY(-200%);transition:transform .2s var(--ease)}
-  .skip:focus{transform:none}
-  .shell{width:min(100%,1480px);margin-inline:auto;padding-inline:var(--pad)}
-  .eyebrow{font:500 12px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-  .site-head{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:1.15rem var(--pad);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50;background:var(--paper)}
-  .brand{font:600 18px/1 var(--body);letter-spacing:.16em;display:inline-flex;align-items:center;min-height:44px}
-  .brand span{color:var(--clay)}
-  .nav{display:flex;gap:1.6rem;font:500 13px/1 var(--body);color:var(--muted)}
-  .nav a{display:inline-flex;align-items:center;min-height:44px;padding-block:.3rem;border-bottom:1px solid transparent;transition:color .2s var(--ease),border-color .2s var(--ease)}
-  .nav a:hover,.nav a:focus-visible{color:var(--ink);border-color:var(--ink)}
-  .status{display:inline-flex;align-items:center;gap:.5rem;font:400 12px/1 var(--mono);color:var(--ink-2);background:var(--lime);padding:.45rem .6rem;border-radius:2px}
-  .status i{width:7px;height:7px;border-radius:50%;background:var(--ink-2);display:inline-block}
-  .hero{position:relative;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:clamp(1.5rem,3.5vw,4rem);align-items:start;padding-top:clamp(3rem,7vw,6rem);padding-bottom:clamp(3rem,7vw,6rem);min-height:88svh}
-  .hero__copy{grid-column:1/7;position:relative;z-index:2}
-  .hero h1{font:400 clamp(3.1rem,6.8vw,7.4rem)/.9 var(--display);letter-spacing:-.035em;margin:.5rem 0 1.6rem;max-width:12ch}
-  .hero h1 em{font-style:italic;color:var(--clay)}
-  .hero__lede{max-width:38ch;color:var(--muted);font-size:clamp(1rem,1.3vw,1.15rem);margin:0 0 2rem}
-  .hero__actions{display:flex;flex-wrap:wrap;gap:1.2rem;align-items:center}
-  .button{display:inline-flex;align-items:center;justify-content:center;gap:.7rem;background:var(--ink-2);color:var(--paper);border:1px solid var(--ink-2);padding:.95rem 1.15rem;font:500 13px/1 var(--body);letter-spacing:.02em;cursor:pointer;transition:background .2s var(--ease),color .2s var(--ease),transform .2s var(--ease)}
-  .button:hover{background:var(--clay);border-color:var(--clay);transform:translateY(-2px)}
-  .button--ghost{background:transparent;color:var(--ink);border-color:var(--line)}
-  .button--ghost:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-  .hero__waterline{position:absolute;left:0;right:0;bottom:calc(9% + var(--rise,0) * 0.18%);height:1px;background:var(--clay);z-index:1;pointer-events:none;transition:bottom .35s var(--ease)}
-  .hero__waterline::before{content:"2050 scenario";position:absolute;right:var(--pad);top:-1.3rem;font:400 12px/1 var(--mono);color:var(--clay);letter-spacing:.06em}
-  .hero__waterline::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,var(--clay),transparent);opacity:.35}
-  .instrument{grid-column:7/13;position:relative;z-index:2;background:var(--paper-2);border:1px solid var(--line);box-shadow:0 24px 60px -40px rgba(20,33,28,.45)}
-  .instrument__head{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start;padding:1rem 1.2rem .9rem;border-bottom:1px solid var(--line)}
-  .instrument__head p{margin:0;font:500 12px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-  .instrument__head b{font-weight:500;color:var(--ink)}
-  .readout{display:flex;align-items:flex-end;gap:.4rem;padding:1.2rem 1.2rem .6rem}
-  .readout strong{font:400 clamp(3.4rem,5.4vw,5.4rem)/.82 var(--display);letter-spacing:-.04em}
-  .readout span{font:500 13px/1.4 var(--mono);color:var(--muted);padding-bottom:.45rem}
-  .readout .delta{margin-left:auto;color:var(--clay);padding-bottom:.55rem}
-  .control{padding:.4rem 1.2rem 1.2rem}
-  .control label{display:flex;justify-content:space-between;gap:1rem;font:500 12px/1.4 var(--mono);color:var(--muted);margin-bottom:.7rem}
-  .control output{color:var(--ink);font-weight:500}
-  input[type="range"]{width:100%;accent-color:var(--ink-2);height:28px;cursor:pointer}
-  input[type="range"]::-webkit-slider-runnable-track{height:3px;background:var(--line)}
-  input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;margin-top:-7.5px;border-radius:50%;background:var(--ink-2);border:3px solid var(--paper-2);box-shadow:0 0 0 1px var(--ink-2)}
-  input[type="range"]::-moz-range-track{height:3px;background:var(--line)}
-  input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--ink-2);border:3px solid var(--paper-2)}
-  .chart-wrap{padding:0 1.2rem}
-  .chart{width:100%;height:auto;display:block;overflow:visible}
-  .chart .grid{stroke:var(--line);stroke-width:1}
-  .chart .axis{fill:var(--muted);font:10px var(--mono)}
-  .chart .obs{fill:none;stroke:var(--ink);stroke-width:1.5}
-  .chart .proj{fill:none;stroke:var(--clay);stroke-width:2}
-  .chart .area{fill:var(--clay);opacity:.08}
-  .chart .marker{fill:var(--clay)}
-  .chart .nowline{stroke:var(--ink);stroke-dasharray:2 4;opacity:.4}
-  .legend{display:flex;flex-wrap:wrap;gap:1rem;padding:.6rem 1.2rem 1rem;font:400 12px/1.4 var(--mono);color:var(--muted)}
-  .legend i{display:inline-block;width:14px;height:2px;vertical-align:middle;margin-right:.4rem}
-  .legend .obs-i{background:var(--ink)}
-  .legend .proj-i{background:var(--clay)}
-  .impact{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}
-  .impact div{padding:1rem 1.2rem;border-right:1px solid var(--line)}
-  .impact div:last-child{border-right:0}
-  .impact dt{font:500 12px/1.3 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem}
-  .impact dd{margin:0;font:400 clamp(1.5rem,2.2vw,2.1rem)/1 var(--display)}
-  .impact dd span{display:block;font:400 12px/1.4 var(--mono);color:var(--muted);margin-top:.35rem}
-  .note{padding:.8rem 1.2rem;border-top:1px solid var(--line);font:400 12px/1.45 var(--mono);color:var(--muted);margin:0}
-  .section{padding-block:clamp(4.5rem,10vw,9rem);border-top:1px solid var(--line)}
-  .section-head{display:grid;grid-template-columns:repeat(12,1fr);gap:2rem;margin-bottom:clamp(2.5rem,5vw,5rem);align-items:end}
-  .section-head h2{grid-column:1/8;font:400 clamp(2.4rem,5vw,5rem)/.95 var(--display);letter-spacing:-.03em;margin:0;max-width:16ch}
-  .section-head p{grid-column:9/13;margin:0;color:var(--muted);max-width:34ch}
-  .method{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(1.5rem,3vw,3rem);align-items:start}
-  .method__figure{grid-column:1/6;margin:0;position:sticky;top:6rem}
-  .method__figure svg{width:100%;height:auto;display:block;border:1px solid var(--line);background:var(--paper-2)}
-  .method__figure figcaption{font:400 12px/1.5 var(--mono);color:var(--muted);margin-top:.7rem}
-  .steps{grid-column:6/13;counter-reset:step}
-  .step{display:grid;grid-template-columns:3rem 1fr;gap:1rem;padding:1.6rem 0;border-top:1px solid var(--line)}
-  .step:last-child{border-bottom:1px solid var(--line)}
-  .step::before{counter-increment:step;content:"0" counter(step);font:500 12px/1.4 var(--mono);color:var(--clay)}
-  .step h3{font:400 clamp(1.35rem,2vw,1.9rem)/1.1 var(--display);margin:0 0 .5rem}
-  .step p{margin:0;color:var(--muted);max-width:48ch}
-  .scenarios{background:var(--ink-2);color:var(--paper);border-top:0}
-  .scenarios .eyebrow{color:#A8BDB2}
-  .scenarios h2{color:var(--paper)}
-  .scenarios p{color:#C4D2CA}
-  .table-wrap{overflow-x:auto;border:1px solid var(--line-dark)}
-  table{width:100%;border-collapse:collapse;min-width:640px}
-  caption{text-align:left;font:400 12px/1.5 var(--mono);color:#A8BDB2;padding:.7rem .9rem;border-bottom:1px solid var(--line-dark)}
-  th,td{padding:1rem .9rem;text-align:left;border-bottom:1px solid var(--line-dark);vertical-align:top}
-  th{font:500 12px/1.4 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:#A8BDB2}
-  td{font-size:.95rem}
-  td strong{font-family:var(--display);font-size:1.4rem;font-weight:400}
-  .scenario{background:transparent;color:var(--lime);border:1px solid #466B5C;padding:.5rem .65rem;font:500 12px/1 var(--mono);cursor:pointer;transition:background .2s var(--ease),color .2s var(--ease)}
-  .scenario:hover{background:var(--lime);color:var(--ink-2)}
-  .briefing{display:grid;grid-template-columns:repeat(12,1fr);gap:2rem}
-  .briefing__copy{grid-column:1/6}
-  .briefing__copy h2{font:400 clamp(2.4rem,4.4vw,4.4rem)/.96 var(--display);letter-spacing:-.03em;margin:.4rem 0 1rem}
-  .briefing__copy p{color:var(--muted);max-width:34ch}
-  .form{grid-column:7/13;display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-  .form .full{grid-column:1/-1}
-  .field label{display:block;font:500 12px/1.4 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:.45rem}
-  .field input,.field select{width:100%;background:transparent;border:1px solid var(--line);padding:.8rem .75rem;font:400 1rem/1.3 var(--body);color:var(--ink)}
-  .field input:focus-visible,.field select:focus-visible{outline:2px solid var(--clay);outline-offset:1px;border-color:var(--clay)}
-  .form .button{justify-self:start}
-  .form-note{grid-column:1/-1;margin:0;font:400 12px/1.5 var(--mono);color:var(--muted);min-height:1.5em}
-  .footer{border-top:1px solid var(--line);padding:2rem 0 2.4rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font:400 12px/1.5 var(--mono);color:var(--muted)}
-  .footer a{border-bottom:1px solid var(--line)}
-  .footer a:hover{color:var(--clay);border-color:var(--clay)}
-  .reveal{opacity:0;transform:translateY(22px);transition:opacity .65s var(--ease),transform .65s var(--ease)}
-  .reveal.in{opacity:1;transform:none}
-  details{border-top:1px solid var(--line);padding:0}
-  details:last-of-type{border-bottom:1px solid var(--line)}
-  summary{cursor:pointer;padding:1.1rem 0;font:400 clamp(1.1rem,1.6vw,1.35rem)/1.3 var(--display);list-style:none;display:flex;justify-content:space-between;gap:1rem}
-  summary::-webkit-details-marker{display:none}
-  summary::after{content:"+";font-family:var(--mono);font-size:1rem;color:var(--clay)}
-  details[open] summary::after{content:"−"}
-  details p{margin:0 0 1.2rem;color:var(--muted);max-width:60ch}
-  @media (max-width:1000px){
-    .hero__copy,.instrument{grid-column:1/13}
-    .hero__copy{max-width:none}
-    .instrument{margin-top:1rem}
-    .hero__waterline{display:none}
-    .section-head h2,.section-head p{grid-column:1/13}
-    .method__figure{grid-column:1/13;position:static}
-    .steps{grid-column:1/13}
-    .briefing__copy,.form{grid-column:1/13}
+  html{background:var(--survey);color:var(--chart-ink)}
+  body{margin:0;font:400 var(--s-16)/1.5 var(--sans);font-feature-settings:"tnum" 1}
+  ::selection{background:var(--sea);color:var(--survey)}
+  a{color:inherit}
+  :focus-visible{outline:2px solid var(--waterline);outline-offset:2px}
+  .skip{position:absolute;left:var(--edge);top:-5rem;background:var(--chart-ink);color:var(--survey);padding:calc(var(--u)*1.5) calc(var(--u)*2)}
+  .skip:focus{top:var(--u)}
+  .grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:calc(var(--u)*3);padding-inline:var(--edge);max-width:1440px;margin-inline:auto}
+  .code{font:500 var(--s-12)/1.4 var(--data);color:var(--chart-ink-2)}
+
+  .bar{display:flex;align-items:center;gap:calc(var(--u)*4);padding:calc(var(--u)*1.5) var(--edge);border-bottom:1px solid var(--chart-ink);background:var(--survey);position:sticky;top:0;z-index:5}
+  .bar__brand{font:600 var(--s-16)/1 var(--sans);letter-spacing:.2em;text-decoration:none;display:inline-flex;align-items:center;min-height:44px}
+  .line-nav{display:flex;margin-left:auto;position:relative}
+  .line-nav::before{content:"";position:absolute;left:12px;right:12px;top:50%;height:3px;margin-top:-1.5px;background:var(--sea)}
+  .line-nav a{position:relative;display:inline-flex;align-items:center;gap:var(--u);min-height:44px;padding-inline:calc(var(--u)*1.5);text-decoration:none;font-size:var(--s-12);font-weight:600;background:var(--survey);margin-inline:calc(var(--u)*1.5)}
+  .line-nav a::before{content:"";width:12px;height:12px;border-radius:50%;border:3px solid var(--sea);background:var(--survey);transition:background-color .16s var(--snap)}
+  .line-nav a[aria-current="true"]::before,.line-nav a:hover::before{background:var(--sea)}
+  .bar__flag{font:500 var(--s-12)/1 var(--data);color:var(--sea-deep);border:1px solid var(--sea);padding:calc(var(--u)*.75) var(--u)}
+
+  .desk{padding-block:calc(var(--u)*7) calc(var(--u)*9);position:relative;row-gap:calc(var(--u)*3)}
+  .desk__copy{grid-column:1/6}
+  .desk h1{font:600 var(--s-72)/1 var(--sans);letter-spacing:-.035em;margin:calc(var(--u)*2) 0 calc(var(--u)*3)}
+  .desk__lede{font-size:var(--s-16);max-width:40ch;margin:0 0 calc(var(--u)*4);color:var(--chart-ink-2)}
+  .desk__summary{border-top:1px solid var(--chart-ink);padding-top:calc(var(--u)*2);font-size:var(--s-28);line-height:1.15;letter-spacing:-.01em;margin:0;max-width:22ch}
+  .desk__summary b{font-weight:600;color:var(--waterline-text)}
+  .act{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:calc(var(--u)*2.5);background:var(--sea);color:var(--survey);border:0;font:600 var(--s-16)/1 var(--sans);text-decoration:none;cursor:pointer;transition:background-color .16s var(--snap)}
+  .act:hover{background:var(--sea-deep)}
+  .act--quiet{background:transparent;color:var(--chart-ink);box-shadow:inset 0 0 0 1px var(--chart-ink)}
+  .act--quiet:hover{background:var(--survey-deep)}
+  .desk__acts{display:flex;gap:calc(var(--u)*2);flex-wrap:wrap;margin-top:calc(var(--u)*4)}
+
+  .instrument{grid-column:7/13;border-top:3px solid var(--chart-ink);padding-top:calc(var(--u)*2)}
+  .instrument__head{display:flex;justify-content:space-between;gap:var(--u);margin:0 0 calc(var(--u)*2)}
+  .readout{display:flex;align-items:baseline;gap:calc(var(--u)*1.5);margin:0}
+  .readout strong{font:600 var(--s-72)/1 var(--sans);letter-spacing:-.04em}
+  .readout .delta{font:500 var(--s-16)/1 var(--data);color:var(--waterline-text)}
+  .control{margin:calc(var(--u)*2) 0}
+  .control label{display:flex;justify-content:space-between;font-size:var(--s-12);font-weight:600;margin-bottom:var(--u)}
+  .control output{font-family:var(--data);font-weight:500}
+  input[type="range"]{width:100%;height:32px;accent-color:var(--waterline);cursor:pointer;margin:0}
+  .chart{display:block;width:100%;height:auto;overflow:visible}
+  .chart .tick{fill:var(--chart-ink-2);font:12px var(--data)}
+  .chart .base{stroke:var(--chart-ink);stroke-width:1}
+  .chart .obs{fill:none;stroke:var(--chart-ink);stroke-width:1.5}
+  .chart .proj{fill:none;stroke:var(--waterline);stroke-width:2}
+  .chart .direct{font:500 12px var(--sans)}
+  .chart .direct--obs{fill:var(--chart-ink)}
+  .chart .direct--proj{fill:var(--waterline-text)}
+  .instrument__note{font:400 var(--s-12)/1.5 var(--data);color:var(--chart-ink-2);margin:calc(var(--u)*1.5) 0 0}
+  .desk__waterline{position:absolute;left:0;right:0;bottom:calc(var(--u)*4 + var(--rise,0) * .22%);height:0;border-top:2px solid var(--waterline);pointer-events:none;transition:bottom .16s var(--snap)}
+
+  .band{padding-block:calc(var(--u)*9);border-top:1px solid var(--chart-ink)}
+  .band__head{grid-column:1/5}
+  .band__head h2{font:600 var(--s-28)/1.15 var(--sans);letter-spacing:-.015em;margin:var(--u) 0 calc(var(--u)*2)}
+  .band__head p{margin:0;color:var(--chart-ink-2);max-width:34ch}
+
+  .failures{grid-column:6/13;list-style:none;margin:0;padding:0;counter-reset:fail}
+  .failures li{display:grid;grid-template-columns:40px minmax(0,1fr) 5.5rem;column-gap:calc(var(--u)*2);align-items:center;padding-block:calc(var(--u)*1.5);border-bottom:1px solid var(--hairline);transition:color .16s var(--snap)}
+  .failures svg{width:40px;height:40px;display:block}
+  .failures .pict{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:square}
+  .failures h3{font:600 var(--s-16)/1.3 var(--sans);margin:0}
+  .failures p{margin:0;color:var(--chart-ink-2);font-size:var(--s-12)}
+  .failures .cm{font:500 var(--s-16)/1 var(--data);text-align:right}
+  .failures .meter{grid-column:2/4;height:2px;background:var(--hairline);margin-top:var(--u);position:relative}
+  .failures .meter i{position:absolute;inset:0 auto 0 0;width:calc(var(--cm) / 120 * 100%);background:var(--chart-ink)}
+  .failures li.under{color:var(--waterline-text)}
+  .failures li.under .meter i{background:var(--waterline)}
+
+  .multiples{grid-column:1/13;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:calc(var(--u)*3);margin-top:calc(var(--u)*5)}
+  .multiple{margin:0;border-top:1px solid var(--chart-ink);padding-top:calc(var(--u)*1.5)}
+  .multiple svg{display:block;width:100%;height:auto;margin:var(--u) 0 calc(var(--u)*1.5)}
+  .multiple dl{display:grid;grid-template-columns:auto 1fr;gap:calc(var(--u)*.5) calc(var(--u)*2);margin:0 0 calc(var(--u)*2);font-size:var(--s-12)}
+  .multiple dt{color:var(--chart-ink-2)}
+  .multiple dd{margin:0;font-family:var(--data);font-weight:500}
+  .multiple figcaption{font-weight:600;display:flex;justify-content:space-between;gap:var(--u)}
+
+  .faq{grid-column:6/13}
+  .faq details{border-bottom:1px solid var(--hairline)}
+  .faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:calc(var(--u)*2);padding-block:calc(var(--u)*2);font-weight:600;min-height:44px}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";font-family:var(--data);color:var(--sea)}
+  .faq details[open] summary::after{content:"–"}
+  .faq details p{margin:0 0 calc(var(--u)*2);color:var(--chart-ink-2);max-width:62ch}
+
+  .request{grid-column:6/13;display:grid;grid-template-columns:1fr 1fr;gap:calc(var(--u)*2)}
+  .request .wide{grid-column:1/-1}
+  .request label{display:block;font-size:var(--s-12);font-weight:600;margin-bottom:calc(var(--u)*.75)}
+  .request input{width:100%;min-height:48px;background:var(--survey);border:1px solid var(--chart-ink-2);padding-inline:calc(var(--u)*1.5);font:400 var(--s-16)/1 var(--sans);color:var(--chart-ink)}
+  .request input:focus-visible{outline:2px solid var(--waterline);outline-offset:0;border-color:var(--chart-ink)}
+  .request .act{justify-self:start}
+  .request__status{grid-column:1/-1;margin:0;min-height:1.5em;font-size:var(--s-12);color:var(--chart-ink-2)}
+
+  .ledger{border-top:3px solid var(--chart-ink);padding-block:calc(var(--u)*5) calc(var(--u)*6);background:var(--survey-deep)}
+  .ledger h2{grid-column:1/5;font:600 var(--s-16)/1.3 var(--sans);margin:0}
+  .ledger dl{grid-column:5/13;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:calc(var(--u)*3);margin:0;font-size:var(--s-12)}
+  .ledger dt{font-weight:600;margin-bottom:calc(var(--u)*.5)}
+  .ledger dd{margin:0;color:var(--chart-ink-2)}
+  .ledger p{grid-column:5/13;margin:calc(var(--u)*4) 0 0;font:400 var(--s-12)/1.5 var(--data);color:var(--chart-ink-2)}
+
+  @media (max-width:1040px){
+    .desk__copy,.instrument,.band__head,.failures,.faq,.request,.ledger h2,.ledger dl,.ledger p{grid-column:1/-1}
+    .band__head{margin-bottom:calc(var(--u)*4)}
+    .ledger dl{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:calc(var(--u)*2)}
+    .line-nav a{margin-inline:calc(var(--u)*.5)}
   }
   @media (max-width:720px){
-    .nav{display:none}
-    .status{font-size:0}
-    .status i{margin:0}
-    .impact{grid-template-columns:1fr}
-    .impact div{border-right:0;border-bottom:1px solid var(--line)}
-    .form{grid-template-columns:1fr}
-    .form .full{grid-column:1}
-    .site-head{position:static}
+    .bar{flex-wrap:wrap;gap:var(--u)}
+    .line-nav{margin-left:0;order:3;width:100%}
+    .line-nav a{flex:1;padding-inline:0;margin-inline:0;justify-content:center;background:transparent}
+    .line-nav::before{left:24px;right:24px}
+    .line-nav a span{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+    .bar__flag{margin-left:auto}
+    .multiples{grid-template-columns:1fr;row-gap:calc(var(--u)*4)}
+    .request{grid-template-columns:1fr}
+    .ledger dl{grid-template-columns:1fr}
+    .desk__waterline{display:none}
   }
   @media (prefers-reduced-motion:reduce){
-    html{scroll-behavior:auto}
-    *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
-    .reveal{opacity:1;transform:none}
-    .hero__waterline{transition:none}
+    .desk__waterline,.act,.failures li,.line-nav a::before{transition:none}
   }
 </style>
 </head>
 <body>
-<a class="skip" href="#main">Skip to content</a>
-<header class="site-head">
-  <a class="brand" href="#top">TIDE<span>.</span></a>
-  <nav class="nav" aria-label="Primary">
-    <a href="#method">Method</a>
-    <a href="#scenarios">Scenarios</a>
-    <a href="#briefing">Briefing</a>
+<a class="skip" href="#main">Skip to the desk</a>
+<header class="bar">
+  <a class="bar__brand" href="#top">TIDE</a>
+  <nav class="line-nav" aria-label="Sections">
+    <a href="#top"><span>Desk</span></a>
+    <a href="#failure"><span>Order of failure</span></a>
+    <a href="#futures"><span>Futures</span></a>
+    <a href="#briefing"><span>Briefing</span></a>
   </nav>
-  <p class="status"><i aria-hidden="true"></i> Demo dataset</p>
+  <p class="bar__flag">Illustrative data</p>
 </header>
 
 <main id="main">
-  <section class="hero shell" id="top">
-    <div class="hero__copy">
-      <p class="eyebrow">Coastal planning desk · Matosinhos, PT</p>
-      <h1>The tide is a <em>schedule</em>, not a surprise.</h1>
-      <p class="hero__lede">Raise the waterline and see what a coastal plan is actually protecting: buildings, people, and the years you have left to adapt.</p>
-      <div class="hero__actions">
-        <a class="button" href="#scenarios">Open the scenarios</a>
-        <a class="button button--ghost" href="#method">Read the method</a>
+  <section class="desk grid" id="top" aria-labelledby="desk-title">
+    <div class="desk__copy">
+      <p class="code">Matosinhos, sector 04</p>
+      <h1 id="desk-title">The tide is a schedule, not a surprise.</h1>
+      <p class="desk__lede">Raise the waterline and read what a coastal plan is protecting: the order in which streets, drains and buildings stop doing their job.</p>
+      <p class="desk__summary" id="summary">At +0 cm, <b>0 of 5</b> listed assets stop working.</p>
+      <div class="desk__acts">
+        <a class="act" href="#futures">Compare three futures</a>
+        <a class="act act--quiet" href="#failure">Read the order of failure</a>
       </div>
     </div>
 
-    <aside class="instrument" aria-labelledby="instrument-title">
+    <div class="instrument" role="group" aria-labelledby="instrument-title">
       <div class="instrument__head">
-        <p id="instrument-title">Waterline model<br><b>Matosinhos · sector 04</b></p>
-        <p style="text-align:right">Updated<br><b>26 Oct 2026</b></p>
+        <p class="code" id="instrument-title">Waterline model, sector 04</p>
+        <p class="code">Revised 26 Oct 2026</p>
       </div>
-      <div class="readout">
-        <strong id="level">1.42</strong><span>m above baseline</span>
-        <span class="delta" id="delta">+0.00 m</span>
-      </div>
+      <p class="readout"><strong id="level">1.42</strong><span class="code">m above datum</span><span class="delta" id="delta">+0.00 m</span></p>
       <div class="control">
-        <label for="rise">Sea-level rise scenario <output id="rise-out" for="rise">0 cm</output></label>
+        <label for="rise">Sea-level rise <output id="rise-out" for="rise">0 cm</output></label>
         <input id="rise" type="range" min="0" max="120" step="5" value="0" aria-describedby="rise-help">
-        <p id="rise-help" class="note" style="border:0;padding:.4rem 0 0">Drag or use arrow keys. Values are illustrative, not a forecast.</p>
       </div>
-      <div class="chart-wrap">
-        <svg class="chart" id="chart" viewBox="0 0 520 220" role="img" aria-labelledby="chart-title chart-desc">
-          <title id="chart-title">Projected sea level to 2100</title>
-          <desc id="chart-desc">A line chart comparing observed sea level with a projected scenario that responds to the slider.</desc>
-          <g aria-hidden="true">
-            <line class="grid" x1="40" y1="20" x2="500" y2="20"></line>
-            <line class="grid" x1="40" y1="70" x2="500" y2="70"></line>
-            <line class="grid" x1="40" y1="120" x2="500" y2="120"></line>
-            <line class="grid" x1="40" y1="170" x2="500" y2="170"></line>
-            <line class="nowline" x1="52" y1="18" x2="52" y2="176"></line>
-            <text class="axis" x="40" y="192">2026</text>
-            <text class="axis" x="250" y="192">2060</text>
-            <text class="axis" x="470" y="192">2100</text>
-            <text class="axis" x="4" y="24">2.4 m</text>
-            <text class="axis" x="4" y="174">0.4 m</text>
-            <path class="area" id="area" d=""></path>
-            <path class="obs" id="obs" d="M52 164 L120 160 L190 156 L260 150 L330 146 L400 140 L470 136"></path>
-            <path class="proj" id="proj" d=""></path>
-            <circle class="marker" id="marker" cx="470" cy="136" r="3.5"></circle>
-          </g>
-        </svg>
-      </div>
-      <div class="legend" aria-hidden="true">
-        <span><i class="obs-i"></i>Observed</span>
-        <span><i class="proj-i"></i>Scenario</span>
-        <span style="margin-left:auto">Baseline: 1990–2020</span>
-      </div>
-      <dl class="impact">
-        <div><dt>Assets below line</dt><dd id="assets">312<span>buildings in sector 04</span></dd></div>
-        <div><dt>People exposed</dt><dd id="people">8,400<span>residents and workers</span></dd></div>
-        <div><dt>Adaptation window</dt><dd id="years">18<span>years at current pace</span></dd></div>
-      </dl>
-      <p class="note">Illustrative dataset built for this template. Replace with a licensed model before any planning decision.</p>
-    </aside>
-    <div class="hero__waterline" aria-hidden="true"></div>
+      <svg class="chart" viewBox="0 0 520 200" role="img" aria-labelledby="chart-title chart-desc">
+        <title id="chart-title">Sea level, observed and scenario, 2026 to 2100</title>
+        <desc id="chart-desc">Two lines. The current trend rises slowly; the scenario line bends upward with the slider.</desc>
+        <g aria-hidden="true">
+          <line class="base" x1="40" y1="170" x2="470" y2="170"></line>
+          <text class="tick" x="40" y="188">2026</text>
+          <text class="tick" x="240" y="188">2060</text>
+          <text class="tick" x="440" y="188">2100</text>
+          <text class="tick" x="0" y="24">2.4 m</text>
+          <text class="tick" x="0" y="168">0.4 m</text>
+          <path class="obs" id="obs" d=""></path>
+          <path class="proj" id="proj" d=""></path>
+          <text class="direct direct--obs" id="obs-label" x="476" y="136">Trend</text>
+          <text class="direct direct--proj" id="proj-label" x="476" y="120">Scenario</text>
+        </g>
+      </svg>
+      <p class="instrument__note" id="rise-help">Drag, or use the arrow keys. Illustrative values built for this template, not a forecast.</p>
+    </div>
+    <div class="desk__waterline" aria-hidden="true"></div>
   </section>
 
-  <section class="section shell" id="method">
-    <div class="section-head">
-      <h2 class="reveal">A model is only useful if it changes a decision.</h2>
-      <p class="reveal">The desk is built around one question: at this water level, what stops working first?</p>
+  <section class="band grid" id="failure" aria-labelledby="failure-title">
+    <div class="band__head">
+      <h2 id="failure-title">A plan protects functions, not buildings.</h2>
+      <p>Each asset is listed at the rise where it stops serving its purpose. The slider above marks the ones already under the line.</p>
     </div>
-    <div class="method">
-      <figure class="method__figure reveal">
-        <svg viewBox="0 0 520 360" role="img" aria-labelledby="section-title section-desc">
-          <title id="section-title">Coastal section diagram</title>
-          <desc id="section-desc">A cross-section showing the sea, the dune, the road, buildings and the waterline rising through the section.</desc>
-          <rect width="520" height="360" fill="#F5F1E9"></rect>
-          <path d="M0 120 H520 V360 H0Z" fill="#E3DDD0"></path>
-          <path d="M0 120 C90 118 140 150 200 156 C280 164 330 150 400 158 C460 165 490 170 520 168 V360 H0Z" fill="#C9C1B2" opacity=".55"></path>
-          <rect x="0" y="168" width="520" height="192" fill="#2E6B5B" opacity=".2"></rect>
-          <path d="M0 168 C80 160 160 176 240 172 C330 168 400 180 520 174" stroke="#2E6B5B" stroke-width="2" fill="none"></path>
-          <g fill="#14211C">
-            <rect x="300" y="110" width="70" height="58"></rect>
-            <rect x="385" y="92" width="54" height="76"></rect>
-            <rect x="60" y="132" width="44" height="36"></rect>
-          </g>
-          <g fill="#C9E265">
-            <rect x="312" y="124" width="10" height="10"></rect>
-            <rect x="330" y="124" width="10" height="10"></rect>
-            <rect x="348" y="124" width="10" height="10"></rect>
-            <rect x="396" y="106" width="10" height="10"></rect>
-            <rect x="414" y="106" width="10" height="10"></rect>
-          </g>
-          <g stroke="#9C3F2A" stroke-width="2">
-            <line x1="0" y1="238" x2="520" y2="238" stroke-dasharray="6 5"></line>
-          </g>
-          <text x="16" y="230" fill="#9C3F2A" font-family="IBM Plex Mono, monospace" font-size="11">+60 cm scenario</text>
-          <text x="16" y="300" fill="#5B5F55" font-family="IBM Plex Mono, monospace" font-size="11">SECTOR 04 · SECTION A–A</text>
-        </svg>
-        <figcaption>Section A–A. The road is the first asset the 60 cm line reaches; the school is the last.</figcaption>
+    <ol class="failures" id="failures">
+      <li data-cm="20" style="--cm:20">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path class="pict" d="M2 16h20M2 12h20M7 14h2M15 14h2"/></svg>
+        <div><h3>Promenade road</h3><p>Closes to traffic; buses reroute inland.</p></div>
+        <span class="cm">+20 cm</span><span class="meter" aria-hidden="true"><i></i></span>
+      </li>
+      <li data-cm="25" style="--cm:25">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path class="pict" d="M4 6h16v4H4zM8 10v8M16 10v8M6 18h12"/></svg>
+        <div><h3>Storm drains, lower grid</h3><p>Outfalls sit below the tide; rain backs up.</p></div>
+        <span class="cm">+25 cm</span><span class="meter" aria-hidden="true"><i></i></span>
+      </li>
+      <li data-cm="40" style="--cm:40">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path class="pict" d="M3 20V10l9-6 9 6v10zM9 20v-6h6v6"/></svg>
+        <div><h3>Fish market</h3><p>Ground floor floods at spring tides.</p></div>
+        <span class="cm">+40 cm</span><span class="meter" aria-hidden="true"><i></i></span>
+      </li>
+      <li data-cm="60" style="--cm:60">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path class="pict" d="M3 8h18v8H3zM7 16v4M17 16v4M3 12h18M12 4v4"/></svg>
+        <div><h3>Tram depot</h3><p>Traction substation loses its margin.</p></div>
+        <span class="cm">+60 cm</span><span class="meter" aria-hidden="true"><i></i></span>
+      </li>
+      <li data-cm="95" style="--cm:95">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path class="pict" d="M3 20V9h18v11M3 9l9-5 9 5M8 20v-5h8v5M12 9v3"/></svg>
+        <div><h3>Primary school</h3><p>Access street floods; the building stays dry.</p></div>
+        <span class="cm">+95 cm</span><span class="meter" aria-hidden="true"><i></i></span>
+      </li>
+    </ol>
+  </section>
+
+  <section class="band grid" id="futures" aria-labelledby="futures-title">
+    <div class="band__head">
+      <h2 id="futures-title">Same scale, same section, three waterlines.</h2>
+      <p>Small multiples: change one variable and keep everything else still, so the difference is the only thing that moves.</p>
+    </div>
+    <div class="multiples">
+      <figure class="multiple">
+        <figcaption><span>Near term</span><span class="code">2035</span></figcaption>
+        <svg viewBox="0 0 200 90" role="img" aria-label="Section A–A with the waterline 20 centimetres higher"><path d="M0 52 C40 50 70 60 100 62 C140 64 170 58 200 60 V90 H0Z" fill="#E4E8E3"/><rect x="118" y="34" width="26" height="28" fill="#0F2A33"/><rect x="152" y="26" width="20" height="36" fill="#0F2A33"/><rect x="22" y="46" width="16" height="14" fill="#0F2A33"/><line x1="0" y1="66" x2="200" y2="66" stroke="#D9581A" stroke-width="2"/><rect x="0" y="66" width="200" height="24" fill="#1D6A86" opacity=".18"/></svg>
+        <dl><dt>Rise</dt><dd>+20 cm</dd><dt>Assets under</dt><dd>1 of 5</dd><dt>Window</dt><dd>15 years</dd></dl>
+        <button class="act act--quiet" type="button" data-rise="20">Load into the desk</button>
       </figure>
-      <div class="steps">
-        <article class="step reveal">
-          <div><h3>Set the waterline</h3><p>Choose a rise scenario in centimetres. The desk translates it into a year, a level and a set of exposed assets.</p></div>
-        </article>
-        <article class="step reveal">
-          <div><h3>Read the order of failure</h3><p>Infrastructure fails in sequence. The model ranks assets by the level at which they stop serving their function, not by replacement cost.</p></div>
-        </article>
-        <article class="step reveal">
-          <div><h3>Choose the adaptation window</h3><p>Every scenario produces a window, not a verdict. The output is a briefing, a set of trade-offs and the first three moves.</p></div>
-        </article>
-        <article class="step reveal">
-          <div><h3>Publish the assumptions</h3><p>The model exposes its baseline, its exclusions and its uncertainty. A plan without assumptions is a poster.</p></div>
-        </article>
-      </div>
+      <figure class="multiple">
+        <figcaption><span>Mid century</span><span class="code">2060</span></figcaption>
+        <svg viewBox="0 0 200 90" role="img" aria-label="Section A–A with the waterline 60 centimetres higher"><path d="M0 52 C40 50 70 60 100 62 C140 64 170 58 200 60 V90 H0Z" fill="#E4E8E3"/><rect x="118" y="34" width="26" height="28" fill="#0F2A33"/><rect x="152" y="26" width="20" height="36" fill="#0F2A33"/><rect x="22" y="46" width="16" height="14" fill="#0F2A33"/><line x1="0" y1="54" x2="200" y2="54" stroke="#D9581A" stroke-width="2"/><rect x="0" y="54" width="200" height="36" fill="#1D6A86" opacity=".18"/></svg>
+        <dl><dt>Rise</dt><dd>+60 cm</dd><dt>Assets under</dt><dd>4 of 5</dd><dt>Window</dt><dd>10 years</dd></dl>
+        <button class="act act--quiet" type="button" data-rise="60">Load into the desk</button>
+      </figure>
+      <figure class="multiple">
+        <figcaption><span>End of century</span><span class="code">2100</span></figcaption>
+        <svg viewBox="0 0 200 90" role="img" aria-label="Section A–A with the waterline 110 centimetres higher"><path d="M0 52 C40 50 70 60 100 62 C140 64 170 58 200 60 V90 H0Z" fill="#E4E8E3"/><rect x="118" y="34" width="26" height="28" fill="#0F2A33"/><rect x="152" y="26" width="20" height="36" fill="#0F2A33"/><rect x="22" y="46" width="16" height="14" fill="#0F2A33"/><line x1="0" y1="38" x2="200" y2="38" stroke="#D9581A" stroke-width="2"/><rect x="0" y="38" width="200" height="52" fill="#1D6A86" opacity=".18"/></svg>
+        <dl><dt>Rise</dt><dd>+110 cm</dd><dt>Assets under</dt><dd>5 of 5</dd><dt>Window</dt><dd>4 years</dd></dl>
+        <button class="act act--quiet" type="button" data-rise="110">Load into the desk</button>
+      </figure>
     </div>
   </section>
 
-  <section class="section scenarios" id="scenarios">
-    <div class="shell">
-      <div class="section-head">
-        <h2 class="reveal">Three futures, one table.</h2>
-        <p class="reveal">Load a scenario into the instrument. The numbers are illustrative, the structure is the product.</p>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <caption>Illustrative adaptation scenarios for sector 04. Demo data, not a forecast.</caption>
-          <thead>
-            <tr><th scope="col">Scenario</th><th scope="col">Rise</th><th scope="col">Assets below line</th><th scope="col">Window</th><th scope="col">Load</th></tr>
-          </thead>
-          <tbody>
-            <tr><th scope="row">Near term</th><td><strong>+20 cm</strong></td><td>382</td><td>15 years</td><td><button class="scenario" type="button" data-rise="20">Load 2035</button></td></tr>
-            <tr><th scope="row">Mid century</th><td><strong>+60 cm</strong></td><td>522</td><td>10 years</td><td><button class="scenario" type="button" data-rise="60">Load 2060</button></td></tr>
-            <tr><th scope="row">End century</th><td><strong>+110 cm</strong></td><td>697</td><td>4 years</td><td><button class="scenario" type="button" data-rise="110">Load 2100</button></td></tr>
-          </tbody>
-        </table>
-      </div>
+  <section class="band grid" aria-labelledby="faq-title">
+    <div class="band__head">
+      <h2 id="faq-title">What planners ask first.</h2>
+    </div>
+    <div class="faq">
+      <details><summary>Is this a flood map?</summary><p>No. A flood map answers where water goes. The desk answers what stops working first, and in what order, so a plan can be sequenced.</p></details>
+      <details><summary>Where does the data come from?</summary><p>This template ships with an illustrative dataset. A real deployment connects a licensed sea-level model, a tide-gauge feed and the municipality's asset register.</p></details>
+      <details><summary>Can it run offline?</summary><p>Yes. The interface is static and the model compiles to a local file, which matters for councils with restricted networks and for field reviews.</p></details>
     </div>
   </section>
 
-  <section class="section shell">
-    <div class="section-head">
-      <h2 class="reveal">The questions planners actually ask.</h2>
-      <p class="reveal">Short answers, with the assumptions left visible.</p>
+  <section class="band grid" id="briefing" aria-labelledby="briefing-title">
+    <div class="band__head">
+      <h2 id="briefing-title">Bring one real coastline.</h2>
+      <p>We run one sector through the desk with your team in the room. You leave with the order of failure and the first three moves.</p>
     </div>
-    <details class="reveal"><summary>Is this a flood map?</summary><p>No. It is a decision surface for comparing scenarios. A flood map answers where water goes; this desk answers what stops working first, and in what order.</p></details>
-    <details class="reveal"><summary>Where does the data come from?</summary><p>This template ships with an illustrative dataset. Production deployments connect to a licensed model, a tide gauge feed and the municipality's asset register.</p></details>
-    <details class="reveal"><summary>Can it run offline?</summary><p>Yes. The interface is static and the model can be compiled to a local dataset. That matters for councils with restricted networks and for field reviews.</p></details>
-    <details class="reveal"><summary>What does the output look like?</summary><p>A short briefing: the scenario, the exposed assets in failure order, the adaptation window, three moves and the assumptions that would change the answer.</p></details>
+    <form class="request" id="request" novalidate>
+      <div><label for="name">Name</label><input id="name" name="name" autocomplete="name" required></div>
+      <div><label for="org">Organisation</label><input id="org" name="org" autocomplete="organization" required></div>
+      <div class="wide"><label for="email">Work email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
+      <button class="act" type="submit">Request the briefing</button>
+      <p class="request__status" id="request-status" role="status">A reply from a person within two business days.</p>
+    </form>
   </section>
-
-  <section class="section shell" id="briefing">
-    <div class="briefing">
-      <div class="briefing__copy">
-        <p class="eyebrow">Request a briefing</p>
-        <h2>Bring a real coastline.</h2>
-        <p>We run one sector through the desk, in the open, with your team in the room. You leave with the scenario, the order of failure and the first three moves.</p>
-      </div>
-      <form class="form" id="briefing-form" novalidate>
-        <div class="field"><label for="name">Name</label><input id="name" name="name" autocomplete="name" required></div>
-        <div class="field"><label for="org">Organisation</label><input id="org" name="org" autocomplete="organization" required></div>
-        <div class="field full"><label for="email">Work email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
-        <div class="field full"><label for="coast">Coast or sector</label><input id="coast" name="coast" placeholder="e.g. Matosinhos, sector 04"></div>
-        <button class="button full" type="submit">Request the briefing</button>
-        <p class="form-note" id="form-note" role="status">No newsletter. A reply from a person within two business days.</p>
-      </form>
-    </div>
-  </section>
-
-  <footer class="footer shell">
-    <p>TIDE · Coastal planning desk · Demo template</p>
-    <p><a href="#top">Back to top</a> · <a href="#method">Method</a> · <a href="mailto:desk@example.com">desk@example.com</a></p>
-  </footer>
 </main>
+
+<footer class="ledger grid" aria-labelledby="ledger-title">
+  <h2 id="ledger-title">Assumptions ledger</h2>
+  <dl>
+    <div><dt>Dataset</dt><dd>Illustrative, built for this template.</dd></div>
+    <div><dt>Datum</dt><dd>Local mean sea level, 1990–2020.</dd></div>
+    <div><dt>Excludes</dt><dd>Storm surge, subsidence, wave run-up.</dd></div>
+    <div><dt>Would change the answer</dt><dd>A licensed model and the real asset register.</dd></div>
+  </dl>
+  <p>TIDE, a coastal planning desk. Demo template. <a href="mailto:desk@example.com">desk@example.com</a></p>
+</footer>
 
 <script>
 (() => {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)");
   const range = document.getElementById("rise");
   const out = document.getElementById("rise-out");
-  const levelEl = document.getElementById("level");
-  const deltaEl = document.getElementById("delta");
-  const assetsEl = document.getElementById("assets");
-  const peopleEl = document.getElementById("people");
-  const yearsEl = document.getElementById("years");
+  const level = document.getElementById("level");
+  const delta = document.getElementById("delta");
   const proj = document.getElementById("proj");
-  const area = document.getElementById("area");
-  const marker = document.getElementById("marker");
+  const obs = document.getElementById("obs");
+  const obsLabel = document.getElementById("obs-label");
+  const projLabel = document.getElementById("proj-label");
+  const summary = document.getElementById("summary");
+  const failures = [...document.querySelectorAll("#failures li")];
+  const datum = 1.42;
+  const years = [2026, 2040, 2060, 2080, 2100];
+  const trend = [0.0, 0.1, 0.25, 0.43, 0.68];
+  const toX = (y) => 52 + ((y - 2026) / 74) * 418;
+  const toY = (v) => 170 - (v / 2.4) * 150;
 
-  const state = { current: 0, target: 0, raf: 0 };
-  const baseline = 1.42;
-
-  const pointsFor = (rise) => {
-    const years = [2026, 2040, 2060, 2080, 2100];
-    const base = [0.0, 0.11, 0.27, 0.46, 0.72];
-    return years.map((y, i) => {
-      const add = (rise / 100) * ((y - 2026) / 74) ** 1.15;
-      const v = base[i] + add;
-      return { x: 52 + ((y - 2026) / 74) * 418, v };
-    });
-  };
-
-  const toY = (v) => 176 - (v / 2.4) * 156;
-
-  const pathFor = (pts) => pts.map((p, i) => `${i ? "L" : "M"}${p.x.toFixed(1)} ${toY(p.v).toFixed(1)}`).join(" ");
+  const path = (pts) => pts.map(([x, y], i) => `${i ? "L" : "M"}${x.toFixed(1)} ${y.toFixed(1)}`).join(" ");
+  const base = years.map((y, i) => [toX(y), toY(trend[i] + 0.08)]);
+  obs.setAttribute("d", path(base));
+  const baseEnd = base[base.length - 1][1];
+  obsLabel.setAttribute("y", (baseEnd + 4).toFixed(1));
 
   const render = (rise) => {
-    const pts = pointsFor(rise);
-    const d = pathFor(pts);
-    proj.setAttribute("d", d);
-    const last = pts[pts.length - 1];
-    area.setAttribute("d", `${d} L${last.x.toFixed(1)} 176 L52 176 Z`);
-    marker.setAttribute("cx", last.x.toFixed(1));
-    marker.setAttribute("cy", toY(last.v).toFixed(1));
-    const lvl = baseline + rise / 100 * 0.82;
-    levelEl.firstChild.nodeValue = lvl.toFixed(2);
-    deltaEl.textContent = `+${(rise / 100).toFixed(2)} m`;
-    const assets = Math.round(312 + rise * 3.5);
-    const people = Math.round(8400 + rise * 96);
-    const years = Math.max(2, Math.round(18 - rise * 0.13));
-    assetsEl.firstChild.nodeValue = assets.toLocaleString("en-US");
-    peopleEl.firstChild.nodeValue = people.toLocaleString("en-US");
-    yearsEl.firstChild.nodeValue = years;
-    out.textContent = `${rise} cm`;
-    range.setAttribute("aria-valuetext", `${rise} centimetres of sea-level rise`);
-    document.documentElement.style.setProperty("--rise", rise);
+    const pts = years.map((y, i) => [toX(y), toY(trend[i] + 0.08 + (rise / 100) * ((y - 2026) / 74) ** 1.15)]);
+    proj.setAttribute("d", path(pts));
+    // Direct labels never collide: the scenario label sits at least one line above the trend.
+    projLabel.setAttribute("y", Math.max(14, Math.min(pts[pts.length - 1][1] + 4, baseEnd - 12)).toFixed(1));
+    level.textContent = (datum + rise / 100 * 0.82).toFixed(2);
+    delta.textContent = `+${(rise / 100).toFixed(2)} m`;
+    const shown = Math.round(rise);
+    out.textContent = `${shown} cm`;
+    range.setAttribute("aria-valuetext", `${shown} centimetres of rise`);
+    let under = 0;
+    for (const li of failures) {
+      const hit = shown >= Number(li.dataset.cm);
+      li.classList.toggle("under", hit);
+      if (hit) under++;
+    }
+    summary.innerHTML = `At +${shown} cm, <b>${under} of ${failures.length}</b> listed assets stop working.`;
+    document.documentElement.style.setProperty("--rise", shown);
   };
 
-  const animateTo = (target) => {
-    state.target = target;
-    if (reduce.matches) { state.current = target; render(target); return; }
-    if (state.raf) return;
-    const step = () => {
-      state.raf = 0;
-      const diff = state.target - state.current;
-      state.current += diff * 0.18;
-      if (Math.abs(diff) < 0.4) { state.current = state.target; render(Math.round(state.current)); return; }
-      render(state.current);
-      state.raf = requestAnimationFrame(step);
-    };
-    state.raf = requestAnimationFrame(step);
+  let current = 0, target = 0, raf = 0;
+  const settle = () => {
+    raf = 0;
+    current += (target - current) * 0.35;
+    if (Math.abs(target - current) < 0.5) current = target;
+    render(current);
+    if (current !== target) raf = requestAnimationFrame(settle);
+  };
+  const go = (value) => {
+    target = value;
+    if (reduce.matches) { current = value; render(value); return; }
+    if (!raf) raf = requestAnimationFrame(settle);
   };
 
-  range.addEventListener("input", () => animateTo(Number(range.value)));
-  document.querySelectorAll(".scenario").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const value = Number(btn.dataset.rise);
-      range.value = String(value);
-      animateTo(value);
-      document.getElementById("top").scrollIntoView({ behavior: reduce.matches ? "auto" : "smooth", block: "start" });
-    });
-  });
-
+  range.addEventListener("input", () => go(Number(range.value)));
+  document.querySelectorAll("[data-rise]").forEach((btn) => btn.addEventListener("click", () => {
+    range.value = btn.dataset.rise;
+    go(Number(btn.dataset.rise));
+    document.getElementById("top").scrollIntoView({ behavior: reduce.matches ? "auto" : "smooth" });
+    range.focus({ preventScroll: true });
+  }));
   render(0);
 
+  // The line nav marks the section in view; it is wayfinding, not decoration.
+  const links = new Map([...document.querySelectorAll(".line-nav a")].map((a) => [a.getAttribute("href").slice(1), a]));
   const io = new IntersectionObserver((entries) => {
-    for (const e of entries) {
-      if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+    for (const e of entries) if (e.isIntersecting) {
+      for (const a of links.values()) a.removeAttribute("aria-current");
+      links.get(e.target.id)?.setAttribute("aria-current", "true");
     }
-  }, { threshold: .16, rootMargin: "0px 0px -6% 0px" });
-  document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+  }, { rootMargin: "-45% 0px -50% 0px" });
+  for (const id of links.keys()) { const el = document.getElementById(id); if (el) io.observe(el); }
 
-  const form = document.getElementById("briefing-form");
-  const note = document.getElementById("form-note");
+  const form = document.getElementById("request");
+  const status = document.getElementById("request-status");
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    const name = form.elements.name.value.trim();
-    const email = form.elements.email.value.trim();
-    if (!name || !email.includes("@")) {
-      note.textContent = "Add your name and a valid work email.";
-      (!name ? form.elements.name : form.elements.email).focus();
+    const missing = ["name", "org", "email"].find((k) => !form.elements[k].value.trim());
+    if (missing || !form.elements.email.value.includes("@")) {
+      status.textContent = missing ? "Fill in every field so a person can reply." : "The work email needs an @.";
+      form.elements[missing || "email"].focus();
       return;
     }
-    note.textContent = "Request captured for this demo. Connect a real endpoint before launch.";
+    status.textContent = "Nothing was sent: this demo form is not connected to an endpoint yet.";
     form.reset();
-    render(0);
   });
 })();
 </script>

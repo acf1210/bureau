@@ -16,9 +16,19 @@ const SKILL_ROOT = path.resolve(__dirname, "..");
 const TEMPLATES_DIR = path.join(SKILL_ROOT, "assets", "templates");
 
 const TEMPLATES = {
-  "kinetic-editorial": "Dark editorial world: Bodoni display, acid signal, scroll-driven type, generated film loop.",
-  "product-surface": "Warm technical product surface: paper ground, live demo, precise motion, no SaaS clichés.",
-  "immersive-experience": "Raw WebGL atmosphere, pointer/scroll response, cinematic threshold, accessible fallback."
+  "kinetic-editorial": "Night journal. Tschichold × Lubalin × Bass: asymmetric folio grid, Bodoni + Newsreader, live hour index.",
+  "product-surface": "Planning desk. Tufte × Vignelli × Aicher: IBM Plex only, direct-labelled model, small multiples.",
+  "immersive-experience": "Light installation. Moholy-Nagy × Cooper × Eames: WebGL light, type in depth, powers-of-ten scroll.",
+  "legal-practice": "Arbitration chambers. Sutnar × Rand × Ruder: clauses in two registers, native popover definitions.",
+  "architecture-studio": "Architecture studio. Ando × Mies × Scarpa: a slit of light that opens on scroll, plans not renders.",
+  "restaurant-table": "Tasting counter. Barragán × Wyman × J. Albers: colour planes, a seat map, courses as nested squares.",
+  "private-bank": "Family office. Müller-Brockmann × Crouwel × Tufte: modular grid, compounding with the formula shown.",
+  "clinic-care": "Respiratory clinic. Hara × Kare × Tanaka: calm space, pixel icons, a breathing guide you start.",
+  "developer-api": "Geocoding API. Gerstner × Weingart × Greiman: a playground that really matches typos, light ground.",
+  "fashion-atelier": "Tailoring atelier. Brodovitch × A. Albers × B. Thompson: a pattern drafted from your measurements.",
+  "record-label": "Record label. Reid Miles × Saville × Brody: type-only sleeves, synthesised sketches, an order basket.",
+  "museum-archive": "Photo archive. Bo Bardi × Lustig × Munari: glass easels with the catalogue record on the back.",
+  "hardware-store": "Product shop. Rams × Sottsass × Castiglioni: a lamp configurator with an exploded, priced view."
 };
 
 function parseArgs(argv) {
@@ -104,6 +114,18 @@ function design(name) {
 
 > Visual contract. Tokens are normative. Replace TODO.
 
+## Lineage
+Write \`.bureau/comps/blend.md\` first (references/23-lineage-and-blend.md).
+The scaffold's LINEAGE.md is a worked example, not this project's lineage.
+- Dominant (50–60%): TODO — designer, documented work, principle, axis.
+- Counter (25–35%): TODO — must pull against the dominant.
+- Accent (10–20%): TODO — one behaviour.
+- Subject-only ingredient: TODO.
+
+## Dials
+ENERGY TODO / RHYTHM TODO / MOTION TODO (1–3 each; references/17-anti-ai-slop.md §8).
+Without dials this is a draft without direction, not a deliverable.
+
 ## World
 - Concept: TODO — one sentence.
 - Ground: TODO — material + exact color.
@@ -155,7 +177,7 @@ TODO — precise / viscous / mechanical / organic / cinematic, in one paragraph.
 ## Primitives
 | Name | Trigger | Property | Duration | Easing | Reduced motion |
 |---|---|---|---|---|---|
-| reveal | in-view | opacity + translateY | 600ms | out | opacity only |
+| entrance | load, once | TODO — the signature only | TODO | TODO | final state, no motion |
 | press | active | scale(.98) | 120ms | precise | none |
 | scene | scroll | progress-driven | scrub | linear | static frame |
 
@@ -225,7 +247,8 @@ function main() {
   copyDir(tpl, target);
 
   const media = path.join(SKILL_ROOT, "assets", "media");
-  if (fs.existsSync(media)) copyDir(media, path.join(target, "media"));
+  const usesMedia = fs.readFileSync(path.join(tpl, "index.html"), "utf8").includes("media/");
+  if (usesMedia && fs.existsSync(media) && !fs.existsSync(path.join(target, "media"))) copyDir(media, path.join(target, "media"));
   const tokens = path.join(SKILL_ROOT, "assets", "tokens", "generated", "tokens.css");
   if (fs.existsSync(tokens)) {
     fs.mkdirSync(path.join(target, "assets"), { recursive: true });
@@ -263,7 +286,8 @@ Start with \`BUREAU.md\`: replace every TODO before designing.
 
   console.log(`BUREAU project created: ${target}`);
   console.log(`Template: ${opts.template}`);
-  console.log(`Next: fill BUREAU.md, then run the concept gate.`);
+  console.log(`Next: fill BUREAU.md, write .bureau/comps/blend.md, then run the concept gate.`);
+  console.log(`The page starts as a copy of the template. Before Gate 2: node ${path.join(SKILL_ROOT, "scripts", "divergence.mjs")} index.html --templates`);
 }
 
 main();

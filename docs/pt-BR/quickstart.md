@@ -66,9 +66,19 @@ Templates:
 
 | Template | Uso |
 |---|---|
-| `kinetic-editorial` | editorial escuro, tipografia grande, narrativa de scroll |
-| `product-surface` | produto técnico com demo ao vivo e dados |
-| `immersive-experience` | WebGL, shader, atmosfera, instalação |
+| `kinetic-editorial` | Revista noturna: Tschichold × Lubalin × Bass. Um índice organizado pela hora de Lisboa ao vivo |
+| `product-surface` | Mesa de planejamento: Tufte × Vignelli × Aicher. Suba a linha d'água; a ordem de falha acompanha |
+| `immersive-experience` | Instalação de luz: Moholy-Nagy × Cooper × Eames. Mude a luz; shader, título e foco acompanham |
+| `legal-practice` | Câmara de arbitragem: Sutnar × Rand × Ruder. Cada cláusula em dois registros: jurídico e simples |
+| `architecture-studio` | Estúdio de arquitetura: Ando × Mies × Scarpa. Uma fenda de luz que se abre com o scroll |
+| `restaurant-table` | Balcão de degustação: Barragán × Wyman × J. Albers. Escolha seus lugares no arco do balcão |
+| `private-bank` | Family office: Müller-Brockmann × Crouwel × Tufte. Juros compostos com seus números, fórmula à vista |
+| `clinic-care` | Clínica respiratória: Hara × Kare × Tanaka. Um guia de respiração que só começa quando você aperta |
+| `developer-api` | API de geocodificação: Gerstner × Weingart × Greiman. Um playground que casa erros de digitação de verdade |
+| `fashion-atelier` | Alfaiataria sob medida: Brodovitch × A. Albers × B. Thompson. Um molde desenhado a partir das suas medidas |
+| `record-label` | Selo de discos: Reid Miles × Saville × Brody. Capas só de tipo que tocam um esboço sintetizado |
+| `museum-archive` | Arquivo fotográfico: Bo Bardi × Lustig × Munari. Cavaletes de vidro com a ficha no verso |
+| `hardware-store` | Loja de produto: Rams × Sottsass × Castiglioni. Configure a luminária e veja as peças, com preço |
 
 Cada template é autônomo: HTML, CSS, JS, mídia e tokens.
 
@@ -99,7 +109,7 @@ Ou faça manualmente:
 2. Produza três comps no mesmo viewport (1440×900) com conteúdo real.
 3. Nomeie cada direção, escreva a tese, o *signature move* e o risco.
 4. Pontue com a matriz de `skill/references/02-concept-engine.md`.
-5. Registre a decisão em `.bureau/comps/decision.md`.
+5. Registre a decisão em `.bureau/comps/decision.md` e a mescla em `.bureau/comps/blend.md`.
 
 Sem três direções, não há decisão — só o primeiro impulso.
 

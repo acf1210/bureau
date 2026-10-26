@@ -55,8 +55,8 @@
   <text x="278" y="276" class="m">G1</text>
   <line x1="278" y1="292" x2="442" y2="292" class="line"/>
   <text x="278" y="316" class="ts">3 directions</text>
-  <text x="278" y="334" class="ts">3 comps</text>
-  <text x="278" y="352" class="ts">decision.md</text>
+  <text x="278" y="334" class="ts">3 comps + blends</text>
+  <text x="278" y="352" class="ts">decision + blend.md</text>
   <text x="278" y="440" class="m">4–8 H</text>
 
   <rect x="480" y="188" width="200" height="284" class="box"/>
@@ -76,7 +76,7 @@
   <line x1="718" y1="292" x2="882" y2="292" class="line"/>
   <text x="718" y="316" class="ts">real page</text>
   <text x="718" y="334" class="ts">states + i18n</text>
-  <text x="718" y="352" class="ts">semantic HTML</text>
+  <text x="718" y="352" class="ts">7 refinement passes</text>
   <text x="718" y="440" class="m">2–5 DAYS</text>
 
   <rect x="920" y="188" width="200" height="284" class="box"/>
@@ -94,7 +94,7 @@
   <text x="1158" y="258" class="t">QA</text>
   <text x="1158" y="276" class="m">G6–G7</text>
   <line x1="1158" y1="292" x2="1322" y2="292" class="line"/>
-  <text x="1158" y="316" class="ts">4 viewports</text>
+  <text x="1158" y="316" class="ts">6 widths + fold</text>
   <text x="1158" y="334" class="ts">contrast + keyboard</text>
   <text x="1158" y="352" class="ts">before / after</text>
   <text x="1158" y="440" class="m">4–8 H</text>
@@ -105,7 +105,7 @@
   <text x="1378" y="258" class="t">Review</text>
   <text x="1378" y="276" class="m">G8–G9</text>
   <line x1="1378" y1="292" x2="1542" y2="292" class="line"/>
-  <text x="1378" y="316" class="ts">scorecard</text>
+  <text x="1378" y="316" class="ts">Delivery Gate</text>
   <text x="1378" y="334" class="ts">Tribunal</text>
   <text x="1378" y="352" class="ts">launch checklist</text>
   <text x="1378" y="440" class="m">3–6 H</text>
@@ -138,7 +138,7 @@
 <text x="570" y="604" class="ts">→ fix → re-run identically</text>
 <path d="M570 630 L990 630" class="dash"/>
 <circle cx="590" cy="660" r="4" class="acid"/>
-<text x="606" y="664" class="m">4 viewports + reduced motion</text>
+<text x="606" y="664" class="m">6 widths + fold + reduced motion</text>
 <circle cx="590" cy="686" r="4" class="acid"/>
 <text x="606" y="690" class="m">contrast · overflow · console · LCP</text>
 <circle cx="590" cy="712" r="4" fill="#FF4A1C"/>

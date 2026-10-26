@@ -66,6 +66,7 @@ Criterio de terminado: oferta, público, prueba con fuente, non-goals y métrica
 2. Crea tres comps en el mismo viewport, con contenido real.
 3. Puntúa con la matriz de 6 criterios.
 4. Elige y registra la decisión + los rechazados.
+5. Escribe la mezcla elegida en `.bureau/comps/blend.md`: tres linajes, tres ejes, una tensión.
 
 Nunca entregar tres variaciones de la misma idea.
 
@@ -160,6 +161,7 @@ El informe incluye overflow, contraste, objetivos táctiles, imágenes, fuentes,
 ```bash
 node skill/scripts/review.mjs --status
 node skill/scripts/review.mjs --gate g1-concept --scores .bureau/review/g1.json
+node skill/scripts/review.mjs --delivery-init
 node skill/scripts/review.mjs --final --tribunal .bureau/review/tribunal.json
 node skill/scripts/review.mjs --report
 ```
@@ -221,7 +223,13 @@ node skill/scripts/new-project.mjs --list
 node skill/scripts/new-project.mjs mi-sitio --template product-surface
 ```
 
-Crea proyecto + `BUREAU.md`, `DESIGN.md`, `MOTION.md`, config, carpetas de evidencia y README.
+Crea proyecto + `BUREAU.md`, `DESIGN.md`, `MOTION.md`, config, carpetas de evidencia, el `LINEAGE.md` de la plantilla y README. La página empieza como copia de la plantilla; mide cuánto se ha alejado:
+
+```bash
+node skill/scripts/divergence.mjs index.html --templates --out .bureau/evidence/divergence.json
+```
+
+Salida 0 cuando todos los pares están en `--max` o por debajo (por defecto 0.35), 1 cuando un par es demasiado parecido, 2 en error de uso.
 
 ---
 

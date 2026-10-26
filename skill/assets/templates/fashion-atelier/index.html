@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Linha — Made-to-measure tailoring, Rio de Janeiro</title>
+<script>document.documentElement.classList.add("js")</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23ECE7DE'/%3E%3Cpath d='M14 6v52M14 58h40' stroke='%2318171A' stroke-width='5'/%3E%3Ccircle cx='44' cy='20' r='10' fill='%2334507A'/%3E%3C/svg%3E">
+<meta name="description" content="A tailoring atelier in Ipanema that drafts every pattern from your own measurements. Enter yours and watch the block take shape. Demo template; the atelier is fictional.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* Lineage: Brodovitch (scale, crop, white space) × Anni Albers (the thread as structure) × Bradbury Thompson (overprinted process colour). See LINEAGE.md. */
+  @font-face{font-family:"Italiana Fallback";src:local("Times New Roman"),local("Liberation Serif");size-adjust:100.7%;ascent-override:92.3%;descent-override:24.8%;line-gap-override:0%}
+  @font-face{font-family:"Jost Fallback";src:local("Arial"),local("Liberation Sans");size-adjust:96.9%;ascent-override:110.4%;descent-override:39.2%;line-gap-override:0%}
+  :root{
+    --calico:#ECE7DE;
+    --muslin:#F6F3EE;
+    --thread:#18171A;
+    --thread-2:#55525A;
+    --chalk:#34507A;
+    --chalk-pale:#DCE3EE;
+    --selvedge:#C9C2B5;
+    --cut:"Italiana","Italiana Fallback",serif;
+    --stitch:"Jost","Jost Fallback",sans-serif;
+    --hem:clamp(18px,5vw,96px);
+    --drape:cubic-bezier(.6,.04,.28,1);
+  }
+  *{box-sizing:border-box}
+  html{background:var(--calico);color:var(--thread);overflow-x:clip}
+  body{margin:0;font:400 1.0625rem/1.7 var(--stitch);letter-spacing:.005em}
+  ::selection{background:var(--chalk);color:var(--muslin)}
+  a{color:inherit;text-underline-offset:.25em}
+  :focus-visible{outline:1px solid var(--chalk);outline-offset:4px;box-shadow:0 0 0 4px var(--chalk-pale)}
+  .skip{position:absolute;left:var(--hem);top:-5rem;background:var(--thread);color:var(--muslin);padding:.7rem 1rem}
+  .skip:focus{top:.75rem}
+
+  .label{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.4rem var(--hem)}
+  .label__name{font:400 1.7rem/1 var(--cut);text-decoration:none;letter-spacing:.08em;display:inline-flex;align-items:center;min-height:44px}
+  .label nav{display:flex;gap:2.2rem}
+  .label nav a{text-decoration:none;font-size:.95rem;display:inline-flex;align-items:center;min-height:44px;color:var(--thread-2);transition:color .5s var(--drape)}
+  .label nav a:hover{color:var(--thread)}
+
+  .first{position:relative;display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(2rem,5vw,5rem);padding:clamp(2rem,6vw,5rem) var(--hem) clamp(4rem,9vw,8rem);overflow:clip}
+  .first__bleed{position:absolute;right:-4vw;top:-2vw;font:400 clamp(10rem,30vw,30rem)/.8 var(--cut);color:var(--muslin);pointer-events:none;letter-spacing:-.02em}
+  .first__words{position:relative;align-self:end}
+  .first h1{font:400 clamp(3.4rem,7.4vw,7.2rem)/.92 var(--cut);margin:0 0 1.6rem;letter-spacing:-.01em}
+  .first__words > p{max-width:32ch;color:var(--thread-2);margin:0 0 2.2rem}
+  .fit{display:inline-flex;align-items:center;min-height:50px;padding:0 1.6rem;background:var(--thread);color:var(--muslin);font:500 .95rem/1 var(--stitch);letter-spacing:.02em;text-decoration:none;border:0;cursor:pointer;transition:background-color .5s var(--drape)}
+  .fit:hover{background:var(--chalk)}
+  .fit--quiet{background:transparent;color:var(--thread);box-shadow:inset 0 0 0 1px var(--thread)}
+  .fit--quiet:hover{background:var(--muslin)}
+  .first__acts{display:flex;gap:1rem;flex-wrap:wrap}
+  .first__cloth{position:relative;align-self:center;display:grid;gap:1.2rem}
+  .inks{position:relative;height:clamp(220px,28vw,360px)}
+  .inks span{position:absolute;width:62%;height:62%;mix-blend-mode:multiply}
+  .inks span:nth-child(1){left:0;top:0;background:#9AA6B6}
+  .inks span:nth-child(2){left:19%;top:19%;background:#D9C9A8}
+  .inks span:nth-child(3){left:38%;top:38%;background:#4A5C7A}
+  .cloths{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;font-size:.95rem}
+  .cloths b{display:block;font-weight:500}
+  .cloths span{color:var(--thread-2)}
+
+  .weave{position:relative;padding:clamp(4rem,9vw,8rem) var(--hem)}
+  .weave::before{content:"";position:absolute;top:0;bottom:0;left:50%;width:1px;background:var(--selvedge)}
+  .weave__row{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(3rem,8vw,8rem);padding:1.2rem 0}
+  .weave__row + .weave__row + .weave__row{margin-top:-3.5rem}
+  .weave__row:nth-child(even) .weave__cell{grid-column:2}
+  .weave__cell{max-width:30rem}
+  .weave h2,.draft h2,.appointment h2{font:400 clamp(2.4rem,4.4vw,4.2rem)/1 var(--cut);margin:0 0 1rem}
+  .weave h3{font:400 2rem/1.1 var(--cut);margin:0 0 .6rem}
+  .weave p{margin:0;color:var(--thread-2)}
+  .weave small{display:block;margin-top:.8rem;font-size:.95rem;color:var(--thread)}
+
+  .draft{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:clamp(2rem,5vw,5rem);padding:clamp(4rem,9vw,8rem) var(--hem);background:var(--muslin)}
+  .draft > div > p{color:var(--thread-2);max-width:32ch}
+  .tape{display:grid;gap:1rem;margin-top:2rem}
+  .tape label{display:block;font-size:.95rem;font-weight:500;margin-bottom:.3rem}
+  .stepper{display:grid;grid-template-columns:48px 1fr 48px;border:1px solid var(--thread)}
+  .stepper button{background:none;border:0;font:400 1.4rem/1 var(--stitch);color:var(--thread);cursor:pointer;min-height:48px}
+  .stepper button:hover{background:var(--chalk-pale)}
+  .stepper input{border:0;border-inline:1px solid var(--selvedge);background:transparent;text-align:center;font:500 1.05rem/1 var(--stitch);color:var(--thread);min-width:0;-moz-appearance:textfield;appearance:textfield}
+  .stepper input::-webkit-inner-spin-button{appearance:none}
+  .mat{margin:0;background-color:#FBFAF7;background-image:linear-gradient(var(--chalk-pale) 1px,transparent 1px),linear-gradient(90deg,var(--chalk-pale) 1px,transparent 1px);background-size:var(--cm,10px) var(--cm,10px);border:1px solid var(--selvedge)}
+  .mat svg{display:block;width:100%;height:auto}
+  .mat .block{fill:rgba(52,80,122,.08);stroke:var(--chalk);stroke-width:2}
+  .mat .dart{fill:none;stroke:var(--chalk);stroke-width:1.5;stroke-dasharray:6 4}
+  .mat .grain{stroke:var(--thread);stroke-width:1}
+  .mat .note{fill:var(--thread);font:500 13px var(--stitch)}
+  .mat .note--soft{fill:var(--thread-2)}
+  .mat figcaption{display:flex;justify-content:space-between;gap:1rem;padding:.8rem 1rem;border-top:1px solid var(--selvedge);font-size:.95rem;color:var(--thread-2);background:var(--muslin)}
+
+  .appointment{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(2rem,5vw,5rem);padding:clamp(4rem,9vw,8rem) var(--hem)}
+  .appointment > div > p{color:var(--thread-2);max-width:34ch}
+  .appointment form{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem 1.6rem}
+  .appointment .full{grid-column:1/-1}
+  .appointment label{display:block;font-size:.95rem;font-weight:500;margin-bottom:.3rem}
+  .appointment input,.appointment select{width:100%;min-height:48px;border:0;border-bottom:1px solid var(--thread);background:transparent;font:400 1.05rem/1 var(--stitch);color:var(--thread);padding:0 .1rem}
+  .appointment .fit{justify-self:start}
+  .appointment__status{grid-column:1/-1;margin:0;min-height:1.6em;color:var(--thread-2)}
+
+  .hem{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2rem;padding:2rem var(--hem) 2.8rem;border-top:1px solid var(--thread);font-size:.95rem;color:var(--thread-2)}
+  .hem p{margin:0}
+  .hem b{display:block;font:400 1.3rem/1.3 var(--cut);color:var(--thread)}
+
+  @media (max-width:960px){
+    .first,.draft,.appointment{grid-template-columns:minmax(0,1fr)}
+    .first__bleed{font-size:clamp(8rem,44vw,20rem);top:auto;bottom:-3vw}
+  }
+  @media (max-width:640px){
+    .label nav a:not(:last-child){display:none}
+    .weave::before{left:0}
+    .weave__row{grid-template-columns:minmax(0,1fr);padding:1.6rem 0 1.6rem 1.4rem}
+    .weave__row + .weave__row + .weave__row{margin-top:0}
+    .first__bleed{display:none}
+    .weave__row:nth-child(even) .weave__cell{grid-column:1}
+    .cloths{grid-template-columns:minmax(0,1fr)}
+    .appointment form{grid-template-columns:1fr}
+    .hem{grid-template-columns:1fr}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .fit,.label nav a{transition:none}
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the atelier</a>
+<header class="label">
+  <a class="label__name" href="#top">LINHA</a>
+  <nav aria-label="Primary">
+    <a href="#fittings">Three fittings</a>
+    <a href="#draft">Your pattern</a>
+    <a href="#appointment">Appointment</a>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="first" id="top" aria-labelledby="title">
+    <span class="first__bleed" aria-hidden="true">Linha</span>
+    <div class="first__words">
+      <h1 id="title">Cut to you, and only to you.</h1>
+      <p>A tailoring atelier in Ipanema. Every jacket and dress starts as a pattern drafted from your measurements, by hand, on paper.</p>
+      <div class="first__acts">
+        <a class="fit" href="#appointment">Book a measuring</a>
+        <a class="fit fit--quiet" href="#draft">Draft your pattern</a>
+      </div>
+    </div>
+    <div class="first__cloth">
+      <div class="inks" aria-hidden="true"><span></span><span></span><span></span></div>
+      <ul class="cloths" aria-label="This season's cloths">
+        <li><b>Wool flannel</b><span>storm grey, 280 g</span></li>
+        <li><b>Irish linen</b><span>sand, 220 g</span></li>
+        <li><b>Cotton twill</b><span>indigo, 300 g</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="weave" id="fittings" aria-labelledby="fittings-title">
+    <div class="weave__row"><div class="weave__cell"><h2 id="fittings-title">Three fittings, eight weeks.</h2><p>The thread runs through every step: one cutter, one pattern, one garment, from the first measurement to the last stitch.</p></div></div>
+    <div class="weave__row"><div class="weave__cell"><h3>Measure</h3><p>Thirty-two measurements and a conversation about how you sit, stand and carry a bag.</p><small>Week one, ninety minutes</small></div></div>
+    <div class="weave__row"><div class="weave__cell"><h3>Baste</h3><p>A first version in muslin, held with loose stitches so it can be taken apart and moved.</p><small>Week four</small></div></div>
+    <div class="weave__row"><div class="weave__cell"><h3>Finish</h3><p>The cloth is cut, the lining is chosen, and the last fitting is only for the hem.</p><small>Week eight, from R$ 9,800</small></div></div>
+  </section>
+
+  <section class="draft" id="draft" aria-labelledby="draft-title">
+    <div>
+      <h2 id="draft-title">Your pattern, drafted now.</h2>
+      <p>Enter four measurements in centimetres. The front bodice block below is redrawn from them, the way a cutter starts on paper.</p>
+      <div class="tape">
+        <div><label for="chest">Chest</label><div class="stepper"><button type="button" data-step="-1" aria-label="Chest smaller">−</button><input id="chest" type="number" inputmode="numeric" min="70" max="140" value="96"><button type="button" data-step="1" aria-label="Chest larger">+</button></div></div>
+        <div><label for="waist">Waist</label><div class="stepper"><button type="button" data-step="-1" aria-label="Waist smaller">−</button><input id="waist" type="number" inputmode="numeric" min="55" max="130" value="80"><button type="button" data-step="1" aria-label="Waist larger">+</button></div></div>
+        <div><label for="back">Back length</label><div class="stepper"><button type="button" data-step="-1" aria-label="Back length shorter">−</button><input id="back" type="number" inputmode="numeric" min="35" max="55" value="42"><button type="button" data-step="1" aria-label="Back length longer">+</button></div></div>
+        <div><label for="shoulder">Shoulder width</label><div class="stepper"><button type="button" data-step="-1" aria-label="Shoulder narrower">−</button><input id="shoulder" type="number" inputmode="numeric" min="10" max="20" value="13"><button type="button" data-step="1" aria-label="Shoulder wider">+</button></div></div>
+      </div>
+    </div>
+    <figure class="mat" id="mat">
+      <svg id="block" viewBox="0 0 400 420" role="img" aria-labelledby="block-title block-desc">
+        <title id="block-title">Front bodice block drafted from your measurements</title>
+        <desc id="block-desc">A simplified half-front pattern piece with shoulder, armhole, side seam, waist dart and grain line.</desc>
+        <path class="block" id="outline" d=""/>
+        <path class="dart" id="dart" d=""/>
+        <line class="grain" id="grain" x1="0" y1="0" x2="0" y2="0"/>
+        <text class="note" id="n-width" x="0" y="0"></text>
+        <text class="note" id="n-length" x="0" y="0"></text>
+        <text class="note note--soft" id="n-dart" x="0" y="0"></text>
+      </svg>
+      <figcaption><span id="block-summary">Half front, ease 2 cm included</span><span>Each square is 1 cm. Simplified block.</span></figcaption>
+    </figure>
+  </section>
+
+  <section class="appointment" id="appointment" aria-labelledby="appointment-title">
+    <div>
+      <h2 id="appointment-title">Come and be measured.</h2>
+      <p>The first appointment is ninety minutes in the atelier on Rua Visconde de Pirajá. Wear what you would wear under the garment.</p>
+    </div>
+    <form id="appointment-form" novalidate>
+      <div><label for="name">Name</label><input id="name" name="name" autocomplete="name" required></div>
+      <div><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
+      <div class="full"><label for="garment">First garment</label><select id="garment" name="garment"><option>Jacket</option><option>Dress</option><option>Trousers</option><option>Shirt</option></select></div>
+      <button class="fit" type="submit">Ask for an appointment</button>
+      <p class="appointment__status" id="appointment-status" role="status"></p>
+    </form>
+  </section>
+</main>
+
+<footer class="hem">
+  <p><b>Linha</b>A fictional atelier in a demo template.</p>
+  <p><b>Atelier</b>Rua Visconde de Pirajá, Ipanema</p>
+  <p><b>Write</b><a href="mailto:atelier@example.com">atelier@example.com</a></p>
+</footer>
+
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const ids = ["chest", "waist", "back", "shoulder"];
+  const clamp = (el) => Math.min(+el.max, Math.max(+el.min, Math.round(+el.value || +el.min)));
+  const mat = $("mat");
+  const draw = () => {
+    const [chest, waist, back, shoulder] = ids.map((id) => clamp($(id)));
+    // Scale: the block fits a 400 × 420 board; one unit per cm is drawn as `s` px.
+    const w = chest / 4 + 2, len = back + 2, neck = chest / 16 + 2, drop = 4.5, sh = shoulder, arm = len * 0.42;
+    const s = Math.min(260 / w, 330 / len);
+    mat.style.setProperty("--cm", `${(s * mat.clientWidth / 400).toFixed(2)}px`);
+    const ox = (400 - w * s) / 2, oy = 36;
+    const waistHalf = waist / 4 + 2, dart = Math.max(0, w - waistHalf);
+    const P = (x, y) => `${(ox + x * s).toFixed(1)} ${(oy + y * s).toFixed(1)}`;
+    $("outline").setAttribute("d",
+      `M${P(0, neck)} Q${P(neck * 0.9, neck)} ${P(neck, 0)} L${P(Math.min(neck + sh, w - 1), drop)} ` +
+      `Q${P(w - 3, arm * 0.6)} ${P(w, arm)} L${P(w - dart / 2, len)} L${P(0, len)} Z`);
+    const dx = w * 0.45;
+    $("dart").setAttribute("d", `M${P(dx - dart / 4, len)} L${P(dx, len - 12)} L${P(dx + dart / 4, len)}`);
+    const g = $("grain");
+    g.setAttribute("x1", ox + w * 0.22 * s); g.setAttribute("x2", ox + w * 0.22 * s);
+    g.setAttribute("y1", oy + (neck + 4) * s); g.setAttribute("y2", oy + (len - 4) * s);
+    const t = (id, x, y, text) => { const el = $(id); el.setAttribute("x", ox + x * s); el.setAttribute("y", oy + y * s); el.textContent = text; };
+    t("n-width", w * 0.32, arm * 0.8, `${w.toFixed(1)} cm across`);
+    t("n-length", w * 0.32, arm * 0.8 + 3.2, `${len} cm long`);
+    t("n-dart", dx + 1.2, len - 14, dart > 0.5 ? `dart ${dart.toFixed(1)} cm` : "no dart needed");
+    $("block-summary").textContent = `Half front for chest ${chest}, waist ${waist}. Ease 2 cm included.`;
+  };
+  document.querySelectorAll(".stepper").forEach((st) => {
+    const input = st.querySelector("input");
+    st.querySelectorAll("button").forEach((b) => b.addEventListener("click", () => { input.value = clamp(input) + +b.dataset.step; input.value = clamp(input); draw(); }));
+    input.addEventListener("input", draw);
+    input.addEventListener("change", () => { input.value = clamp(input); draw(); });
+  });
+  new ResizeObserver(draw).observe(mat);
+  draw();
+
+  const form = $("appointment-form");
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (!form.elements.name.value.trim() || !form.elements.email.value.includes("@")) {
+      $("appointment-status").textContent = "Leave a name and an email with an @, and we will write to you.";
+      (form.elements.name.value.trim() ? form.elements.email : form.elements.name).focus();
+      return;
+    }
+    $("appointment-status").textContent = "Nothing was sent: this demo form is not connected to the atelier yet.";
+  });
+})();
+</script>
+</body>
+</html>

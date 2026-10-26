@@ -82,8 +82,13 @@ Read the full circuit in [review-circuit.md](review-circuit.md).
 ## Quick start
 
 ```bash
+# 1. Check the environment
 node skill/scripts/doctor.mjs
+
+# 2. Create a project from one of the thirteen templates
 node skill/scripts/new-project.mjs my-site --template kinetic-editorial
+
+# 3. Fill in BUREAU.md and run the circuit
 node skill/scripts/audit.mjs . --out .bureau/evidence/audit.json
 node skill/scripts/visual-audit.mjs http://localhost:4173 --out .bureau/qa
 node skill/scripts/review.mjs --status

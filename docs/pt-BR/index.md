@@ -85,7 +85,7 @@ Leia o circuito completo em [review-circuit.md](review-circuit.md).
 # 1. Verifique o ambiente
 node skill/scripts/doctor.mjs
 
-# 2. Crie um projeto a partir de um dos três templates
+# 2. Crie um projeto a partir de um dos treze templates
 node skill/scripts/new-project.mjs meu-site --template kinetic-editorial
 
 # 3. Preencha BUREAU.md e rode o circuito

@@ -7,7 +7,8 @@
 @font-face{font-family:"Bodoni Moda";src:url("assets/fonts/bodoni-moda-normal-latin.woff2") format("woff2");font-weight:400 500;font-style:normal;font-display:block}
 @font-face{font-family:"Archivo";src:url("assets/fonts/archivo-normal-latin.woff2") format("woff2");font-weight:300 600;font-display:block}
 @font-face{font-family:"JetBrains Mono";src:url("assets/fonts/jetbrains-mono-normal-latin.woff2") format("woff2");font-weight:400 500;font-display:block}
-*{box-sizing:border-box}/* bureau-ignore BS-B02: fixed social card */
+*{box-sizing:border-box}/* bureau-ignore BS-B02: fixed 1200x630 social card rendered to PNG */
+::selection{background:#FF4A1C;color:#0B0B0C}
 body{margin:0;width:1200px;height:630px;background:#0B0B0C;color:#F1EDE6;font-family:"Archivo",sans-serif;overflow:hidden;position:relative}
 .grid{position:absolute;inset:0;background-image:linear-gradient(#17171B 1px,transparent 1px),linear-gradient(90deg,#17171B 1px,transparent 1px);background-size:40px 40px;opacity:.8}
 .glow{position:absolute;width:700px;height:700px;right:-140px;top:-260px;border-radius:50%;background:radial-gradient(circle,rgba(255,74,28,.42),transparent 62%);filter:blur(10px)}
@@ -28,7 +29,7 @@ h1 em{font-style:italic;color:#FF4A1C}
 <body>
 <div class="grid"></div><div class="glow"></div><div class="glow2"></div>
 <div class="wrap">
-  <div class="top"><span><i class="dot"></i>Bureau / design operating system</span><span>v1.0.0 · MIT · <b>github.com/acf1210/bureau</b></span></div>
+  <div class="top"><span><i class="dot"></i>Bureau / design operating system</span><span>v1.0.0, MIT licence, <b>github.com/acf1210/bureau</b></span></div>
   <h1>Bureau</h1>
   <div class="mark">
     <div class="tag">The autonomous digital design bureau.<span>Concept, art direction, motion, WebGL, Figma, Playwright evidence, accessibility, performance, and a review circuit that can say no.</span></div>

@@ -10,7 +10,7 @@ BUREAU é um sistema de **divulgação progressiva**: um roteador curto, 23 mód
 |---|---|---|
 | **Doutrina** | `SKILL.md` | identidade, regras duras, contrato de autonomia |
 | **Roteador** | `SKILL.md` §4 | intenção → comando → referência |
-| **Profundidade** | `references/00–22` | um domínio por arquivo, carregado sob demanda |
+| **Profundidade** | `references/00–24` | um domínio por arquivo, carregado sob demanda |
 | **Execução** | `scripts/*.mjs` | detector, QA, tokens, Figma, review, scaffold |
 | **Matéria** | `assets/templates`, `tokens`, `snippets`, `media` | pontos de partida reais |
 | **Estado** | `BUREAU.md`, `DESIGN.md`, `MOTION.md`, `.bureau/` | memória do projeto e evidência |
@@ -45,6 +45,7 @@ Se o pedido é vago, o BUREAU escolhe a rota mais defensável e declara a suposi
 | `figma-sync.mjs` | export Figma/Tokens Studio | DTCG normalizado | handoff |
 | `doctor.mjs` | ambiente | relatório de capacidade | instalação e suporte |
 | `new-project.mjs` | template | projeto + artefatos | começo |
+| `divergence.mjs` | duas ou mais páginas | similaridade por dimensão | Gate 2, antes de publicar |
 
 Todos são Node puro, sem telemetria. `visual-audit` usa Playwright; os demais não têm dependências externas.
 

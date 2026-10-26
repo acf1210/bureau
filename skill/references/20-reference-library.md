@@ -26,6 +26,8 @@ Write the extraction in `.bureau/comps/references.md`:
 
 Never open a reference and immediately code. That is how cosplay happens.
 
+Galleries tell you what the current default looks like. They are not lineages. Principles come from documented work by named designers, blended three at a time: see `23-lineage-and-blend.md`. If you save a reference page locally, compare your build against it with `scripts/divergence.mjs`.
+
 ## 2. Galleries — landing and marketing
 
 | Source | Use it for | What to extract |
@@ -92,7 +94,10 @@ Never open a reference and immediately code. That is how cosplay happens.
 
 | Source | Use it for | What to extract |
 |---|---|---|
-| **pbakaus/impeccable** | design detection, product truth | deterministic rules, artifact discipline |
+| **pbakaus/impeccable** | design detection, product truth | deterministic rules, artifact discipline, critique isolation |
+| **Nutlope/hallmark** | anti-generated web pages | binding tiers, waivers on the record, render-tier budgets, fresh-context review |
+| **miqdadbadjuber/anti-slop** | slop rulebook | purpose test, evidence-backed delivery gate, liveliness dials |
+| **cathrynlavery/diagram-design** | publishable diagrams | rules as checkers with fixtures, accessible SVG contract, "would a sentence do?" |
 | **vibeprompts.dev** | UI prompts (≈286, as listed by the source) | prompt structure; never paste outputs |
 | **skill-issue.in** | agent skills for design/frontend | skill anatomy, progressive disclosure |
 | **isreadyforlaunch.com** | launch readiness | checklist thinking |

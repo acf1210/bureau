@@ -31,6 +31,22 @@ Three or more "no" answers → slop, regardless of polish.
 | **BS-C07** | 24px radius on everything | a radius family tied to the world |
 | **BS-C08** | everything centered | dominant column + asymmetric weight |
 | **BS-C09** | giant footer wordmark + four columns | footer as closing argument |
+| **BS-C11** | template drift: scaffold favicon, easing and footer survive | new blend; `divergence.mjs` ≤ 0.35 |
+| **BS-C12** | tribute act: one designer or site is recognizable | three sources on three axes |
+| **BS-C13** | eyebrow: inert type above a heading that only announces it | delete it; keep only a fact (date, place, figure) |
+| **BS-C14** | stock anatomy: hero, three features, steps, logo bar, email band | the sections real sites in the category have |
+| **BS-C15** | stock close: email sign-up at the end when the job is not subscription | end on the job: booking, buy box, next date |
+| **BS-C16** | echo: one fact repeated in four or more sections | say it once, where it works |
+| **BS-T11** | accented word in the headline | the whole head one way |
+| **BS-T12** | mono as costume on labels | body face, a step smaller |
+| **BS-K11** | thick side stripe on cards | hairline, ground shift, weight |
+| **BS-K12** | hard offset block shadow | offset and blur, or lightness steps |
+| **BS-W13** | template punctuation `A · B · C` | line breaks, columns, a sentence |
+| **BS-W14** | fake send: success with no request | wire it, or say nothing was sent |
+| **BS-B11** | content hidden at rest without `.js` | visible by default |
+| **BS-E10** | in-page link to a missing section | a real id, or no link |
+| **BS-A13** | ARIA or label reference to a missing id | fix the reference |
+| **BS-E11** | browser surfaces unthemed | selection, caret, focus from the palette |
 | **BS-T01** | Space Grotesk + Inter | display with its own voice |
 | **BS-T02** | display in the default UI font | own role and face |
 | **BS-T03** | uppercase micro-label above every section | labels only when informative |
@@ -96,6 +112,44 @@ Full taxonomy: `skill/references/17-anti-ai-slop.md`.
 One P0 can define the page. No average saves it.
 
 ---
+
+## Binding tiers
+
+| Tier | Severity | Waiver |
+|---|---|---|
+| **Floor** | P0 | never; a line waiver on a P0 is rejected (BS-E12) |
+| **Reflex** | P1 | rule ID + a reason of 20+ characters about this page |
+| **Finish** | P2 | answered in `refinement.md`, never blocks |
+
+```html
+<!-- bureau-ignore BS-K11: the red stripe marks overdue rows in the ledger -->
+```
+
+More than three waivers of one rule is a house style (BS-E13): record it in `DESIGN.md`. The audit JSON lists every waiver in `waivers`.
+
+**Purpose test:** would we choose it if no model had suggested it? If the reason needs more than one line, it is not a reason.
+
+## Render tier
+
+| Check | Tier | Threshold |
+|---|---|---|
+| VA-OVERFLOW | Floor | no horizontal scroll 320–1920 px |
+| VA-CONTRAST | Floor | 4.5:1 body, 3:1 large |
+| VA-FOLD | Reflex | at ≥ 1024 px the h1 and first action end above the fold |
+| VA-BUDGET | Finish | about 80 words per 900 px window at ≥ 1280 px |
+| VA-HEAD | Finish | a head sits closer to what it heads than to what precedes it |
+
+## Liveliness
+
+A clean page is not a good page. Declare three dials in `DESIGN.md` and match them:
+
+| Dial | 1 | 2 | 3 |
+|---|---|---|---|
+| **ENERGY** | quiet | confident | experimental |
+| **RHYTHM** | uniform | a few breaks | asymmetric |
+| **MOTION** | state changes | one entrance | choreography |
+
+RHYTHM 3 with uniform sections fails. A page with no direction is a *draft without direction* (1 / 1 / 1), not a deliverable.
 
 ## Detector
 

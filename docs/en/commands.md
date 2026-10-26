@@ -66,6 +66,7 @@ Definition of ready: offer, audience, sourced proof, non-goals, metric.
 2. Create three comps at the same viewport with real content.
 3. Score with the 6-criteria matrix.
 4. Choose and record the decision + rejected directions.
+5. Write the chosen blend in `.bureau/comps/blend.md`: three lineages, three axes, one tension.
 
 Never deliver three variations of the same idea.
 
@@ -158,6 +159,7 @@ The report covers overflow, contrast, touch targets, images, fonts, videos, cons
 ```bash
 node skill/scripts/review.mjs --status
 node skill/scripts/review.mjs --gate g1-concept --scores .bureau/review/g1.json
+node skill/scripts/review.mjs --delivery-init
 node skill/scripts/review.mjs --final --tribunal .bureau/review/tribunal.json
 node skill/scripts/review.mjs --report
 ```
@@ -219,7 +221,13 @@ node skill/scripts/new-project.mjs --list
 node skill/scripts/new-project.mjs my-site --template product-surface
 ```
 
-Creates the project + `BUREAU.md`, `DESIGN.md`, `MOTION.md`, config, evidence folders, and a README.
+Creates the project + `BUREAU.md`, `DESIGN.md`, `MOTION.md`, config, evidence folders, the template's `LINEAGE.md`, and a README. The page starts as a copy of the template; measure how far it has moved:
+
+```bash
+node skill/scripts/divergence.mjs index.html --templates --out .bureau/evidence/divergence.json
+```
+
+Exit 0 when every pair is at or below `--max` (default 0.35), 1 when a pair is too similar, 2 on a usage error.
 
 ---
 

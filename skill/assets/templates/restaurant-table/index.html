@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mesa Corrida — Twelve seats at one counter, Mexico City</title>
+<script>document.documentElement.classList.add("js")</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23E2507F'/%3E%3Crect x='10' y='10' width='44' height='44' fill='%23E9A43B'/%3E%3Crect x='20' y='20' width='24' height='24' fill='%232A1220'/%3E%3C/svg%3E">
+<meta name="description" content="A tasting counter in Roma Norte: twelve seats, seven courses, a menu that changes every Thursday. Demo template; the restaurant is fictional.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ultra&family=Karla:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  /* Lineage: Barragán (saturated planes and light) × Wyman (lines that radiate from the name) × Josef Albers (colour is relative). See LINEAGE.md. */
+  @font-face{font-family:"Ultra Fallback";src:local("Times New Roman"),local("Liberation Serif");size-adjust:152.3%;ascent-override:66.3%;descent-override:17.7%;line-gap-override:0%}
+  @font-face{font-family:"Karla Fallback";src:local("Arial"),local("Liberation Sans");size-adjust:101.8%;ascent-override:90.4%;descent-override:24.6%;line-gap-override:0%}
+  :root{
+    --cal:#F4ECE2;
+    --rosa:#E2507F;
+    --rosa-deep:#B32A5C;
+    --ocre:#E9A43B;
+    --jacaranda:#8F7BC8;
+    --mole:#2A1220;
+    --mole-soft:#5C3A48;
+    --menu:"Ultra","Ultra Fallback",serif;
+    --plate:"Karla","Karla Fallback",sans-serif;
+    --gutter:clamp(16px,4.5vw,72px);
+    --service:cubic-bezier(.22,.9,.32,1);
+  }
+  *{box-sizing:border-box}
+  html{background:var(--cal);color:var(--mole);overflow-x:clip}
+  body{margin:0;font:400 1.0625rem/1.6 var(--plate)}
+  ::selection{background:var(--mole);color:var(--ocre)}
+  a{color:inherit}
+  :focus-visible{outline:3px solid var(--mole);outline-offset:3px}
+  .skip{position:absolute;left:var(--gutter);top:-5rem;z-index:20;background:var(--mole);color:var(--cal);padding:.7rem 1rem}
+  .skip:focus{top:.75rem}
+
+  .plane{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);grid-template-rows:auto 1fr;min-height:90svh;background:var(--rosa)}
+  .plane__bar{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.2rem var(--gutter)}
+  .plane__name{font:400 1.4rem/1 var(--menu);text-decoration:none;display:inline-flex;align-items:center;min-height:44px}
+  .plane__bar nav{display:flex;gap:1.6rem}
+  .plane__bar nav a{text-decoration:none;font-weight:600;display:inline-flex;align-items:center;min-height:44px;border-bottom:2px solid transparent;transition:border-color .25s var(--service)}
+  .plane__bar nav a:hover{border-color:var(--mole)}
+  .plane__words{padding:clamp(1rem,4vw,3rem) var(--gutter) clamp(2.5rem,6vw,5rem);align-self:end}
+  .plane h1{font:400 clamp(2.3rem,4.4vw,4.4rem)/1.02 var(--menu);letter-spacing:-.01em;margin:0 0 1.4rem;max-width:14em}
+  .plane__words > p{font-size:1.2rem;max-width:30ch;margin:0 0 2rem}
+  .take{display:inline-flex;align-items:center;min-height:50px;padding:0 1.5rem;background:var(--mole);color:var(--cal);font:600 1rem/1 var(--plate);text-decoration:none;border:0;border-radius:0;cursor:pointer;transition:background-color .25s var(--service),color .25s var(--service)}
+  .take:hover{background:var(--ocre);color:var(--mole)}
+  .take--clear{background:transparent;color:var(--mole);box-shadow:inset 0 0 0 2px var(--mole)}
+  .take--clear:hover{background:var(--cal);color:var(--mole)}
+  .plane__acts{display:flex;gap:1rem;flex-wrap:wrap}
+  .plane__wall{position:relative;background:var(--ocre);display:grid;place-items:center;overflow:clip;min-height:320px}
+  .plane__wall::before{content:"";position:absolute;right:0;bottom:0;width:46%;height:38%;background:var(--jacaranda)}
+  .plane__wall svg{position:relative;width:min(88%,460px);height:auto}
+  .plane__wall .ring{fill:none;stroke:var(--mole);stroke-width:3}
+  .plane__wall .word{fill:var(--mole);font:400 54px var(--menu)}
+
+  .section{padding:clamp(4rem,9vw,8rem) var(--gutter)}
+  .section__head{display:flex;justify-content:space-between;align-items:end;gap:2rem;margin-bottom:clamp(2rem,5vw,4rem);flex-wrap:wrap}
+  .section__head h2{font:400 clamp(2.2rem,4.6vw,4.2rem)/1 var(--menu);letter-spacing:-.02em;margin:0;max-width:16ch}
+  .section__head p{margin:0;max-width:38ch;color:var(--mole-soft)}
+
+  .courses{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(1.5rem,3vw,2.5rem) clamp(1rem,2.5vw,2rem)}
+  .course{display:grid;gap:.9rem;align-content:start}
+  .homage{aspect-ratio:1;background:var(--outer);display:grid;place-items:center}
+  .homage span{width:72%;aspect-ratio:1;background:var(--mid);display:grid;place-items:center;transform:translateY(6%)}
+  .homage span::after{content:"";width:58%;aspect-ratio:1;background:var(--inner);transform:translateY(8%)}
+  .course h3{font:400 1.3rem/1.2 var(--menu);margin:0}
+  .course p{margin:0;color:var(--mole-soft);font-size:.975rem}
+  .course small{font-size:.875rem;color:var(--mole)}
+  .course--price{background:var(--rosa);padding:clamp(1rem,2vw,1.5rem);align-content:space-between}
+  .course--price .price{margin:0;color:var(--mole);font-size:.95rem}
+  .price b{display:block;font:400 clamp(1.1rem,2.6vw,2.2rem)/1.05 var(--menu);overflow-wrap:anywhere}
+  .course{min-width:0}
+  .course--price .take{justify-content:center;padding:0 .7rem;text-align:center}
+  .courses__note{margin:2rem 0 0;color:var(--mole-soft);font-size:.95rem;max-width:60ch}
+
+  .counter{background:var(--mole);color:var(--cal)}
+  .counter .section__head p{color:#D8C3CB}
+  .counter :focus-visible{outline-color:var(--ocre)}
+  .booking{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(2rem,5vw,4rem);align-items:start}
+  .pick{border:0;margin:0 0 1.8rem;padding:0}
+  .pick legend{font:400 1.1rem/1.3 var(--menu);margin-bottom:.8rem;padding:0}
+  .chips{display:flex;flex-wrap:wrap;gap:.5rem}
+  .chips label{position:relative}
+  .chips input{position:absolute;opacity:0;width:1px;height:1px}
+  .chips span{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;min-width:64px;min-height:56px;padding:.4rem .8rem;border:2px solid #7E5D6B;color:var(--cal);font-weight:600;cursor:pointer;transition:background-color .2s var(--service),border-color .2s var(--service)}
+  .chips span small{font-weight:400;font-size:.8rem;color:#D8C3CB}
+  .chips input:checked + span{background:var(--ocre);border-color:var(--ocre);color:var(--mole)}
+  .chips input:checked + span small{color:var(--mole)}
+  .chips input:focus-visible + span{outline:3px solid var(--ocre);outline-offset:2px}
+  .bar{position:relative;padding:2.2rem 0 1rem}
+  .bar svg{width:100%;height:auto;display:block}
+  .bar .wood{fill:#5C3A48}
+  .seat{fill:transparent;stroke:#B79AA6;stroke-width:2}
+  .seat.taken{fill:#4A2A38;stroke:#4A2A38}
+  .seat.mine{fill:var(--ocre);stroke:var(--ocre)}
+  .seat-label{fill:#D8C3CB;font:600 13px var(--plate)}
+  .bar__legend{display:flex;gap:1.4rem;flex-wrap:wrap;font-size:.875rem;color:#D8C3CB;margin:.6rem 0 0}
+  .bar__legend i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:.4rem;vertical-align:-1px;border:2px solid #B79AA6}
+  .bar__legend .t{background:#4A2A38;border-color:#4A2A38}
+  .bar__legend .m{background:var(--ocre);border-color:var(--ocre)}
+  .ticket{background:var(--cal);color:var(--mole);padding:clamp(1.25rem,3vw,2rem)}
+  .ticket h3{font:400 1.5rem/1.2 var(--menu);margin:0 0 1rem}
+  .ticket dl{display:grid;grid-template-columns:auto 1fr;gap:.4rem 1.2rem;margin:0 0 1.4rem}
+  .ticket dt{color:var(--mole-soft)}
+  .ticket dd{margin:0;font-weight:600}
+  .ticket label{display:block;font-weight:600;font-size:.95rem;margin:.9rem 0 .35rem}
+  .ticket input{width:100%;min-height:48px;border:2px solid var(--mole);background:#FBF6F0;color:var(--mole);padding:0 .8rem;font:400 1rem/1 var(--plate)}
+  .ticket .take{margin-top:1.2rem;width:100%;justify-content:center}
+  .ticket :focus-visible{outline-color:var(--rosa-deep)}
+  .ticket__status{margin:.9rem 0 0;min-height:1.6em;font-size:.95rem;color:var(--mole-soft)}
+
+  .visit{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0}
+  .visit > div{padding:clamp(2rem,4vw,3rem) var(--gutter)}
+  .visit > div:nth-child(1){background:var(--ocre)}
+  .visit > div:nth-child(2){background:var(--jacaranda)}
+  .visit > div:nth-child(3){background:var(--rosa)}
+  .visit h2{font:400 1.6rem/1.2 var(--menu);margin:0 0 .6rem}
+  .visit p{margin:0}
+
+  .mbar{display:none}
+
+  @media (max-width:980px){
+    .plane{grid-template-columns:minmax(0,1fr)}
+    .plane__wall{min-height:260px}
+    .courses{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .booking{grid-template-columns:minmax(0,1fr)}
+  }
+  @media (max-width:640px){
+    body{padding-bottom:76px}
+    .plane__bar nav{display:none}
+    .plane{min-height:auto}
+    .plane__wall{order:-1;min-height:200px}
+    .plane__bar{order:-2}
+    .visit{grid-template-columns:1fr}
+    .mbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:15;gap:.75rem;align-items:center;justify-content:space-between;padding:.75rem var(--gutter);background:var(--mole);color:var(--cal)}
+    .mbar p{margin:0;font-size:.95rem}
+    .mbar .take{background:var(--ocre);color:var(--mole);min-height:48px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .take,.chips span,.plane__bar nav a{transition:none}
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the menu</a>
+<header class="plane" id="top">
+  <div class="plane__bar">
+    <a class="plane__name" href="#top">Mesa Corrida</a>
+    <nav aria-label="Primary">
+      <a href="#menu">This week</a>
+      <a href="#counter">Book a seat</a>
+      <a href="#visit">Find us</a>
+    </nav>
+  </div>
+  <div class="plane__words">
+    <h1>Twelve seats, one counter, a new menu every Thursday.</h1>
+    <p>Seven courses cooked in front of you in Roma Norte. Sit, watch, ask the cook anything.</p>
+    <div class="plane__acts">
+      <a class="take" href="#counter">Book a seat</a>
+      <a class="take take--clear" href="#menu">Read this week's menu</a>
+    </div>
+  </div>
+  <div class="plane__wall" aria-hidden="true">
+    <svg viewBox="0 0 400 260">
+      <rect class="ring" x="8" y="8" width="384" height="244" rx="122"/>
+      <rect class="ring" x="28" y="28" width="344" height="204" rx="102"/>
+      <rect class="ring" x="48" y="48" width="304" height="164" rx="82"/>
+      <rect class="ring" x="68" y="68" width="264" height="124" rx="62"/>
+      <text class="word" x="200" y="150" text-anchor="middle">mesa</text>
+    </svg>
+  </div>
+</header>
+
+<main id="main">
+  <section class="section" id="menu" aria-labelledby="menu-title">
+    <div class="section__head">
+      <h2 id="menu-title">This week, in seven colours.</h2>
+      <p>Each course is drawn as the colour of its main ingredient, set on the colour of the one before it. Like the dishes, the same colour changes with what sits next to it.</p>
+    </div>
+    <ol class="courses">
+      <li class="course"><div class="homage" style="--outer:#E9DCC9;--mid:#C9B28F;--inner:#7A5A33" aria-hidden="true"><span></span></div><h3>Tostada de maíz azul</h3><p>Blue corn, raw scallop, sour orange.</p><small>Course one</small></li>
+      <li class="course"><div class="homage" style="--outer:#7A5A33;--mid:#3E5A8C;--inner:#22304F" aria-hidden="true"><span></span></div><h3>Caldo de piedra</h3><p>Fish broth finished at the counter with a hot river stone.</p><small>Course two</small></li>
+      <li class="course"><div class="homage" style="--outer:#22304F;--mid:#6D8F3A;--inner:#B7D06A" aria-hidden="true"><span></span></div><h3>Quelites</h3><p>Wild greens from Xochimilco, pepita salsa, fresh cheese.</p><small>Course three</small></li>
+      <li class="course"><div class="homage" style="--outer:#B7D06A;--mid:#C2185B;--inner:#7A0E37" aria-hidden="true"><span></span></div><h3>Jamaica</h3><p>Hibiscus granita between the savoury courses.</p><small>Course four</small></li>
+      <li class="course"><div class="homage" style="--outer:#7A0E37;--mid:#E9A43B;--inner:#C25E1C" aria-hidden="true"><span></span></div><h3>Tamal de calabaza</h3><p>Squash tamal, steamed in its own blossom.</p><small>Course five</small></li>
+      <li class="course"><div class="homage" style="--outer:#C25E1C;--mid:#4A2416;--inner:#24100A" aria-hidden="true"><span></span></div><h3>Mole negro</h3><p>Thirty-one ingredients, duck leg, a tortilla pressed to order.</p><small>Course six</small></li>
+      <li class="course"><div class="homage" style="--outer:#24100A;--mid:#F2E3C6;--inner:#E2507F" aria-hidden="true"><span></span></div><h3>Nieve de garambullo</h3><p>Cactus-berry sorbet, piloncillo crumble.</p><small>Course seven</small></li>
+      <li class="course course--price"><p class="price"><b>MX$1,850</b>seven courses, per person</p><p class="price"><b>MX$950</b>mezcal and natural wine pairing</p><a class="take" href="#counter">Book a seat</a></li>
+    </ol>
+    <p class="courses__note">Tell us about allergies when you book. Vegetarian on request with two days' notice. Menu shown for a demo template.</p>
+  </section>
+
+  <section class="section counter" id="counter" aria-labelledby="counter-title">
+    <div class="section__head">
+      <h2 id="counter-title">Choose your seats at the counter.</h2>
+      <p>Two sittings a night, Wednesday to Sunday. Seats closest to the stove see the most; seats at the ends are quieter for conversation.</p>
+    </div>
+    <div class="booking">
+      <div>
+        <fieldset class="pick">
+          <legend>Night</legend>
+          <div class="chips" id="nights"></div>
+        </fieldset>
+        <fieldset class="pick">
+          <legend>Sitting</legend>
+          <div class="chips">
+            <label><input type="radio" name="sitting" value="19:00" checked><span>19:00<small>early</small></span></label>
+            <label><input type="radio" name="sitting" value="21:15"><span>21:15<small>late</small></span></label>
+          </div>
+        </fieldset>
+        <div class="bar">
+          <svg viewBox="0 0 720 150" role="img" aria-labelledby="bar-title" id="bar">
+            <title id="bar-title">The counter, seen from above, with twelve seats in an arc around the stove</title>
+            <path class="wood" d="M40 30 Q360 150 680 30 L680 58 Q360 178 40 58Z"/>
+            <rect x="320" y="0" width="80" height="28" fill="#7E5D6B"/>
+            <text class="seat-label" x="360" y="19" text-anchor="middle">stove</text>
+          </svg>
+          <p class="bar__legend"><span><i></i>free</span><span><i class="t"></i>taken</span><span><i class="m"></i>yours</span></p>
+        </div>
+        <div class="chips" id="seat-buttons" role="group" aria-label="Seats"></div>
+      </div>
+      <form class="ticket" id="ticket" novalidate>
+        <h3>Your booking</h3>
+        <dl>
+          <dt>Night</dt><dd id="t-night">—</dd>
+          <dt>Sitting</dt><dd id="t-sitting">19:00</dd>
+          <dt>Seats</dt><dd id="t-seats">none yet</dd>
+          <dt>Menu</dt><dd id="t-total">MX$1,850 per person</dd>
+        </dl>
+        <label for="guest">Name for the booking</label>
+        <input id="guest" name="guest" autocomplete="name" required>
+        <label for="phone">Phone, for a reminder the day before</label>
+        <input id="phone" name="phone" type="tel" autocomplete="tel" required>
+        <button class="take" type="submit">Hold these seats</button>
+        <p class="ticket__status" id="ticket-status" role="status">Availability is illustrative in this demo.</p>
+      </form>
+    </div>
+  </section>
+
+  <section class="visit" id="visit" aria-label="Visit">
+    <div><h2>Where</h2><p>Calle Colima, Roma Norte.<br>A blue door, no sign.</p></div>
+    <div><h2>When</h2><p>Wednesday to Sunday.<br>Sittings at 19:00 and 21:15.</p></div>
+    <div><h2>Ask</h2><p><a href="mailto:mesa@example.com">mesa@example.com</a><br>A fictional restaurant in a demo template.</p></div>
+  </section>
+</main>
+
+<div class="mbar" aria-hidden="true"><p>Seven courses, MX$1,850</p><a class="take" href="#counter" tabindex="-1">Book a seat</a></div>
+
+<script>
+(() => {
+  const price = 1850;
+  const nights = document.getElementById("nights");
+  const seatButtons = document.getElementById("seat-buttons");
+  const bar = document.getElementById("bar");
+  const out = { night: document.getElementById("t-night"), sitting: document.getElementById("t-sitting"), seats: document.getElementById("t-seats"), total: document.getElementById("t-total") };
+  const fmt = new Intl.DateTimeFormat("en-GB", { weekday: "short", day: "numeric", month: "short" });
+  const days = [];
+  for (let d = new Date(), i = 0; days.length < 5 && i < 14; i++, d.setDate(d.getDate() + 1)) {
+    if ([0, 3, 4, 5, 6].includes(d.getDay())) days.push(new Date(d));
+  }
+  days.forEach((d, i) => {
+    const [wd, ...rest] = fmt.format(d).replace(",", "").split(" ");
+    nights.insertAdjacentHTML("beforeend", `<label><input type="radio" name="night" value="${d.toISOString().slice(0, 10)}"${i ? "" : " checked"}><span>${wd}<small>${rest.join(" ")}</small></span></label>`);
+  });
+
+  // Seats on an arc; availability is seeded by night and sitting so it is stable, and labelled illustrative.
+  const ns = "http://www.w3.org/2000/svg";
+  const seats = [];
+  for (let i = 0; i < 12; i++) {
+    const t = i / 11, x = 60 + t * 600, y = 92 + Math.sin(t * Math.PI) * 52;
+    const c = document.createElementNS(ns, "circle");
+    c.setAttribute("cx", x); c.setAttribute("cy", y); c.setAttribute("r", 17); c.setAttribute("class", "seat");
+    const label = document.createElementNS(ns, "text");
+    label.setAttribute("x", x); label.setAttribute("y", y + 5); label.setAttribute("text-anchor", "middle"); label.setAttribute("class", "seat-label"); label.textContent = i + 1;
+    bar.append(c, label);
+    seatButtons.insertAdjacentHTML("beforeend", `<label><input type="checkbox" value="${i + 1}"><span>Seat ${i + 1}</span></label>`);
+    seats.push(c);
+  }
+  const boxes = [...seatButtons.querySelectorAll("input")];
+  const seed = (s) => { let h = 2166136261; for (const ch of s) h = Math.imul(h ^ ch.charCodeAt(0), 16777619); return () => ((h = Math.imul(h ^ (h >>> 15), 2246822507)) >>> 0) / 4294967296; };
+
+  const update = () => {
+    const night = document.querySelector("input[name=night]:checked");
+    const sitting = document.querySelector("input[name=sitting]:checked").value;
+    const rand = seed(night.value + sitting);
+    boxes.forEach((b, i) => {
+      const taken = rand() < 0.45;
+      b.disabled = taken;
+      if (taken) b.checked = false;
+      b.nextElementSibling.querySelector("small")?.remove();
+      if (taken) b.nextElementSibling.insertAdjacentHTML("beforeend", "<small>taken</small>");
+      seats[i].setAttribute("class", "seat" + (taken ? " taken" : b.checked ? " mine" : ""));
+    });
+    const mine = boxes.filter((b) => b.checked).map((b) => b.value);
+    out.night.textContent = night.nextElementSibling.textContent.replace(/([a-z])(\d)/i, "$1 $2");
+    out.sitting.textContent = sitting;
+    out.seats.textContent = mine.length ? mine.join(", ") : "none yet";
+    out.total.textContent = mine.length ? `MX$${(mine.length * price).toLocaleString("en-US")} for ${mine.length}` : `MX$${price.toLocaleString("en-US")} per person`;
+  };
+  document.getElementById("counter").addEventListener("change", update);
+  update();
+
+  const form = document.getElementById("ticket");
+  const status = document.getElementById("ticket-status");
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (!boxes.some((b) => b.checked)) { status.textContent = "Choose at least one free seat first."; seatButtons.querySelector("input:not(:disabled)")?.focus(); return; }
+    if (!form.elements.guest.value.trim() || !form.elements.phone.value.trim()) { status.textContent = "A name and a phone number are needed to hold seats."; (form.elements.guest.value.trim() ? form.elements.phone : form.elements.guest).focus(); return; }
+    status.textContent = "Nothing was sent: this demo is not connected to a reservation book yet.";
+  });
+})();
+</script>
+</body>
+</html>

@@ -66,6 +66,7 @@ Critério de pronto: oferta, público, prova com fonte, non-goals e métrica.
 2. Cria três comps no mesmo viewport, com conteúdo real.
 3. Pontua com a matriz de 6 critérios.
 4. Escolhe e registra a decisão + rejeitados.
+5. Escreve a mescla escolhida em `.bureau/comps/blend.md`: três linhagens, três eixos, uma tensão.
 
 Nunca entregue três variações da mesma ideia.
 
@@ -160,6 +161,7 @@ O relatório inclui overflow, contraste, alvos de toque, imagens, fontes, vídeo
 ```bash
 node skill/scripts/review.mjs --status
 node skill/scripts/review.mjs --gate g1-concept --scores .bureau/review/g1.json
+node skill/scripts/review.mjs --delivery-init
 node skill/scripts/review.mjs --final --tribunal .bureau/review/tribunal.json
 node skill/scripts/review.mjs --report
 ```
@@ -221,7 +223,13 @@ node skill/scripts/new-project.mjs --list
 node skill/scripts/new-project.mjs meu-site --template product-surface
 ```
 
-Cria projeto + `BUREAU.md`, `DESIGN.md`, `MOTION.md`, config, pastas de evidência e README.
+Cria projeto + `BUREAU.md`, `DESIGN.md`, `MOTION.md`, config, pastas de evidência, o `LINEAGE.md` do template e README. A página começa como cópia do template; meça o quanto ela se afastou:
+
+```bash
+node skill/scripts/divergence.mjs index.html --templates --out .bureau/evidence/divergence.json
+```
+
+Saída 0 quando todos os pares estão em `--max` ou abaixo (padrão 0.35), 1 quando um par é parecido demais, 2 em erro de uso.
 
 ---
 

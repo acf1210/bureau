@@ -5,6 +5,7 @@
  * Usage:
  *   node scripts/review.mjs --status
  *   node scripts/review.mjs --gate g1-concept --scores .bureau/review/g1.json
+ *   node scripts/review.mjs --delivery-init
  *   node scripts/review.mjs --final --tribunal .bureau/review/tribunal.json
  */
 
@@ -13,13 +14,14 @@ import path from "node:path";
 import {
   gates, gateById, GATE_ORDER, VERDICTS,
   checkEvidence, normalizeScores, validateEvidenceFiles,
-  sourceHash, pointsFor, verdict
+  sourceHash, pointsFor, verdict,
+  CRITIQUE_AXES, parseDelivery, deliveryTemplate
 } from "./lib/gates.mjs";
 
 const STATE_VERSION = 1;
 
 function parseArgs(argv) {
-  const opts = { root: process.cwd(), json: false, gate: null, scores: null, final: false, tribunal: null, status: false, reset: false, yes: false, report: false };
+  const opts = { root: process.cwd(), json: false, gate: null, scores: null, final: false, tribunal: null, status: false, reset: false, yes: false, report: false, deliveryInit: false };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === "--root") opts.root = path.resolve(argv[++i]);
@@ -31,6 +33,7 @@ function parseArgs(argv) {
     else if (a === "--reset") opts.reset = true;
     else if (a === "--yes") opts.yes = true;
     else if (a === "--report") opts.report = true;
+    else if (a === "--delivery-init") opts.deliveryInit = true;
     else if (a === "--json") opts.json = true;
     else if (a === "--help" || a === "-h") {
       console.log(`BUREAU review circuit
@@ -38,6 +41,7 @@ function parseArgs(argv) {
 Usage:
   node scripts/review.mjs --status
   node scripts/review.mjs --gate <id> --scores <file>
+  node scripts/review.mjs --delivery-init
   node scripts/review.mjs --final [--tribunal <file>]
   node scripts/review.mjs --report
   node scripts/review.mjs --reset --yes
@@ -152,11 +156,6 @@ function gateCommand(root, state, gateId, scoresFile) {
     console.error(`Could not read JSON: ${scoresFile}`);
     process.exit(2);
   }
-  const normalized = normalizeScores(raw, gate);
-  if (normalized.errors.length) {
-    console.error("Invalid scores file:\n- " + normalized.errors.join("\n- "));
-    process.exit(2);
-  }
   const index = gate.index;
   const currentHash = sourceHash(root).hash;
   for (const prevId of GATE_ORDER.slice(0, index)) {
@@ -169,6 +168,11 @@ function gateCommand(root, state, gateId, scoresFile) {
       console.error(`Gate ${gateId} cannot open: ${prevId} is stale (source changed). Re-run ${prevId} and every later gate first.`);
       process.exit(3);
     }
+  }
+  const normalized = normalizeScores(raw, gate);
+  if (normalized.errors.length) {
+    console.error("Invalid scores file:\n- " + normalized.errors.join("\n- "));
+    process.exit(2);
   }
 
   const ev = checkEvidence(root, gate.evidence);
@@ -189,7 +193,11 @@ function gateCommand(root, state, gateId, scoresFile) {
 
   const p0 = normalized.value.issues.filter((i) => i.severity === "p0");
   const score = normalized.value.score;
-  const status = score >= 3.5 && p0.length === 0 ? "passed" : "failed";
+  const critique = normalized.value.critique;
+  const lowAxes = critique ? CRITIQUE_AXES.filter((a) => critique[a] < 3) : [];
+  const heuristics = normalized.value.heuristics;
+  const lowHeuristics = heuristics && heuristics.ratio < 0.5;
+  const status = score >= 3.5 && p0.length === 0 && !lowAxes.length && !lowHeuristics ? "passed" : "failed";
   const h = sourceHash(root);
 
   // Re-running a gate invalidates every later gate.
@@ -207,6 +215,8 @@ function gateCommand(root, state, gateId, scoresFile) {
     strengths: normalized.value.strengths,
     issues: normalized.value.issues,
     evidence: normalized.value.evidence,
+    critique,
+    heuristics,
     requiredEvidence: ev.found,
     sourceHash: h.hash,
     sourceFiles: h.files,
@@ -221,6 +231,8 @@ function gateCommand(root, state, gateId, scoresFile) {
   console.log(`Score ${score}/5 · points ${state.gates[gate.id].points}/${gate.weight} · reviewer ${normalized.value.reviewer}`);
   console.log(normalized.value.notes);
   if (p0.length) console.log(`BLOCKING: ${p0.length} P0 issue(s).`);
+  if (lowAxes.length) console.log(`BLOCKING: pre-build critique under 3 on ${lowAxes.join(", ")}. Revise the direction before building.`);
+  if (heuristics) console.log(`Heuristics ${heuristics.sum}/${heuristics.max}${lowHeuristics ? " — BLOCKING: under half the applicable maximum." : ""}`);
   console.log(`Evidence: ${ev.found.map((e) => `${e.label} (${e.count})`).join(", ")}`);
   const next = gates[index + 1];
   if (next) console.log(`Next: ${next.id} — ${next.question}`);
@@ -279,6 +291,7 @@ function renderScorecardMd(data, state) {
     lines.push(`## Tribunal`);
     lines.push("");
     lines.push(`**Decision:** ${data.tribunal.decision || "—"}  `);
+    lines.push(`**Method:** ${data.tribunal.method === "degraded" ? "DEGRADED (single context)" : data.tribunal.method || "—"}  `);
     if (data.tribunal.notes) lines.push(`${data.tribunal.notes}`);
     if (data.tribunal.reason) lines.push(`\n**Reason:** ${data.tribunal.reason}`);
     if (data.tribunal.fix) lines.push(`\n**Smallest fix:** ${data.tribunal.fix}`);
@@ -348,7 +361,7 @@ footer{margin-top:40px;border-top:1px solid var(--line);padding-top:16px;color:v
 <h1>${escapeHtml(data.project)}</h1>
 <div class="verdict ${badgeClass}"><span class="eyebrow">Verdict</span><b>${escapeHtml(data.verdict.verdict.toUpperCase())}</b><span>${data.total}/100</span></div>
 <p>${escapeHtml(data.verdict.reason)}</p>
-${data.tribunal ? `<p class="muted"><strong>Tribunal:</strong> ${escapeHtml(data.tribunal.decision)} — ${escapeHtml(data.tribunal.notes || "")}${data.tribunal.fix ? ` · Smallest fix: ${escapeHtml(data.tribunal.fix)}` : ""}</p>` : ""}
+${data.tribunal ? `<p class="muted"><strong>Tribunal:</strong> ${escapeHtml(data.tribunal.decision)} (${escapeHtml(data.tribunal.method === "degraded" ? "DEGRADED, single context" : data.tribunal.method || "method not declared")}) — ${escapeHtml(data.tribunal.notes || "")}${data.tribunal.fix ? ` · Smallest fix: ${escapeHtml(data.tribunal.fix)}` : ""}</p>` : ""}
 ${rows}
 ${data.missing.length ? `<section class="gate"><h2>Missing / stale</h2><ul>${data.missing.map((m) => `<li>${escapeHtml(m)}</li>`).join("")}</ul></section>` : ""}
 <footer>Generated by BUREAU ${escapeHtml(process.env.npm_package_version || "")}. Evidence over opinion.</footer>
@@ -395,6 +408,18 @@ function finalCommand(root, state, tribunalFile, asJson) {
   }
   if (blocked) process.exit(3);
 
+  // Delivery Gate: the Tribunal does not open on an unchecked or failing line.
+  const deliveryFile = path.join(root, ".bureau", "review", "delivery.md");
+  if (!fs.existsSync(deliveryFile)) {
+    console.error("Cannot finalize: .bureau/review/delivery.md is missing. Run --delivery-init, fill every line with evidence, then finalize.");
+    process.exit(4);
+  }
+  const delivery = parseDelivery(fs.readFileSync(deliveryFile, "utf8"));
+  if (delivery.errors.length) {
+    console.error("Cannot finalize: Delivery Gate not clean.\n- " + delivery.errors.join("\n- "));
+    process.exit(1);
+  }
+
   let tribunal = null;
   if (tribunalFile) {
     tribunal = readJson(tribunalFile);
@@ -402,6 +427,11 @@ function finalCommand(root, state, tribunalFile, asJson) {
     tribunal.decision = String(tribunal.decision || "pass").toLowerCase();
     if (!["pass", "conditional", "veto"].includes(tribunal.decision)) {
       console.error("Tribunal decision must be pass, conditional, or veto.");
+      process.exit(2);
+    }
+    tribunal.method = String(tribunal.method || "").toLowerCase();
+    if (!["isolated", "degraded"].includes(tribunal.method)) {
+      console.error('Tribunal method must be "isolated" (fresh-context reviewer, design review before detector output) or "degraded".');
       process.exit(2);
     }
     if (tribunal.decision === "veto" && !tribunal.reason) {
@@ -438,6 +468,8 @@ function finalCommand(root, state, tribunalFile, asJson) {
   if (tribunal?.decision === "veto") { finalVerdict = "fail"; reason = `Tribunal veto: ${tribunal.reason}`; }
   else if (tribunal?.decision === "conditional" && ["pass", "award"].includes(finalVerdict)) { finalVerdict = "conditional"; reason = "Tribunal conditional acceptance"; }
   if (blocking.length) { finalVerdict = "fail"; reason = `${blocking.length} unresolved P0 issue(s).`; }
+  // A single-context review cannot certify Award Track: the thread that built the work is its weakest reviewer.
+  if (tribunal?.method === "degraded" && finalVerdict === "award") { finalVerdict = "pass"; reason = "DEGRADED review: single context; Award Track needs an isolated Tribunal."; }
 
   state.tribunal = tribunal;
   state.total = total;
@@ -469,12 +501,20 @@ function main() {
     console.log("Circuit state reset.");
     return;
   }
-  if (opts.status || (!opts.gate && !opts.final && !opts.report)) {
+  if (opts.status || (!opts.gate && !opts.final && !opts.report && !opts.deliveryInit)) {
     printStatus(root, state, opts.json);
     return;
   }
   if (opts.gate) {
     gateCommand(root, state, opts.gate, opts.scores);
+    return;
+  }
+  if (opts.deliveryInit) {
+    const file = path.join(root, ".bureau", "review", "delivery.md");
+    if (fs.existsSync(file) && !opts.yes) { console.error(`${file} exists. Pass --yes to overwrite.`); process.exit(2); }
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    fs.writeFileSync(file, deliveryTemplate() + "\n");
+    console.log(`Delivery Gate written: ${file}`);
     return;
   }
   if (opts.final) {

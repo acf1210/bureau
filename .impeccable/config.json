@@ -1,0 +1,485 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/kinetic-editorial/index.html"
+        ],
+        "createdAt": "2026-10-26T18:00:51.699Z",
+        "reason": "Claude triage: static detector does not resolve clamp()/calc(var()); browser render shows h1 at up to 11rem vs 16-18px body (BUREAU visual-audit 0 issues, screenshots 2026-10-26)"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/kinetic-editorial/index.html"
+        ],
+        "createdAt": "2026-10-26T18:00:51.743Z",
+        "reason": "Claude triage: padding is set via calc(var(--u)) / var(--gutter) which the static detector reads as 0; screenshots show inset"
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/product-surface/index.html"
+        ],
+        "createdAt": "2026-10-26T18:00:51.777Z",
+        "reason": "Claude triage: static detector does not resolve clamp()/calc(var()); browser render shows h1 at up to 11rem vs 16-18px body (BUREAU visual-audit 0 issues, screenshots 2026-10-26)"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/product-surface/index.html"
+        ],
+        "createdAt": "2026-10-26T18:00:51.806Z",
+        "reason": "Claude triage: padding is set via calc(var(--u)) / var(--gutter) which the static detector reads as 0; screenshots show inset"
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/immersive-experience/index.html"
+        ],
+        "createdAt": "2026-10-26T18:00:51.836Z",
+        "reason": "Claude triage: static detector does not resolve clamp()/calc(var()); browser render shows h1 at up to 11rem vs 16-18px body (BUREAU visual-audit 0 issues, screenshots 2026-10-26)"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/immersive-experience/index.html"
+        ],
+        "createdAt": "2026-10-26T18:00:51.864Z",
+        "reason": "Claude triage: padding is set via calc(var(--u)) / var(--gutter) which the static detector reads as 0; screenshots show inset"
+      },
+      {
+        "rule": "clipped-overflow-container",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/kinetic-editorial/index.html"
+        ],
+        "createdAt": "2026-10-26T18:00:51.891Z",
+        "reason": "Claude triage: overflow-x clip on root/body guards horizontal scroll; positioned children are background layers, not popovers"
+      },
+      {
+        "rule": "clipped-overflow-container",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/immersive-experience/index.html"
+        ],
+        "createdAt": "2026-10-26T18:00:51.915Z",
+        "reason": "Claude triage: overflow-x clip on root/body guards horizontal scroll; positioned children are background layers, not popovers"
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/product-surface/index.html"
+        ],
+        "createdAt": "2026-10-26T18:00:51.947Z",
+        "reason": "Claude triage: full-width 3px top rule on instrument and ledger is the documented Vignelli rule (LINEAGE.md), not a card side-tab"
+      },
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/immersive-experience/index.html"
+        ],
+        "createdAt": "2026-10-26T18:00:51.975Z",
+        "reason": "Claude triage: transparent outline wordmark in footer is aria-hidden decoration; all real text pairs measured >= 6.9:1"
+      },
+      {
+        "rule": "clipped-overflow-container",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/legal-practice/index.html"
+        ],
+        "createdAt": "2026-10-26T19:16:04.105Z",
+        "reason": "Claude triage: overflow-x clip on html/body only guards horizontal scroll; positioned children are fixed bars or background layers, popovers render in the top layer; BUREAU visual-audit 0 P0/P1 at 320-1920"
+      },
+      {
+        "rule": "clipped-overflow-container",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/architecture-studio/index.html"
+        ],
+        "createdAt": "2026-10-26T19:16:04.129Z",
+        "reason": "Claude triage: overflow-x clip on html/body only guards horizontal scroll; positioned children are fixed bars or background layers, popovers render in the top layer; BUREAU visual-audit 0 P0/P1 at 320-1920"
+      },
+      {
+        "rule": "clipped-overflow-container",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/restaurant-table/index.html"
+        ],
+        "createdAt": "2026-10-26T19:16:04.162Z",
+        "reason": "Claude triage: overflow-x clip on html/body only guards horizontal scroll; positioned children are fixed bars or background layers, popovers render in the top layer; BUREAU visual-audit 0 P0/P1 at 320-1920"
+      },
+      {
+        "rule": "clipped-overflow-container",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/private-bank/index.html"
+        ],
+        "createdAt": "2026-10-26T19:16:04.191Z",
+        "reason": "Claude triage: overflow-x clip on html/body only guards horizontal scroll; positioned children are fixed bars or background layers, popovers render in the top layer; BUREAU visual-audit 0 P0/P1 at 320-1920"
+      },
+      {
+        "rule": "clipped-overflow-container",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/clinic-care/index.html"
+        ],
+        "createdAt": "2026-10-26T19:16:04.226Z",
+        "reason": "Claude triage: overflow-x clip on html/body only guards horizontal scroll; positioned children are fixed bars or background layers, popovers render in the top layer; BUREAU visual-audit 0 P0/P1 at 320-1920"
+      },
+      {
+        "rule": "clipped-overflow-container",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/developer-api/index.html"
+        ],
+        "createdAt": "2026-10-26T19:16:04.256Z",
+        "reason": "Claude triage: overflow-x clip on html/body only guards horizontal scroll; positioned children are fixed bars or background layers, popovers render in the top layer; BUREAU visual-audit 0 P0/P1 at 320-1920"
+      },
+      {
+        "rule": "clipped-overflow-container",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/fashion-atelier/index.html"
+        ],
+        "createdAt": "2026-10-26T19:16:04.283Z",
+        "reason": "Claude triage: overflow-x clip on html/body only guards horizontal scroll; positioned children are fixed bars or background layers, popovers render in the top layer; BUREAU visual-audit 0 P0/P1 at 320-1920"
+      },
+      {
+        "rule": "clipped-overflow-container",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/record-label/index.html"
+        ],
+        "createdAt": "2026-10-26T19:16:04.319Z",
+        "reason": "Claude triage: overflow-x clip on html/body only guards horizontal scroll; positioned children are fixed bars or background layers, popovers render in the top layer; BUREAU visual-audit 0 P0/P1 at 320-1920"
+      },
+      {
+        "rule": "clipped-overflow-container",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/museum-archive/index.html"
+        ],
+        "createdAt": "2026-10-26T19:16:04.353Z",
+        "reason": "Claude triage: overflow-x clip on html/body only guards horizontal scroll; positioned children are fixed bars or background layers, popovers render in the top layer; BUREAU visual-audit 0 P0/P1 at 320-1920"
+      },
+      {
+        "rule": "clipped-overflow-container",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/hardware-store/index.html"
+        ],
+        "createdAt": "2026-10-26T19:16:04.381Z",
+        "reason": "Claude triage: overflow-x clip on html/body only guards horizontal scroll; positioned children are fixed bars or background layers, popovers render in the top layer; BUREAU visual-audit 0 P0/P1 at 320-1920"
+      },
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/museum-archive/index.html"
+        ],
+        "createdAt": "2026-10-26T19:16:04.408Z",
+        "reason": "Claude triage: flagged text is the rotated back face of an easel (inert until turned); browser contrast audit passes front and back"
+      },
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/hardware-store/index.html"
+        ],
+        "createdAt": "2026-10-26T19:16:04.436Z",
+        "reason": "Claude triage: flagged text is SVG part labels at opacity 0 until the exploded view; visible labels measured above 4.5:1"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/legal-practice/index.html"
+        ],
+        "createdAt": "2026-10-26T19:19:16.966Z",
+        "reason": "Claude triage: static detector does not resolve clamp()/calc(var()); browser render shows display heads 2-6x body and real padding (BUREAU visual-audit 0 P0/P1, screenshots 2026-10-26)"
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/legal-practice/index.html"
+        ],
+        "createdAt": "2026-10-26T19:19:16.995Z",
+        "reason": "Claude triage: static detector does not resolve clamp()/calc(var()); browser render shows display heads 2-6x body and real padding (BUREAU visual-audit 0 P0/P1, screenshots 2026-10-26)"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/architecture-studio/index.html"
+        ],
+        "createdAt": "2026-10-26T19:19:17.027Z",
+        "reason": "Claude triage: static detector does not resolve clamp()/calc(var()); browser render shows display heads 2-6x body and real padding (BUREAU visual-audit 0 P0/P1, screenshots 2026-10-26)"
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/architecture-studio/index.html"
+        ],
+        "createdAt": "2026-10-26T19:19:17.058Z",
+        "reason": "Claude triage: static detector does not resolve clamp()/calc(var()); browser render shows display heads 2-6x body and real padding (BUREAU visual-audit 0 P0/P1, screenshots 2026-10-26)"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/restaurant-table/index.html"
+        ],
+        "createdAt": "2026-10-26T19:19:17.111Z",
+        "reason": "Claude triage: static detector does not resolve clamp()/calc(var()); browser render shows display heads 2-6x body and real padding (BUREAU visual-audit 0 P0/P1, screenshots 2026-10-26)"
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/restaurant-table/index.html"
+        ],
+        "createdAt": "2026-10-26T19:19:17.148Z",
+        "reason": "Claude triage: static detector does not resolve clamp()/calc(var()); browser render shows display heads 2-6x body and real padding (BUREAU visual-audit 0 P0/P1, screenshots 2026-10-26)"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/private-bank/index.html"
+        ],
+        "createdAt": "2026-10-26T19:19:17.175Z",
+        "reason": "Claude triage: static detector does not resolve clamp()/calc(var()); browser render shows display heads 2-6x body and real padding (BUREAU visual-audit 0 P0/P1, screenshots 2026-10-26)"
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/private-bank/index.html"
+        ],
+        "createdAt": "2026-10-26T19:19:17.202Z",
+        "reason": "Claude triage: static detector does not resolve clamp()/calc(var()); browser render shows display heads 2-6x body and real padding (BUREAU visual-audit 0 P0/P1, screenshots 2026-10-26)"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/clinic-care/index.html"
+        ],
+        "createdAt": "2026-10-26T19:19:17.228Z",
+        "reason": "Claude triage: static detector does not resolve clamp()/calc(var()); browser render shows display heads 2-6x body and real padding (BUREAU visual-audit 0 P0/P1, screenshots 2026-10-26)"
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/clinic-care/index.html"
+        ],
+        "createdAt": "2026-10-26T19:19:17.259Z",
+        "reason": "Claude triage: static detector does not resolve clamp()/calc(var()); browser render shows display heads 2-6x body and real padding (BUREAU visual-audit 0 P0/P1, screenshots 2026-10-26)"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/developer-api/index.html"
+        ],
+        "createdAt": "2026-10-26T19:19:17.285Z",
+        "reason": "Claude triage: static detector does not resolve clamp()/calc(var()); browser render shows display heads 2-6x body and real padding (BUREAU visual-audit 0 P0/P1, screenshots 2026-10-26)"
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/developer-api/index.html"
+        ],
+        "createdAt": "2026-10-26T19:19:17.310Z",
+        "reason": "Claude triage: static detector does not resolve clamp()/calc(var()); browser render shows display heads 2-6x body and real padding (BUREAU visual-audit 0 P0/P1, screenshots 2026-10-26)"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/fashion-atelier/index.html"
+        ],
+        "createdAt": "2026-10-26T19:19:17.343Z",
+        "reason": "Claude triage: static detector does not resolve clamp()/calc(var()); browser render shows display heads 2-6x body and real padding (BUREAU visual-audit 0 P0/P1, screenshots 2026-10-26)"
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/fashion-atelier/index.html"
+        ],
+        "createdAt": "2026-10-26T19:19:17.368Z",
+        "reason": "Claude triage: static detector does not resolve clamp()/calc(var()); browser render shows display heads 2-6x body and real padding (BUREAU visual-audit 0 P0/P1, screenshots 2026-10-26)"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/record-label/index.html"
+        ],
+        "createdAt": "2026-10-26T19:19:17.397Z",
+        "reason": "Claude triage: static detector does not resolve clamp()/calc(var()); browser render shows display heads 2-6x body and real padding (BUREAU visual-audit 0 P0/P1, screenshots 2026-10-26)"
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/record-label/index.html"
+        ],
+        "createdAt": "2026-10-26T19:19:17.424Z",
+        "reason": "Claude triage: static detector does not resolve clamp()/calc(var()); browser render shows display heads 2-6x body and real padding (BUREAU visual-audit 0 P0/P1, screenshots 2026-10-26)"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/museum-archive/index.html"
+        ],
+        "createdAt": "2026-10-26T19:19:17.453Z",
+        "reason": "Claude triage: static detector does not resolve clamp()/calc(var()); browser render shows display heads 2-6x body and real padding (BUREAU visual-audit 0 P0/P1, screenshots 2026-10-26)"
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/museum-archive/index.html"
+        ],
+        "createdAt": "2026-10-26T19:19:17.480Z",
+        "reason": "Claude triage: static detector does not resolve clamp()/calc(var()); browser render shows display heads 2-6x body and real padding (BUREAU visual-audit 0 P0/P1, screenshots 2026-10-26)"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/hardware-store/index.html"
+        ],
+        "createdAt": "2026-10-26T19:19:17.508Z",
+        "reason": "Claude triage: static detector does not resolve clamp()/calc(var()); browser render shows display heads 2-6x body and real padding (BUREAU visual-audit 0 P0/P1, screenshots 2026-10-26)"
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/hardware-store/index.html"
+        ],
+        "createdAt": "2026-10-26T19:19:17.540Z",
+        "reason": "Claude triage: static detector does not resolve clamp()/calc(var()); browser render shows display heads 2-6x body and real padding (BUREAU visual-audit 0 P0/P1, screenshots 2026-10-26)"
+      },
+      {
+        "rule": "all-caps-body",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/architecture-studio/index.html"
+        ],
+        "createdAt": "2026-10-26T19:19:17.567Z",
+        "reason": "Claude triage: uppercase is only on the Antonio display headings (h1/h2), a condensed face built for caps; body text is sentence case"
+      },
+      {
+        "rule": "repeating-stripes-gradient",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/architecture-studio/index.html"
+        ],
+        "createdAt": "2026-10-26T19:19:17.594Z",
+        "reason": "Claude triage: the stripes are the board-marked formwork grid of the concrete wall, the subject's material (Ando lineage, LINEAGE.md)"
+      },
+      {
+        "rule": "repeating-stripes-gradient",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/hardware-store/index.html"
+        ],
+        "createdAt": "2026-10-26T19:19:17.619Z",
+        "reason": "Claude triage: one Memphis pattern corner is the Sottsass counter-lineage, documented in LINEAGE.md; it sits under nothing"
+      },
+      {
+        "rule": "codex-grid-background",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/hardware-store/index.html"
+        ],
+        "createdAt": "2026-10-26T19:19:17.646Z",
+        "reason": "Claude triage: the flagged gradient is the Memphis dot-and-stripe corner, not a grid under content (Sottsass lineage)"
+      },
+      {
+        "rule": "codex-grid-background",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/fashion-atelier/index.html"
+        ],
+        "createdAt": "2026-10-26T19:19:17.674Z",
+        "reason": "Claude triage: the grid is a cutting mat scaled to true centimetres under a drafted pattern, a measuring tool"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/restaurant-table/index.html"
+        ],
+        "createdAt": "2026-10-26T19:19:17.701Z",
+        "reason": "Claude triage: the ground is Barrag\u00e1n lime-wash under saturated rosa/ocre/jacaranda planes, the subject's wall"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/fashion-atelier/index.html"
+        ],
+        "createdAt": "2026-10-26T19:19:17.728Z",
+        "reason": "Claude triage: calico is the cloth a toile is cut from; accent is chalk blue, not terracotta (moves one axis of the named look)"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/record-label/index.html"
+        ],
+        "createdAt": "2026-10-26T19:19:17.756Z",
+        "reason": "Claude triage: the sleeve-board ground carries Blue Note blue and yellow; type-only sleeves are the subject"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/museum-archive/index.html"
+        ],
+        "createdAt": "2026-10-26T19:19:17.786Z",
+        "reason": "Claude triage: #E7E6E1 is the grey concrete floor of an open gallery under MASP-red beams"
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/clinic-care/index.html"
+        ],
+        "createdAt": "2026-10-26T19:19:17.817Z",
+        "reason": "Claude triage: 1.0-1.1 leading is on display heads and the two-line pacer cue; body is 1.65"
+      },
+      {
+        "rule": "tiny-text",
+        "value": "*",
+        "files": [
+          "skill/assets/templates/record-label/index.html"
+        ],
+        "createdAt": "2026-10-26T19:19:17.845Z",
+        "reason": "Claude triage: sleeve credit uses max(12px, 6.5cqi); the detector cannot resolve container units"
+      }
+    ]
+  }
+}

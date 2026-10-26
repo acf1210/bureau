@@ -9,6 +9,7 @@ Before components, write a one-page world sheet:
 ```markdown
 # World: <name>
 - Concept: <one sentence>
+- Lineage: <dominant × counter × accent, from .bureau/comps/blend.md>
 - Ground: <material + exact color>
 - Light: <source, hardness, direction>
 - Voice: <display face, body face, mono>
@@ -37,7 +38,7 @@ If two elements cannot be traced back to a line in this sheet, one of them is wr
 | **Paper Radio** | warm off-white, red | grotesk + typewriter | mechanical, rhythmic | twee |
 | **Nocturne** | deep blue-black, warm light | serif + mono | slow fades, glow | generic "premium dark" |
 
-Pick one primary archetype and one **counter-accent** (e.g., Terminal Garden + Warm Archive) to avoid category cosplay.
+Pick one primary archetype and one **counter-accent** (e.g., Terminal Garden + Warm Archive) to avoid category cosplay. The archetype names the world; the lineage (three named designers, each owning one axis) decides how it is built. An archetype without a lineage drifts to its most common image.
 
 ## 3. The first viewport
 
@@ -195,6 +196,7 @@ Before Gate 2 passes, answer:
 - Is the accent used fewer than 5 times above the fold?
 - Are there at most 2 type families + 1 mono?
 - Does the page look like the category, or like itself?
+- Can anyone name a single source, site, or template it came from? (If yes, rebalance the blend.)
 - Does it survive grayscale? (If hierarchy disappears, color is doing too much.)
 - Does it survive at 320 px? (If not, the composition is not real.)
 

@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fulcro — A desk lamp built from four parts, Turin</title>
+<script>document.documentElement.classList.add("js")</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23E4E4E0'/%3E%3Cpath d='M16 54h28M30 54 22 26l20-10' stroke='%23222326' stroke-width='4' fill='none'/%3E%3Cpath d='M38 10h16l-4 14H42Z' fill='%23F5C400'/%3E%3C/svg%3E">
+<meta name="description" content="A desk lamp sold as four parts you choose: base, arm, joint and shade. See it exploded, with the price of every part. Demo template; the lamp and the company are fictional.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* Lineage: Rams (as little design as possible) × Sottsass (colour against the grey) × Castiglioni (ready-made parts, shown apart). See LINEAGE.md. */
+  @font-face{font-family:"Bricolage Grotesque Fallback";src:local("Arial"),local("Liberation Sans");size-adjust:100.7%;ascent-override:92.3%;descent-override:26.8%;line-gap-override:0%}
+  @font-face{font-family:"DM Mono Fallback";src:local("Courier New"),local("Liberation Mono");size-adjust:100.0%;ascent-override:99.0%;descent-override:31.0%;line-gap-override:0%}
+  :root{
+    --housing:#E4E4E0;
+    --housing-2:#D5D5D0;
+    --panel:#F1F1EE;
+    --graphite:#222326;
+    --graphite-2:#55565B;
+    --switch:#D5531F;
+    --memphis-y:#F5C400;
+    --memphis-b:#2547A8;
+    --memphis-r:#E03A2F;
+    --label:"Bricolage Grotesque","Bricolage Grotesque Fallback",sans-serif;
+    --spec:"DM Mono","DM Mono Fallback",monospace;
+    --inset:clamp(16px,4vw,64px);
+    --hinge:cubic-bezier(.34,1.2,.64,1);
+  }
+  *{box-sizing:border-box}
+  html{background:var(--housing);color:var(--graphite);overflow-x:clip}
+  body{margin:0;font:500 1.0625rem/1.55 var(--label);font-optical-sizing:auto}
+  ::selection{background:var(--memphis-y);color:var(--graphite)}
+  a{color:inherit;text-underline-offset:.2em}
+  :focus-visible{outline:2px solid var(--switch);outline-offset:2px}
+  .skip{position:absolute;left:var(--inset);top:-5rem;background:var(--graphite);color:var(--panel);padding:.7rem 1rem}
+  .skip:focus{top:.75rem}
+
+  .rail{display:flex;align-items:center;gap:2rem;padding:1rem var(--inset)}
+  .rail__mark{font:700 1.3rem/1 var(--label);text-decoration:none;display:inline-flex;align-items:center;gap:.5rem;min-height:44px}
+  .rail__mark i{width:10px;height:10px;border-radius:50%;background:var(--switch)}
+  .rail nav{display:flex;gap:1.6rem;margin-left:auto}
+  .rail nav a{text-decoration:none;color:var(--graphite-2);display:inline-flex;align-items:center;min-height:44px}
+  .rail nav a:hover{color:var(--graphite)}
+
+  .maker{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(1.5rem,4vw,4rem);padding:clamp(1rem,3vw,2.5rem) var(--inset) clamp(3rem,7vw,6rem)}
+  .maker h1{font:700 clamp(2.4rem,4.6vw,4.4rem)/1 var(--label);font-variation-settings:"opsz" 96;letter-spacing:-.03em;margin:0 0 1rem}
+  .maker__lede{margin:0 0 1.6rem;color:var(--graphite-2);max-width:34ch}
+  .choose{border:0;margin:0 0 1.1rem;padding:0}
+  .choose legend{font:500 .95rem/1.3 var(--label);padding:0;margin-bottom:.5rem;display:flex;gap:.6rem;width:100%;justify-content:space-between}
+  .choose legend span{font:400 .9rem/1.3 var(--spec);color:var(--graphite-2)}
+  .options{display:flex;flex-wrap:wrap;gap:.5rem}
+  .options label{position:relative;cursor:pointer}
+  .options input{position:absolute;opacity:0;width:1px;height:1px}
+  .options span{display:inline-flex;align-items:center;gap:.5rem;min-height:44px;padding:0 .9rem;background:var(--panel);border-radius:22px;box-shadow:inset 0 0 0 1px var(--housing-2);font-size:.95rem;transition:box-shadow .2s var(--hinge)}
+  .options span i{width:16px;height:16px;border-radius:50%;background:var(--swatch)}
+  .options input:checked + span{box-shadow:inset 0 0 0 2px var(--graphite)}
+  .options input:focus-visible + span{outline:2px solid var(--switch);outline-offset:2px}
+  .buy{display:flex;align-items:center;gap:1rem;margin-top:1.6rem;padding-top:1.2rem;border-top:1px solid var(--housing-2)}
+  .buy__price{font:500 1.8rem/1 var(--spec);margin:0}
+  .buy__price small{display:block;font:400 .875rem/1.4 var(--label);color:var(--graphite-2);margin-top:.3rem}
+  .press{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 1.4rem;border-radius:26px;background:var(--graphite);color:var(--panel);font:700 1rem/1 var(--label);border:0;cursor:pointer;text-decoration:none;transition:background-color .2s ease-out}
+  .press:hover{background:var(--switch)}
+  .press--quiet{background:var(--panel);color:var(--graphite);box-shadow:inset 0 0 0 1px var(--graphite)}
+  .press--quiet:hover{background:var(--housing-2)}
+  .buy .press{margin-left:auto}
+  .buy__status{margin:.8rem 0 0;min-height:1.5em;font-size:.95rem;color:var(--graphite-2)}
+
+  .stage{position:relative;background:var(--panel);border-radius:28px;display:grid;grid-template-rows:1fr auto;min-height:520px;overflow:hidden}
+  .stage__pattern{position:absolute;left:0;top:0;width:30%;height:26%;background:
+    radial-gradient(circle at 20% 30%,var(--memphis-r) 0 6px,transparent 7px),
+    radial-gradient(circle at 70% 70%,var(--memphis-b) 0 5px,transparent 6px),
+    repeating-linear-gradient(135deg,transparent 0 14px,rgba(34,35,38,.1) 14px 16px);background-size:44px 44px,52px 52px,auto;border-bottom-right-radius:28px}
+  .stage svg{position:relative;width:100%;height:100%;max-height:560px}
+  .lamp g{transition:transform .6s var(--hinge)}
+  .lamp .metal{fill:none;stroke:var(--graphite);stroke-width:7;stroke-linecap:round}
+  .lamp .joint{fill:var(--switch)}
+  .lamp .base{fill:var(--base,#9A9B9F)}
+  .lamp .shade{fill:var(--shade,#F5C400)}
+  .lamp .glow{fill:var(--memphis-y);opacity:.18}
+  .tag{opacity:0;transition:opacity .3s ease-out}
+  .tag text{fill:var(--graphite);font:500 15px var(--spec)}
+  .tag line{stroke:var(--graphite-2);stroke-width:1}
+  .stage.is-exploded .tag{opacity:1}
+  .stage.is-exploded .p-shade{transform:translate(60px,-56px)}
+  .stage.is-exploded .p-joint{transform:translate(34px,-20px)}
+  .stage.is-exploded .p-base{transform:translate(-30px,40px)}
+  .stage__bar{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 1.2rem;border-top:1px solid var(--housing-2);position:relative}
+  .stage__bar p{margin:0;font:400 .9rem/1.4 var(--spec);color:var(--graphite-2)}
+
+  .band{padding:clamp(3.5rem,8vw,7rem) var(--inset)}
+  .band__head{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(1.5rem,4vw,4rem);margin-bottom:clamp(2rem,4vw,3rem)}
+  .band h2{font:700 clamp(2rem,3.6vw,3.2rem)/1.02 var(--label);letter-spacing:-.03em;margin:0}
+  .band__head p{margin:0;color:var(--graphite-2);max-width:48ch}
+  .parts{width:100%;border-collapse:collapse;background:var(--panel);border-radius:20px;overflow:hidden}
+  .parts th,.parts td{text-align:left;padding:1rem 1.2rem;border-top:1px solid var(--housing-2);vertical-align:top}
+  .parts thead th{border-top:0;font:500 .875rem/1.3 var(--label);color:var(--graphite-2)}
+  .parts tbody th{font-weight:700}
+  .parts td{color:var(--graphite-2)}
+  .parts .money{font:400 1rem/1.3 var(--spec);color:var(--graphite);text-align:right;white-space:nowrap}
+
+  .facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem;margin:0}
+  .facts div{background:var(--panel);border-radius:20px;padding:1.2rem}
+  .facts div:nth-child(2){background:var(--memphis-y)}
+  .facts dt{font-size:.9rem;color:var(--graphite-2)}
+  .facts div:nth-child(2) dt{color:var(--graphite)}
+  .facts dd{margin:.4rem 0 0;font:500 1.6rem/1.1 var(--spec)}
+
+  .plate{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem 2rem;padding:1.6rem var(--inset) 2.4rem;border-top:1px solid var(--housing-2);font:400 .9rem/1.5 var(--spec);color:var(--graphite-2)}
+  .plate p{margin:0}
+
+
+  @media (max-width:980px){
+    .maker,.band__head{grid-template-columns:minmax(0,1fr)}
+    .stage{order:-1;min-height:380px}
+    .facts{grid-template-columns:repeat(2,minmax(0,1fr))}
+  }
+  @media (max-width:640px){
+    .rail nav{display:none}
+    .stage{border-radius:20px;min-height:320px}
+    .buy{position:sticky;bottom:0;z-index:5;margin-inline:calc(-1 * var(--inset));padding:.8rem var(--inset);background:var(--panel);box-shadow:0 -12px 30px -18px rgba(34,35,38,.45)}
+    .parts thead{display:none}
+    .parts tr{display:grid;grid-template-columns:1fr auto;padding:.9rem 1rem;border-top:1px solid var(--housing-2)}
+    .parts th,.parts td{border:0;padding:.1rem 0}
+    .parts td:not(.money){grid-column:1/-1}
+    .facts{grid-template-columns:1fr}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .lamp g,.tag,.options span,.press{transition:none}
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the lamp</a>
+<header class="rail">
+  <a class="rail__mark" href="#top"><i aria-hidden="true"></i>Fulcro</a>
+  <nav aria-label="Primary">
+    <a href="#parts">Parts</a>
+    <a href="#facts">Light</a>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="maker" id="top" aria-labelledby="title">
+    <form id="config">
+      <h1 id="title">One lamp, four parts, chosen by you.</h1>
+      <p class="maker__lede">Made in Turin from parts that unscrew. When one breaks, you replace one part, not the lamp.</p>
+      <fieldset class="choose"><legend>Shade <span id="l-shade"></span></legend>
+        <div class="options">
+          <label><input type="radio" name="shade" value="yellow" data-price="38" data-color="#F5C400" checked><span><i style="--swatch:#F5C400"></i>Yellow</span></label>
+          <label><input type="radio" name="shade" value="blue" data-price="38" data-color="#2547A8"><span><i style="--swatch:#2547A8"></i>Blue</span></label>
+          <label><input type="radio" name="shade" value="red" data-price="38" data-color="#E03A2F"><span><i style="--swatch:#E03A2F"></i>Red</span></label>
+          <label><input type="radio" name="shade" value="graphite" data-price="34" data-color="#3A3B40"><span><i style="--swatch:#3A3B40"></i>Graphite</span></label>
+        </div>
+      </fieldset>
+      <fieldset class="choose"><legend>Arm <span id="l-arm"></span></legend>
+        <div class="options">
+          <label><input type="radio" name="arm" value="short" data-price="42" checked><span>Short, 38 cm</span></label>
+          <label><input type="radio" name="arm" value="long" data-price="54"><span>Long, 56 cm</span></label>
+        </div>
+      </fieldset>
+      <fieldset class="choose"><legend>Base <span id="l-base"></span></legend>
+        <div class="options">
+          <label><input type="radio" name="base" value="iron" data-price="46" data-color="#9A9B9F" checked><span><i style="--swatch:#9A9B9F"></i>Cast iron</span></label>
+          <label><input type="radio" name="base" value="clamp" data-price="32" data-color="#55565B"><span><i style="--swatch:#55565B"></i>Desk clamp</span></label>
+        </div>
+      </fieldset>
+      <div class="buy">
+        <p class="buy__price"><span id="price">€0</span><small>joint €22 included, shipping in Europe free</small></p>
+        <button class="press" type="submit">Add to basket</button>
+      </div>
+      <p class="buy__status" id="buy-status" role="status"></p>
+    </form>
+
+    <div class="stage" id="stage">
+      <div class="stage__pattern" aria-hidden="true"></div>
+      <svg class="lamp" viewBox="0 0 600 500" role="img" aria-labelledby="lamp-title">
+        <title id="lamp-title">The lamp as configured: base, arm, joint and shade</title>
+        <ellipse class="glow" cx="300" cy="430" rx="200" ry="26"/>
+        <g class="p-base"><rect class="base" id="base-shape" x="150" y="410" width="170" height="26" rx="13"/></g>
+        <g class="p-arm"><path class="metal" id="arm" d="M235 410 L205 230 L360 150"/></g>
+        <g class="p-joint"><circle class="joint" id="joint" cx="205" cy="230" r="14"/></g>
+        <g class="p-shade" id="shade-group"><path class="shade" d="M350 120 L430 120 L452 200 L330 200 Z"/></g>
+        <g class="tag"><line x1="235" y1="470" x2="235" y2="488"/><text x="244" y="494" id="t-base">base</text></g>
+        <g class="tag"><line x1="130" y1="320" x2="210" y2="320"/><text x="20" y="325" id="t-arm">arm</text></g>
+        <g class="tag"><line x1="252" y1="208" x2="300" y2="208"/><text x="306" y="213">joint €22</text></g>
+        <g class="tag"><line x1="510" y1="110" x2="540" y2="80"/><text x="430" y="72" id="t-shade">shade</text></g>
+      </svg>
+      <div class="stage__bar">
+        <p id="spec-line">LED, 806 lm, 2700 K</p>
+        <button class="press press--quiet" type="button" id="explode" aria-pressed="false" aria-controls="stage">Show the parts apart</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="parts" aria-labelledby="parts-title">
+    <div class="band__head">
+      <h2 id="parts-title">Every part, its price, and how it comes off.</h2>
+      <p>The lamp costs what its parts cost. Every part is sold on its own, for ten years after the last lamp is made.</p>
+    </div>
+    <table class="parts">
+      <thead><tr><th scope="col">Part</th><th scope="col">Made of, and how it comes off</th><th scope="col">Price</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Shade</th><td>Spun aluminium, powder coated. Twists off by hand.</td><td class="money">€34–38</td></tr>
+        <tr><th scope="row">Arm</th><td>Steel tube, two lengths. One hex bolt at each end.</td><td class="money">€42–54</td></tr>
+        <tr><th scope="row">Joint</th><td>Friction hinge with a brass washer. Holds any angle.</td><td class="money">€22</td></tr>
+        <tr><th scope="row">Base</th><td>Cast iron weight, or a clamp for desks up to 5 cm thick.</td><td class="money">€32–46</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="band" id="facts" aria-labelledby="facts-title">
+    <div class="band__head">
+      <h2 id="facts-title">The light itself.</h2>
+      <p>A warm LED module that plugs into the shade, so it is a part too. Specifications for a demo product.</p>
+    </div>
+    <dl class="facts">
+      <div><dt>Light output</dt><dd>806 lm</dd></div>
+      <div><dt>Colour</dt><dd>2700 K</dd></div>
+      <div><dt>Power</dt><dd>8 W</dd></div>
+      <div><dt>Module life</dt><dd>25,000 h</dd></div>
+    </dl>
+  </section>
+</main>
+
+<footer class="plate">
+  <p>Fulcro is a fictional lamp in a demo template.</p>
+  <p><a href="mailto:parts@example.com">parts@example.com</a></p>
+</footer>
+
+
+<script>
+(() => {
+  const form = document.getElementById("config");
+  const stage = document.getElementById("stage");
+  const JOINT = 22;
+  const $ = (id) => document.getElementById(id);
+  const arms = { short: "M235 410 L205 230 L360 150", long: "M235 410 L190 180 L380 96" };
+  const shadePos = { short: "translate(0,0)", long: "translate(20px,-54px)" };
+  const jointPos = { short: [205, 230], long: [190, 180] };
+  const update = () => {
+    const pick = (name) => form.querySelector(`input[name=${name}]:checked`);
+    const shade = pick("shade"), arm = pick("arm"), base = pick("base");
+    const total = +shade.dataset.price + +arm.dataset.price + +base.dataset.price + JOINT;
+    $("price").textContent = `€${total}`;
+    $("l-shade").textContent = `€${shade.dataset.price}`;
+    $("l-arm").textContent = `€${arm.dataset.price}`;
+    $("l-base").textContent = `€${base.dataset.price}`;
+    $("t-shade").textContent = `shade €${shade.dataset.price}`;
+    $("t-arm").textContent = `arm €${arm.dataset.price}`;
+    $("t-base").textContent = `base €${base.dataset.price}`;
+    stage.style.setProperty("--shade", shade.dataset.color);
+    stage.style.setProperty("--base", base.dataset.color);
+    $("arm").setAttribute("d", arms[arm.value]);
+    const [jx, jy] = jointPos[arm.value];
+    $("joint").setAttribute("cx", jx); $("joint").setAttribute("cy", jy);
+    $("shade-group").querySelector("path").style.transform = shadePos[arm.value];
+    $("base-shape").setAttribute("height", base.value === "clamp" ? 14 : 26);
+  };
+  form.addEventListener("change", update);
+  update();
+
+  const explode = $("explode");
+  explode.addEventListener("click", () => {
+    const on = stage.classList.toggle("is-exploded");
+    explode.setAttribute("aria-pressed", String(on));
+    explode.textContent = on ? "Put it back together" : "Show the parts apart";
+  });
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    $("buy-status").textContent = "Nothing was added: this demo shop is not connected to a basket yet.";
+  });
+})();
+</script>
+</body>
+</html>

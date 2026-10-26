@@ -261,6 +261,43 @@ export const rules = [
     why: "Bento is a layout trend, not an information architecture.",
     fix: "Use it only if content is genuinely modular and of unequal weight.",
     pattern: /class\s*=\s*["'][^"']*\bbento\b/i
+  },
+  {
+    id: "BS-K11",
+    severity: "p2",
+    category: "color",
+    title: "Thick side stripe",
+    why: "A coloured left or right border of 2px or more on a card or callout is a component-kit tell.",
+    fix: "Use a hairline, a ground shift, or typographic weight instead.",
+    pattern: /border-(?:left|right)\s*:\s*(?:[2-9]|\d{2,})px\s+solid/i
+  },
+  {
+    id: "BS-K12",
+    severity: "p2",
+    category: "color",
+    title: "Hard offset block shadow",
+    why: "A zero-blur offset shadow reads as a borrowed style unless the world is genuinely neobrutalist.",
+    fix: "Shadows carry offset and blur, or depth comes from lightness steps.",
+    pattern: /box-shadow\s*:\s*-?[1-9]\d*px\s+-?[1-9]\d*px\s+0(?:px)?\s+(?:-?\d+(?:px)?\s+)?(?:#|rgb|hsl|oklch|var|[a-z]+\s*[;},])/i
+  },
+  {
+    id: "BS-W13",
+    severity: "p2",
+    textOnly: true,
+    category: "content",
+    title: "Template punctuation",
+    why: "Meta strings joined with middle dots (A · B · C) are the punctuation of generated pages.",
+    fix: "Use line breaks, columns, a definition list, or a sentence.",
+    pattern: /[^\n·]{1,60}\s·\s[^\n·]{1,60}\s·\s/
+  },
+  {
+    id: "BS-B11",
+    severity: "p1",
+    category: "behavior",
+    title: "Content hidden at rest",
+    why: "A reveal class at opacity 0 with no .js scope ships a blank page when the script fails.",
+    fix: "Hide only under a .js class added by the script, or animate from visible.",
+    pattern: /(?:^|[},])\s*\.(?:reveal|fade[\w-]*|appear[\w-]*|aos[\w-]*|animate[\w-]*|scroll-in[\w-]*)\s*\{[^}]*opacity\s*:\s*0(?![.\d])/i
   }
 ];
 

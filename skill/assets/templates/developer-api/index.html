@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tessera — Geocoding for addresses that do not fit the form</title>
+<script>document.documentElement.classList.add("js")</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23E8F0EA'/%3E%3Cpath d='M8 8h22v22H8zM34 34h22v22H34z' fill='%23161616'/%3E%3Cpath d='M34 8h22v22H34z' fill='%230B7A4B'/%3E%3C/svg%3E">
+<meta name="description" content="A geocoding API that reads addresses the way people write them: accents missing, words out of order, typos. Try it in the page. Demo template; the API is fictional.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;600&family=Spline+Sans+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  /* Lineage: Gerstner (design the programme) × Weingart (layered, broken type) × Greiman (hybrid digital surfaces). See LINEAGE.md. */
+  @font-face{font-family:"Spline Sans Fallback";src:local("Arial"),local("Liberation Sans");size-adjust:99.9%;ascent-override:96.1%;descent-override:24.0%;line-gap-override:0%}
+  @font-face{font-family:"Spline Sans Mono Fallback";src:local("Courier New"),local("Liberation Mono");size-adjust:100.0%;ascent-override:96.0%;descent-override:24.0%;line-gap-override:0%}
+  :root{
+    --sheet:#E8F0EA;
+    --sheet-2:#D9E4DC;
+    --type:#161616;
+    --type-2:#4F4D46;
+    --grid:#BFCDC4;
+    --ok:#0B7A4B;
+    --warn:#A8501A;
+    --text:"Spline Sans","Spline Sans Fallback",sans-serif;
+    --code:"Spline Sans Mono","Spline Sans Mono Fallback",monospace;
+    --edge:clamp(16px,4vw,64px);
+    --snap:cubic-bezier(.5,0,.1,1);
+  }
+  *{box-sizing:border-box}
+  html{background:var(--sheet);color:var(--type);overflow-x:clip}
+  body{margin:0;font:400 1.0625rem/1.6 var(--text)}
+  ::selection{background:var(--ok);color:var(--sheet)}
+  a{color:inherit;text-underline-offset:.2em}
+  :focus-visible{outline:2px solid var(--ok);outline-offset:2px}
+  .skip{position:absolute;left:var(--edge);top:-5rem;background:var(--type);color:var(--sheet);padding:.7rem 1rem}
+  .skip:focus{top:.75rem}
+
+  .bar{display:flex;align-items:center;gap:2rem;padding:1rem var(--edge);border-bottom:1px solid var(--type)}
+  .bar__mark{display:inline-flex;align-items:center;gap:.6rem;font:600 1.05rem/1 var(--code);text-decoration:none;min-height:44px}
+  .bar__mark svg{width:22px;height:22px}
+  .bar nav{display:flex;gap:1.6rem;margin-left:auto}
+  .bar nav a{text-decoration:none;display:inline-flex;align-items:center;min-height:44px;color:var(--type-2)}
+  .bar nav a:hover{color:var(--type);text-decoration:underline}
+  .key{display:inline-flex;align-items:center;min-height:44px;padding:0 1.1rem;background:var(--type);color:var(--sheet);font:600 .95rem/1 var(--text);text-decoration:none;border:0;cursor:pointer;transition:background-color .15s var(--snap)}
+  .key:hover{background:var(--ok)}
+  .key--line{background:transparent;color:var(--type);box-shadow:inset 0 0 0 1px var(--type)}
+  .key--line:hover{background:var(--sheet-2)}
+
+  .head{position:relative;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(2rem,4vw,4rem);padding:clamp(2.5rem,6vw,5rem) var(--edge) clamp(3rem,7vw,6rem);overflow:clip}
+  .head__layer{position:absolute;inset:0;pointer-events:none;font:400 clamp(4rem,11vw,11rem)/.85 var(--code);color:transparent;-webkit-text-stroke:1px var(--grid);white-space:nowrap;letter-spacing:-.04em;padding:1.5rem 0 0 30%}
+  .head__layer span{display:block;transform:translateX(calc(var(--i) * -9%))}
+  .head__text{position:relative}
+  .head h1{font:600 clamp(2.6rem,5vw,4.8rem)/.98 var(--text);letter-spacing:-.04em;margin:0 0 1.3rem}
+  .head h1 span{display:block;margin-left:1.2em}
+  .head__text > p{max-width:34ch;color:var(--type-2);margin:0 0 1.8rem}
+  .head__acts{display:flex;gap:.8rem;flex-wrap:wrap}
+
+  .console{position:relative;background:var(--sheet);border:1px solid var(--type)}
+  .console form{display:grid;grid-template-columns:1fr auto;border-bottom:1px solid var(--type)}
+  .console label{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  .console input{min-height:56px;border:0;background:transparent;font:400 1.05rem/1 var(--code);color:var(--type);padding:0 1rem;min-width:0}
+  .console input:focus-visible{outline-offset:-3px}
+  .console form .key{min-height:56px;border-radius:0}
+  .console__try{display:flex;flex-wrap:wrap;gap:.4rem;padding:.75rem 1rem;border-bottom:1px solid var(--grid);font-size:.9rem;color:var(--type-2)}
+  .console__try button{font:400 .875rem/1 var(--code);background:var(--sheet-2);border:0;padding:.45rem .6rem;min-height:32px;cursor:pointer;color:var(--type)}
+  .console__try button:hover{background:var(--grid)}
+  .call{margin:0;padding:.8rem 1rem;font:400 .875rem/1.5 var(--code);color:var(--type-2);border-bottom:1px solid var(--grid);overflow-wrap:anywhere}
+  .response{display:grid;grid-template-columns:minmax(0,1fr) 120px}
+  .response pre{margin:0;padding:1rem;font:400 .9rem/1.6 var(--code);overflow-x:auto;min-height:15rem;white-space:pre-wrap}
+  .response .k{color:var(--type-2)}
+  .response .s{color:var(--ok)}
+  .response .n{color:var(--warn)}
+  .swatch{border-left:1px solid var(--grid);display:grid;align-content:end;padding:.8rem;background:var(--hue,#E7E5DC);transition:background-color .3s var(--snap)}
+  .swatch span{font:400 .8rem/1.3 var(--code);color:var(--type);background:var(--sheet);padding:.3rem .4rem}
+  .console__foot{display:flex;justify-content:space-between;gap:1rem;padding:.7rem 1rem;border-top:1px solid var(--grid);font:400 .875rem/1.4 var(--code);color:var(--type-2)}
+
+  .band{padding:clamp(3.5rem,8vw,7rem) var(--edge);border-top:1px solid var(--type)}
+  .band__head{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(2rem,4vw,4rem);margin-bottom:clamp(2rem,5vw,3.5rem)}
+  .band h2{font:600 clamp(2rem,3.6vw,3.2rem)/1 var(--text);letter-spacing:-.035em;margin:0}
+  .band__head p{margin:0;color:var(--type-2);max-width:48ch}
+
+  .endpoints{width:100%;border-collapse:collapse}
+  .endpoints th,.endpoints td{text-align:left;vertical-align:top;padding:1rem 1.5rem 1rem 0;border-top:1px solid var(--grid)}
+  .endpoints thead th{font-size:.875rem;font-weight:600;color:var(--type-2);border-top:0}
+  .endpoints code{font:400 .95rem/1.5 var(--code)}
+  .endpoints .verb{font:600 .875rem/1 var(--code);padding:.3rem .45rem;background:var(--type);color:var(--sheet)}
+  .endpoints .verb--post{background:var(--ok)}
+  .endpoints td:last-child{color:var(--type-2)}
+
+  .programme{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border:1px solid var(--type)}
+  .rule{padding:clamp(1.2rem,2.5vw,2rem);border-right:1px solid var(--type)}
+  .rule:last-child{border-right:0}
+  .rule h3{font:600 1.2rem/1.25 var(--text);margin:0 0 .6rem}
+  .rule p{margin:0;color:var(--type-2)}
+  .rule code{display:block;margin-top:1rem;font:400 .9rem/1.5 var(--code);background:var(--sheet-2);padding:.7rem .8rem;color:var(--type)}
+
+  .plans{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(2rem,4vw,4rem)}
+  .meter{list-style:none;margin:0;padding:0}
+  .meter li{display:grid;grid-template-columns:1fr auto;gap:1rem;padding:1rem 0;border-top:1px solid var(--grid);font-size:1rem}
+  .meter b{font:600 1.1rem/1.3 var(--code)}
+  .meter span{color:var(--type-2)}
+  .signup{display:grid;gap:1rem;align-content:start;background:var(--sheet-2);padding:clamp(1.2rem,3vw,2rem)}
+  .signup h3{font:600 1.3rem/1.2 var(--text);margin:0}
+  .signup label{display:block;font-size:.9rem;font-weight:600;margin-bottom:.35rem}
+  .signup input{width:100%;min-height:48px;border:1px solid var(--type);background:var(--sheet);font:400 1rem/1 var(--text);padding:0 .8rem;color:var(--type)}
+  .signup .key{justify-self:start;min-height:48px}
+  .signup__status{margin:0;min-height:1.6em;font-size:.95rem;color:var(--type-2)}
+
+  .colophon{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem 2rem;padding:1.6rem var(--edge) 2.4rem;border-top:1px solid var(--type);font:400 .9rem/1.5 var(--code);color:var(--type-2)}
+  .colophon p{margin:0}
+
+  @media (max-width:980px){
+    .head,.band__head,.plans{grid-template-columns:minmax(0,1fr)}
+    .programme{grid-template-columns:minmax(0,1fr)}
+    .rule{border-right:0;border-bottom:1px solid var(--type)}
+    .rule:last-child{border-bottom:0}
+  }
+  @media (max-width:640px){
+    .bar{gap:1rem}
+    .bar nav{display:none}
+    .bar .key{margin-left:auto}
+    .head__layer{padding-left:0;font-size:4rem}
+    .head h1 span{margin-left:.6em}
+    .console{box-shadow:none;margin-inline:calc(-1 * var(--edge));border-inline:0}
+    .response{grid-template-columns:minmax(0,1fr)}
+    .swatch{border-left:0;border-top:1px solid var(--grid);min-height:56px}
+    .response pre{min-height:11rem;font-size:.85rem}
+    .endpoints thead{display:none}
+    .endpoints tr{display:grid;gap:.3rem;padding:1rem 0;border-top:1px solid var(--grid)}
+    .endpoints th,.endpoints td{border:0;padding:0}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .key,.swatch{transition:none}
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the playground</a>
+<header class="bar">
+  <a class="bar__mark" href="#top"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M8 8h22v22H8zM34 34h22v22H34z" fill="#161616"/><path d="M34 8h22v22H34z" fill="#0B7A4B"/></svg>tessera</a>
+  <nav aria-label="Primary">
+    <a href="#endpoints">Endpoints</a>
+    <a href="#programme">How it matches</a>
+    <a href="#pricing">Pricing</a>
+  </nav>
+  <a class="key" href="#pricing">Get a key</a>
+</header>
+
+<main id="main">
+  <section class="head" id="top" aria-labelledby="title">
+    <div class="head__layer" aria-hidden="true"><span style="--i:0">38.7223 −9.1393</span><span style="--i:1">−23.5505 −46.6333</span><span style="--i:2">55.6761 12.5683</span></div>
+    <div class="head__text">
+      <h1 id="title">Addresses are messy.<span>The answer is not.</span></h1>
+      <p>A geocoding API that reads places the way people type them: no accents, words out of order, one letter wrong. Try it on the right; it runs in this page.</p>
+      <div class="head__acts">
+        <a class="key" href="#pricing">Get a free key</a>
+        <a class="key key--line" href="#endpoints">Read the endpoints</a>
+      </div>
+    </div>
+
+    <div class="console" aria-labelledby="console-title">
+      <h2 id="console-title" class="console__title" hidden>Playground</h2>
+      <form id="search" role="search">
+        <label for="q">Place to search</label>
+        <input id="q" name="q" value="sao paolo" autocomplete="off" spellcheck="false">
+        <button class="key" type="submit">Search</button>
+      </form>
+      <div class="console__try"><span>Try:</span><button type="button">copenhagn</button><button type="button">ciudad de mexico</button><button type="button">reykjavik</button><button type="button">kyto</button></div>
+      <p class="call" id="call">GET /v1/search?q=sao%20paolo</p>
+      <div class="response">
+        <pre id="response" aria-live="polite" aria-label="Response"></pre>
+        <div class="swatch" id="swatch"><span id="swatch-label">hue —</span></div>
+      </div>
+      <p class="console__foot"><span id="latency">— ms, measured in your browser</span><span>demo index: 10 cities</span></p>
+    </div>
+  </section>
+
+  <section class="band" id="endpoints" aria-labelledby="endpoints-title">
+    <div class="band__head">
+      <h2 id="endpoints-title">Three endpoints. That is the whole API.</h2>
+      <p>Every response carries a confidence between 0 and 1 and the reason for it, so your code can decide when to ask the person again.</p>
+    </div>
+    <table class="endpoints">
+      <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Does</th></tr></thead>
+      <tbody>
+        <tr><td><span class="verb">GET</span></td><th scope="row"><code>/v1/search?q=</code></th><td>Free text to a ranked list of places, with coordinates and confidence.</td></tr>
+        <tr><td><span class="verb">GET</span></td><th scope="row"><code>/v1/reverse?lat=&amp;lon=</code></th><td>Coordinates to the nearest address a postal service would accept.</td></tr>
+        <tr><td><span class="verb verb--post">POST</span></td><th scope="row"><code>/v1/batch</code></th><td>Up to 10,000 lines of a spreadsheet, matched in one request.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="band" id="programme" aria-labelledby="programme-title">
+    <div class="band__head">
+      <h2 id="programme-title">The matching is a programme, and you can read it.</h2>
+      <p>Three rules, applied in order. The playground above runs the same rules on a ten-city index.</p>
+    </div>
+    <div class="programme">
+      <div class="rule"><h3>Fold</h3><p>Lowercase, strip accents and punctuation, so São and sao are the same word.</p><code>"São Paulo" → "sao paulo"</code></div>
+      <div class="rule"><h3>Compare</h3><p>Score every candidate by shared letter pairs, so one wrong letter costs little.</p><code>dice("paolo", "paulo") = 0.75</code></div>
+      <div class="rule"><h3>Explain</h3><p>Return the score and the rule that decided it. The swatch is the longitude, as a hue.</p><code>hue = (lon + 180) / 360 × 360</code></div>
+    </div>
+  </section>
+
+  <section class="band" id="pricing" aria-labelledby="pricing-title">
+    <div class="band__head">
+      <h2 id="pricing-title">Pay for what you match.</h2>
+      <p>No seats, no tiers to outgrow. Failed matches are free, because they are our problem.</p>
+    </div>
+    <div class="plans">
+      <ul class="meter">
+        <li><b>First 10,000 a month</b><span>free</span></li>
+        <li><b>Next 990,000</b><span>€0.40 per 1,000</span></li>
+        <li><b>Beyond a million</b><span>€0.25 per 1,000</span></li>
+        <li><b>Batch lines</b><span>same rate as search</span></li>
+      </ul>
+      <form class="signup" id="signup" novalidate>
+        <h3>Get a free key</h3>
+        <div><label for="email">Work email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
+        <div><label for="project">What will you geocode?</label><input id="project" name="project" placeholder="Delivery addresses, survey responses…"></div>
+        <button class="key" type="submit">Create the key</button>
+        <p class="signup__status" id="signup-status" role="status">Prices are for a demo template.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="colophon">
+  <p>tessera is a fictional API in a demo template.</p>
+  <p><a href="mailto:dev@example.com">dev@example.com</a></p>
+</footer>
+
+<script>
+(() => {
+  const places = [
+    ["Lisboa", "PT", 38.7223, -9.1393], ["São Paulo", "BR", -23.5505, -46.6333], ["Ciudad de México", "MX", 19.4326, -99.1332],
+    ["København", "DK", 55.6761, 12.5683], ["Buenos Aires", "AR", -34.6037, -58.3816], ["Porto", "PT", 41.1579, -8.6291],
+    ["Nairobi", "KE", -1.2921, 36.8219], ["Kyoto", "JP", 35.0116, 135.7681], ["Reykjavík", "IS", 64.1466, -21.9426], ["Lagos", "NG", 6.5244, 3.3792]
+  ];
+  const aliases = { "København": ["copenhagen"], "Ciudad de México": ["mexico city"], "Lisboa": ["lisbon"] };
+  const fold = (s) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9 ]/g, " ").replace(/\s+/g, " ").trim();
+  const pairs = (s) => { const out = []; const t = s.replace(/ /g, ""); for (let i = 0; i < t.length - 1; i++) out.push(t.slice(i, i + 2)); return out; };
+  const dice = (a, b) => {
+    const A = pairs(a), B = pairs(b);
+    if (!A.length || !B.length) return a === b ? 1 : 0;
+    const bag = new Map(); for (const p of B) bag.set(p, (bag.get(p) || 0) + 1);
+    let hit = 0; for (const p of A) if (bag.get(p)) { hit++; bag.set(p, bag.get(p) - 1); }
+    return (2 * hit) / (A.length + B.length);
+  };
+  const esc = (s) => s.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]);
+  const json = (obj) => esc(JSON.stringify(obj, null, 2))
+    .replace(/"([^"]+)":/g, '<span class="k">"$1"</span>:')
+    .replace(/: "([^"]*)"/g, ': <span class="s">"$1"</span>')
+    .replace(/: (-?\d+\.?\d*)/g, ': <span class="n">$1</span>');
+
+  const $ = (id) => document.getElementById(id);
+  const run = (raw) => {
+    const t0 = performance.now();
+    const q = fold(raw);
+    const ranked = places.map(([name, country, lat, lon]) => {
+      const names = [fold(name), ...(aliases[name] || [])];
+      const score = Math.max(...names.map((n) => dice(q, n)));
+      return { name, country, lat, lon, score };
+    }).sort((a, b) => b.score - a.score);
+    const ms = performance.now() - t0;
+    const top = ranked[0];
+    const results = ranked.filter((r) => r.score >= 0.35).slice(0, 2).map((r) => ({
+      name: r.name, country: r.country, lat: r.lat, lon: r.lon,
+      confidence: Number(r.score.toFixed(2)),
+      reason: r.score === 1 ? "exact after folding" : r.score >= 0.6 ? "close spelling" : "weak match, ask again"
+    }));
+    $("call").textContent = `GET /v1/search?q=${encodeURIComponent(raw)}`;
+    $("response").innerHTML = json({ query: raw, folded: q, results });
+    $("latency").textContent = `${ms.toFixed(2)} ms, measured in your browser`;
+    if (results.length) {
+      const hue = Math.round(((top.lon + 180) / 360) * 360);
+      $("swatch").style.setProperty("--hue", `hsl(${hue} 55% 62%)`);
+      $("swatch-label").textContent = `hue ${hue}°`;
+    } else {
+      $("swatch").style.removeProperty("--hue");
+      $("swatch-label").textContent = "no match";
+    }
+  };
+  $("search").addEventListener("submit", (e) => { e.preventDefault(); run($("q").value); });
+  document.querySelectorAll(".console__try button").forEach((b) => b.addEventListener("click", () => { $("q").value = b.textContent; run(b.textContent); }));
+  run($("q").value);
+
+  const form = $("signup");
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (!form.elements.email.value.includes("@")) { $("signup-status").textContent = "The key goes to an email address; it needs an @."; form.elements.email.focus(); return; }
+    $("signup-status").textContent = "Nothing was sent: this demo form is not connected to an account system.";
+  });
+})();
+</script>
+</body>
+</html>

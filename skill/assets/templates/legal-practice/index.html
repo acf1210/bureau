@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Halden Rocha — Arbitration chambers, São Paulo</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%2314213D'/%3E%3Ccircle cx='32' cy='32' r='19' fill='none' stroke='%23EEF0F3' stroke-width='2'/%3E%3Cpath d='M24 22v20M40 22v20M24 32h16' stroke='%23EEF0F3' stroke-width='3'/%3E%3Ccircle cx='46' cy='46' r='6' fill='%238E1F2F'/%3E%3C/svg%3E">
+<meta name="description" content="Commercial arbitration chambers that write every engagement in two registers: the legal text, and what it means. Demo template; the firm is fictional.">
+<script>document.documentElement.classList.add("js")</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  /* Lineage: Sutnar (information as structure) × Rand (wit through reduction) × Ruder (white space as form). See LINEAGE.md. */
+  /* Metric-matched fallbacks: the page keeps its shape while the web fonts load (CLS ≤ 0.1). */
+  @font-face{font-family:"Spectral Fallback";src:local("Times New Roman"),local("Liberation Serif");size-adjust:107.8%;ascent-override:98.3%;descent-override:42.7%;line-gap-override:0%}
+  @font-face{font-family:"Public Sans Fallback";src:local("Arial"),local("Liberation Sans");size-adjust:104.6%;ascent-override:90.9%;descent-override:22.0%;line-gap-override:0%}
+  :root{
+    --brief:#EEF0F3;
+    --brief-deep:#E2E6EC;
+    --counsel:#14213D;
+    --counsel-soft:#46526A;
+    --margin-rule:#C3C9D3;
+    --seal:#8E1F2F;
+    --seal-light:#F3E3E5;
+    --clause:"Spectral","Spectral Fallback",serif;
+    --docket:"Public Sans","Public Sans Fallback",sans-serif;
+    --column:42rem;
+    --side:clamp(18px,5vw,96px);
+    --deliberate:cubic-bezier(.33,0,.15,1);
+  }
+  *{box-sizing:border-box}
+  html{background:var(--brief);color:var(--counsel);overflow-x:clip}
+  body{margin:0;font:400 1.0625rem/1.65 var(--docket)}
+  ::selection{background:var(--seal);color:var(--brief)}
+  a{color:inherit;text-underline-offset:.2em}
+  :focus-visible{outline:2px solid var(--seal);outline-offset:3px}
+  .skip{position:absolute;left:var(--side);top:-5rem;background:var(--counsel);color:var(--brief);padding:.7rem 1rem}
+  .skip:focus{top:.75rem}
+
+  .letterhead{display:flex;justify-content:space-between;align-items:center;gap:1.5rem;padding:1.4rem var(--side);border-bottom:1px solid var(--margin-rule)}
+  .letterhead__name{font:600 1.15rem/1 var(--clause);text-decoration:none;display:inline-flex;align-items:center;gap:.6rem;min-height:44px}
+  .letterhead__name svg{width:28px;height:28px}
+  .letterhead nav{display:flex;gap:1.75rem}
+  .letterhead nav a{font-size:.95rem;text-decoration:none;color:var(--counsel-soft);display:inline-flex;align-items:center;min-height:44px;border-bottom:1px solid transparent;transition:border-color .2s var(--deliberate),color .2s var(--deliberate)}
+  .letterhead nav a:hover{color:var(--counsel);border-color:var(--seal)}
+
+  .opening{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(2rem,6vw,6rem);padding:clamp(2.5rem,6vw,5rem) var(--side) clamp(3rem,7vw,6rem);align-items:start}
+  .opening h1{font:400 clamp(2.6rem,5.2vw,4.9rem)/1.02 var(--clause);letter-spacing:-.02em;margin:0 0 1.5rem;text-wrap:balance}
+  .opening__lede{font-size:1.15rem;max-width:34ch;margin:0 0 2rem;color:var(--counsel-soft)}
+  .act{display:inline-flex;align-items:center;min-height:48px;padding:0 1.4rem;background:var(--counsel);color:var(--brief);font:600 .95rem/1 var(--docket);text-decoration:none;border:0;cursor:pointer;transition:background-color .2s var(--deliberate)}
+  .act:hover{background:var(--seal)}
+  .act--line{background:transparent;color:var(--counsel);box-shadow:inset 0 0 0 1px var(--counsel)}
+  .act--line:hover{background:var(--brief-deep)}
+  .opening__acts{display:flex;flex-wrap:wrap;gap:1rem}
+
+  .letter{background:#FBFBFC;border:1px solid var(--margin-rule);padding:clamp(1.25rem,3vw,2.5rem);position:relative}
+  .letter__head{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--margin-rule)}
+  .letter__head h2{font:600 1rem/1.3 var(--docket);margin:0}
+  .register{display:inline-grid;grid-template-columns:1fr 1fr;border:1px solid var(--counsel);border-radius:999px;padding:3px;gap:3px}
+  .register button{border:0;background:transparent;color:var(--counsel);font:600 .875rem/1 var(--docket);padding:0 1rem;min-height:38px;border-radius:999px;cursor:pointer;transition:background-color .2s var(--deliberate),color .2s var(--deliberate)}
+  .register button[aria-pressed="true"]{background:var(--counsel);color:var(--brief)}
+  .clauses{list-style:none;margin:0;padding:0;counter-reset:clause}
+  .clauses li{display:grid;grid-template-columns:2.5rem 1fr;gap:.5rem;padding:.9rem 0;border-top:1px solid var(--brief-deep)}
+  .clauses li:first-child{border-top:0}
+  .clauses li::before{counter-increment:clause;content:counter(clause) ".";font:600 1rem/1.6 var(--clause);color:var(--seal)}
+  .clauses p{margin:0;font:400 1.05rem/1.6 var(--clause)}
+  .clauses .plain{font-family:var(--docket);font-size:1rem;color:var(--counsel-soft)}
+  .clauses .plain::before{content:"In plain words: ";font-weight:600;color:var(--counsel)}
+  .js .clauses[data-register="legal"] .plain,.js .clauses[data-register="plain"] .legal{display:none}
+  .js .clauses .plain::before{content:none}
+  .js .clauses .plain{color:var(--counsel)}
+  .term{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:help;text-decoration:underline dotted var(--seal);text-decoration-thickness:1.5px;text-underline-offset:.22em}
+  .term:hover{background:var(--seal-light)}
+  [popover].definition{margin:0;inset:auto;position:fixed;right:var(--side);top:30%;max-width:22rem;border:1px solid var(--counsel);background:var(--brief);color:var(--counsel);padding:1.1rem 1.25rem;font:400 1rem/1.5 var(--docket);box-shadow:0 18px 40px -24px rgba(20,33,61,.5)}
+  .definition b{display:block;font:600 1.1rem/1.3 var(--clause);margin-bottom:.35rem}
+  .definition button{margin-top:.8rem;font:600 .875rem/1 var(--docket);background:none;border:0;color:var(--seal);padding:.4rem 0;min-height:32px;cursor:pointer}
+  .letter__note{margin:1.2rem 0 0;font-size:.875rem;color:var(--counsel-soft)}
+
+  .band{padding:clamp(3.5rem,8vw,7rem) var(--side);border-top:1px solid var(--margin-rule)}
+  .band__title{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(2rem,6vw,6rem);margin-bottom:clamp(2rem,5vw,4rem)}
+  .band__title h2{font:400 clamp(2rem,3.6vw,3.2rem)/1.08 var(--clause);letter-spacing:-.015em;margin:0}
+  .band__title p{margin:0;max-width:44ch;color:var(--counsel-soft);align-self:end}
+
+  .phases{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin:0;padding:0;list-style:none;border-top:2px solid var(--counsel)}
+  .phases li{padding:1.4rem 1.5rem 1.6rem 0;position:relative}
+  .phases li + li{padding-left:1.5rem;border-left:1px solid var(--margin-rule)}
+  .phases h3{font:600 1.35rem/1.2 var(--clause);margin:0 0 .6rem}
+  .phases p{margin:0;font-size:.975rem;color:var(--counsel-soft)}
+  .phases .who{display:block;margin-top:1rem;font-size:.875rem;color:var(--counsel)}
+
+  .catalogue{width:100%;border-collapse:collapse}
+  .catalogue caption{text-align:left;font-size:.875rem;color:var(--counsel-soft);padding-bottom:.8rem}
+  .catalogue th,.catalogue td{text-align:left;vertical-align:top;padding:1.1rem 1rem 1.1rem 0;border-top:1px solid var(--margin-rule)}
+  .catalogue thead th{font-size:.875rem;font-weight:600;color:var(--counsel-soft);border-top:0}
+  .catalogue tbody th{font:400 1.3rem/1.25 var(--clause);width:34%}
+  .catalogue td{color:var(--counsel-soft)}
+  .catalogue td:last-child{color:var(--counsel);white-space:nowrap}
+
+  .check{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(2rem,6vw,6rem);padding:clamp(3.5rem,8vw,7rem) var(--side);background:var(--counsel);color:var(--brief)}
+  .check h2{font:400 clamp(2rem,3.6vw,3.2rem)/1.08 var(--clause);margin:0 0 1rem}
+  .check > div > p{color:#C7CEDB;max-width:38ch;margin:0}
+  .check form{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem 1.5rem}
+  .check .wide{grid-column:1/-1}
+  .check label{display:block;font-size:.875rem;font-weight:600;margin-bottom:.4rem;color:#DDE2EA}
+  .check input,.check textarea{width:100%;background:transparent;border:0;border-bottom:1px solid #8D97AB;color:var(--brief);font:400 1.05rem/1.4 var(--docket);padding:.6rem 0;min-height:44px}
+  .check textarea{resize:vertical;min-height:88px}
+  .check input:focus-visible,.check textarea:focus-visible{outline:0;border-bottom:2px solid var(--brief)}
+  .check .act{background:var(--brief);color:var(--counsel);justify-self:start}
+  .check .act:hover{background:var(--seal-light)}
+  .check__status{grid-column:1/-1;margin:0;min-height:1.6em;font-size:.95rem;color:#C7CEDB}
+  .check :focus-visible{outline-color:var(--brief)}
+
+  .glossary{padding:clamp(3rem,6vw,5rem) var(--side)}
+  .glossary h2{font:600 1rem/1.3 var(--docket);margin:0 0 1.5rem}
+  .glossary dl{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.5rem 3rem;margin:0}
+  .glossary dt{font:600 1.15rem/1.3 var(--clause)}
+  .glossary dd{margin:.3rem 0 0;color:var(--counsel-soft);font-size:.975rem}
+
+  .notice{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem 2rem;padding:1.6rem var(--side) 2.2rem;border-top:1px solid var(--margin-rule);font-size:.875rem;color:var(--counsel-soft)}
+  .notice p{margin:0;max-width:60ch}
+
+  @media (max-width:960px){
+    .opening,.band__title,.check{grid-template-columns:1fr}
+    .phases{grid-template-columns:1fr 1fr}
+    .phases li:nth-child(3){padding-left:0;border-left:0}
+    .glossary dl{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:640px){
+    .letterhead nav a:not(:last-child){display:none}
+    .letter{margin-inline:calc(-1 * var(--side));border-inline:0;padding-inline:var(--side)}
+    .letter__head{position:sticky;top:0;z-index:2;background:#FBFBFC;flex-direction:column;align-items:stretch;margin-inline:calc(-1 * var(--side));padding:1rem var(--side)}
+    .register{width:100%}
+    [popover].definition{left:0;right:0;top:auto;bottom:0;max-width:none;border-width:1px 0 0}
+    .phases{grid-template-columns:1fr;border-top-width:1px}
+    .phases li,.phases li + li{padding:1.2rem 0;border-left:0;border-top:1px solid var(--margin-rule)}
+    .catalogue thead{display:none}
+    .catalogue tr{display:grid;border-top:1px solid var(--margin-rule);padding:1rem 0}
+    .catalogue th,.catalogue td{border:0;padding:.15rem 0;width:auto}
+    .check form,.glossary dl{grid-template-columns:1fr}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .act,.register button,.letterhead nav a{transition:none}
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the engagement</a>
+<header class="letterhead">
+  <a class="letterhead__name" href="#top"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="28" fill="none" stroke="#14213D" stroke-width="3"/><path d="M22 18v28M42 18v28M22 32h20" stroke="#14213D" stroke-width="4"/><circle cx="50" cy="50" r="8" fill="#8E1F2F"/></svg>Halden Rocha</a>
+  <nav aria-label="Primary">
+    <a href="#process">How a matter runs</a>
+    <a href="#practice">Practice</a>
+    <a href="#conflict-check">Conflict check</a>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="opening" id="top" aria-labelledby="title">
+    <div>
+      <h1 id="title">Disputes settled in writing you can actually read.</h1>
+      <p class="opening__lede">Commercial arbitration chambers in São Paulo. Every engagement letter we send is written twice: the binding text, and what it means for you.</p>
+      <div class="opening__acts">
+        <a class="act" href="#conflict-check">Request a conflict check</a>
+        <a class="act act--line" href="#letter">Read our engagement terms</a>
+      </div>
+    </div>
+
+    <article class="letter" id="letter" aria-labelledby="letter-title">
+      <div class="letter__head">
+        <h2 id="letter-title">Engagement letter, clauses 1 to 4</h2>
+        <div class="register" role="group" aria-label="Register">
+          <button type="button" data-register="legal" aria-pressed="true">Legal</button>
+          <button type="button" data-register="plain" aria-pressed="false">Plain</button>
+        </div>
+      </div>
+      <ol class="clauses" data-register="legal" id="clauses">
+        <li>
+          <p class="legal">The Chambers shall represent the Client in the arbitration described in Schedule A before the <button class="term" type="button" popovertarget="def-tribunal">Tribunal</button> constituted under the rules of the seat.</p>
+          <p class="plain">We represent you in this one arbitration, in front of the people the rules appoint to decide it.</p>
+        </li>
+        <li>
+          <p class="legal">Fees accrue at the rates in Schedule B, invoiced monthly, and are capped at the <button class="term" type="button" popovertarget="def-ceiling">Ceiling</button> unless the Client consents in writing to its revision.</p>
+          <p class="plain">You get a bill every month, and it never goes above the agreed maximum unless you sign off first.</p>
+        </li>
+        <li>
+          <p class="legal">The Chambers shall not accept any engagement adverse to the Client that arises from the same facts for the duration of the matter and two years thereafter.</p>
+          <p class="plain">For the case and two years after it, we will not act against you on anything connected to it.</p>
+        </li>
+        <li>
+          <p class="legal">Either party may terminate on thirty days' notice; work in progress at the <button class="term" type="button" popovertarget="def-cutoff">Cut-off</button> shall be completed or handed over at the Client's election.</p>
+          <p class="plain">Either of us can end this with a month's notice. You decide whether we finish open work or hand it over.</p>
+        </li>
+      </ol>
+      <p class="letter__note">Specimen clauses for a demo template. Not legal advice.</p>
+    </article>
+  </section>
+
+  <div popover class="definition" id="def-tribunal"><b>Tribunal</b>The one or three arbitrators who hear the case and issue a binding award.<button type="button" popovertarget="def-tribunal" popovertargetaction="hide">Close</button></div>
+  <div popover class="definition" id="def-ceiling"><b>Ceiling</b>The maximum total fee for the matter, written as a number in Schedule B.<button type="button" popovertarget="def-ceiling" popovertargetaction="hide">Close</button></div>
+  <div popover class="definition" id="def-cutoff"><b>Cut-off</b>The date the notice of termination takes effect, thirty days after it is received.<button type="button" popovertarget="def-cutoff" popovertargetaction="hide">Close</button></div>
+
+  <section class="band" id="process" aria-labelledby="process-title">
+    <div class="band__title">
+      <h2 id="process-title">Four phases, and who owns each one.</h2>
+      <p>The rules of the seat set the calendar. What we control is that you always know which phase you are in and what is expected of you in it.</p>
+    </div>
+    <ol class="phases">
+      <li><h3>Request</h3><p>We draft the request for arbitration and the first statement of the claim, from your documents.</p><span class="who">You: documents and one interview.</span></li>
+      <li><h3>Constitution</h3><p>The tribunal is appointed. We propose arbitrators and check every candidate for conflicts.</p><span class="who">You: approve the nominee.</span></li>
+      <li><h3>Written phase</h3><p>Statements, evidence and expert reports are exchanged in rounds the tribunal sets.</p><span class="who">You: witnesses and review.</span></li>
+      <li><h3>Hearing and award</h3><p>We present the case. The tribunal deliberates and issues a written, reasoned award.</p><span class="who">You: attend the hearing.</span></li>
+    </ol>
+  </section>
+
+  <section class="band" id="practice" aria-labelledby="practice-title">
+    <div class="band__title">
+      <h2 id="practice-title">Three kinds of dispute, nothing else.</h2>
+      <p>A narrow practice is a deliberate one. If your matter is outside these, we will say so in the conflict check and name someone better placed.</p>
+    </div>
+    <table class="catalogue">
+      <caption>Practice areas and how they are billed. Demo figures.</caption>
+      <thead><tr><th scope="col">Area</th><th scope="col">Typical disputes</th><th scope="col">Billing</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Construction and energy</th><td>Delay and disruption, variations, defects in plant and infrastructure contracts.</td><td>Capped hourly</td></tr>
+        <tr><th scope="row">Corporate and shareholder</th><td>Earn-outs, warranty claims, deadlocks between partners after an acquisition.</td><td>Fixed per phase</td></tr>
+        <tr><th scope="row">Distribution and agency</th><td>Termination indemnities, exclusivity breaches, cross-border supply terms.</td><td>Capped hourly</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="check" id="conflict-check" aria-labelledby="check-title">
+    <div>
+      <h2 id="check-title">Start with a conflict check.</h2>
+      <p>Before we discuss anything confidential, we confirm we can act for you. Give us the parties' names only; keep the facts for later.</p>
+    </div>
+    <form id="check-form" novalidate>
+      <div><label for="name">Your name</label><input id="name" name="name" autocomplete="name" required></div>
+      <div><label for="company">Company</label><input id="company" name="company" autocomplete="organization" required></div>
+      <div class="wide"><label for="email">Work email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
+      <div class="wide"><label for="parties">Other parties to the dispute</label><textarea id="parties" name="parties" aria-describedby="parties-hint"></textarea></div>
+      <p class="check__status" id="parties-hint">Names only. Do not send documents or facts at this stage.</p>
+      <button class="act" type="submit">Request the conflict check</button>
+      <p class="check__status" id="check-status" role="status"></p>
+    </form>
+  </section>
+
+  <section class="glossary" aria-labelledby="glossary-title">
+    <h2 id="glossary-title">Defined terms used above</h2>
+    <dl>
+      <div><dt>Tribunal</dt><dd>The one or three arbitrators who hear the case and issue a binding award.</dd></div>
+      <div><dt>Ceiling</dt><dd>The maximum total fee for the matter, written as a number in Schedule B.</dd></div>
+      <div><dt>Cut-off</dt><dd>The date the notice of termination takes effect, thirty days after it is received.</dd></div>
+    </dl>
+  </section>
+</main>
+
+<footer class="notice">
+  <p>Halden Rocha is a fictional firm in a demo template. Nothing on this page is legal advice or an offer of representation.</p>
+  <p><a href="mailto:chambers@example.com">chambers@example.com</a></p>
+</footer>
+
+<script>
+(() => {
+  const clauses = document.getElementById("clauses");
+  const buttons = [...document.querySelectorAll(".register [data-register]")];
+  buttons.forEach((b) => b.addEventListener("click", () => {
+    clauses.dataset.register = b.dataset.register;
+    for (const x of buttons) x.setAttribute("aria-pressed", String(x === b));
+  }));
+
+  const form = document.getElementById("check-form");
+  const status = document.getElementById("check-status");
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const missing = ["name", "company", "email"].find((k) => !form.elements[k].value.trim());
+    if (missing) { status.textContent = "Name, company and a work email are needed before we can run the check."; form.elements[missing].focus(); return; }
+    if (!form.elements.email.value.includes("@")) { status.textContent = "The email address needs an @."; form.elements.email.focus(); return; }
+    status.textContent = "Nothing was sent: this demo form is not connected to the chambers yet.";
+  });
+})();
+</script>
+</body>
+</html>

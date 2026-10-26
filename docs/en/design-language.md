@@ -184,3 +184,68 @@ Calibrate, do not assemble:
 Extraction protocol: impression → structure → craft → behavior → transferable principle. Never open a reference and code immediately.
 
 Full list and ethics in `skill/references/20-reference-library.md`.
+
+---
+
+## 8. Lineage and blend
+
+BUREAU never copies a single source. Every direction is a **blend** of three documented lineages, each owning a different axis, pushed through the subject until no single source can be named.
+
+| Designer | Documented work | Principle | Axis |
+|---|---|---|---|
+| Josef Müller-Brockmann | *Grid Systems in Graphic Design* (1981) | the modular grid as objective order | grid |
+| Jan Tschichold | *Die neue Typographie* (1928) | asymmetric, functional hierarchy | composition |
+| Massimo Vignelli | NYC subway diagram (1972) | few typefaces, the diagram over the picture | type, navigation |
+| Otl Aicher | Munich 1972 | restricted palette, pictograms on one grid | colour, icons |
+| Edward Tufte | *The Visual Display of Quantitative Information* (1983) | data-ink, small multiples, direct labels | data |
+| Herb Lubalin | *Avant Garde* (1968–71) | letters set tight until words become images | voice |
+| Saul Bass | *Vertigo* (1958), *Anatomy of a Murder* (1959) | motion that cuts instead of fading | motion |
+| Muriel Cooper | *Information Landscapes* (1994) | type in space; depth as navigation | depth |
+| László Moholy-Nagy | *Light Prop for an Electric Stage* (1930) | light is the medium | light |
+| Charles and Ray Eames | *Powers of Ten* (1977) | one move through scale by a constant factor | scroll |
+
+Recipe: **dominant** 50–60% (structure) × **counter** 25–35% (expression, pulling against it) × **accent** 10–20% (one behaviour), plus one ingredient only the subject has. Write it in `.bureau/comps/blend.md` (Gate 1).
+
+The thirteen templates are worked examples, each with a `LINEAGE.md`. They count as sources too:
+
+| Template | Dominant | Counter | Accent |
+|---|---|---|---|
+| `kinetic-editorial` | Tschichold | Lubalin | Bass |
+| `product-surface` | Tufte | Vignelli | Aicher |
+| `immersive-experience` | Moholy-Nagy | Cooper | Eames |
+| `legal-practice` | Sutnar | Rand | Ruder |
+| `architecture-studio` | Ando | Mies | Scarpa |
+| `restaurant-table` | Barragán | Wyman | J. Albers |
+| `private-bank` | Müller-Brockmann | Crouwel | Tufte |
+| `clinic-care` | Hara | Kare | Tanaka |
+| `developer-api` | Gerstner | Weingart | Greiman |
+| `fashion-atelier` | Brodovitch | A. Albers | B. Thompson |
+| `record-label` | Reid Miles | Saville | Brody |
+| `museum-archive` | Bo Bardi | Lustig | Munari |
+| `hardware-store` | Rams | Sottsass | Castiglioni |
+
+A project scaffolded from a template starts as a copy. Before Gate 2 it must be at or below 0.35 against every template:
+
+```bash
+node skill/scripts/divergence.mjs index.html --templates --out .bureau/evidence/divergence.json
+```
+
+Canon, rules and originality tests in `skill/references/23-lineage-and-blend.md`.
+
+---
+
+## 9. Refinement passes
+
+Between the first build and QA, seven passes from structure to detail. One at a time; re-shoot after each.
+
+| Pass | Looks at |
+|---|---|
+| P1 | structure: spine, density, fold, one grid break |
+| P2 | type: optical size, tracking per size, glyphs at display size, rag |
+| P3 | colour and light: roles, accent count, every state |
+| P4 | space: one scale, proximity, targets |
+| P5 | motion: one character, one entrance, designed reduced mode |
+| P6 | states and edges: focus, errors, empty, media controls |
+| P7 | distinctness: lineage tests and divergence |
+
+Thresholds and evidence in `skill/references/24-refinement-passes.md`.

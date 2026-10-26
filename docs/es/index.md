@@ -85,7 +85,7 @@ Leer el circuito completo en [review-circuit.md](review-circuit.md).
 # 1. Comprobar el entorno
 node skill/scripts/doctor.mjs
 
-# 2. Crear un proyecto a partir de una de las tres plantillas
+# 2. Crear un proyecto a partir de una de las trece plantillas
 node skill/scripts/new-project.mjs mi-sitio --template kinetic-editorial
 
 # 3. Completar BUREAU.md y ejecutar el circuito
