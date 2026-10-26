@@ -43,6 +43,17 @@ node skill/scripts/doctor.mjs
 - New host → `installers/install.sh`, `install.ps1`, `doctor.mjs`, `22-installers.md`, `docs/*/install.md`.
 - Breaking state schema → bump `STATE_VERSION` and document migration.
 
+## Version every update
+
+Every change that reaches `main` ships as a version. No exceptions for small fixes.
+
+```bash
+node scripts/release.mjs <x.y.z>   # bumps every version reference, dates the CHANGELOG
+npm run og                          # the social card prints the version
+```
+
+Semver: changed circuit, script or file contract → major; new capability → minor; fix or docs → patch. After the merge, tag `vX.Y.Z` on the merge commit and publish a GitHub release with the CHANGELOG section as notes. `tests/version.test.mjs` fails if a version reference drifts.
+
 ## Review before a PR
 
 ```bash
