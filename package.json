@@ -1,7 +1,7 @@
 {
   "name": "bureau",
   "version": "1.0.0",
-  "description": "BUREAU — the autonomous digital design bureau. Skill, toolkit and review circuit for award-grade web design.",
+  "description": "BUREAU \u2014 the autonomous digital design bureau. Skill, toolkit and review circuit for award-grade web design.",
   "type": "module",
   "license": "MIT",
   "homepage": "https://github.com/acf1210/bureau",
@@ -21,7 +21,7 @@
     "new": "node skill/scripts/new-project.mjs",
     "tokens": "node skill/scripts/tokens.mjs",
     "docs:build": "node scripts/build-docs.mjs",
-    "docs:serve": "node scripts/serve.mjs",
+    "docs:serve": "npm run docs:build && node scripts/serve.mjs dist 4173",
     "og": "node scripts/og.mjs",
     "test": "node --test tests/*.test.mjs",
     "install:claude": "./installers/install.sh --agent claude --scope user",
