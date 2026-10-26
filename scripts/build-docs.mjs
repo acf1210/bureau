@@ -346,8 +346,8 @@ a{color:inherit;text-decoration:none}footer{max-width:1100px;margin:3rem auto 0;
 function notFound(lang = "en") {
   const meta = LANGS[lang] || LANGS.en;
   const other = lang === "en" ? "pt-BR" : "en";
-  return `<!doctype html><html lang="${meta.htmlLang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>404 — BUREAU</title><link rel="stylesheet" href="/bureau/assets/docs.css"></head>
-<body style="min-height:100svh;display:grid;place-items:center;padding:2rem"><main style="max-width:620px"><p style="font:11px var(--mono);color:var(--ember);letter-spacing:.14em">BUREAU / 404</p><h1 style="font-family:var(--display);font-size:clamp(3rem,10vw,7rem);font-weight:400;line-height:.9;margin:.2em 0">${meta.notFound}.</h1><p style="color:var(--muted)">${meta.notFoundText}</p><p><a href="/bureau/${lang}/index.html" style="border-bottom:1px solid var(--line)">${meta.home}</a> · <a href="/bureau/${other}/index.html" style="border-bottom:1px solid var(--line)">${LANGS[other].label}</a></p></main></body></html>`;
+  return `<!doctype html><html lang="${meta.htmlLang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>404 — BUREAU</title><link rel="stylesheet" href="assets/docs.css"></head>
+<body style="min-height:100svh;display:grid;place-items:center;padding:2rem"><main style="max-width:620px"><p style="font:11px var(--mono);color:var(--ember);letter-spacing:.14em">BUREAU / 404</p><h1 style="font-family:var(--display);font-size:clamp(3rem,10vw,7rem);font-weight:400;line-height:.9;margin:.2em 0">${meta.notFound}.</h1><p style="color:var(--muted)">${meta.notFoundText}</p><p><a href="${lang}/index.html" style="border-bottom:1px solid var(--line)">${meta.home}</a> · <a href="${other}/index.html" style="border-bottom:1px solid var(--line)">${LANGS[other].label}</a></p></main></body></html>`;
 }
 
 function main() {
