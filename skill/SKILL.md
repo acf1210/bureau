@@ -66,10 +66,19 @@ Create these at the project root. They are the bureau's memory.
 | `.bureau/review/state.json` | circuit | Gate state, scores, evidence hashes, staleness. |
 | `.bureau/review/scorecard.{md,html,json}` | Tribunal | Final verdict. |
 
+**Resolve paths first.** Everything in this file is relative to the directory containing `SKILL.md` (`BUREAU_DIR`). When you work inside a user project, locate the installed skill and use its absolute path:
+
+```bash
+BUREAU_DIR="${BUREAU_DIR:-$HOME/.claude/skills/bureau}"   # adjust for the host
+node "$BUREAU_DIR/scripts/audit.mjs" .
+```
+
+In the examples below, `scripts/`, `references/` and `assets/` mean `$BUREAU_DIR/scripts/`, etc. Never assume the user's project contains the skill.
+
 Scaffold a project with:
 
 ```bash
-node scripts/new-project.mjs <name> --template kinetic-editorial|product-surface|immersive-experience
+node "$BUREAU_DIR/scripts/new-project.mjs" <name> --template kinetic-editorial|product-surface|immersive-experience
 ```
 
 If artifacts are missing, create the minimum viable version yourself; never block on a file that you can write.
