@@ -243,6 +243,8 @@ function collectInPage() {
     const el = node.parentElement;
     if (seen.has(el)) continue;
     seen.add(el);
+    // WCAG 1.4.3 exempts pure decoration; aria-hidden text is not content.
+    if (el.closest('[aria-hidden="true"]')) continue;
     const s = getComputedStyle(el);
     const fg = parse(s.color);
     if (!fg || fg.a === 0) continue;
@@ -325,7 +327,54 @@ function collectInPage() {
   const jsBytes = resources.filter((r) => /script|\.js|\.mjs|\.ts/.test(r.type + r.name)).reduce((n, r) => n + r.transfer, 0);
   const mediaBytes = resources.filter((r) => /img|image|video|\.jpg|\.png|\.webp|\.avif|\.mp4|\.webm/.test(r.type + r.name)).reduce((n, r) => n + r.transfer, 0);
 
+  // Fold: at desktop widths the headline and the first action after it must be visible without scrolling.
+  const absBottom = (el) => el.getBoundingClientRect().bottom + scrollY;
+  let fold = null;
+  const h1 = document.querySelector("h1");
+  if (h1 && innerWidth >= 1024) {
+    const scope = h1.closest("section,header,main") || document.body;
+    const action = [...scope.querySelectorAll("a[href],button")].find((el) => (h1.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING) && el.getClientRects().length);
+    fold = { h1: Math.round(absBottom(h1)), action: action ? Math.round(absBottom(action)) : null, actionText: action ? (action.textContent || "").trim().slice(0, 40) : null, height: innerHeight };
+  }
+
+  // Screen budget: words per 900px window at desktop widths.
+  let budget = null;
+  if (innerWidth >= 1280) {
+    const windows = new Map();
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    while (walker.nextNode()) {
+      const node = walker.currentNode;
+      const el = node.parentElement;
+      if (!el || el.closest("script,style,noscript,[aria-hidden='true']")) continue;
+      const words = node.textContent.trim().split(/\s+/).filter(Boolean).length;
+      if (!words) continue;
+      const r = el.getBoundingClientRect();
+      if (!r.width || !r.height) continue;
+      const w = Math.floor((r.top + scrollY) / 900);
+      windows.set(w, (windows.get(w) || 0) + words);
+    }
+    const worst = [...windows.entries()].sort((x, y) => y[1] - x[1])[0];
+    budget = worst ? { window: worst[0], words: worst[1] } : null;
+  }
+
+  // Crowded heads: a section head nearer what precedes it than what it heads.
+  const crowded = [];
+  for (const h of document.querySelectorAll("main h2, main h3")) {
+    const prev = h.previousElementSibling, next = h.nextElementSibling;
+    if (!prev || !next) continue;
+    // A short label directly above the head belongs to the head group; judge the group, not the label.
+    if (prev.getBoundingClientRect().height < 48 && parseFloat(getComputedStyle(prev).fontSize) < parseFloat(getComputedStyle(h).fontSize) * 0.6) continue;
+    if (getComputedStyle(h.parentElement).display.includes("grid") && Math.abs(next.getBoundingClientRect().left - h.getBoundingClientRect().left) > 4) continue;
+    const r = h.getBoundingClientRect();
+    const above = r.top - prev.getBoundingClientRect().bottom;
+    const below = next.getBoundingClientRect().top - r.bottom;
+    if (above >= 0 && below > 0 && above < below * 0.75 && below - above >= 12) crowded.push((h.textContent || "").trim().slice(0, 50));
+  }
+
   return {
+    fold,
+    budget,
+    crowded: crowded.slice(0, 5),
     title: document.title,
     lang: document.documentElement.lang || "",
     overflow,
@@ -558,6 +607,27 @@ Or set BUREAU_CHROMIUM=/path/to/chrome`);
       allIssues.push({
         id: "VA-OVERFLOW", severity: "p0", title: "Horizontal overflow",
         detail: `${metrics.overflow}px wider than the viewport. Elements: ${metrics.wide.map((w) => `${w.selector} [${w.left}..${w.right}]`).join("; ") || "unknown"}`,
+        viewport: vp.name, evidence: foldEvidence
+      });
+    }
+    if (metrics.fold && (metrics.fold.h1 > metrics.fold.height || (metrics.fold.action && metrics.fold.action > metrics.fold.height))) {
+      allIssues.push({
+        id: "VA-FOLD", severity: "p1", title: "Headline or primary action below the fold",
+        detail: `h1 ends at ${metrics.fold.h1}px, first action "${metrics.fold.actionText || "none"}" at ${metrics.fold.action ?? "—"}px; the viewport is ${metrics.fold.height}px tall.`,
+        viewport: vp.name, evidence: foldEvidence
+      });
+    }
+    if (metrics.budget && metrics.budget.words > 80) {
+      allIssues.push({
+        id: "VA-BUDGET", severity: "p2", title: "Screen budget over 80 words",
+        detail: `${metrics.budget.words} words in the 900px window starting at ${metrics.budget.window * 900}px. One idea per screen; reading columns in READ mode may answer this.`,
+        viewport: vp.name, evidence: foldEvidence
+      });
+    }
+    if (metrics.crowded?.length) {
+      allIssues.push({
+        id: "VA-HEAD", severity: "p2", title: "Crowded section head",
+        detail: `Closer to what precedes it than to what it heads: ${metrics.crowded.join("; ")}.`,
         viewport: vp.name, evidence: foldEvidence
       });
     }

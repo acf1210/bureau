@@ -48,10 +48,12 @@ export const gates = [
     question: "Is there an idea only this brand could own?",
     evidence: [
       { label: "Decision record", path: ".bureau/comps/decision.md" },
-      { label: "Three comps + decision", path: ".bureau/comps/*", min: 4 }
+      { label: "Lineage blend", path: ".bureau/comps/blend.md" },
+      { label: "Three comps + decision + blend", path: ".bureau/comps/*", min: 5 }
     ],
     hardFails: [
       "The concept could belong to any competitor unchanged",
+      "One source dominates: the attribution test names it",
       "No signature move, or a generic effect",
       "Depends on assets that do not exist and cannot be produced"
     ]
@@ -66,10 +68,12 @@ export const gates = [
     evidence: [
       { label: "Visual contract", path: "DESIGN.md" },
       { label: "Type specimen", path: ".bureau/evidence/*type*" },
-      { label: "Color sheet", path: ".bureau/evidence/*color*" }
+      { label: "Color sheet", path: ".bureau/evidence/*color*" },
+      { label: "Divergence report", path: ".bureau/evidence/divergence.json" }
     ],
     hardFails: [
       "Reads as a template or a known site with the logo swapped",
+      "Divergence above 0.35 against the scaffold or a bundled template",
       "More than one competing signature move",
       "A section belongs to another design language"
     ]
@@ -299,6 +303,69 @@ export function checkEvidence(root, specs) {
   return { missing, found };
 }
 
+// Pre-build critique (Gate 1): six axes, 1–5. Any axis under 3 sends the direction back.
+export const CRITIQUE_AXES = ["philosophy", "hierarchy", "execution", "specificity", "restraint", "variety"];
+
+// Usability heuristics (Gate 7): Nielsen's ten, 0–4 each, "n/a" allowed with a reason.
+export const HEURISTICS = [
+  "Visibility of system status", "Match with the real world", "User control and freedom",
+  "Consistency and standards", "Error prevention", "Recognition over recall",
+  "Flexibility and efficiency", "Aesthetic and minimalist design", "Error recovery",
+  "Help and documentation"
+];
+
+// Delivery Gate: every line PASS with evidence, or the Tribunal does not open.
+export const DELIVERY_ITEMS = [
+  { id: "DG-F1", block: "Floor", text: "No fabricated proof: every claim, number, logo, quote and award has a source in BUREAU.md" },
+  { id: "DG-F2", block: "Floor", text: "Every control was clicked and does what it says; no fake send, no dead link" },
+  { id: "DG-F3", block: "Floor", text: "Contrast passes AA in every state, including text over media at its brightest frame" },
+  { id: "DG-F4", block: "Floor", text: "Full keyboard path with visible, instant focus; no trap" },
+  { id: "DG-F5", block: "Floor", text: "Reduced motion is designed; no flashing above 3 Hz; no autoplay audio" },
+  { id: "DG-F6", block: "Floor", text: "No horizontal scroll from 320 to 1920 px; nothing clipped at 200% zoom" },
+  { id: "DG-F7", block: "Floor", text: "At 1280×800 the headline, lede and primary action are visible without scrolling" },
+  { id: "DG-F8", block: "Floor", text: "Content is visible with JavaScript off; reveals are scoped under .js" },
+  { id: "DG-R1", block: "Reflex", text: "Every slop tell that remains has a written, page-specific waiver; none is P0" },
+  { id: "DG-R2", block: "Reflex", text: "Attribution test run: no single designer, site or template can be named" },
+  { id: "DG-R3", block: "Reflex", text: "Divergence at or below 0.35 against the scaffold and every bundled template" },
+  { id: "DG-L1", block: "Liveliness", text: "Dials declared (ENERGY / RHYTHM / MOTION, 1–3) and the page matches them" },
+  { id: "DG-L2", block: "Liveliness", text: "One focal point per screen; one deliberate accent, not zero and not everywhere" },
+  { id: "DG-L3", block: "Liveliness", text: "One identity motif named and repeated; the signature move is memorable, not merely present" },
+  { id: "DG-C1", block: "Finish", text: "Browser surfaces themed: selection, caret, focus, scrollbar, underline offset, tabular figures" },
+  { id: "DG-C2", block: "Finish", text: "Typographic finish: real quotes and dashes, no widows in heads, glyphs intact at display size" },
+  { id: "DG-C3", block: "Finish", text: "Empty, loading and error states exist for every live element" },
+  { id: "DG-P1", block: "Process", text: "Design review written before reading detector output, or the run is declared degraded" },
+  { id: "DG-P2", block: "Process", text: "Tribunal read the work in a fresh context, or declared degraded" }
+];
+
+export function parseDelivery(text) {
+  const items = new Map();
+  for (const line of String(text).split(/\r?\n/)) {
+    const m = line.match(/^\s*[-*]\s*\[(PASS|FAIL|N\/A|\s?)\]\s*(DG-[A-Z]\d+)\b\s*(?:—|-|:)?\s*(.*)$/i);
+    if (m) items.set(m[2].toUpperCase(), { status: m[1].trim().toUpperCase() || "OPEN", evidence: m[3].trim() });
+  }
+  const errors = [];
+  for (const item of DELIVERY_ITEMS) {
+    const got = items.get(item.id);
+    if (!got) { errors.push(`${item.id} missing`); continue; }
+    if (got.status === "FAIL") errors.push(`${item.id} is FAIL: ${got.evidence || "no note"}`);
+    else if (got.status === "OPEN") errors.push(`${item.id} is not checked`);
+    else if (got.status === "N/A" && item.block === "Floor") errors.push(`${item.id} is Floor and cannot be N/A`);
+    else if (got.evidence.replace(/^.*?(?:—|:)\s*/, "").length < 12) errors.push(`${item.id} needs evidence (a file, a screenshot, a command and its result)`);
+  }
+  return { items, errors };
+}
+
+export function deliveryTemplate() {
+  const lines = ["# Delivery Gate", "", "Mark each line `[PASS]`, `[FAIL]` or (Reflex, Liveliness, Finish, Process only) `[N/A]`, then the text, then the evidence after an em dash.", ""];
+  let block = null;
+  for (const item of DELIVERY_ITEMS) {
+    if (item.block !== block) { block = item.block; lines.push(`## ${block}`, ""); }
+    lines.push(`- [ ] ${item.id} ${item.text} — evidence:`);
+    if (DELIVERY_ITEMS[DELIVERY_ITEMS.indexOf(item) + 1]?.block !== block) lines.push("");
+  }
+  return lines.join("\n");
+}
+
 export function normalizeScores(input, gate) {
   const errors = [];
   if (!input || typeof input !== "object") return { errors: ["Scores file is not a JSON object."] };
@@ -314,6 +381,40 @@ export function normalizeScores(input, gate) {
     if (!issue.fix) errors.push(`issues[${i}].fix is required.`);
   }
   const evidence = Array.isArray(input.evidence) ? input.evidence : [];
+  let critique = null;
+  if (gate.id === "g1-concept") {
+    const c = input.critique;
+    if (!c || typeof c !== "object") errors.push(`critique is required: score ${CRITIQUE_AXES.join(", ")} from 1 to 5.`);
+    else {
+      critique = {};
+      for (const axis of CRITIQUE_AXES) {
+        const v = Number(c[axis]);
+        if (!Number.isInteger(v) || v < 1 || v > 5) errors.push(`critique.${axis} must be an integer from 1 to 5.`);
+        else critique[axis] = v;
+      }
+      if (!c.weakest || String(c.weakest).length < 12) errors.push("critique.weakest must name the weakest axis and the fix taken.");
+      else critique.weakest = String(c.weakest);
+    }
+  }
+  let heuristics = null;
+  if (gate.id === "g7-access") {
+    const h = input.heuristics;
+    if (!Array.isArray(h) || h.length !== HEURISTICS.length) errors.push(`heuristics must list all ${HEURISTICS.length} usability heuristics, 0–4 or "n/a" with a reason.`);
+    else {
+      let sum = 0, max = 0;
+      h.forEach((entry, i) => {
+        const value = typeof entry === "object" && entry !== null ? entry.score : entry;
+        if (String(value).toLowerCase() === "n/a") {
+          if (!entry?.reason) errors.push(`heuristics[${i}] is n/a without a reason.`);
+          return;
+        }
+        const v = Number(value);
+        if (!Number.isFinite(v) || v < 0 || v > 4) errors.push(`heuristics[${i}] must be 0–4 or "n/a".`);
+        else { sum += v; max += 4; }
+      });
+      heuristics = { sum, max, ratio: max ? Math.round((sum / max) * 100) / 100 : 0 };
+    }
+  }
   return {
     errors,
     value: {
@@ -324,6 +425,8 @@ export function normalizeScores(input, gate) {
       strengths: Array.isArray(input.strengths) ? input.strengths : [],
       issues: issues.map((i) => ({ ...i, severity: String(i.severity || "").toLowerCase() })),
       evidence,
+      critique,
+      heuristics,
       reviewedAt: input.reviewedAt || new Date().toISOString()
     }
   };

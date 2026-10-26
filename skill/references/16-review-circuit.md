@@ -41,6 +41,12 @@ total       = Σ gate points
 
 A 95 average with one accessibility P0 is a Fail. That is the point.
 
+### Three rules that hold the circuit honest
+
+1. **Judge before you measure.** Write the design review (specificity, hierarchy, world) before you read `audit.json` or the visual report. Detector output is deterministic, but it anchors judgment: a reviewer who has seen "0 findings" grades softer.
+2. **The builder is the weakest reviewer.** Whoever made the work has already argued for it. The Tribunal, and ideally Gates 1, 2 and 8, run in a fresh context (a subagent with no inherited transcript) that receives only the brief, the files and the screenshots. If that is impossible, the run is **degraded**: it says so on the first line of the scorecard and cannot reach Award Track.
+3. **Checked rules hold; prose rules drift.** Every mechanical rule has a failing and a passing fixture in `tests/`. When a review finds a defect the detectors missed, add the rule and both fixtures before closing the finding.
+
 ## 2. Gate Zero — Intake
 
 **Persona: The Producer.** Protects truth, scope, and feasibility.
@@ -85,7 +91,22 @@ A 95 average with one accessibility P0 is a Fail. That is the point.
 - The signature move is absent or is a generic effect.
 - The direction depends on assets that do not exist and cannot be produced.
 
-**Evidence:** three comps at the same viewport, `decision.md` with the matrix, rejected directions.
+- One source dominates: a reviewer names it in the attribution test.
+
+**Pre-build critique (required).** Before the build, score the chosen direction 1–5 on six axes. Any axis under 3 sends the direction back; `review.mjs` fails the gate.
+
+| Axis | Scores 3 when | Scores 5 when |
+|---|---|---|
+| **Philosophy** | the mood is clear | the page takes a position someone could argue with |
+| **Hierarchy** | the order emerges after a pause | a blurred thumbnail still shows what comes first |
+| **Execution** | a few details are still open | the plan already clears the Floor and Reflex checks |
+| **Specificity** | it suits the category | swapping the brand name would break it |
+| **Restraint** | one ornament could still go | something good was cut to make room |
+| **Variety** | three fingerprint dimensions differ from the scaffold | it shares nothing recognizable with any template or recent build |
+
+Name the weakest axis and what you changed (`critique.weakest`). A perfect row must say what was removed to earn it. Do not manufacture a weakness to fill the field.
+
+**Evidence:** three comps at the same viewport, `decision.md` with the matrix, rejected directions, `blend.md` with three lineages on three axes.
 
 ## 4. Gate 2 — Direction
 
@@ -107,8 +128,9 @@ A 95 average with one accessibility P0 is a Fail. That is the point.
 - The page reads as a template or a known site with the logo swapped.
 - More than one competing signature move.
 - A section visibly belongs to another design language.
+- Divergence above 0.35 against the scaffold or any bundled template.
 
-**Evidence:** `DESIGN.md`, world sheet, first viewport at 1440/768/390, type specimen, color-in-context sheet.
+**Evidence:** `DESIGN.md`, `divergence.json`, world sheet, first viewport at 1440/768/390, type specimen, color-in-context sheet.
 
 ## 5. Gate 3 — Type and Color
 
@@ -231,7 +253,11 @@ A 95 average with one accessibility P0 is a Fail. That is the point.
 - Text over media failing contrast at a meaningful frame.
 - No captions for meaningful speech.
 
-**Evidence:** axe/visual audit JSON, keyboard notes, reduced-motion shot, contrast table, screen-reader notes.
+**Usability heuristics (required).** Score Nielsen's ten heuristics 0–4 in `heuristics`, in this order: visibility of system status, match with the real world, user control and freedom, consistency and standards, error prevention, recognition over recall, flexibility and efficiency, aesthetic and minimalist design, error recovery, help and documentation. A heuristic that cannot apply (help on a one-page campaign) is `{"score": "n/a", "reason": "…"}`; the maximum shrinks with it. Under half the applicable maximum fails the gate. Most real interfaces land between 50% and 80%; a 4 means genuinely excellent.
+
+**Persona walk.** Walk the primary task as two or three people who would fail differently (a keyboard-only user, a first-time visitor on a phone, a screen-reader user) and write what broke for each, by element.
+
+**Evidence:** axe/visual audit JSON, keyboard notes, reduced-motion shot, contrast table, screen-reader notes, persona walk.
 
 ## 10. Gate 8 — Truth
 
@@ -302,6 +328,22 @@ The Tribunal does not re-score. It asks:
 
 A veto must include: the reason, the smallest fix, and an owner. It cannot be "I don't like it" without a specific, actionable defect.
 
+**Method.** `tribunal.json` declares `"method": "isolated"` (fresh context, design review before detector output) or `"degraded"`. A degraded Tribunal caps the verdict at PASS and the scorecard says so.
+
+### The Delivery Gate
+
+The Tribunal does not open until `.bureau/review/delivery.md` is clean. Create it with `node scripts/review.mjs --delivery-init`, then mark every line `[PASS]` or `[FAIL]`, with evidence after an em dash: a file, a screenshot, or a command and its result. "Looks fine" is not evidence.
+
+| Block | Items | Binding |
+|---|---|---|
+| Floor | DG-F1–F8: no fabricated proof; every control clicked; contrast in every state; keyboard; reduced motion; no overflow 320–1920; hero fits 1280×800; content visible without JS | never `N/A`; one `FAIL` stops the release |
+| Reflex | DG-R1–R3: every remaining tell has a page-specific waiver; attribution test; divergence ≤ 0.35 | `N/A` only with a reason |
+| Liveliness | DG-L1–L3: dials declared and matched; one focal point and one accent per screen; an identity motif | the page is alive, not just clean |
+| Finish | DG-C1–C3: browser surfaces themed; typographic finish; empty, loading and error states | answered |
+| Process | DG-P1–P2: judged before measured; Tribunal in a fresh context | or declared degraded |
+
+A `[PASS]` without evidence, an unchecked box, or a Floor `N/A` refuses the final.
+
 ## 13. Gate state machine
 
 `review.mjs` enforces:
@@ -315,10 +357,14 @@ g0 must pass → g1 → g2 → g3 → g4 → g5 → g6 → g7 → g8 → g9 → 
 - Source changes after a gate mark it **stale**; the final refuses stale gates unless the gate is re-run.
 - Evidence paths are validated against the filesystem.
 - Scores below 3.5 or any P0 issue fail the gate immediately.
+- Gate 1 needs the six-axis `critique`; any axis under 3 fails it.
+- Gate 7 needs the ten `heuristics`; under half the applicable maximum fails it.
+- The final refuses a missing or unclean Delivery Gate, and a Tribunal without a declared method.
 
 ```bash
 node scripts/review.mjs --status
 node scripts/review.mjs --gate g2-direction --scores .bureau/review/g2.json
+node scripts/review.mjs --delivery-init
 node scripts/review.mjs --final --tribunal .bureau/review/tribunal.json
 ```
 
@@ -355,6 +401,9 @@ Rules:
 - `issues[].evidence` must be a real path.
 - `evidence` must include the gate's required artifacts.
 - `notes` must be specific enough for another reviewer to act on.
+- Gate 1 adds `"critique": {"philosophy": 5, "hierarchy": 4, "execution": 4, "specificity": 5, "restraint": 4, "variety": 4, "weakest": "hierarchy: the index competed with the lede; moved it to the margin"}`.
+- Gate 7 adds `"heuristics": [4, 4, 3, 4, 3, 4, {"score": "n/a", "reason": "single landing page"}, 4, 3, {"score": "n/a", "reason": "no help system"}]`.
+- `tribunal.json`: `{"decision": "pass", "method": "isolated", "notes": "…", "reviewer": "The Partner"}`.
 
 ## 15. Scorecard
 
@@ -387,5 +436,9 @@ The HTML report is the artifact you attach to the client delivery.
 - Letting the same person be creative director, art director, and Tribunal without a written challenge.
 - Passing a gate because the deadline is close.
 - Writing "looks great" as notes.
+- Reading the detector report before writing the design review.
+- Reviewing in the same thread that built the work and not declaring the run degraded.
+- Waiving a Reflex tell with a reason that would fit any page.
+- Treating zero findings as quality: a clean page with no world fails Gates 1 and 2.
 
 The circuit is only as good as its willingness to say **fail**.

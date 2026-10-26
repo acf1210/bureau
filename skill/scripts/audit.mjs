@@ -109,18 +109,36 @@ function columnOf(content, index) {
   return index - last;
 }
 
-function isSuppressed(lines, index, ruleId) {
-  const check = (start, end) => {
-    for (let i = Math.max(0, start); i <= Math.min(lines.length - 1, end); i++) {
-      const line = lines[i];
-      if (!line.includes("bureau-ignore")) continue;
-      if (line.includes(ruleId)) return true;
-      if (!/bureau-ignore\s+BS-[A-Z0-9]+/.test(line)) return true;
+// Waivers bind by tier. P0 is the Floor: never waived by a line comment.
+// P1/P2 need the rule ID and a reason of at least MIN_REASON characters.
+// `bureau-ignore-file <IDs>` in the first 24 lines exempts a file that documents tells.
+const MIN_REASON = 20;
+const waivers = [];
+
+function parseWaiver(line, ruleId) {
+  const m = line.match(/bureau-ignore\s+((?:BS-[A-Z0-9]+[\s,]*)+)(?::\s*(.*?))?\s*(?:\*\/|-->|$)/);
+  if (!m || !m[1].split(/[\s,]+/).includes(ruleId)) return null;
+  return { reason: (m[2] || "").trim() };
+}
+
+function isSuppressed(lines, index, ruleId, severity, file) {
+  for (let i = 0; i <= Math.min(lines.length - 1, 23); i++) {
+    const m = lines[i].match(/bureau-ignore-file\s+((?:BS-[A-Z0-9]+[\s,]*)+)/);
+    if (m && m[1].split(/[\s,]+/).includes(ruleId)) {
+      waivers.push({ id: ruleId, file, line: i + 1, kind: "file", accepted: true });
+      return true;
     }
-    return false;
-  };
-  if (check(0, 24)) return true;
-  return check(index - 1, index);
+  }
+  for (let i = Math.max(0, index - 1); i <= Math.min(lines.length - 1, index); i++) {
+    const w = parseWaiver(lines[i], ruleId);
+    if (!w) continue;
+    const record = { id: ruleId, file, line: i + 1, kind: "line", reason: w.reason };
+    if (severity === "p0") { waivers.push({ ...record, accepted: false, rejected: "P0 is the Floor and cannot be waived" }); return false; }
+    if (w.reason.length < MIN_REASON) { waivers.push({ ...record, accepted: false, rejected: `reason shorter than ${MIN_REASON} characters` }); return false; }
+    waivers.push({ ...record, accepted: true });
+    return true;
+  }
+  return false;
 }
 
 function maskHtml(content) {
@@ -173,7 +191,7 @@ function scanFile(file, root) {
     while ((match = matcher.exec(target)) !== null) {
       const index = match.index;
       const line = lineOf(target, index);
-      if (isSuppressed(lines, line - 1, rule.id)) continue;
+      if (isSuppressed(lines, line - 1, rule.id, rule.severity, path.relative(root, file) || path.basename(file))) continue;
       if (perRule >= 8) break;
       perRule++;
       addFinding(findings, {
@@ -322,7 +340,9 @@ function projectChecks(scanned, root) {
     const labelsFor = new Set(
       [...content.matchAll(/<label\b[^>]*\bfor\s*=\s*["']([^"']+)["']/gi)].map((m) => m[1])
     );
-    const inputs = content.match(/<input\b[^>]*>/gi) || [];
+    // An input inside <label>…</label> is labelled implicitly.
+    const labelSpans = [...content.matchAll(/<label\b[^>]*>[\s\S]*?<\/label>/gi)].map((m) => [m.index, m.index + m[0].length]);
+    const inputs = [...content.matchAll(/<input\b[^>]*>/gi)].filter((m) => !labelSpans.some(([a, b]) => m.index > a && m.index < b)).map((m) => m[0]);
     for (const tag of inputs) {
       const type = (tagAttr(tag, "type") || "text").toLowerCase();
       if (["hidden", "submit", "button", "reset", "image"].includes(type)) continue;
@@ -353,6 +373,60 @@ function projectChecks(scanned, root) {
           match: tag.slice(0, 120)
         });
       }
+    }
+
+    // In-page anchors and ARIA id references must resolve (a dead control is a fake control).
+    const ids = new Set([...content.matchAll(/\s(?:id|name)\s*=\s*["']([^"']+)["']/gi)].map((m) => m[1]));
+    const deadAnchors = [...content.matchAll(/<a\b[^>]*\bhref\s*=\s*["']#([^"']+)["']/gi)].filter((m) => !ids.has(decodeURIComponent(m[1])));
+    for (const m of deadAnchors.slice(0, 8)) {
+      add({
+        id: "BS-E10", severity: "p1", category: "engineering",
+        title: "In-page link to a missing section",
+        why: `#${m[1]} does not exist on this page; the control looks interactive and does nothing.`,
+        fix: "Point the link at a real id, or remove it.",
+        file: rel, line: lineOf(content, m.index), column: 1, match: m[0].slice(0, 120)
+      });
+    }
+    const refAttrs = [...content.matchAll(/\s(aria-labelledby|aria-describedby|aria-controls|for)\s*=\s*["']([^"']+)["']/gi)];
+    for (const m of refAttrs) {
+      const missing = m[2].split(/\s+/).filter((x) => x && !ids.has(x));
+      if (!missing.length) continue;
+      add({
+        id: "BS-A13", severity: "p1", category: "access",
+        title: "ARIA or label reference to a missing id",
+        why: `${m[1]} points at ${missing.join(", ")}, which is not on the page; assistive technology announces nothing.`,
+        fix: "Give the referenced element that id, or fix the reference.",
+        file: rel, line: lineOf(content, m.index), column: 1, match: m[0].trim().slice(0, 120)
+      });
+      break;
+    }
+
+    // A form that reports success with no request behind it is an invented outcome.
+    const scripts = [...content.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)].map((m) => m[1]).join("\n");
+    if (/addEventListener\(\s*["']submit["']/.test(scripts) && !/\bfetch\s*\(|XMLHttpRequest|sendBeacon|\.submit\s*\(\s*\)|\baction\s*=/.test(scripts + content.match(/<form\b[^>]*>/gi)?.join("")) ) {
+      const claim = scripts.match(/["'`][^"'`]*\b(?:thanks|thank you|you(?:'|’)re (?:on the list|in|all set)|subscribed|message sent|request sent|we(?:'|’)ll be in touch|successfully)\b[^"'`]*["'`]/i);
+      if (claim) {
+        add({
+          id: "BS-W14", severity: "p0", category: "content",
+          title: "Fake send: success shown with no request",
+          why: "The form tells the visitor something happened when nothing was sent.",
+          fix: "Wire a real endpoint, or say plainly that nothing was sent because the form is not connected.",
+          file: rel, line: lineOf(content, content.indexOf(claim[0])), column: 1, match: claim[0].slice(0, 120)
+        });
+      }
+    }
+
+    // Browser surfaces left at defaults: the cheapest sign a page was assembled, not built.
+    const linkedCss = [...content.matchAll(/<link\b[^>]*rel\s*=\s*["']stylesheet["'][^>]*href\s*=\s*["']([^"':]+)["']/gi)]
+      .map((m) => { try { return fs.readFileSync(path.resolve(path.dirname(s.file), m[1]), "utf8"); } catch { return ""; } }).join("\n");
+    if (/<style\b/i.test(content) && /<html\b/i.test(content) && !/::selection/.test(content + linkedCss)) {
+      add({
+        id: "BS-E11", severity: "p2", category: "engineering",
+        title: "Browser surfaces unthemed",
+        why: "Selection, caret and focus are still browser defaults on a page with its own palette.",
+        fix: "Theme ::selection, caret-color and :focus-visible from the palette.",
+        file: rel, line: 1, column: 1, match: "no ::selection"
+      });
     }
   }
 
@@ -386,7 +460,8 @@ function projectChecks(scanned, root) {
     for (const m of content.matchAll(/font-family\s*:\s*([^;}]+)/gi)) {
       const stack = m[1].split(",").map((x) => x.trim().replace(/^["']|["']$/g, ""));
       const first = stack.find((x) => x && !/^(?:system-ui|ui-|sans-serif|serif|monospace|cursive|fantasy|inherit|initial|unset|-apple-system|BlinkMacSystemFont|Segoe UI|Roboto|Helvetica|Arial|Georgia|Times|var\()/i.test(x));
-      if (first && !first.includes("(")) families.add(first);
+      // Metric-matched fallback faces (`… Fallback`) are not extra families.
+      if (first && !first.includes("(") && !/\bFallback$/i.test(first)) families.add(first);
     }
     return families;
   };
@@ -425,15 +500,38 @@ function projectChecks(scanned, root) {
     }
   }
 
-  return findings.filter((f) => {
+  const kept = findings.filter((f) => {
     if (!f.file || f.file === "(project)") return true;
     try {
-      const head = fs.readFileSync(path.resolve(root, f.file), "utf8").split(/\r?\n/).slice(0, 30).join("\n");
-      return !head.includes("bureau-ignore") || !head.includes(f.id);
+      const lines = fs.readFileSync(path.resolve(root, f.file), "utf8").split(/\r?\n/);
+      return !isSuppressed(lines, Math.max(0, (f.line || 1) - 1), f.id, f.severity, f.file);
     } catch {
       return true;
     }
   });
+
+  // Waiver ledger: rejected waivers are findings; the same rule waived in more than three places is a house style.
+  for (const w of waivers.filter((x) => !x.accepted)) {
+    kept.push({
+      id: "BS-E12", severity: "p1", category: "engineering",
+      title: "Rejected waiver",
+      why: `bureau-ignore ${w.id}: ${w.rejected}.`,
+      fix: "Fix the finding, or give a P1/P2 waiver a specific reason of 20+ characters.",
+      file: w.file, line: w.line, column: 1, match: `bureau-ignore ${w.id}`
+    });
+  }
+  const perRule = new Map();
+  for (const w of waivers.filter((x) => x.accepted && x.kind === "line")) perRule.set(w.id, (perRule.get(w.id) || 0) + 1);
+  for (const [id, n] of perRule) {
+    if (n > 3) kept.push({
+      id: "BS-E13", severity: "p2", category: "engineering",
+      title: "Waiver became a house style",
+      why: `${id} is waived ${n} times; a repeated exception is a design decision.`,
+      fix: "Record the decision in DESIGN.md, or fix the instances.",
+      file: "(project)", line: 1, column: 1, match: `${n} × bureau-ignore ${id}`
+    });
+  }
+  return kept;
 }
 
 function summarize(findings) {
@@ -534,7 +632,8 @@ function main() {
     filesScanned: files.length - skipped.length,
     skipped,
     findings,
-    summary
+    summary,
+    waivers
   };
 
   if (opts.out) {

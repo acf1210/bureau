@@ -4,6 +4,8 @@ AI-generated design has a fingerprint. This file names it, so the bureau can rem
 
 **Slop budget: zero.** A single P0 tell can define the whole page.
 
+**Absence of slop is not quality.** A filter removes the average; it does not add a point of view. A page that passes every check here and has no world, no dials and no signature move is a clean void, and the circuit fails it at Gate 1 and Gate 2. Use this file with a direction, never instead of one.
+
 ## 1. What slop is
 
 Slop is not "made by AI". It is **the average of the internet, reproduced without a decision**. It happens when a model (or a rushed human) reaches for the most statistically likely layout, palette, phrase, and motion instead of the most specific one.
@@ -38,6 +40,13 @@ Three or more "no" answers → the page is slop, regardless of polish.
 | BS-C08 | Everything centered, nothing aligned to a spine | No composition decision | Introduce a dominant column and asymmetric weight |
 | BS-C09 | Giant footer wordmark + four link columns | Template ending | Make the footer a closing argument, not a sitemap dump |
 | BS-C10 | Full-screen hero with CTA below the fold | Cinematic reflex | Compose the fold as a complete thought |
+| BS-C11 | Template drift: the scaffold's favicon, easing, labels and footer survive | The template was decorated, not redesigned | Rewrite the blend; run `divergence.mjs --templates` until ≤ 0.35 |
+| BS-C12 | Tribute act: one designer or site is recognizable at a glance | A single source, copied | Blend three sources on three axes |
+| BS-C13 | The eyebrow: short inert type before a heading that only announces it | The most common generated opener | Delete it and read again; if only a name for what follows was lost, it was an eyebrow. Keep it only if it carries a fact (a date, a place, a figure) |
+| BS-C14 | The stock anatomy: hero, three features, steps, logo bar, email band | The page could carry another business's name | Build the sections the category's real sites have (the menu, the record, the issue, the lineup) |
+| BS-C15 | The stock close: an email sign-up as the last section on a page whose job is not subscription | Template ending | End on what the visitor came to do: the booking, the buy box, the next date, the download |
+| BS-C16 | The echo: one fact (price, date, count) printed in four or more sections | Filler from a thin brief | Say each fact once, where it does work |
+| BS-C17 | Decoration text: scroll cues, rotated labels, version pills, weather strips | "Designed" without a fact | Delete it; a real fact becomes a caption |
 
 ### B. Type tells
 
@@ -53,6 +62,10 @@ Three or more "no" answers → the page is slop, regardless of polish.
 | BS-T08 | Fake "editorial" serif with no editorial content | Either do editorial structure or pick another voice |
 | BS-T09 | Light-weight gray body on white | Increase contrast and weight |
 | BS-T10 | Display type set with default tracking and leading | Tighten display; open body |
+| BS-T11 | The accented word: one word in the headline set apart by colour, weight or highlight | The whole head one way; a line break; a second line at a second size |
+| BS-T12 | Mono as costume: monospace on labels and meta when the content is not code, data or a measurement | Labels in the body face, a step smaller, sentence case |
+| BS-T13 | Tracked-caps labels on every small line | Sentence case in the body face; caps only for a wordmark or a world built on them |
+| BS-T14 | Glyphs that fail at display size: a hyphen or period vanishing, a letter reading as another | Lower `opsz` or weight for that line; check at 200% |
 
 ### C. Color tells
 
@@ -68,6 +81,9 @@ Three or more "no" answers → the page is slop, regardless of polish.
 | BS-K08 | Dark mode as a simple inversion | Recompute surfaces, ink, accent, borders |
 | BS-K09 | Random mesh gradient blob | Use a concept-driven field, or none |
 | BS-K10 | Rainbow data palette | Colorblind-safe, labeled, role-based |
+| BS-K11 | Thick side stripe (`border-left` ≥ 2px) on cards and callouts | A hairline, a ground shift, or weight |
+| BS-K12 | Hard offset block shadow outside a neobrutalist world | Offset and blur, or lightness steps |
+| BS-K13 | Light or dark chosen by category ("tech is dark") | Choose from the use scene: who, where, under what light |
 
 ### D. Motion tells
 
@@ -100,6 +116,9 @@ Three or more "no" answers → the page is slop, regardless of polish.
 | BS-W10 | Emoji as feature bullets | Use icons with a system, or no icons |
 | BS-W11 | "AI-powered" with no explanation | Explain the model's job in the workflow |
 | BS-W12 | Placeholder company names (Acme, Nexus, Vertex) | Use the real brand or a clearly labeled prototype |
+| BS-W13 | Template punctuation: `A · B · C`, an arrow glued to every link | Line breaks, columns, a sentence; one dot in a byline is fine |
+| BS-W14 | Fake send: "Thanks, you're on the list" with no request behind it | Wire the endpoint, or say plainly that nothing was sent |
+| BS-W15 | Generic FAQ: questions nobody in this audience asks | The three questions sales or support actually hear |
 
 ### F. Imagery tells
 
@@ -139,6 +158,9 @@ Three or more "no" answers → the page is slop, regardless of polish.
 | BS-B08 | Autoplay audio | Never |
 | BS-B09 | Fake loading screens to look "cinematic" | Load fast; show real progress |
 | BS-B10 | `target="_blank"` without `rel` | Add `noopener` |
+| BS-B11 | Content hidden at rest: `.reveal{opacity:0}` with no `.js` scope | Hide only under `.js`; the page must read with scripts off |
+| BS-B12 | Dead control: a link to a missing section, a button that does nothing | Every control was clicked before delivery (BS-E10, BS-A13) |
+| BS-B13 | Browser surfaces at defaults: selection, caret, scrollbar, focus | Theme them from the palette (BS-E11) |
 
 ## 4. Copy: the slop lexicon
 
@@ -178,7 +200,64 @@ Specificity is the antidote to every tell:
 
 Ask at every section: *what here could only exist for this brand?* If the answer is "the logo", the section is generic.
 
-## 6. Detector
+## 6. Binding tiers
+
+Every tell binds at one of three tiers. The tier says whether you may disagree with it.
+
+| Tier | Severity | Binding | Waiver |
+|---|---|---|---|
+| **Floor** | P0 | correctness, access, honesty; no admired page breaks it on purpose | never; a line waiver on a P0 is rejected and reported |
+| **Reflex** | P1 | a default a model falls into | only with a written reason about this page |
+| **Finish** | P2 | craft detail, invisible at arm's length | read and answered in `refinement.md`; never blocks |
+
+### Waivers
+
+```html
+<!-- bureau-ignore BS-K11: the red stripe marks overdue rows in the ledger -->
+```
+
+- Name the rule ID. A bare `bureau-ignore` waives nothing.
+- The reason is at least 20 characters and is about this page. "brand" or "design choice" is rejected (BS-E12).
+- A P0 cannot be waived by a line comment. Fix it.
+- The same rule waived in more than three places is a house style, not an exception (BS-E13): record it in `DESIGN.md` as a decision.
+- `bureau-ignore-file <IDs>` in the first 24 lines is for files that document tells (diagrams, specimens), not for pages.
+- The audit JSON lists every waiver, accepted or rejected, in `waivers`. The Tribunal reads that list.
+
+### The purpose test
+
+A Reflex tell is allowed when its reason can be written in one line and survives this question: *would we choose it if no model had suggested it?* A gradient that is the light of the subject passes. A gradient because pages have gradients does not. If the reason needs more than a line, it is not a reason.
+
+## 7. Render tier
+
+Some tells only exist in the browser. `visual-audit.mjs` measures them at every viewport:
+
+| Check | Tier | Threshold |
+|---|---|---|
+| VA-OVERFLOW | Floor | no horizontal scroll from 320 to 1920 px |
+| VA-CONTRAST | Floor | 4.5:1 body, 3:1 large text, against the computed background |
+| VA-FOLD | Reflex | at ≥ 1024 px the h1 and the first action after it end above the fold |
+| VA-BUDGET | Finish | at most about 80 words per 900 px window at ≥ 1280 px; READ-mode reading columns answer it |
+| VA-HEAD | Finish | a section head sits closer to what it heads than to what precedes it |
+| VA-TAP | Reflex | targets ≥ 24 × 24 px |
+| VA-MOTION, VA-VIDEO | Reflex | nothing keeps moving under reduced motion |
+
+## 8. Liveliness
+
+Removing slop leaves a void, and a model fills a void with its most generic output. Liveliness is added on purpose. Declare three dials in `DESIGN.md` before building and hold them from the first section to the last:
+
+| Dial | 1 | 2 | 3 | Answers |
+|---|---|---|---|---|
+| **ENERGY** | quiet, public-service | confident product | experimental, editorial | how hard does the page say hello? |
+| **RHYTHM** | uniform, predictable | consistent with a few breaks | asymmetric, mixed compositions | how much do sections differ? |
+| **MOTION** | state changes only | one entrance and transitions | choreography, scroll scenes | how much motion, and why? |
+
+Three levels, not ten: a reviewer can tell uniform from varied; nobody can reliably tell a 6 from a 7. The page must match its dials: RHYTHM 3 with uniform sections is a fail, MOTION 1 with a scroll scene is a fail.
+
+Then check four levers: one focal point per screen; one deliberate accent (not zero, not everywhere); whitespace that structures rather than remains; one identity motif repeated until it belongs to the brand.
+
+A page built with no direction is labelled *draft without direction*, dials 1 / 1 / 1, and is not a deliverable.
+
+## 9. Detector
 
 ```bash
 node scripts/audit.mjs .
@@ -194,7 +273,7 @@ Rules:
 - If suppressed, add a comment: `<!-- bureau-ignore BS-K01: brand-mandated gradient, approved in DESIGN.md -->`.
 - A P0 finding blocks Gate 8 until fixed or explicitly accepted by the Tribunal with a written reason.
 
-## 7. The slop review (human)
+## 10. The slop review (human)
 
 For each section, answer:
 
@@ -206,7 +285,7 @@ For each section, answer:
 
 If the answers are weak, the section is not ready.
 
-## 8. Exceptions
+## 11. Exceptions
 
 Some "tells" are legitimate when they are the concept:
 
@@ -218,9 +297,9 @@ Some "tells" are legitimate when they are the concept:
 
 The rule is not "never use a pattern". The rule is **never use it without a reason you can defend in public**.
 
-## 9. Gate 8 evidence
+## 12. Gate 8 evidence
 
-- `audit.json` with zero unresolved P0.
+- `audit.json` with zero unresolved P0 and its `waivers` list read.
 - `copy-review.md` with the claims and sources.
 - Screenshots of every section.
 - A list of every exception with its rationale.

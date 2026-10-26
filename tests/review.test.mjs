@@ -12,8 +12,8 @@ const review = path.join(root, "skill", "scripts", "review.mjs");
 
 const gates = {
   "g0-intake": ["BUREAU.md", ".bureau/config.json"],
-  "g1-concept": [".bureau/comps/decision.md", ".bureau/comps/a.html", ".bureau/comps/b.html", ".bureau/comps/c.html"],
-  "g2-direction": ["DESIGN.md", ".bureau/evidence/type-specimen.png", ".bureau/evidence/color-sheet.png"],
+  "g1-concept": [".bureau/comps/decision.md", ".bureau/comps/blend.md", ".bureau/comps/a.html", ".bureau/comps/b.html", ".bureau/comps/c.html"],
+  "g2-direction": ["DESIGN.md", ".bureau/evidence/type-specimen.png", ".bureau/evidence/color-sheet.png", ".bureau/evidence/divergence.json"],
   "g3-type-color": ["DESIGN.md", ".bureau/evidence/contrast.md"],
   "g4-composition": [".bureau/qa/report.json", ".bureau/qa/screenshots/mobile-390-fold.png", ".bureau/qa/screenshots/tablet-768-fold.png", ".bureau/qa/screenshots/laptop-1440-fold.png"],
   "g5-motion": ["MOTION.md", ".bureau/evidence/motion.mp4", ".bureau/qa/screenshots/laptop-1440-reduced-motion.png"],
@@ -39,7 +39,8 @@ test("review circuit gates in order and returns an award scorecard", () => {
   fs.mkdirSync(path.join(project, ".bureau", "review"), { recursive: true });
   for (const name of ["a", "b", "c"]) fs.writeFileSync(path.join(project, ".bureau", "comps", `${name}.html`), "<!doctype html><title>comp</title>");
   fs.writeFileSync(path.join(project, ".bureau", "comps", "decision.md"), "# Decision\nA chosen.\n");
-  for (const f of ["type-specimen.png", "color-sheet.png", "contrast.md", "motion.mp4", "keyboard-notes.md", "audit.json", "copy-review.md", "launch-checklist.md", "og.png"]) {
+  fs.writeFileSync(path.join(project, ".bureau", "comps", "blend.md"), "# Blend\nTufte × Vignelli × Aicher.\n");
+  for (const f of ["type-specimen.png", "color-sheet.png", "contrast.md", "motion.mp4", "keyboard-notes.md", "audit.json", "copy-review.md", "launch-checklist.md", "og.png", "divergence.json"]) {
     fs.writeFileSync(path.join(project, ".bureau", "evidence", f), "evidence");
   }
   fs.writeFileSync(path.join(project, ".bureau", "qa", "report.json"), "{}");
@@ -47,17 +48,29 @@ test("review circuit gates in order and returns an award scorecard", () => {
     fs.writeFileSync(path.join(project, ".bureau", "qa", "screenshots", f), "png");
   }
 
+  const extra = {
+    "g1-concept": { critique: { philosophy: 5, hierarchy: 4, execution: 4, specificity: 5, restraint: 4, variety: 4, weakest: "hierarchy: the index competed with the lede; moved it to the margin" } },
+    "g7-access": { heuristics: [4, 4, 3, 4, 3, 4, { score: "n/a", reason: "single landing page" }, 4, 3, { score: "n/a", reason: "no help system on a landing page" }] }
+  };
   for (const [gate, evidence] of Object.entries(gates)) {
     fs.writeFileSync(path.join(project, ".bureau", "review", `${gate}.json`), JSON.stringify({
-      gate, score: 4.5, notes: "Reviewed against evidence at the same viewport.", issues: [], evidence
+      gate, score: 4.5, notes: "Reviewed against evidence at the same viewport.", issues: [], evidence, ...(extra[gate] || {})
     }));
     r = run(review, ["--gate", gate, "--scores", `.bureau/review/${gate}.json`], project);
     assert.equal(r.status, 0, `${gate}: ${r.stdout}\n${r.stderr}`);
   }
 
   fs.writeFileSync(path.join(project, ".bureau", "review", "tribunal.json"), JSON.stringify({
-    decision: "pass", notes: "The work keeps the brief and the evidence is real.", reviewer: "The Partner"
+    decision: "pass", method: "isolated", notes: "The work keeps the brief and the evidence is real.", reviewer: "The Partner"
   }));
+  r = run(review, ["--final", "--tribunal", ".bureau/review/tribunal.json"], project);
+  assert.equal(r.status, 4, "final must refuse without a Delivery Gate");
+  r = run(review, ["--delivery-init"], project);
+  assert.equal(r.status, 0, r.stderr);
+  r = run(review, ["--final", "--tribunal", ".bureau/review/tribunal.json"], project);
+  assert.equal(r.status, 1, `final must refuse an unchecked Delivery Gate: ${r.status} ${r.stdout} ${r.stderr}`);
+  const deliveryFile = path.join(project, ".bureau", "review", "delivery.md");
+  fs.writeFileSync(deliveryFile, fs.readFileSync(deliveryFile, "utf8").replace(/- \[ \] (DG-\w+)(.*) — evidence:/g, "- [PASS] $1$2 — evidence: .bureau/qa/report.json, 0 issues"));
   r = run(review, ["--final", "--tribunal", ".bureau/review/tribunal.json"], project);
   assert.equal(r.status, 0, r.stdout + r.stderr);
   assert.match(r.stdout, /AWARD/);
@@ -65,6 +78,26 @@ test("review circuit gates in order and returns an award scorecard", () => {
   assert.equal(scorecard.verdict.verdict, "award");
   assert.equal(scorecard.total, 90);
   assert.ok(fs.existsSync(path.join(project, ".bureau", "review", "scorecard.html")));
+  fs.rmSync(dir, { recursive: true, force: true });
+});
+
+test("pre-build critique under 3 fails Gate 1", () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "bureau-critique-"));
+  const project = path.join(dir, "site");
+  run(scaffold, ["site", "--dir", project, "--template", "product-surface"], dir);
+  fs.mkdirSync(path.join(project, ".bureau", "review"), { recursive: true });
+  fs.writeFileSync(path.join(project, ".bureau", "review", "g0.json"), JSON.stringify({ gate: "g0-intake", score: 4, notes: "Brief names audience and proof.", issues: [], evidence: ["BUREAU.md"] }));
+  assert.equal(run(review, ["--gate", "g0-intake", "--scores", ".bureau/review/g0.json"], project).status, 0);
+  for (const f of ["a.html", "b.html", "c.html", "decision.md", "blend.md"]) fs.writeFileSync(path.join(project, ".bureau", "comps", f), "x");
+  const g1 = { gate: "g1-concept", score: 4.5, notes: "Three distinct directions with real comps.", issues: [], evidence: [], critique: { philosophy: 4, hierarchy: 4, execution: 4, specificity: 2, restraint: 4, variety: 4, weakest: "specificity: the hero fits any planning tool" } };
+  fs.writeFileSync(path.join(project, ".bureau", "review", "g1.json"), JSON.stringify(g1));
+  let r = run(review, ["--gate", "g1-concept", "--scores", ".bureau/review/g1.json"], project);
+  assert.equal(r.status, 1, r.stdout);
+  assert.match(r.stdout, /specificity/);
+  delete g1.critique;
+  fs.writeFileSync(path.join(project, ".bureau", "review", "g1.json"), JSON.stringify(g1));
+  r = run(review, ["--gate", "g1-concept", "--scores", ".bureau/review/g1.json"], project);
+  assert.equal(r.status, 2, "critique is required");
   fs.rmSync(dir, { recursive: true, force: true });
 });
 
