@@ -78,7 +78,8 @@ In the examples below, `scripts/`, `references/` and `assets/` mean `$BUREAU_DIR
 Scaffold a project with:
 
 ```bash
-node "$BUREAU_DIR/scripts/new-project.mjs" <name> --template kinetic-editorial|product-surface|immersive-experience
+node "$BUREAU_DIR/scripts/new-project.mjs" --list
+node "$BUREAU_DIR/scripts/new-project.mjs" <name> --template <one of the 13 ids>
 ```
 
 If artifacts are missing, create the minimum viable version yourself; never block on a file that you can write.
@@ -93,8 +94,9 @@ If the user invokes `/bureau <command>` (or the host exposes commands), execute 
 |---|---|---|
 | New site / redesign / "make it premium" | `init` → `concept` → `direction` → `build` | Read `references/01-init-and-brief.md` |
 | "Run the whole thing" / autonomy | `auto` | Full pipeline, three checkpoints |
-| "What should this look like?" | `concept` | `references/02-concept-engine.md` |
+| "What should this look like?" | `concept` | `references/02-concept-engine.md`, `23-lineage-and-blend.md` |
 | Design system, tokens, type/color | `direction` | `references/03-art-direction.md`, `04-typography.md`, `05-color-pantone.md` |
+| Polish, "make it sharper", detail pass | `build` | `references/24-refinement-passes.md` |
 | Add motion / parallax / video / 3D | `motion` | `references/07-motion-choreography.md`, `08-webgl-shaders.md`, `09-video-parallax.md` |
 | Figma → code, sync variables | `figma` | `references/14-figma-workflow.md` |
 | Test, screenshots, responsive, a11y | `qa` | `references/15-playwright-qa.md` |
@@ -132,13 +134,17 @@ Read `references/16-review-circuit.md` before running a review. The short form:
 # 1. Mechanical evidence
 node scripts/audit.mjs . --json --out .bureau/evidence/audit.json
 node scripts/visual-audit.mjs http://localhost:3000 --out .bureau/qa
+node scripts/divergence.mjs index.html --templates --out .bureau/evidence/divergence.json
 
 # 2. One gate at a time (writes state, refuses out-of-order gates)
 node scripts/review.mjs --gate g1-concept --scores .bureau/review/g1.json
 
-# 3. Tribunal
-node scripts/review.mjs --final
+# 3. Delivery Gate, then Tribunal (fresh context, method declared)
+node scripts/review.mjs --delivery-init
+node scripts/review.mjs --final --tribunal .bureau/review/tribunal.json
 ```
+
+Three rules hold the circuit honest: **judge before you measure** (write the design review before reading detector output); **the builder is the weakest reviewer** (the Tribunal runs in a fresh context, or the run is declared degraded and cannot reach Award Track); **checked rules hold, prose rules drift** (every mechanical rule has a failing and a passing fixture). Gate 1 requires a six-axis pre-build critique; Gate 7 requires Nielsen's ten heuristics; the final requires a clean Delivery Gate with evidence on every line.
 
 **Pass thresholds:** `≥ 90` Award Track · `82–89` Pass · `72–81` Conditional · `< 72` Fail. Any gate `< 3.5/5`, any P0 issue, or any missing evidence is a hard failure. The Tribunal may veto a numerically passing release for taste reasons, but must write the reason and the smallest fix.
 
@@ -150,7 +156,7 @@ node scripts/review.mjs --final
 
 Run the full pipeline with **three human checkpoints only**:
 
-1. **Direction choice** — present three comps and a recommendation.
+1. **Direction choice** — present three comps, their three blends, and a recommendation.
 2. **Art direction lock** — present the world sheet, type specimen and color sheet.
 3. **Ship** — present the scorecard and launch checklist.
 
@@ -167,10 +173,11 @@ If the user cannot attend a checkpoint, choose the most defensible option, recor
 
 ### Phase B — Concept (G1)
 
-1. Produce **three genuinely different directions**, not three shades of the same idea. Each gets: name, one-sentence thesis, emotional target, visual world, signature move, technological proof, risk.
-2. Build three low-cost comps: HTML/CSS sketches, Figma frames, or generated images. No full build yet.
-3. Score the directions against the brief and pick one. Record the decision and the rejected ideas in `.bureau/comps/decision.md`.
-4. If the user cannot choose, choose for them and explain the trade-off.
+1. Produce **three genuinely different directions**, not three shades of the same idea. Each gets: name, one-sentence thesis, emotional target, visual world, signature move, technological proof, risk, and a **lineage** of three named sources.
+2. Each lineage is a **blend**: dominant, counter, accent, each owning a different axis and pulling against each other (`references/23-lineage-and-blend.md`). Never derive a direction from one source, one site, or one template.
+3. Build three low-cost comps: HTML/CSS sketches, Figma frames, or generated images. No full build yet.
+4. Score the directions against the brief and pick one. Record the decision and the rejected ideas in `.bureau/comps/decision.md`, and the chosen blend in `.bureau/comps/blend.md`.
+5. If the user cannot choose, choose for them and explain the trade-off.
 
 ### Phase C — Direction (G2, G3, G4)
 
@@ -185,6 +192,11 @@ If the user cannot attend a checkpoint, choose the most defensible option, recor
 2. Keep the design system in tokens; never hard-code one-off colors or sizes without a reason.
 3. Implement responsive behavior with fluid type (`clamp`), container queries, and layout that is composed—not merely stacked.
 4. Ship real content. No lorem ipsum, no placeholder logos, no invented metrics.
+5. If you scaffolded from a template, the template is a source like any other: its `LINEAGE.md` is a worked example, not yours. Replace faces, palette, easing, skeleton and favicon until `divergence.mjs --templates` reports ≤ 0.35.
+
+### Phase D½ — Refinement (G2, G3, G4)
+
+Run the seven passes in `references/24-refinement-passes.md`, in order: structure, type, colour and light, space, motion, states and edges, distinctness. One pass at a time; re-shoot after each; log them in `.bureau/evidence/refinement.md`. Polish never starts before the structure is settled.
 
 ### Phase E — Motion (G5)
 
@@ -224,6 +236,11 @@ If the user cannot attend a checkpoint, choose the most defensible option, recor
 - No custom cursor that hides the native cursor, lags, or breaks touch.
 - No scroll hijacking without keyboard escape and reduced-motion fallback.
 - No autoplaying audio. Video may autoplay only when muted, inline, and pausable.
+- No fake send: a form never reports success it did not achieve.
+- No content hidden at rest: the page reads with JavaScript off.
+- No dead control: every link and button does what it says.
+
+P0 is the **Floor** and cannot be waived. P1 (**Reflex**) needs a written, page-specific waiver; P2 (**Finish**) is answered, never ignored. A clean audit is not quality: declare the ENERGY / RHYTHM / MOTION dials and match them (`references/17-anti-ai-slop.md` §8).
 
 Run `node scripts/audit.mjs .` for the mechanical subset. Read `references/17-anti-ai-slop.md` for the full taxonomy and fixes.
 
@@ -302,6 +319,8 @@ Load only what the task needs. Paths are relative to this file.
 | Voice, copy, claims, SEO | `references/18-copy-and-truth.md` |
 | Stack and library recipes | `references/19-stack-recipes.md` |
 | Curated inspiration and what to steal | `references/20-reference-library.md` |
+| Canon of designers, blend recipe, originality tests | `references/23-lineage-and-blend.md` |
+| Fine craft: seven refinement passes | `references/24-refinement-passes.md` |
 | Launch, analytics, evolution | `references/21-ship-and-evolve.md` |
 | Install, update, troubleshoot | `references/22-installers.md` |
 
@@ -312,7 +331,7 @@ Load only what the task needs. Paths are relative to this file.
 When you deliver, include:
 
 1. **The idea** — one sentence, plus the signature move.
-2. **The world** — palette, type, motion, material, in 3–5 lines.
+2. **The world** — palette, type, motion, material, in 3–5 lines, and the lineage (dominant × counter × accent).
 3. **What was built** — files, stack, commands.
 4. **Evidence** — screenshots, metrics, audit score, review verdict.
 5. **Honest limitations** — what is placeholder, unverified, or degraded.
@@ -327,9 +346,13 @@ Tone: direct, specific, no hype adjectives. "Premium" is a result, never a claim
 - **Template reflex:** reaching for a hero + three cards + footer before knowing the idea.
 - **Effect salad:** parallax + shader + cursor + grain + marquee with no hierarchy.
 - **Reference cosplay:** copying a known site's layout without its content logic.
+- **Tribute act:** one designer, site or template dominates; anyone can name the source. Blend three, each on its own axis.
+- **Template drift:** a scaffolded page that still carries the template's faces, curve, favicon and footer.
 - **Metric theatre:** inventing numbers, logos, or testimonials to look credible.
 - **Accessibility debt:** shipping motion and contrast problems as "later".
 - **Review theatre:** passing a gate without evidence, or averaging away a hard failure.
+- **Clean void:** a page with zero findings and no point of view. The filter is not the direction.
+- **Self-certification:** the same thread builds, reviews and acquits without declaring the run degraded.
 - **Scope cowardice:** delivering a plain page because the brief was vague. If the brief is vague, make a decision and defend it.
 
 ---
