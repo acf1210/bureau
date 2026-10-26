@@ -1,0 +1,274 @@
+<!-- bureau-ignore-file BS-W02 BS-W03 BS-T01 -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1100" viewBox="0 0 1600 1100" role="img" aria-labelledby="title desc">
+<title id="title">The BUREAU review circuit</title>
+<desc id="desc">Gate Zero plus nine weighted gates flow in a snake from intake to launch, then to a Tribunal with veto power and a verdict ladder from Award Track to Fail.</desc>
+<defs>
+  <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#5A5A62"/></marker>
+  <marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#FF4A1C"/></marker>
+  <pattern id="g" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#17171B" stroke-width="1"/></pattern>
+  <style>
+    .bg{fill:#0B0B0C}
+    .title{font-family:Georgia,'Times New Roman',serif;font-size:42px;fill:#F1EDE6;letter-spacing:-1.2px}
+    .sub{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:11px;fill:#8F8A81;letter-spacing:2.4px}
+    .label{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:10px;fill:#8F8A81;letter-spacing:1.6px}
+    .t{font-family:Archivo,system-ui,sans-serif;font-size:17px;fill:#F1EDE6}
+    .ts{font-family:Archivo,system-ui,sans-serif;font-size:12.5px;fill:#B8B2A8}
+    .m{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:10.5px;fill:#9A948B}
+    .mono{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:11px;fill:#D8D2C6}
+    .gid{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:11px;fill:#FF4A1C;letter-spacing:1px}
+    .w{font-family:Georgia,'Times New Roman',serif;font-size:34px;fill:#D6FF3E}
+    .box{fill:#111114;stroke:#2A2A30;stroke-width:1}
+    .boxA{fill:#141316;stroke:#FF4A1C;stroke-width:1}
+    .chip{fill:#17171B;stroke:#2C2C33;stroke-width:1}
+    .line{stroke:#3A3A42;stroke-width:1;fill:none}
+    .dash{stroke:#4A4A52;stroke-width:1;fill:none;stroke-dasharray:3 5}
+    .flow{stroke:#5A5A62;stroke-width:1.2;fill:none;marker-end:url(#a)}
+    .flowA{stroke:#FF4A1C;stroke-width:1.2;fill:none;marker-end:url(#aa)}
+    .bar{fill:#26262C}
+    .barA{fill:#D6FF3E}
+    .barV{fill:#FF4A1C}
+  </style>
+</defs>
+
+<rect class="bg" width="1600" height="1100"/>
+<rect width="1600" height="1100" fill="url(#g)" opacity=".5"/>
+<rect x="64" y="54" width="8" height="8" fill="#D6FF3E"/>
+<text x="86" y="64" class="sub">BUREAU / REVIEW CIRCUIT · 02</text>
+<text x="64" y="106" class="title">Gate Zero + nine gates, then a Tribunal.</text>
+<text x="64" y="136" class="ts">Weights sum to 100. Any hard failure vetoes the release, regardless of the average.</text>
+<text x="1536" y="64" class="sub" text-anchor="end">EVIDENCE OVER OPINION</text>
+<text x="1536" y="86" class="m" text-anchor="end">score 0–5 · 0.5 steps</text>
+
+<!-- G0 -->
+<g>
+  <rect x="90" y="180" width="420" height="150" class="boxA"/>
+  <rect x="90" y="180" width="5" height="150" fill="#FF4A1C"/>
+  <text x="112" y="208" class="gid">G0 / INTAKE</text>
+  <text x="112" y="238" class="t" style="font-size:22px">The Producer</text>
+  <text x="112" y="264" class="ts">Is the brief true, bounded,</text>
+  <text x="112" y="282" class="ts">and evidenced?</text>
+  <text x="112" y="310" class="m">BUREAU.md · config.json</text>
+  <text x="490" y="208" class="m" text-anchor="end">WEIGHT</text>
+  <text x="490" y="244" class="w" text-anchor="end">5</text>
+</g>
+
+<!-- G1 -->
+<g>
+  <rect x="550" y="180" width="420" height="150" class="box"/>
+  <text x="572" y="208" class="gid">G1 / CONCEPT</text>
+  <text x="572" y="238" class="t" style="font-size:22px">The Creative Director</text>
+  <text x="572" y="264" class="ts">Is there an idea only this</text>
+  <text x="572" y="282" class="ts">brand could own?</text>
+  <text x="572" y="310" class="m">3 comps · decision.md</text>
+  <text x="950" y="208" class="m" text-anchor="end">WEIGHT</text>
+  <text x="950" y="244" class="w" text-anchor="end">14</text>
+</g>
+
+<!-- G2 -->
+<g>
+  <rect x="90" y="350" width="420" height="150" class="box"/>
+  <text x="112" y="378" class="gid">G2 / DIRECTION</text>
+  <text x="112" y="408" class="t" style="font-size:22px">The Art Director</text>
+  <text x="112" y="434" class="ts">Does the world feel inevitable</text>
+  <text x="112" y="452" class="ts">and alive?</text>
+  <text x="112" y="480" class="m">DESIGN.md · type · color</text>
+  <text x="490" y="378" class="m" text-anchor="end">WEIGHT</text>
+  <text x="490" y="414" class="w" text-anchor="end">15</text>
+</g>
+
+<!-- G3 -->
+<g>
+  <rect x="550" y="350" width="420" height="150" class="box"/>
+  <text x="572" y="378" class="gid">G3 / TYPE &amp; COLOR</text>
+  <text x="572" y="408" class="t" style="font-size:22px">The Type Director</text>
+  <text x="572" y="434" class="ts">Is the type distinctive and</text>
+  <text x="572" y="452" class="ts">the color narrative coherent?</text>
+  <text x="572" y="480" class="m">tokens · contrast · specimen</text>
+  <text x="950" y="378" class="m" text-anchor="end">WEIGHT</text>
+  <text x="950" y="414" class="w" text-anchor="end">12</text>
+</g>
+
+<!-- G4 -->
+<g>
+  <rect x="90" y="520" width="420" height="150" class="box"/>
+  <text x="112" y="548" class="gid">G4 / COMPOSITION</text>
+  <text x="112" y="578" class="t" style="font-size:22px">The Layout Architect</text>
+  <text x="112" y="604" class="ts">Does composition direct</text>
+  <text x="112" y="622" class="ts">attention at every viewport?</text>
+  <text x="112" y="650" class="m">4 viewports · full page</text>
+  <text x="490" y="548" class="m" text-anchor="end">WEIGHT</text>
+  <text x="490" y="584" class="w" text-anchor="end">12</text>
+</g>
+
+<!-- G5 -->
+<g>
+  <rect x="550" y="520" width="420" height="150" class="box"/>
+  <text x="572" y="548" class="gid">G5 / MOTION</text>
+  <text x="572" y="578" class="t" style="font-size:22px">The Motion Director</text>
+  <text x="572" y="604" class="ts">Is motion choreographed,</text>
+  <text x="572" y="622" class="ts">useful, and performant?</text>
+  <text x="572" y="650" class="m">MOTION.md · reduced shot</text>
+  <text x="950" y="548" class="m" text-anchor="end">WEIGHT</text>
+  <text x="950" y="584" class="w" text-anchor="end">12</text>
+</g>
+
+<!-- G6 -->
+<g>
+  <rect x="90" y="690" width="420" height="150" class="box"/>
+  <text x="112" y="718" class="gid">G6 / ENGINEERING</text>
+  <text x="112" y="748" class="t" style="font-size:22px">The Tech Lead</text>
+  <text x="112" y="774" class="ts">Is it fast, resilient,</text>
+  <text x="112" y="792" class="ts">and maintainable?</text>
+  <text x="112" y="820" class="m">report.json · console · budget</text>
+  <text x="490" y="718" class="m" text-anchor="end">WEIGHT</text>
+  <text x="490" y="754" class="w" text-anchor="end">10</text>
+</g>
+
+<!-- G7 -->
+<g>
+  <rect x="550" y="690" width="420" height="150" class="box"/>
+  <text x="572" y="718" class="gid">G7 / ACCESS</text>
+  <text x="572" y="748" class="t" style="font-size:22px">The Access Lead</text>
+  <text x="572" y="774" class="ts">Can everyone use it, including</text>
+  <text x="572" y="792" class="ts">keyboard and reduced motion?</text>
+  <text x="572" y="820" class="m">keyboard notes · axe · zoom</text>
+  <text x="950" y="718" class="m" text-anchor="end">WEIGHT</text>
+  <text x="950" y="754" class="w" text-anchor="end">9</text>
+</g>
+
+<!-- G8 -->
+<g>
+  <rect x="90" y="860" width="420" height="150" class="box"/>
+  <text x="112" y="888" class="gid">G8 / TRUTH</text>
+  <text x="112" y="918" class="t" style="font-size:22px">The Editor-in-Chief</text>
+  <text x="112" y="944" class="ts">Is every word true and free</text>
+  <text x="112" y="962" class="ts">of AI tells?</text>
+  <text x="112" y="990" class="m">audit.json · copy review</text>
+  <text x="490" y="888" class="m" text-anchor="end">WEIGHT</text>
+  <text x="490" y="924" class="w" text-anchor="end">8</text>
+</g>
+
+<!-- G9 -->
+<g>
+  <rect x="550" y="860" width="420" height="150" class="box"/>
+  <text x="572" y="888" class="gid">G9 / LAUNCH</text>
+  <text x="572" y="918" class="t" style="font-size:22px">The Release Engineer</text>
+  <text x="572" y="944" class="ts">Can it ship, be found,</text>
+  <text x="572" y="962" class="ts">measured, and recovered?</text>
+  <text x="572" y="990" class="m">launch checklist · OG · rollback</text>
+  <text x="950" y="888" class="m" text-anchor="end">WEIGHT</text>
+  <text x="950" y="924" class="w" text-anchor="end">3</text>
+</g>
+
+<!-- flow arrows -->
+<path d="M510 255 L550 255" class="flow"/>
+<path d="M760 330 L760 350" class="flow"/>
+<path d="M550 425 L510 425" class="flow"/>
+<path d="M300 500 L300 520" class="flow"/>
+<path d="M510 595 L550 595" class="flow"/>
+<path d="M760 670 L760 690" class="flow"/>
+<path d="M550 765 L510 765" class="flow"/>
+<path d="M300 840 L300 860" class="flow"/>
+<path d="M510 935 L550 935" class="flow"/>
+<path d="M970 935 C1010 935 1010 700 1040 660" class="flowA"/>
+
+<!-- SIDEBAR -->
+<rect x="1030" y="180" width="480" height="320" class="box"/>
+<text x="1050" y="208" class="label">WEIGHT DISTRIBUTION / 100</text>
+<text x="1050" y="228" class="m">the score is a budget of attention</text>
+
+<g>
+  <text x="1050" y="256" class="m">G0 Intake</text>
+  <rect x="1140" y="248" width="300" height="4" class="bar"/><rect x="1140" y="248" width="15" height="4" class="barA"/>
+  <text x="1488" y="256" class="mono" text-anchor="end">5</text>
+
+  <text x="1050" y="280" class="m">G1 Concept</text>
+  <rect x="1140" y="272" width="300" height="4" class="bar"/><rect x="1140" y="272" width="42" height="4" class="barA"/>
+  <text x="1488" y="280" class="mono" text-anchor="end">14</text>
+
+  <text x="1050" y="304" class="m">G2 Direction</text>
+  <rect x="1140" y="296" width="300" height="4" class="bar"/><rect x="1140" y="296" width="45" height="4" class="barA"/>
+  <text x="1488" y="304" class="mono" text-anchor="end">15</text>
+
+  <text x="1050" y="328" class="m">G3 Type &amp; Color</text>
+  <rect x="1140" y="320" width="300" height="4" class="bar"/><rect x="1140" y="320" width="36" height="4" class="barA"/>
+  <text x="1488" y="328" class="mono" text-anchor="end">12</text>
+
+  <text x="1050" y="352" class="m">G4 Composition</text>
+  <rect x="1140" y="344" width="300" height="4" class="bar"/><rect x="1140" y="344" width="36" height="4" class="barA"/>
+  <text x="1488" y="352" class="mono" text-anchor="end">12</text>
+
+  <text x="1050" y="376" class="m">G5 Motion</text>
+  <rect x="1140" y="368" width="300" height="4" class="bar"/><rect x="1140" y="368" width="36" height="4" class="barA"/>
+  <text x="1488" y="376" class="mono" text-anchor="end">12</text>
+
+  <text x="1050" y="400" class="m">G6 Engineering</text>
+  <rect x="1140" y="392" width="300" height="4" class="bar"/><rect x="1140" y="392" width="30" height="4" class="barA"/>
+  <text x="1488" y="400" class="mono" text-anchor="end">10</text>
+
+  <text x="1050" y="424" class="m">G7 Access</text>
+  <rect x="1140" y="416" width="300" height="4" class="bar"/><rect x="1140" y="416" width="27" height="4" class="barA"/>
+  <text x="1488" y="424" class="mono" text-anchor="end">9</text>
+
+  <text x="1050" y="448" class="m">G8 Truth</text>
+  <rect x="1140" y="440" width="300" height="4" class="bar"/><rect x="1140" y="440" width="24" height="4" class="barA"/>
+  <text x="1488" y="448" class="mono" text-anchor="end">8</text>
+
+  <text x="1050" y="472" class="m">G9 Launch</text>
+  <rect x="1140" y="464" width="300" height="4" class="bar"/><rect x="1140" y="464" width="9" height="4" class="barA"/>
+  <text x="1488" y="472" class="mono" text-anchor="end">3</text>
+</g>
+<text x="1050" y="492" class="m" fill="#6F6A63">points = (score ÷ 5) × weight</text>
+
+<!-- TRIBUNAL -->
+<rect x="1030" y="520" width="480" height="190" class="boxA"/>
+<rect x="1030" y="520" width="5" height="190" fill="#FF4A1C"/>
+<text x="1052" y="548" class="label">FINAL NODE / VETO POWER</text>
+<text x="1052" y="580" class="t" style="font-size:24px">The Tribunal</text>
+<text x="1052" y="602" class="gid" style="color:#9A948B">THE PARTNER</text>
+<text x="1052" y="626" class="ts">Reads every gate, the evidence,</text>
+<text x="1052" y="644" class="ts">and the original brief.</text>
+<text x="1052" y="668" class="m">Does the work keep the promise?</text>
+<text x="1052" y="684" class="m">Would we sign it in public?</text>
+<text x="1488" y="548" class="m" text-anchor="end">NO RE-SCORE</text>
+
+<!-- VERDICTS -->
+<rect x="1030" y="730" width="480" height="280" class="box"/>
+<text x="1050" y="758" class="label">VERDICT LADDER</text>
+<g>
+  <circle cx="1058" cy="786" r="4" fill="#D6FF3E"/>
+  <text x="1074" y="790" class="ts">Award Track</text>
+  <text x="1488" y="790" class="mono" text-anchor="end">≥ 90</text>
+  <line x1="1050" y1="802" x2="1490" y2="802" class="line"/>
+
+  <circle cx="1058" cy="824" r="4" fill="#F1EDE6"/>
+  <text x="1074" y="828" class="ts">Pass</text>
+  <text x="1488" y="828" class="mono" text-anchor="end">82–89</text>
+  <line x1="1050" y1="840" x2="1490" y2="840" class="line"/>
+
+  <circle cx="1058" cy="862" r="4" fill="#E0B94A"/>
+  <text x="1074" y="866" class="ts">Conditional</text>
+  <text x="1488" y="866" class="mono" text-anchor="end">72–81</text>
+  <line x1="1050" y1="878" x2="1490" y2="878" class="line"/>
+
+  <circle cx="1058" cy="900" r="4" fill="#FF4A1C"/>
+  <text x="1074" y="904" class="ts">Fail</text>
+  <text x="1488" y="904" class="mono" text-anchor="end">&lt; 72</text>
+</g>
+<text x="1050" y="934" class="m" fill="#FF4A1C">HARD FAILS:</text>
+<text x="1050" y="950" class="m">any gate &lt; 3.5/5 · any P0 · evidence missing</text>
+<text x="1050" y="966" class="m">stale source hash · Tribunal veto</text>
+<text x="1050" y="988" class="m" fill="#6F6A63">a 95 average with one P0 is still a Fail.</text>
+
+<!-- legend -->
+<g>
+  <text x="64" y="1056" class="label">LEGEND</text>
+  <line x1="64" y1="1072" x2="104" y2="1072" class="flow"/>
+  <text x="114" y="1076" class="m">gate flow</text>
+  <line x1="214" y1="1072" x2="254" y2="1072" class="flowA"/>
+  <text x="264" y="1076" class="m">tribunal / veto</text>
+  <rect x="400" y="1065" width="10" height="10" class="boxA"/>
+  <text x="418" y="1076" class="m">gate boundary</text>
+</g>
+<text x="1536" y="1076" class="m" text-anchor="end">BUREAU / circuit.svg · 1600×1100</text>
+</svg>
