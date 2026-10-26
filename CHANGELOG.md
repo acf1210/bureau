@@ -6,7 +6,7 @@ All notable changes to BUREAU are recorded here. The format follows Keep a Chang
 
 ### Added
 
-- **Skill**: `SKILL.md` with doctrine, autonomy contract, routing, hard rules, tool protocol and the review circuit.
+- **Skill**: `SKILL.md` with doctrine, autonomy contract, routing, hard rules, tool protocol, autopilot mode and the review circuit.
 - **23 references**: doctrine, intake, concept, art direction, typography, Pantone/OKLCH color, layout, motion, WebGL, video/parallax, imagery, interaction, accessibility, performance, Figma, Playwright, review circuit, anti-slop, copy/truth, stack recipes, reference library, ship/evolve, installers.
 - **Deterministic audit** (`audit.mjs`): 28 regex rules plus project-level checks for anti-slop and accessibility, with `BS-*` IDs, suppression comments, scoring and JSON/Markdown output.
 - **Playwright visual audit** (`visual-audit.mjs`): multi-viewport screenshots, contrast, overflow, touch targets, labels, images, fonts, console, failed requests, LCP/CLS/long tasks, reduced-motion pass, baseline hashes.
