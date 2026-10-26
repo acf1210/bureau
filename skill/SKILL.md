@@ -83,6 +83,7 @@ If the user invokes `/bureau <command>` (or the host exposes commands), execute 
 | Intent | Command | First action |
 |---|---|---|
 | New site / redesign / "make it premium" | `init` → `concept` → `direction` → `build` | Read `references/01-init-and-brief.md` |
+| "Run the whole thing" / autonomy | `auto` | Full pipeline, three checkpoints |
 | "What should this look like?" | `concept` | `references/02-concept-engine.md` |
 | Design system, tokens, type/color | `direction` | `references/03-art-direction.md`, `04-typography.md`, `05-color-pantone.md` |
 | Add motion / parallax / video / 3D | `motion` | `references/07-motion-choreography.md`, `08-webgl-shaders.md`, `09-video-parallax.md` |
@@ -135,6 +136,18 @@ node scripts/review.mjs --final
 ---
 
 ## 6. Workflow
+
+### Autopilot (`auto`)
+
+Run the full pipeline with **three human checkpoints only**:
+
+1. **Direction choice** — present three comps and a recommendation.
+2. **Art direction lock** — present the world sheet, type specimen and color sheet.
+3. **Ship** — present the scorecard and launch checklist.
+
+Between checkpoints, act. Write every artifact, run every script, fix P0/P1, and re-run evidence. Do not ask for permission on reversible decisions. Stop only when a checkpoint needs taste, truth, or an irreversible commitment.
+
+If the user cannot attend a checkpoint, choose the most defensible option, record the assumption, and continue. The Tribunal still applies.
 
 ### Phase A — Intake (G0)
 

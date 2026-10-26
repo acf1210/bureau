@@ -25,12 +25,22 @@
     "awards",
     "design-system"
   ],
-  "hosts": ["claude", "codex", "antigravity", "hermes"],
+  "hosts": [
+    "claude",
+    "codex",
+    "antigravity",
+    "hermes"
+  ],
   "requires": {
     "node": ">=20",
-    "optional": ["playwright", "figma-mcp", "ffmpeg"]
+    "optional": [
+      "playwright",
+      "figma-mcp",
+      "ffmpeg"
+    ]
   },
   "commands": [
+    "auto",
     "init",
     "concept",
     "direction",

@@ -7,6 +7,7 @@ Comandos são invocados como `/bureau <comando>` quando o host expõe slash comm
 | Comando | Intenção | Lê | Produz |
 |---|---|---|---|
 | `/bureau` | roteador | projeto | próximas 2 ações com evidência |
+| `/bureau auto` | pipeline completo | brief, repo | artefatos + evidência, 3 checkpoints |
 | `/bureau init` | brief e config | pedido, repo, assets | `BUREAU.md`, `.bureau/config.json` |
 | `/bureau concept` | três direções | brief, referências | `.bureau/comps/` + decisão |
 | `/bureau direction` | mundo visual | decisão | `DESIGN.md`, tokens, espécime |
@@ -34,6 +35,18 @@ Sem argumento, inspeciona o projeto:
 Lidera com **duas** ações de maior valor e uma linha de evidência cada. Nunca executa passo destrutivo sozinho.
 
 ---
+
+## `/bureau auto`
+
+Roda o pipeline completo com **três checkpoints humanos**:
+
+1. **Escolha da direção** — três comps + recomendação.
+2. **Trava da direção de arte** — world sheet, espécime, folha de cor.
+3. **Ship** — scorecard + launch checklist.
+
+Entre os checkpoints, aja: escreva os artefatos, rode os scripts, corrija P0/P1, re-rode a evidência. Não peça permissão para decisões reversíveis. Pare apenas quando o checkpoint exigir gosto, verdade ou compromisso irreversível.
+
+Se o usuário não puder participar, escolha a opção mais defensável, registre a suposição e continue. O Tribunal continua valendo.
 
 ## `/bureau init`
 

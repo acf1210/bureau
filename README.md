@@ -129,6 +129,7 @@ Cada demo é autocontido: HTML, CSS, JS, mídia e tokens locais.
 | Comando | Função |
 |---|---|
 | `/bureau` | roteador contextual |
+| `/bureau auto` | pipeline completo com três checkpoints |
 | `/bureau init` | brief, config, inventário de evidência |
 | `/bureau concept` | três direções + decisão |
 | `/bureau direction` | mundo visual, tokens, tipografia |

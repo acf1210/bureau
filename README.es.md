@@ -103,7 +103,7 @@ node ../skill/scripts/review.mjs --status
 
 ## Comandos
 
-`/bureau` `init` `concept` `direction` `build` `motion` `figma` `qa` `review` `slop` `ship` `doctor`
+`/bureau` `auto` `init` `concept` `direction` `build` `motion` `figma` `qa` `review` `slop` `ship` `doctor`
 
 [Referencia de comandos →](docs/es/commands.md)
 

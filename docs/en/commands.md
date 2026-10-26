@@ -7,6 +7,7 @@ Commands are invoked as `/bureau <command>` when the host exposes slash commands
 | Command | Intent | Reads | Produces |
 |---|---|---|---|
 | `/bureau` | router | project | two highest-value next actions with evidence |
+| `/bureau auto` | full pipeline | brief, repo | artifacts + evidence, 3 checkpoints |
 | `/bureau init` | brief and config | request, repo, assets | `BUREAU.md`, `.bureau/config.json` |
 | `/bureau concept` | three directions | brief, references | `.bureau/comps/` + decision |
 | `/bureau direction` | visual world | decision | `DESIGN.md`, tokens, specimen |
@@ -34,6 +35,18 @@ With no argument, inspect the project:
 Lead with **two** highest-value actions and one line of evidence each. Never auto-run a destructive step.
 
 ---
+
+## `/bureau auto`
+
+Run the full pipeline with **three human checkpoints**:
+
+1. **Direction choice** — three comps + a recommendation.
+2. **Art direction lock** — world sheet, type specimen, color sheet.
+3. **Ship** — scorecard + launch checklist.
+
+Between checkpoints, act: write artifacts, run scripts, fix P0/P1, re-run evidence. Do not ask permission for reversible decisions. Stop only when the checkpoint needs taste, truth, or an irreversible commitment.
+
+If the user cannot attend, choose the most defensible option, record the assumption, and continue. The Tribunal still applies.
 
 ## `/bureau init`
 
