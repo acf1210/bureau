@@ -44,6 +44,8 @@ Verify licenses (most Google Fonts are OFL) and self-host.
 
 ## 2. Type system
 
+Legibility concerns recognition of individual characters; readability concerns sustained reading. Treat 16–18 px body type, 1.5–1.7 line-height and 45–75 characters per line as starting points, not universal laws. Check the actual typeface, language, viewport and user zoom. Kerning adjusts individual pairs, tracking adjusts a range of letters, and leading sets line spacing. Test each in context rather than applying headline settings to body copy.
+
 ### Roles
 
 Define tokens by **job**, not by size:

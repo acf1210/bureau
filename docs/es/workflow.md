@@ -6,6 +6,16 @@ BUREAU trabaja en **pasadas**, no en un único disparo. Cada pasada deja un arte
 
 ## Visión general
 
+Para trabajo colaborativo, usa los roles, el contrato de traspaso, las comprobaciones de ilustración técnica y los límites de fuentes en `skill/references/25-collaborative-studio.md`. Un agente puede ejecutar los roles en secuencia; no declares una revisión independiente si no ocurrió. Las herramientas y skills externas son opcionales y requieren verificar licencia y procedencia.
+
+Para comparar versiones por calidad de diseño o tasa de aprobación, usa el protocolo pareado con briefs reales en `skill/references/26-outcome-evaluation.md`. La rúbrica de calidad se inspira en categorías de Awwwards, pero no es una puntuación oficial del premio. Registra resultados de la versión anterior y la nueva, veredictos independientes e incertidumbre; las puntuaciones de auditoría automatizada no demuestran por sí solas una mejora.
+
+Para una evaluación independiente de rúbricas de premios y del circuito de revisión, usa `skill/references/28-independent-design-assessment.md` y `skill/assets/studio-templates/independent-assessment.md`. Evaluadores independientes puntúan cinco dimensiones con evidencia; sin evidencia, el total queda sin evaluar.
+
+Para briefs profundos, investigación de referencias y evaluación opcional de candidatos, usa `skill/references/27-design-intelligence.md` y `skill/assets/studio-templates/qualification.md`. Las 25 entradas solicitadas son opciones de investigación e incluyen nombres aún no identificados; la rúbrica exige evidencia para cada nota. La indexación continua y la predicción de tendencias no están implementadas.
+
+`node skill/scripts/source-monitor.mjs --out source-report.json` registra la disponibilidad de los endpoints `robots.txt` de las fuentes identificadas. El workflow del repositorio lo programa diariamente a las 09:00 UTC y conserva informes durante 30 días cuando GitHub Actions está activado. No indexa proyectos ni clasifica diseños y no sobrescribe informes.
+
 | Fase | Puertas | Entregable | Tiempo típico |
 |---|---|---|---|
 | A. Intake | G0 | `BUREAU.md`, `config.json` | 1–2 h |

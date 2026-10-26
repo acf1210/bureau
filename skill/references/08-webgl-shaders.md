@@ -194,6 +194,8 @@ io.observe(el);
 
 ## 8. Fallbacks and access
 
+For shaders, particle fields and 3D scenes, document the visual purpose, inputs, frame budget and static equivalent before implementation. Validate shader compilation and canvas resize, pause on hidden or off-screen surfaces, handle context loss, and dispose geometry, materials, textures, listeners and render loops on teardown. Test repeated mount/unmount and low-power fallback; a successful screenshot alone does not prove resource cleanup.
+
 - `aria-hidden="true"` on decorative canvases; the meaning must exist in text.
 - If the canvas is the product (configurator, 3D viewer), provide keyboard controls and a 2D/text alternative.
 - Static poster: a high-quality WebP/AVIF of the composed frame.

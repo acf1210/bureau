@@ -4,6 +4,25 @@ All notable changes to BUREAU are recorded here. The format follows Keep a Chang
 
 ## [Unreleased]
 
+## [3.0.0] — 2026-10-26
+
+### Added
+
+- Source availability monitor producing timestamped reports without collecting project content.
+- An Awwwards-inspired, evidence-backed quality comparison distinct from customer approval and the official award score.
+- An independent five-dimension design-quality rubric, paired comparison protocol and reviewer scorecard.
+- Collaborative studio protocol for design handoffs, technical illustration, external creative tools and evidence-based iteration.
+- Editable handoff, technical illustration and motion study models for project evidence.
+- A paired evaluation protocol for measuring approval rates on real briefs.
+- A research and qualification protocol with an evidence-led brief, an optional weighted candidate rubric and a reusable worksheet.
+- Expanded the research menu to 25 requested entries with source-specific limits and selection by project need.
+
+### Fixed
+
+- The immersive template pauses WebGL when reduced motion is enabled and restores its scene after context loss.
+- The planning template identifies its illustrative chart correctly, exposes the selected scenario to assistive technology and respects reduced-motion changes.
+- Typography, motion-tool selection and WebGL lifecycle guidance for accessible visual production.
+
 ## [2.0.0] — 2026-10-26
 
 ### Breaking
@@ -81,6 +100,7 @@ The review circuit asks for more evidence. Projects reviewed under 1.0.0 need th
 - `visual-audit` uses hash-level screenshot comparison, not pixel diff.
 - The three templates use fictional demo content, clearly labeled where it could be mistaken for proof.
 
-[Unreleased]: https://github.com/acf1210/bureau/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/acf1210/bureau/compare/v3.0.0...HEAD
+[3.0.0]: https://github.com/acf1210/bureau/compare/v2.0.0...v3.0.0
 [2.0.0]: https://github.com/acf1210/bureau/compare/v1.0.0...v2.0.0
 [1.0.0]: https://github.com/acf1210/bureau/releases/tag/v1.0.0

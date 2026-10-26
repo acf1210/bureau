@@ -6,6 +6,16 @@ O BUREAU trabalha em **passes**, não em um único disparo. Cada passe deixa um 
 
 ## Visão geral
 
+Para trabalho colaborativo, use os papéis, o contrato de transferência, as verificações de ilustração técnica e os limites de fontes em `skill/references/25-collaborative-studio.md`. Um agente pode executar os papéis em sequência; não declare revisão independente se ela não ocorreu. Ferramentas e skills externas são opcionais e exigem verificação de licença e procedência.
+
+Para comparar versões por qualidade de design ou taxa de aprovação, use o protocolo pareado com briefs reais em `skill/references/26-outcome-evaluation.md`. A rubrica de qualidade usa categorias inspiradas no Awwwards, mas não é uma nota oficial do prêmio. Registre resultados da versão anterior e da nova, vereditos independentes e incerteza; pontuações de auditoria automatizada não demonstram, por si só, uma melhora.
+
+Para uma aferição independente de rubricas de premiação e do circuito de revisão, use `skill/references/28-independent-design-assessment.md` e `skill/assets/studio-templates/independent-assessment.md`. Avaliadores independentes pontuam cinco dimensões com evidências; sem evidência, o total permanece não avaliado.
+
+Para briefs aprofundados, pesquisa de referências e avaliação opcional de candidatos, use `skill/references/27-design-intelligence.md` e `skill/assets/studio-templates/qualification.md`. As 25 entradas solicitadas são opções de pesquisa e incluem nomes ainda não identificados; a rubrica exige evidência para cada nota. Indexação contínua e previsão de tendências não estão implementadas.
+
+`node skill/scripts/source-monitor.mjs --out source-report.json` registra a disponibilidade dos endpoints `robots.txt` das fontes identificadas. O workflow do repositório o agenda diariamente às 09:00 UTC e guarda relatórios por 30 dias quando o GitHub Actions está ativado. Ele não indexa projetos nem classifica designs e não sobrescreve relatórios.
+
 | Fase | Portões | Entregável | Tempo típico |
 |---|---|---|---|
 | A. Intake | G0 | `BUREAU.md`, `config.json` | 1–2 h |

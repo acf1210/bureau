@@ -125,7 +125,7 @@ Use the radar to **calibrate**, not to assemble. If three references share a ske
 
 Do not browse these for "inspiration" unless you are studying a specific failure:
 
-- Dribbble shots with no product logic.
+- Dribbble shots with no product logic when the goal is to validate a flow; a shot can still inform visual research if its limits are recorded.
 - "Top 10 AI SaaS" listicles.
 - Template marketplaces sorted by popularity.
 - Pinterest mood boards with no source.
