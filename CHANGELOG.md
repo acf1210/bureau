@@ -4,6 +4,14 @@ All notable changes to BUREAU are recorded here. The format follows Keep a Chang
 
 ## [Unreleased]
 
+## [7.9.3] — 2026-10-27
+
+### Changed
+
+- Docs pages take the landing's light tone in every colour scheme: paper ground, light sidebar and code, pale cyan callouts and pale magenta quotes. The fixed top bar is black, with the landing's brand type.
+- Docs headings use the landing's light type: Archivo 300 for h1 and h2, 500 for h3 and strong (was 800 at wdth 115–122%).
+- The docs dark theme and its toggle button are removed; `docs.js` no longer reads or writes `bureau-theme`. `DESIGN.md` documents the docs pages.
+
 ## [7.9.2] — 2026-10-27
 
 ### Changed
@@ -296,7 +304,8 @@ The review circuit asks for more evidence. Projects reviewed under 1.0.0 need th
 - `visual-audit` uses hash-level screenshot comparison, not pixel diff.
 - The three templates use fictional demo content, clearly labeled where it could be mistaken for proof.
 
-[Unreleased]: https://github.com/acf1210/bureau/compare/v7.9.2...HEAD
+[Unreleased]: https://github.com/acf1210/bureau/compare/v7.9.3...HEAD
+[7.9.3]: https://github.com/acf1210/bureau/compare/v7.9.2...v7.9.3
 [7.9.2]: https://github.com/acf1210/bureau/compare/v7.9.1...v7.9.2
 [7.9.1]: https://github.com/acf1210/bureau/compare/v7.9.0...v7.9.1
 [7.9.0]: https://github.com/acf1210/bureau/compare/v7.8.0...v7.9.0

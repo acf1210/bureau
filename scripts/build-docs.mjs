@@ -265,7 +265,7 @@ function pageHtml({ lang, slug, title, description, html, toc, prev, next }) {
 <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="../assets/fonts/archivo-var-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../assets/docs.css">
-<script>try{const t=localStorage.getItem("bureau-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<meta name="theme-color" content="#0F0F11">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -279,7 +279,6 @@ function pageHtml({ lang, slug, title, description, html, toc, prev, next }) {
     <div class="search__results" id="search-results" role="list" aria-live="polite"></div>
   </div>
   <a class="button-ghost" href="https://github.com/acf1210/bureau" target="_blank" rel="noopener noreferrer" aria-label="GitHub repository">GitHub ↗</a>
-  <button class="button-ghost" id="theme" type="button" aria-label="Toggle theme">◐</button>
 </header>
 <div class="layout">
   ${sidebar(lang, slug)}
