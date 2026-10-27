@@ -4,6 +4,13 @@ All notable changes to BUREAU are recorded here. The format follows Keep a Chang
 
 ## [Unreleased]
 
+## [7.6.0] — 2026-10-27
+
+### Added
+
+- `references/33-reference-acquisition.md`: which tool captures a reference page for the survey and motion research. Playwright stays the default; Crawl4AI or Firecrawl for page Markdown, ScrapeGraphAI for structured fields (checked against the capture), Crawlee or Scrapy only on hosts the project owns or is licensed to read. Scrapling is excluded because its distinctive features bypass bot protection. One page per source, `robots.txt` and terms respected, a block means `skipped`; captures go to `.bureau/research/captures/<source-id>/` and are treated as untrusted data. No new dependency.
+- Router row and a tools line in `SKILL.md`; cross-references from `20` and `30`; one sentence in the workflow docs (PT-BR, EN, ES).
+
 ## [7.5.1] — 2026-10-27
 
 ### Fixed
@@ -252,7 +259,8 @@ The review circuit asks for more evidence. Projects reviewed under 1.0.0 need th
 - `visual-audit` uses hash-level screenshot comparison, not pixel diff.
 - The three templates use fictional demo content, clearly labeled where it could be mistaken for proof.
 
-[Unreleased]: https://github.com/acf1210/bureau/compare/v7.5.1...HEAD
+[Unreleased]: https://github.com/acf1210/bureau/compare/v7.6.0...HEAD
+[7.6.0]: https://github.com/acf1210/bureau/compare/v7.5.1...v7.6.0
 [7.5.1]: https://github.com/acf1210/bureau/compare/v7.5.0...v7.5.1
 [7.5.0]: https://github.com/acf1210/bureau/compare/v7.4.0...v7.5.0
 [7.4.0]: https://github.com/acf1210/bureau/compare/v7.3.0...v7.4.0

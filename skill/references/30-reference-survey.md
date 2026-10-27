@@ -49,4 +49,4 @@ node "$BUREAU_DIR/scripts/survey.mjs" --check
 
 ## Limits
 
-A gallery listing is evidence of a design choice, not of its performance (`27-design-intelligence.md`). Respect each source's terms, account limits and rate limits; never scrape, bypass access controls or reproduce protected work. If fewer than five sources can be verified, the survey stays incomplete and Gate 1 stays closed; do not invent entries or reuse one source twice.
+A gallery listing is evidence of a design choice, not of its performance (`27-design-intelligence.md`). Respect each source's terms, account limits and rate limits; never crawl a gallery, bypass access controls or reproduce protected work. Tools for capturing the one page per source are in `33-reference-acquisition.md`. If fewer than five sources can be verified, the survey stays incomplete and Gate 1 stays closed; do not invent entries or reuse one source twice.
