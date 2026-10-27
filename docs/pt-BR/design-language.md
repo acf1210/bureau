@@ -1,5 +1,7 @@
 # Linguagem visual
 
+Para um vocabulário prático de estilos visuais e seus trade-offs, use `skill/references/32-visual-style-vocabulary.md`. Escolha uma lente a partir do briefing e teste com conteúdo real; um rótulo de estilo não comprova usabilidade ou conversão.
+
 BUREAU não tem um estilo fixo. Tem um **método** para construir um estilo que pertença ao assunto.
 
 ## 1. Pantone como âncora, não como paleta

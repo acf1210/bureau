@@ -3,7 +3,7 @@ name: bureau
 description: Autonomous digital design bureau for award-grade websites and product surfaces. Use when designing, redesigning, prototyping, or reviewing any web experience that must feel crafted and technologically ambitious — landing pages, portfolios, product marketing, editorial sites, immersive experiences, design systems, Figma-to-code, motion/WebGL/video, Playwright QA, accessibility, performance, and anti-AI-slop review. Triggers include "design a site", "make it premium", "Awwwards-level", "redesign this", "build a landing page", "review my UI", "anti-slop", "Figma to code", "add motion", "make it futuristic".
 license: MIT
 metadata:
-  version: "7.0.0"
+  version: "7.1.0"
   homepage: "https://github.com/acf1210/bureau"
 ---
 
@@ -95,7 +95,7 @@ If the user invokes `/bureau <command>` (or the host exposes commands), execute 
 | New site / redesign / "make it premium" | `init` → `concept` → `direction` → `build` | Read `references/01-init-and-brief.md` |
 | "Run the whole thing" / autonomy | `auto` | Full pipeline, three checkpoints |
 | "What should this look like?" | `concept` | `references/30-reference-survey.md` (five sources first), `02-concept-engine.md`, `23-lineage-and-blend.md` |
-| Design system, tokens, type/color | `direction` | `references/03-art-direction.md`, `04-typography.md`, `05-color-pantone.md` |
+| Design system, tokens, type/color | `direction` | `references/03-art-direction.md`, `04-typography.md`, `05-color-pantone.md`, `32-visual-style-vocabulary.md` |
 | Polish, "make it sharper", detail pass | `build` | `references/24-refinement-passes.md` |
 | Collaborative design, technical illustration, creative tools | `concept` → `build` | `references/25-collaborative-studio.md` |
 | Compare outcomes across skill versions | `review` | `references/26-outcome-evaluation.md` |
@@ -335,6 +335,7 @@ Load only what the task needs. Paths are relative to this file.
 | Independent jury and Laws of UX | `references/29-jury-and-ux.md` |
 | Five-source reference survey: pattern and departure | `references/30-reference-survey.md` |
 | Awarded motion research and production tools | `references/31-motion-production.md` |
+| Visual style vocabulary and selection | `references/32-visual-style-vocabulary.md` |
 | Launch, analytics, evolution | `references/21-ship-and-evolve.md` |
 | Install, update, troubleshoot | `references/22-installers.md` |
 

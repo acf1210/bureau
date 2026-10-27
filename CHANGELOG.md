@@ -4,6 +4,12 @@ All notable changes to BUREAU are recorded here. The format follows Keep a Chang
 
 ## [Unreleased]
 
+## [7.1.0] — 2026-10-27
+
+### Added
+
+- Visual style vocabulary informed by Tilda Education, with selection criteria, trade-offs and accessibility checks.
+
 ## [7.0.0] — 2026-10-27
 
 ### Breaking
@@ -212,7 +218,8 @@ The review circuit asks for more evidence. Projects reviewed under 1.0.0 need th
 - `visual-audit` uses hash-level screenshot comparison, not pixel diff.
 - The three templates use fictional demo content, clearly labeled where it could be mistaken for proof.
 
-[Unreleased]: https://github.com/acf1210/bureau/compare/v7.0.0...HEAD
+[Unreleased]: https://github.com/acf1210/bureau/compare/v7.1.0...HEAD
+[7.1.0]: https://github.com/acf1210/bureau/compare/v7.0.0...v7.1.0
 [7.0.0]: https://github.com/acf1210/bureau/compare/v6.0.1...v7.0.0
 [6.0.1]: https://github.com/acf1210/bureau/compare/v6.0.0...v6.0.1
 [6.0.0]: https://github.com/acf1210/bureau/compare/v5.2.1...v6.0.0

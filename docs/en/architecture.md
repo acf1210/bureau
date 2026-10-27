@@ -1,6 +1,6 @@
 # Architecture
 
-BUREAU is a **progressive-disclosure** system: a short router, 32 depth modules, and scripts that turn opinion into evidence.
+BUREAU is a **progressive-disclosure** system: a short router, 33 depth modules, and scripts that turn opinion into evidence.
 
 ![BUREAU architecture](../assets/diagrams/architecture.svg)
 
@@ -120,7 +120,7 @@ References are independent. None requires the agent to have read the others.
 
 To add a domain:
 
-1. create `references/32-your-domain.md`;
+1. create `references/33-your-domain.md`;
 2. add the row to the §9 table in `SKILL.md`;
 3. if it has mechanical rules, add `BS-*` rules to `scripts/lib/rules.mjs`;
 4. if it adds a gate, adjust `scripts/lib/gates.mjs` and rebalance weights to 100;
