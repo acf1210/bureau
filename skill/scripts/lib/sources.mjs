@@ -21,7 +21,7 @@ export const SOURCES = [
   { id: "saas-landing-page", name: "SaaS Landing Page", origin: "https://saaslandingpage.com", status: "identified", needs: ["saas", "landing"], lens: "flow" },
   { id: "dark-mode-design", name: "Dark Mode Design", origin: "https://www.darkmodedesign.com", status: "identified", needs: ["dark", "interactive"], lens: "visual" },
   { id: "brutalist-websites", name: "Brutalist Websites", origin: "https://brutalistwebsites.com", status: "identified", needs: ["experimental", "editorial"], lens: "visual" },
-  { id: "hover-states", name: "Pintura / Hover Statues", origin: "https://www.hoverstat.es", status: "probable", needs: ["interactive", "experimental"], lens: "interaction", note: "Read as Hover States (hoverstat.es); \"Pintura\" alone names no single gallery. Confirm with the requester." },
+  { id: "hover-states", name: "Hover States", origin: "https://www.hoverstat.es", status: "identified", needs: ["interactive", "experimental"], lens: "interaction", note: "Requested as \"Pintura / Hover Statues\"; the requester confirmed Hover States (hoverstat.es) on 2026-10-27." },
   { id: "ui-sources", name: "UI Sources", origin: "https://www.uisources.com", status: "identified", needs: ["product"], lens: "flow", note: "Redirected to ScreensDesign when checked; verify identity and terms." },
   { id: "refero", name: "Refero", origin: "https://refero.design", status: "identified", needs: ["product", "saas"], lens: "flow" },
   { id: "ux-archive", name: "UX Archive", origin: "https://uxarchive.com", status: "probable", needs: ["product"], lens: "flow", note: "The domain answered with a Cloudflare error page on 2026-10-27; treat as unavailable until it serves content." },

@@ -4,6 +4,12 @@ All notable changes to BUREAU are recorded here. The format follows Keep a Chang
 
 ## [Unreleased]
 
+## [5.0.1] — 2026-10-27
+
+### Changed
+
+- "Pintura / Hover Statues" is identified as Hover States (hoverstat.es), confirmed by the requester; the registry, the research menu and the survey reference no longer call it a probable match.
+
 ## [5.0.0] — 2026-10-27
 
 ### Breaking
@@ -143,7 +149,8 @@ The review circuit asks for more evidence. Projects reviewed under 1.0.0 need th
 - `visual-audit` uses hash-level screenshot comparison, not pixel diff.
 - The three templates use fictional demo content, clearly labeled where it could be mistaken for proof.
 
-[Unreleased]: https://github.com/acf1210/bureau/compare/v5.0.0...HEAD
+[Unreleased]: https://github.com/acf1210/bureau/compare/v5.0.1...HEAD
+[5.0.1]: https://github.com/acf1210/bureau/compare/v5.0.0...v5.0.1
 [5.0.0]: https://github.com/acf1210/bureau/compare/v4.0.0...v5.0.0
 [4.0.0]: https://github.com/acf1210/bureau/compare/v3.0.0...v4.0.0
 [3.0.0]: https://github.com/acf1210/bureau/compare/v2.0.0...v3.0.0

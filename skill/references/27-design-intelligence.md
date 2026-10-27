@@ -29,7 +29,7 @@ For the design engine, run the five-source survey in `30-reference-survey.md`: i
 | [SaaS Landing Page](https://saaslandingpage.com/) | SaaS landing-page and pricing patterns | Gallery inclusion is not proof of conversion. |
 | [Dark Mode Design](https://www.darkmodedesign.com/) | Dark surface and visual hierarchy | Measure contrast and interaction states independently. |
 | [Brutalist Websites](https://brutalistwebsites.com/) | Experimental structure and visual language | Experimental form does not establish accessibility or usability. |
-| Pintura / Hover Statues → [Hover States](https://www.hoverstat.es/) | Alternative design, code and interaction | Probable match only; confirm the intended source. "Pintura" alone names no single gallery. |
+| [Hover States](https://www.hoverstat.es/) | Alternative design, code and interaction | Requested as "Pintura / Hover Statues"; identity confirmed by the requester on 2026-10-27. |
 | [UI Sources](https://www.uisources.com/) | Interface examples | The checked address redirected to ScreensDesign; verify current identity and terms. |
 | [Refero](https://refero.design/) | Product interface examples | Verify access, current coverage and permissions. |
 | UX Archive ([uxarchive.com](https://uxarchive.com/)) | User-flow references | Returned a Cloudflare error page on 2026-10-27; treat as unavailable until it serves content. |
