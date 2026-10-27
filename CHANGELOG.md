@@ -4,6 +4,23 @@ All notable changes to BUREAU are recorded here. The format follows Keep a Chang
 
 ## [Unreleased]
 
+## [5.1.0] — 2026-10-27
+
+### Added
+
+- **ShowCase**: five web models with their own phone compositions, built design first with performance last, each a single HTML file with a `LINEAGE.md`:
+  - `observatory` (Cerro Lumen; Gerstner × Moholy-Nagy × Eames): a WebGL sky zooms from the dome to a spiral galaxy, one power of ten per section; Moon phase and sidereal time are computed in the browser.
+  - `perfumery` (Maison Orvé; Ruder × Greiman × Munari): the chosen top, heart and base move through water as a curl-noise particle field.
+  - `ceramics` (Torno; Tanaka × Scarpa × Bass): a pot shaded per pixel from the profile you set, with glaze drips, and its volume, clay and price.
+  - `ocean` (Maré; Sutnar × Wyman × Kare): contour lines radiate from the wordmark, a ray-marched sea builds with the wind, and a tide ring and depth gauge follow you down.
+  - `foundry` (Glifo; A. Albers × Scher × Cooper): five variable axes by hand, a woven field of letters, and a lens that stacks a glyph's weights in depth.
+- `showcase/catalog.json` drives the landing section, the README galleries, the `showcase/` pages and the captures; a test checks catalog, lineage, captures, gallery and divergence (≤ 0.2 between models and against every template).
+
+### Changed
+
+- The landing and the READMEs replace the template gallery with the ShowCase; the README banner shows the five phone compositions. The 13 templates remain in the skill for `new-project.mjs`, but are no longer published as demos: `demos/` pages and their captures are removed.
+- The static audit in CI, `CLAUDE.md`, `AGENTS.md` and the PR template now covers `showcase/`.
+
 ## [5.0.1] — 2026-10-27
 
 ### Changed
@@ -149,7 +166,8 @@ The review circuit asks for more evidence. Projects reviewed under 1.0.0 need th
 - `visual-audit` uses hash-level screenshot comparison, not pixel diff.
 - The three templates use fictional demo content, clearly labeled where it could be mistaken for proof.
 
-[Unreleased]: https://github.com/acf1210/bureau/compare/v5.0.1...HEAD
+[Unreleased]: https://github.com/acf1210/bureau/compare/v5.1.0...HEAD
+[5.1.0]: https://github.com/acf1210/bureau/compare/v5.0.1...v5.1.0
 [5.0.1]: https://github.com/acf1210/bureau/compare/v5.0.0...v5.0.1
 [5.0.0]: https://github.com/acf1210/bureau/compare/v4.0.0...v5.0.0
 [4.0.0]: https://github.com/acf1210/bureau/compare/v3.0.0...v4.0.0

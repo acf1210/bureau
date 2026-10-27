@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maré — An ocean institute in the Azores</title>
+<meta name="description" content="An ocean institute that measures the Atlantic from the surface to 4,000 m. Raise the wind and watch the sea build; follow the tide; descend through the four zones. Showcase model; the institute is fictional.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23071A24'/%3E%3Cpath d='M6 30q7-8 13 0t13 0 13 0 13 0M6 42q7-8 13 0t13 0 13 0 13 0' stroke='%237FD3D6' stroke-width='4' fill='none'/%3E%3Ccircle cx='48' cy='16' r='5' fill='%23FF6A2B'/%3E%3C/svg%3E">
+<script>document.documentElement.classList.add("js");</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;800;900&family=Literata:opsz,wght@7..72,300;7..72,400;7..72,600&display=swap" rel="stylesheet">
+<style>
+  /* Lineage: Ladislav Sutnar (every screen says where you are: a depth) × Lance Wyman (lines radiate from the name until they are the sea) × Susan Kare (sea states drawn on a 12-unit grid). See LINEAGE.md. */
+  :root{
+    --abyss:#071A24;
+    --deep:#0B2A38;
+    --twilight:#0F3C4E;
+    --foam:#E8F1EF;
+    --foam-dim:#A9C2C3;
+    --sonar:#7FD3D6;
+    --signal:#FF6A2B;
+    --kelp:#2E6A5C;
+    --display:"Big Shoulders Display","Arial Narrow",sans-serif;
+    --text:"Literata",Georgia,serif;
+    --swell:cubic-bezier(.41,.02,.59,.98);
+  }
+  *{box-sizing:border-box}
+  html{background:var(--abyss);color:var(--foam);scrollbar-color:var(--sonar) var(--abyss)}
+  body{margin:0;font:300 1.0625rem/1.65 var(--text);caret-color:var(--signal)}
+  ::selection{background:var(--signal);color:var(--abyss)}
+  a{color:inherit;text-underline-offset:.22em}
+  :focus-visible{outline:3px solid var(--signal);outline-offset:3px}
+  .skip{position:absolute;left:1rem;top:-4rem;background:var(--signal);color:var(--abyss);padding:.6rem 1rem;z-index:30;font-weight:600}
+  .skip:focus{top:1rem}
+
+  header{position:absolute;top:0;left:0;right:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:1.2rem clamp(1rem,3vw,2.5rem)}
+  .mark{font:800 1.4rem/1 var(--display);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;display:inline-block;padding:.45rem 0}
+  nav ul{list-style:none;display:flex;gap:1.6rem;margin:0;padding:0}
+  nav a{font:500 1.0625rem var(--display);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:var(--foam-dim);padding:.5rem 0;display:inline-block}
+  nav a:hover{color:var(--foam)}
+
+  /* Wyman: the name is the source; its echoes are the swell. */
+  .hero{position:relative;min-height:100vh;display:grid;align-content:end;padding:6rem clamp(1rem,4vw,3rem) 4rem;overflow:hidden}
+  #echo{position:absolute;inset:0;width:100%;height:100%}
+  .hero > *:not(canvas){position:relative;z-index:2}
+  h1{font:900 clamp(7rem,30vw,28rem)/.78 var(--display);margin:0 0 2rem -.04em;letter-spacing:-.01em;text-transform:uppercase;color:var(--foam)}
+  h1 small{display:block;font:500 clamp(1.1rem,2vw,1.6rem)/1.2 var(--display);letter-spacing:.14em;margin:.4em 0 0 .3em;color:var(--sonar)}
+  .hero-foot{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:2rem;align-items:end}
+  .lede{max-width:34rem;margin:0;font-size:clamp(1.05rem,1.4vw,1.25rem)}
+  .btn{display:inline-flex;font:800 1.15rem var(--display);letter-spacing:.08em;text-transform:uppercase;background:var(--signal);color:var(--abyss);text-decoration:none;padding:.9rem 1.4rem;border:0;cursor:pointer;justify-self:end}
+  .btn:hover{background:var(--foam)}
+
+  /* Sutnar: one gauge says where you are, all the way down. */
+  .gauge{position:fixed;right:clamp(.75rem,2vw,1.5rem);top:50%;transform:translateY(-50%);z-index:8;display:grid;justify-items:end;gap:.3rem;font-family:var(--display);opacity:0;transition:opacity .6s var(--swell);pointer-events:none}
+  .gauge.on{opacity:1}
+  .gauge b{font-size:2.6rem;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+  .gauge span{font-size:.9375rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sonar)}
+  .gauge i{display:block;width:2px;height:28vh;background:rgba(232,241,239,.2);position:relative}
+  .gauge i::after{content:"";position:absolute;left:-3px;width:8px;height:8px;border-radius:50%;background:var(--signal);top:var(--d,0%)}
+
+  .sea{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);background:var(--deep);min-height:90vh}
+  .surface{position:relative;min-height:60vh}
+  #sea-gl{position:absolute;inset:0;width:100%;height:100%}
+  .sea .panel{padding:clamp(2rem,5vw,4.5rem) clamp(1rem,3vw,3rem);display:flex;flex-direction:column;gap:1.6rem}
+  h2{font:800 clamp(2.4rem,5vw,4.6rem)/.92 var(--display);text-transform:uppercase;letter-spacing:.01em;margin:0}
+  .panel p{margin:0;color:var(--foam-dim)}
+  .wind label{display:flex;justify-content:space-between;font:500 1.15rem var(--display);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.4rem}
+  .wind output{color:var(--signal);font-variant-numeric:tabular-nums}
+  input[type=range]{width:100%;accent-color:var(--signal);height:30px;margin:0}
+  .beaufort{display:flex;gap:1rem;align-items:center;border-top:1px solid rgba(232,241,239,.2);padding-top:1.2rem}
+  .beaufort svg{width:84px;height:84px;flex:none}
+  .beaufort b{display:block;font:800 1.7rem/1 var(--display);text-transform:uppercase;letter-spacing:.02em}
+  .beaufort span{color:var(--foam-dim);font-size:.9375rem}
+  .numbers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin:0}
+  .numbers dt{font:500 .9375rem var(--display);letter-spacing:.1em;text-transform:uppercase;color:var(--sonar)}
+  .numbers dd{margin:0;font:800 2.6rem/1 var(--display);font-variant-numeric:tabular-nums}
+  .scale{display:grid;grid-template-columns:repeat(13,minmax(0,1fr));gap:2px}
+  .scale svg{width:100%;height:auto;display:block}
+  .scale button{background:none;border:0;padding:0;cursor:pointer;color:var(--foam-dim);min-height:24px;min-width:24px}
+  .scale button[aria-current=true]{color:var(--signal)}
+  .note{font-size:.875rem;color:var(--foam-dim)}
+
+  .tide{background:var(--twilight);padding:7rem clamp(1rem,4vw,3rem);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(2rem,6vw,6rem);align-items:center}
+  .tide svg{width:min(100%,460px);height:auto;justify-self:center}
+  .tide svg text{font:800 22px var(--display);fill:var(--foam);letter-spacing:.06em}
+  .tide svg .s{font:500 15px var(--display);fill:var(--sonar);letter-spacing:.1em}
+  .tide dl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.4rem;margin:2rem 0 0}
+  .tide dt{font:500 .9375rem var(--display);letter-spacing:.1em;text-transform:uppercase;color:var(--sonar)}
+  .tide dd{margin:0;font:800 2.2rem/1 var(--display)}
+
+  .zone{min-height:92vh;padding:8rem clamp(4rem,8vw,9rem) 6rem clamp(1rem,4vw,3rem);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,38rem);gap:clamp(1.5rem,5vw,5rem);align-content:center;align-items:start}
+  .zone .depth{margin:0;font:900 clamp(3rem,6.4vw,6.4rem)/.9 var(--display);color:var(--sonar);font-variant-numeric:tabular-nums}
+  .zone .depth small{display:block;font:500 1rem var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--foam-dim);margin-top:.6rem}
+  .zone p{color:var(--foam-dim);font-size:1.125rem;max-width:36rem}
+  .zone h2{margin-bottom:1.4rem}
+  .z1{background:var(--deep)}.z2{background:#0A2230}.z3{background:#06141C}.z4{background:#03090D}
+  .z4 h2,.z4 .depth{color:var(--signal)}
+
+  .cruise{background:var(--foam);color:var(--abyss);padding:7rem clamp(1rem,4vw,3rem);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:clamp(2rem,6vw,6rem)}
+  .cruise ::selection{background:var(--abyss);color:var(--foam)}
+  .cruise p{max-width:30rem}
+  .legs{list-style:none;margin:0;padding:0;border-top:2px solid var(--abyss)}
+  .legs li{display:grid;grid-template-columns:minmax(0,7rem) minmax(0,1fr) auto;gap:1rem;padding:1.1rem 0;border-bottom:1px solid rgba(7,26,36,.2);align-items:baseline}
+  .legs b{font:800 1.5rem var(--display);text-transform:uppercase}
+  .legs .btn{font-size:1rem;padding:.6rem 1rem;background:var(--abyss);color:var(--foam)}
+  .legs .btn:hover{background:var(--signal);color:var(--abyss)}
+  #cruise-status{font-weight:600;min-height:1.6em}
+  footer{background:var(--abyss);color:var(--foam-dim);padding:2rem clamp(1rem,4vw,3rem);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.9375rem}
+
+  .js .rise{opacity:0;transform:translateY(2rem);transition:opacity 1.2s var(--swell),transform 1.2s var(--swell)}
+  .js .rise.in{opacity:1;transform:none}
+
+  @media (max-width:900px){
+    nav li:not(:last-child){display:none}
+    .hero{align-content:center;padding-top:7rem}
+    h1{font-size:clamp(6rem,36vw,13rem)}
+    .hero-foot{grid-template-columns:minmax(0,1fr)}
+    .btn{justify-self:start}
+    /* On a phone the sea is a window above the controls, and the gauge moves to the foot of the screen. */
+    .sea{grid-template-columns:minmax(0,1fr)}
+    .surface{min-height:52vh}
+    .tide,.cruise{grid-template-columns:minmax(0,1fr);padding-top:5rem;padding-bottom:5rem}
+    .zone{grid-template-columns:minmax(0,1fr);padding:5rem 1rem 4rem;min-height:80vh}
+    .gauge{top:0;left:0;right:0;bottom:auto;transform:none;grid-auto-flow:column;justify-content:space-between;align-items:baseline;gap:.6rem;background:var(--abyss);padding:.5rem 1rem;border-bottom:1px solid rgba(232,241,239,.16)}
+    .gauge i{display:none}
+    .gauge b{font-size:1.7rem}
+    .legs li{grid-template-columns:minmax(0,1fr) auto}
+    /* Thirteen forces do not fit one phone row at a touchable size: two rows of seven and six. */
+    .scale{grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+    .scale button{min-height:40px}
+    .legs li span{grid-column:1 / -1;order:3}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .js .rise{opacity:1;transform:none;transition:none}
+    .gauge{transition:none}
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+  <a class="mark" href="#main">Maré</a>
+  <nav aria-label="Main">
+    <ul>
+      <li><a href="#sea">The sea</a></li>
+      <li><a href="#tide">The tide</a></li>
+      <li><a href="#descent">Descend</a></li>
+      <li><a href="#cruise">Join a cruise</a></li>
+    </ul>
+  </nav>
+</header>
+
+<aside class="gauge" aria-hidden="true"><b id="g-depth">0 m</b><span id="g-zone">Surface</span><i id="g-bar"></i></aside>
+
+<main id="main" tabindex="-1">
+  <section class="hero" aria-labelledby="h-hero">
+    <canvas id="echo" aria-hidden="true"></canvas>
+    <h1 id="h-hero">Maré<small>Ocean Institute, Horta, Azores</small></h1>
+    <div class="hero-foot">
+      <p class="lede">We measure the Atlantic from the surface to 4,000 m: its waves, its tide, and the light that stops on the way down. This is the sea as our instruments see it, today.</p>
+      <a class="btn" href="#sea">Read today's sea</a>
+    </div>
+  </section>
+
+  <section class="sea" id="sea" aria-labelledby="h-sea" data-depth="0" data-zone="Surface">
+    <div class="surface"><canvas id="sea-gl" aria-hidden="true"></canvas></div>
+    <div class="panel">
+      <h2 id="h-sea">Raise the wind. Watch the sea build.</h2>
+      <p>A sea that has had time and room to grow answers its wind in a known way. Set the wind and the surface beside you, the wave height and the period all follow it.</p>
+      <div class="wind">
+        <label for="wind">Wind <output id="wind-out" for="wind">8 m/s</output></label>
+        <input type="range" id="wind" min="0" max="32" step="0.5" value="8">
+      </div>
+      <div class="beaufort" aria-live="polite">
+        <svg id="bf-icon" viewBox="0 0 12 12" shape-rendering="crispEdges" aria-hidden="true"></svg>
+        <div><b id="bf-name">Moderate breeze</b><span id="bf-line">Force 4. Small waves, frequent white horses.</span></div>
+      </div>
+      <dl class="numbers">
+        <div><dt>Wave height</dt><dd id="hs">—</dd></div>
+        <div><dt>Period</dt><dd id="tp">—</dd></div>
+      </dl>
+      <div class="scale" id="scale" role="group" aria-label="Beaufort scale, force 0 to 12"></div>
+      <p class="note">A fully developed sea (Pierson–Moskowitz). Real seas are younger and messier; this is the ideal one.</p>
+    </div>
+  </section>
+
+  <section class="tide" id="tide" aria-labelledby="h-tide" data-depth="0" data-zone="Surface">
+    <div class="rise">
+      <h2 id="h-tide">The harbour breathes twice a day.</h2>
+      <p>The Moon pulls the water out of the harbour and back every twelve hours and twenty-five minutes. The ring shows where it is in that breath right now, from your clock.</p>
+      <dl>
+        <div><dt>Next high water</dt><dd id="t-high">—</dd></div>
+        <div><dt>Next low water</dt><dd id="t-low">—</dd></div>
+      </dl>
+    </div>
+    <svg viewBox="0 0 400 400" role="img" aria-labelledby="tide-title">
+      <title id="tide-title">Tide ring: the current position in the 12 hour 25 minute tidal cycle</title>
+      <circle cx="200" cy="200" r="150" fill="none" stroke="rgba(232,241,239,.18)" stroke-width="22"/>
+      <path id="tide-arc" fill="none" stroke="#7FD3D6" stroke-width="22" d=""/>
+      <circle id="tide-dot" r="16" fill="#FF6A2B" cx="200" cy="50"/>
+      <text x="200" y="30" text-anchor="middle" class="s">HIGH</text>
+      <text x="200" y="384" text-anchor="middle" class="s">LOW</text>
+      <text id="tide-height" x="200" y="200" text-anchor="middle">—</text>
+      <text id="tide-dir" x="200" y="232" text-anchor="middle" class="s">—</text>
+    </svg>
+  </section>
+
+  <div id="descent">
+    <section class="zone z1" data-depth="0" data-zone="Sunlight" aria-labelledby="h-z1">
+      <p class="depth" aria-hidden="true">0–200<small>metres</small></p>
+      <div class="rise"><h2 id="h-z1">Sunlight</h2><p>Everything that eats, eventually, eats from here. Plankton turn sunlight into the sea's first food, and our moored buoys count them by the colour they leave in the water.</p></div>
+    </section>
+    <section class="zone z2" data-depth="200" data-zone="Twilight" aria-labelledby="h-z2">
+      <p class="depth" aria-hidden="true">200–1,000<small>metres</small></p>
+      <div class="rise"><h2 id="h-z2">Twilight</h2><p>Red is the first colour to go and blue the last. At night, billions of animals rise from here to feed at the surface and sink again before dawn: the largest migration on Earth, every day.</p></div>
+    </section>
+    <section class="zone z3" data-depth="1000" data-zone="Midnight" aria-labelledby="h-z3">
+      <p class="depth" aria-hidden="true">1,000–4,000<small>metres</small></p>
+      <div class="rise"><h2 id="h-z3">Midnight</h2><p>No sunlight at all. The only light is made by the animals themselves. Our landers sit on the slope for six months at a time and photograph whatever comes to look at them.</p></div>
+    </section>
+    <section class="zone z4" data-depth="4000" data-zone="Abyss" aria-labelledby="h-z4">
+      <p class="depth" aria-hidden="true">4,000<small>metres, the floor</small></p>
+      <div class="rise"><h2 id="h-z4">The floor</h2><p>Two degrees, four hundred atmospheres, and a slow snow of everything that died above. A sediment core from here holds a hundred thousand years in a metre of mud.</p></div>
+    </section>
+  </div>
+
+  <section class="cruise" id="cruise" aria-labelledby="h-cruise">
+    <div>
+      <h2 id="h-cruise">Come aboard for a leg.</h2>
+      <p>Each summer the research ship takes four guests per leg. You stand a watch, help recover a mooring, and learn to read the sea from the bridge.</p>
+      <p id="cruise-status" role="status"></p>
+    </div>
+    <ul class="legs">
+      <li><b>Leg 1</b><span>Horta to the Mid-Atlantic Ridge, 9 days</span><button class="btn" type="button" data-leg="1">Ask</button></li>
+      <li><b>Leg 2</b><span>Moorings of the Princesa Alice bank, 6 days</span><button class="btn" type="button" data-leg="2">Ask</button></li>
+      <li><b>Leg 3</b><span>Deep landers, 3,800 m, 12 days</span><button class="btn" type="button" data-leg="3">Ask</button></li>
+    </ul>
+  </section>
+</main>
+<footer>
+  <span>Maré Ocean Institute, Horta. Showcase model; the institute and its ship are fictional.</span>
+  <span>Tide from a single harmonic: not for navigation.</span>
+</footer>
+
+<script>
+(() => {
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+
+  // ---- Wyman: contour echoes of the wordmark, from a distance field of the rendered type.
+  const echo = document.getElementById("echo"), ex = echo.getContext("2d");
+  const h1 = document.getElementById("h-hero");
+  let field = null, fw = 0, fh = 0, scale = 4, echoRaf = 0;
+  const buildField = () => {
+    const r = echo.getBoundingClientRect();
+    const d = Math.min(devicePixelRatio || 1, 2);
+    echo.width = r.width * d; echo.height = r.height * d;
+    fw = Math.ceil(r.width / scale); fh = Math.ceil(r.height / scale);
+    const m = document.createElement("canvas"); m.width = fw; m.height = fh;
+    const mx = m.getContext("2d");
+    const word = h1.firstChild.textContent.trim().toUpperCase();
+    const cs = getComputedStyle(h1);
+    const hr = h1.getBoundingClientRect();
+    mx.fillStyle = "#fff";
+    mx.font = `900 ${parseFloat(cs.fontSize) / scale}px "Big Shoulders Display"`;
+    mx.textBaseline = "alphabetic";
+    // Place the baseline where CSS puts it: half-leading above the font's ascent inside the first line box.
+    const line = (parseFloat(cs.lineHeight) || parseFloat(cs.fontSize) * .78) / scale;
+    const mt = mx.measureText(word), asc = mt.fontBoundingBoxAscent, desc = mt.fontBoundingBoxDescent;
+    mx.fillText(word, (hr.left - r.left) / scale, (hr.top - r.top) / scale + (line - (asc + desc)) / 2 + asc);
+    const px = mx.getImageData(0, 0, fw, fh).data;
+    // Two-pass chamfer distance transform: distance from every cell to the letters.
+    const INF = 1e9, D = new Float32Array(fw * fh);
+    for (let i = 0; i < fw * fh; i++) D[i] = px[i * 4 + 3] > 100 ? 0 : INF;
+    const a = 1, b = 1.414;
+    for (let y = 0; y < fh; y++) for (let x = 0; x < fw; x++) {
+      const i = y * fw + x; let v = D[i];
+      if (x > 0) v = Math.min(v, D[i - 1] + a);
+      if (y > 0) { v = Math.min(v, D[i - fw] + a); if (x > 0) v = Math.min(v, D[i - fw - 1] + b); if (x < fw - 1) v = Math.min(v, D[i - fw + 1] + b); }
+      D[i] = v;
+    }
+    for (let y = fh - 1; y >= 0; y--) for (let x = fw - 1; x >= 0; x--) {
+      const i = y * fw + x; let v = D[i];
+      if (x < fw - 1) v = Math.min(v, D[i + 1] + a);
+      if (y < fh - 1) { v = Math.min(v, D[i + fw] + a); if (x < fw - 1) v = Math.min(v, D[i + fw + 1] + b); if (x > 0) v = Math.min(v, D[i + fw - 1] + b); }
+      D[i] = v;
+    }
+    field = D;
+  };
+  // Marching squares over the distance field: one iso-line every few cells, drifting outward like swell.
+  const drawEcho = (t) => {
+    if (!field) return;
+    const W = echo.width, H = echo.height, sx = W / fw, sy = H / fh;
+    ex.clearRect(0, 0, W, H);
+    const gap = 5.2, phase = (t * .0006) % 1;
+    ex.lineWidth = Math.max(1, W / 1400);
+    for (let k = 0; k < 26; k++) {
+      const level = (k + phase) * gap + 1.2;
+      const fade = Math.max(0, 1 - level / (26 * gap));
+      ex.strokeStyle = k === 3 ? `rgba(255,106,43,${.85 * fade})` : `rgba(127,211,214,${.55 * fade})`;
+      ex.beginPath();
+      for (let y = 0; y < fh - 1; y++) for (let x = 0; x < fw - 1; x++) {
+        const i = y * fw + x;
+        const v0 = field[i], v1 = field[i + 1], v2 = field[i + fw + 1], v3 = field[i + fw];
+        const c = (v0 > level) | ((v1 > level) << 1) | ((v2 > level) << 2) | ((v3 > level) << 3);
+        if (c === 0 || c === 15) continue;
+        const lerp = (p, q) => (level - p) / (q - p);
+        const e = [[x + lerp(v0, v1), y], [x + 1, y + lerp(v1, v2)], [x + lerp(v3, v2), y + 1], [x, y + lerp(v0, v3)]];
+        const segs = { 1: [3, 0], 2: [0, 1], 3: [3, 1], 4: [1, 2], 5: [3, 2, 0, 1], 6: [0, 2], 7: [3, 2], 8: [2, 3], 9: [0, 2], 10: [0, 3, 1, 2], 11: [1, 2], 12: [1, 3], 13: [0, 1], 14: [0, 3] }[c];
+        for (let s = 0; s < segs.length; s += 2) { const p = e[segs[s]], q = e[segs[s + 1]]; ex.moveTo(p[0] * sx, p[1] * sy); ex.lineTo(q[0] * sx, q[1] * sy); }
+      }
+      ex.stroke();
+    }
+  };
+  const echoLoop = (t) => { drawEcho(t); echoRaf = requestAnimationFrame(echoLoop); };
+  let heroVisible = true;
+  new IntersectionObserver(([e]) => { heroVisible = e.isIntersecting; runEcho(); }).observe(echo);
+  const runEcho = () => { cancelAnimationFrame(echoRaf); echoRaf = 0; if (reduce.matches || !heroVisible) drawEcho(2000); else echoRaf = requestAnimationFrame(echoLoop); };
+  document.fonts.load('900 1em "Big Shoulders Display"').then(() => { buildField(); runEcho(); }, () => { buildField(); runEcho(); });
+  let rt = 0; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { buildField(); runEcho(); }, 150); });
+
+  // ---- Kare: Beaufort pictograms, each a 12 × 12 grid of squares.
+  const BF = [[0, "Calm", "Sea like a mirror."], [0.5, "Light air", "Ripples without crests."], [1.6, "Light breeze", "Small wavelets; crests do not break."], [3.4, "Gentle breeze", "Large wavelets; scattered white horses."], [5.5, "Moderate breeze", "Small waves, frequent white horses."], [8, "Fresh breeze", "Moderate waves; many white horses."], [10.8, "Strong breeze", "Large waves; white foam crests everywhere."], [13.9, "Near gale", "Sea heaps up; foam blows in streaks."], [17.2, "Gale", "Long high waves; crests break into spindrift."], [20.8, "Strong gale", "High waves; dense foam; spray hides the sea."], [24.5, "Storm", "Very high waves with overhanging crests."], [28.5, "Violent storm", "Waves high enough to hide ships."], [32.7, "Hurricane", "The air is full of foam and spray."]];
+  const glyph = (f) => {
+    const cells = [];
+    const amp = Math.min(4, f / 3), freq = .9 + f * .05;
+    for (let x = 0; x < 12; x++) {
+      const y = Math.round(8 - amp * Math.sin(x * freq + 1) * (f ? 1 : 0));
+      for (let yy = y; yy < 12; yy++) cells.push([x, yy, yy === y && f >= 4 ? "f" : "w"]);
+    }
+    if (f >= 7) for (let i = 0; i < f - 5; i++) cells.push([(i * 5 + 2) % 12, 1 + (i * 3) % 4, "s"]);
+    return cells.map(([x, y, k]) => `<rect x="${x}" y="${y}" width="1" height="1" fill="${k === "f" ? "#E8F1EF" : k === "s" ? "#FF6A2B" : "currentColor"}"/>`).join("");
+  };
+  const scaleBox = document.getElementById("scale");
+  BF.forEach(([, name], f) => scaleBox.insertAdjacentHTML("beforeend", `<button type="button" data-f="${f}" aria-label="Force ${f}, ${name}"><svg viewBox="0 0 12 12" shape-rendering="crispEdges" aria-hidden="true">${glyph(f)}</svg></button>`));
+  const wind = document.getElementById("wind");
+  let windTarget = 8;
+  const forceOf = (u) => { let f = 0; for (let i = 0; i < BF.length; i++) if (u >= BF[i][0]) f = i; return f; };
+  const readSea = () => {
+    const u = Number(wind.value), f = forceOf(u);
+    // Pierson–Moskowitz, fully developed: Hs = 0.21 U² / g; Tp ≈ 0.729 · 2π U / g.
+    const hs = .21 * u * u / 9.81, tp = u ? .729 * 2 * Math.PI * u / 9.81 : 0;
+    document.getElementById("wind-out").textContent = `${u.toFixed(1)} m/s`;
+    document.getElementById("hs").textContent = hs < .1 ? "< 0.1 m" : `${hs.toFixed(1)} m`;
+    document.getElementById("tp").textContent = u ? `${tp.toFixed(1)} s` : "—";
+    document.getElementById("bf-name").textContent = BF[f][1];
+    document.getElementById("bf-line").textContent = `Force ${f}. ${BF[f][2]}`;
+    document.getElementById("bf-icon").innerHTML = glyph(f);
+    document.getElementById("bf-icon").style.color = "#7FD3D6";
+    scaleBox.querySelectorAll("button").forEach((b) => b.setAttribute("aria-current", String(Number(b.dataset.f) === f)));
+    windTarget = u;
+  };
+  wind.addEventListener("input", readSea);
+  scaleBox.addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; const f = Number(b.dataset.f); wind.value = f === 12 ? 32 : ((BF[f][0] + BF[f + 1][0]) / 2).toFixed(1); readSea(); });
+  readSea();
+
+  // ---- The sea: a ray-marched height field lit by a low Atlantic sky.
+  const sc = document.getElementById("sea-gl");
+  const gl = sc.getContext("webgl");
+  let seaDraw = null;
+  if (gl) {
+    const vs = `attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}`;
+    const fs = `precision highp float;uniform vec2 r;uniform float t;uniform float w;
+float hash(vec2 p){return fract(sin(dot(p,vec2(12.9898,78.233)))*43758.5453);}
+float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(hash(i),hash(i+vec2(1,0)),f.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),f.x),f.y);}
+float wave(vec2 p,float ch){p+=noise(p);vec2 wv=1.-abs(sin(p));vec2 sw=abs(cos(p));wv=mix(wv,sw,wv);return pow(1.-pow(wv.x*wv.y,.65),ch);}
+float sea(vec2 p){float amp=.12+w*.055,fr=.16,ch=4.-w*.09,h=0.;mat2 m=mat2(1.6,1.2,-1.2,1.6);float sp=.8+w*.06;
+  for(int i=0;i<5;i++){float d=wave((p+t*sp)*fr,ch)+wave((p-t*sp)*fr,ch);h+=d*amp;p*=m;fr*=1.9;amp*=.22;ch=mix(ch,1.,.2);}return h;}
+vec3 sky(vec3 d){float y=max(d.y,0.);return mix(vec3(.62,.72,.74),vec3(.16,.3,.38),pow(y,.45))+vec3(1.,.55,.3)*pow(max(dot(d,normalize(vec3(.6,.12,1.))),0.),12.)*.45;}
+void main(){
+  vec2 uv=(gl_FragCoord.xy-.5*r)/r.y;
+  vec3 ro=vec3(0.,2.2+w*.06,t*1.2);vec3 rd=normalize(vec3(uv.x,uv.y-.22,1.2));
+  vec3 col;
+  if(rd.y>-.01){col=sky(rd);}else{
+    float tt=0.;vec3 p;
+    for(int i=0;i<64;i++){p=ro+rd*tt;float h=p.y-sea(p.xz);if(h<.01*tt)break;tt+=h*.6;if(tt>80.)break;}
+    p=ro+rd*tt;
+    float e=.02*tt*.25+.01;
+    float hc=sea(p.xz);
+    vec3 n=normalize(vec3(sea(p.xz-vec2(e,0.))-hc,e,sea(p.xz-vec2(0.,e))-hc));
+    float fres=pow(1.-max(dot(n,-rd),0.),3.)*.65;
+    vec3 refl=sky(reflect(rd,n));
+    vec3 body=vec3(.02,.12,.16)+vec3(.05,.2,.2)*pow(max(hc*1.2,0.),1.5);
+    col=mix(body,refl,fres);
+    float foam=smoothstep(.55,1.,hc/(.35+w*.11))*smoothstep(4.,12.,w)*(.6+.4*noise(p.xz*6.));
+    col=mix(col,vec3(.92,.96,.95),foam);
+    col=mix(col,sky(rd),smoothstep(10.,80.,tt));
+  }
+  gl_FragColor=vec4(pow(col,vec3(.95)),1.);
+}`;
+    const mk = (ty, s) => { const o = gl.createShader(ty); gl.shaderSource(o, s); gl.compileShader(o); return o; };
+    const pr = gl.createProgram(); gl.attachShader(pr, mk(gl.VERTEX_SHADER, vs)); gl.attachShader(pr, mk(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(pr);
+    if (gl.getProgramParameter(pr, gl.LINK_STATUS)) {
+      gl.useProgram(pr);
+      const bf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, bf); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+      const lc = gl.getAttribLocation(pr, "p"); gl.enableVertexAttribArray(lc); gl.vertexAttribPointer(lc, 2, gl.FLOAT, false, 0, 0);
+      const uR = gl.getUniformLocation(pr, "r"), uT = gl.getUniformLocation(pr, "t"), uW = gl.getUniformLocation(pr, "w");
+      let windNow = windTarget, raf = 0, visible = false;
+      const size = () => { const b = sc.getBoundingClientRect(), d = Math.min(devicePixelRatio || 1, 1.5); sc.width = b.width * d; sc.height = b.height * d; gl.viewport(0, 0, sc.width, sc.height); };
+      seaDraw = (now) => { windNow += (windTarget - windNow) * (reduce.matches ? 1 : .04); gl.uniform2f(uR, sc.width, sc.height); gl.uniform1f(uT, reduce.matches ? 12 : now / 1000); gl.uniform1f(uW, windNow); gl.drawArrays(gl.TRIANGLES, 0, 3); };
+      const loop = (now) => { seaDraw(now); raf = visible && !reduce.matches ? requestAnimationFrame(loop) : 0; };
+      const run = () => { cancelAnimationFrame(raf); raf = 0; if (reduce.matches) seaDraw(performance.now()); else if (visible) raf = requestAnimationFrame(loop); };
+      new IntersectionObserver(([e]) => { visible = e.isIntersecting; run(); }).observe(sc);
+      wind.addEventListener("input", () => reduce.matches && seaDraw(performance.now()));
+      reduce.addEventListener("change", run);
+      addEventListener("resize", () => { size(); run(); });
+      sc.addEventListener("webglcontextlost", (e) => { e.preventDefault(); cancelAnimationFrame(raf); });
+      size(); seaDraw(performance.now());
+    }
+  }
+
+  // ---- The tide: one semi-diurnal harmonic (M2, 12.42 h) from a reference high water.
+  const M2 = 12.4206 * 3600e3, REF = Date.UTC(2026, 0, 1, 3, 10), RANGE = 1.9, MEAN = 1.1;
+  const tick = () => {
+    const now = Date.now(), ph = (((now - REF) % M2) + M2) % M2 / M2;
+    const h = MEAN + RANGE / 2 * Math.cos(2 * Math.PI * ph);
+    const a = 2 * Math.PI * ph - Math.PI / 2, cx = 200 + 150 * Math.cos(a), cy = 200 + 150 * Math.sin(a);
+    document.getElementById("tide-dot").setAttribute("cx", cx.toFixed(1));
+    document.getElementById("tide-dot").setAttribute("cy", cy.toFixed(1));
+    document.getElementById("tide-arc").setAttribute("d", `M200 50 A150 150 0 ${ph > .5 ? 1 : 0} 1 ${cx.toFixed(1)} ${cy.toFixed(1)}`);
+    document.getElementById("tide-height").textContent = `${h.toFixed(2)} M`;
+    document.getElementById("tide-dir").textContent = ph < .5 ? "FALLING" : "RISING";
+    const fmt = (ms) => new Date(ms).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+    document.getElementById("t-high").textContent = fmt(now + (1 - ph) * M2);
+    document.getElementById("t-low").textContent = fmt(now + (((.5 - ph) % 1 + 1) % 1) * M2);
+  };
+  tick(); setInterval(tick, 30000);
+
+  // ---- The gauge reads the depth of whatever section is in view.
+  const gauge = document.querySelector(".gauge"), gd = document.getElementById("g-depth"), gz = document.getElementById("g-zone"), gb = document.getElementById("g-bar");
+  const zones = [...document.querySelectorAll("[data-depth]")];
+  const io = new IntersectionObserver((es) => es.forEach((e) => {
+    if (e.isIntersecting) e.target.querySelectorAll(".rise").forEach((r) => r.classList.add("in"));
+  }), { threshold: [0, .4, .6] });
+  zones.forEach((z) => io.observe(z));
+  document.querySelectorAll(".tide .rise").forEach((r) => io.observe(r.closest("section")));
+  // The gauge belongs to the descent only; the instruments above have their own numbers.
+  const descent = document.getElementById("descent");
+  const zoneEls = [...descent.querySelectorAll(".zone")];
+  // The depth is read continuously: between two zones it interpolates, so the number falls as you scroll.
+  const place = () => {
+    const b = descent.getBoundingClientRect(), mid = innerHeight * .5;
+    gauge.classList.toggle("on", b.top < mid && b.bottom > mid);
+    const i = zoneEls.findIndex((z) => { const r = z.getBoundingClientRect(); return r.top <= mid && r.bottom > mid; });
+    if (i < 0) return;
+    const z = zoneEls[i], r = z.getBoundingClientRect(), k = (mid - r.top) / r.height;
+    const d0 = Number(z.dataset.depth), d1 = zoneEls[i + 1] ? Number(zoneEls[i + 1].dataset.depth) : d0;
+    const d = Math.round((d0 + (d1 - d0) * k) / 10) * 10;
+    gd.textContent = `${d.toLocaleString("en-GB")} m`;
+    gz.textContent = z.dataset.zone;
+    gb.style.setProperty("--d", `${Math.min(100, d / 4000 * 100)}%`);
+  };
+  addEventListener("scroll", place, { passive: true }); place();
+
+  const status = document.getElementById("cruise-status");
+  document.querySelectorAll("[data-leg]").forEach((b) => b.addEventListener("click", () => {
+    status.textContent = `Showcase model: no berth on leg ${b.dataset.leg} was requested, and nothing left this page.`;
+  }));
+})();
+</script>
+</body>
+</html>

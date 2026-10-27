@@ -2,14 +2,14 @@
 
 **The autonomous digital design bureau.** An agent skill that gives a language model the work of a whole studio: creative direction, art direction, typography, motion, creative technology, accessibility, performance, and an adversarial review that says *no*.
 
-[![Version](https://img.shields.io/badge/version-5.0.1-F2C230?style=flat-square&labelColor=121212)](VERSION)
+[![Version](https://img.shields.io/badge/version-5.1.0-F2C230?style=flat-square&labelColor=121212)](VERSION)
 [![License](https://img.shields.io/badge/license-MIT-E2507F?style=flat-square&labelColor=121212)](LICENSE)
-[![Templates](https://img.shields.io/badge/templates-13-1E4FD6?style=flat-square&labelColor=121212)](#gallery)
+[![ShowCase](https://img.shields.io/badge/showcase-5-1E4FD6?style=flat-square&labelColor=121212)](#showcase)
 [![Hosts](https://img.shields.io/badge/hosts-Claude%20%7C%20Codex%20%7C%20Antigravity%20%7C%20Hermes-EDEBE4?style=flat-square&labelColor=121212)](#install)
 
-[Português](README.md) · [English](README.en.md) · [Español](README.es.md) · [Documentation](https://acf1210.github.io/bureau/en/index.html) · [Live demos](https://acf1210.github.io/bureau/#demos)
+[Português](README.md) · [English](README.en.md) · [Español](README.es.md) · [Documentation](https://acf1210.github.io/bureau/en/index.html) · [Live ShowCase](https://acf1210.github.io/bureau/showcase/index.html)
 
-![Six of BUREAU's thirteen templates: a tasting counter in rosa and ochre, a record label with type-only sleeves, an architecture studio with a slit of light, a photographic archive between red beams, a family office with a compounding calculator, and a WebGL light installation](site/assets/img/readme-banner.webp)
+![The phone compositions of BUREAU's five ShowCase models: an observatory under a WebGL sky, a perfume house with ink threads in water, a ceramic jar rendered on the wheel, an ocean institute with contours radiating from its name, and a variable-font type foundry](site/assets/img/readme-banner.webp)
 
 ---
 
@@ -25,55 +25,51 @@ Models learn the average of the internet. Without direction they ship the same c
 
 ---
 
-## Gallery
+## ShowCase
 
-Thirteen templates, thirteen worlds, none like another: the closest pair shares under 0.2 of its design fingerprint (`divergence.mjs`). Each has a designed mobile composition, not a stacked one, and a `LINEAGE.md` with its blend.
+Five web models, five fictional studios, each with a phone composition of its own: a mountain observatory, a perfume house, a pottery, an ocean institute and a type foundry. Design leads every decision here and performance comes last: WebGL shaders, particle fields, variable type and live rendering used without economy. Each model has a `LINEAGE.md` with its blend of three designers.
 
 <!-- gallery:start -->
 <table>
 <tr>
-<td width="33%" valign="top"><a href="https://acf1210.github.io/bureau/demos/kinetic-editorial/index.html"><img src="site/assets/img/demos/kinetic-editorial-desktop.webp" alt="Kinetic Editorial: An italic Bodoni headline on a blue-black ground, with the issue contents in a margin column" width="100%"></a><br><a href="https://acf1210.github.io/bureau/demos/kinetic-editorial/index.html"><img src="site/assets/img/demos/kinetic-editorial-mobile.webp" alt="Kinetic Editorial, mobile" width="38%"></a><br><b>Kinetic Editorial</b><br><sub>Night journal · Tschichold × Lubalin × Bass</sub><br><sub>An index filed by the live Lisbon hour. <a href="https://acf1210.github.io/bureau/demos/kinetic-editorial/index.html">Open ↗</a></sub></td>
-<td width="33%" valign="top"><a href="https://acf1210.github.io/bureau/demos/product-surface/index.html"><img src="site/assets/img/demos/product-surface-desktop.webp" alt="Product Surface: A coastal planning desk in IBM Plex with a waterline slider and a direct-labelled chart" width="100%"></a><br><a href="https://acf1210.github.io/bureau/demos/product-surface/index.html"><img src="site/assets/img/demos/product-surface-mobile.webp" alt="Product Surface, mobile" width="38%"></a><br><b>Product Surface</b><br><sub>Planning desk · Tufte × Vignelli × Aicher</sub><br><sub>Raise the waterline; the order of failure follows. <a href="https://acf1210.github.io/bureau/demos/product-surface/index.html">Open ↗</a></sub></td>
-<td width="33%" valign="top"><a href="https://acf1210.github.io/bureau/demos/immersive-experience/index.html"><img src="site/assets/img/demos/immersive-experience-desktop.webp" alt="Immersive Experience: WebGL beams of ember light behind the word HALFLIGHT set on two planes" width="100%"></a><br><a href="https://acf1210.github.io/bureau/demos/immersive-experience/index.html"><img src="site/assets/img/demos/immersive-experience-mobile.webp" alt="Immersive Experience, mobile" width="38%"></a><br><b>Immersive Experience</b><br><sub>Light installation · Moholy-Nagy × Cooper × Eames</sub><br><sub>Shift the light; shader, title and focus follow. <a href="https://acf1210.github.io/bureau/demos/immersive-experience/index.html">Open ↗</a></sub></td>
+<td width="72%" valign="top"><a href="https://acf1210.github.io/bureau/showcase/observatory/index.html"><img src="site/assets/img/showcase/observatory-desktop.webp" alt="Cerro Lumen: A night sky drawn by a shader over a dark ridge, with a lowercase monospaced headline and a scale rail at the left" width="100%"></a></td>
+<td width="28%" valign="top"><a href="https://acf1210.github.io/bureau/showcase/observatory/index.html"><img src="site/assets/img/showcase/observatory-mobile.webp" alt="Cerro Lumen, mobile" width="100%"></a></td>
 </tr>
 <tr>
-<td width="33%" valign="top"><a href="https://acf1210.github.io/bureau/demos/legal-practice/index.html"><img src="site/assets/img/demos/legal-practice-desktop.webp" alt="Legal Practice: A serif headline beside an engagement letter with a Legal and Plain switch" width="100%"></a><br><a href="https://acf1210.github.io/bureau/demos/legal-practice/index.html"><img src="site/assets/img/demos/legal-practice-mobile.webp" alt="Legal Practice, mobile" width="38%"></a><br><b>Legal Practice</b><br><sub>Arbitration chambers · Sutnar × Rand × Ruder</sub><br><sub>Every clause in two registers: legal and plain. <a href="https://acf1210.github.io/bureau/demos/legal-practice/index.html">Open ↗</a></sub></td>
-<td width="33%" valign="top"><a href="https://acf1210.github.io/bureau/demos/architecture-studio/index.html"><img src="site/assets/img/demos/architecture-studio-desktop.webp" alt="Architecture Studio: Condensed uppercase type on a dark concrete wall split by a vertical slit of light" width="100%"></a><br><a href="https://acf1210.github.io/bureau/demos/architecture-studio/index.html"><img src="site/assets/img/demos/architecture-studio-mobile.webp" alt="Architecture Studio, mobile" width="38%"></a><br><b>Architecture Studio</b><br><sub>Architecture studio · Ando × Mies × Scarpa</sub><br><sub>A slit of daylight that opens as you scroll. <a href="https://acf1210.github.io/bureau/demos/architecture-studio/index.html">Open ↗</a></sub></td>
-<td width="33%" valign="top"><a href="https://acf1210.github.io/bureau/demos/restaurant-table/index.html"><img src="site/assets/img/demos/restaurant-table-desktop.webp" alt="Restaurant Table: Rosa, ochre and lavender colour planes with a ringed wordmark and a serif headline" width="100%"></a><br><a href="https://acf1210.github.io/bureau/demos/restaurant-table/index.html"><img src="site/assets/img/demos/restaurant-table-mobile.webp" alt="Restaurant Table, mobile" width="38%"></a><br><b>Restaurant Table</b><br><sub>Tasting counter · Barragán × Wyman × J. Albers</sub><br><sub>Choose your seats on the counter arc. <a href="https://acf1210.github.io/bureau/demos/restaurant-table/index.html">Open ↗</a></sub></td>
+<td colspan="2"><b>Cerro Lumen</b> · Mountain observatory · <sub>Gerstner × Moholy-Nagy × Eames</sub><br>Scroll from the dome to the galaxy, one power of ten at a time. <a href="https://acf1210.github.io/bureau/showcase/observatory/index.html">Open ↗</a></td>
 </tr>
 <tr>
-<td width="33%" valign="top"><a href="https://acf1210.github.io/bureau/demos/private-bank/index.html"><img src="site/assets/img/demos/private-bank-desktop.webp" alt="Private Bank: A modular grid with a large monospaced future value, sliders and stepped bars" width="100%"></a><br><a href="https://acf1210.github.io/bureau/demos/private-bank/index.html"><img src="site/assets/img/demos/private-bank-mobile.webp" alt="Private Bank, mobile" width="38%"></a><br><b>Private Bank</b><br><sub>Family office · Müller-Brockmann × Crouwel × Tufte</sub><br><sub>Compounding with your numbers, formula shown. <a href="https://acf1210.github.io/bureau/demos/private-bank/index.html">Open ↗</a></sub></td>
-<td width="33%" valign="top"><a href="https://acf1210.github.io/bureau/demos/clinic-care/index.html"><img src="site/assets/img/demos/clinic-care-desktop.webp" alt="Clinic Care: A calm serif headline in wide white space beside flat green lungs and a small sun" width="100%"></a><br><a href="https://acf1210.github.io/bureau/demos/clinic-care/index.html"><img src="site/assets/img/demos/clinic-care-mobile.webp" alt="Clinic Care, mobile" width="38%"></a><br><b>Clinic Care</b><br><sub>Respiratory clinic · Hara × Kare × Tanaka</sub><br><sub>A breathing guide that starts only when pressed. <a href="https://acf1210.github.io/bureau/demos/clinic-care/index.html">Open ↗</a></sub></td>
-<td width="33%" valign="top"><a href="https://acf1210.github.io/bureau/demos/developer-api/index.html"><img src="site/assets/img/demos/developer-api-desktop.webp" alt="Developer API: A light console with a search query, a JSON response and a colour swatch derived from longitude" width="100%"></a><br><a href="https://acf1210.github.io/bureau/demos/developer-api/index.html"><img src="site/assets/img/demos/developer-api-mobile.webp" alt="Developer API, mobile" width="38%"></a><br><b>Developer API</b><br><sub>Geocoding API · Gerstner × Weingart × Greiman</sub><br><sub>A playground that really matches typos. <a href="https://acf1210.github.io/bureau/demos/developer-api/index.html">Open ↗</a></sub></td>
+<td width="72%" valign="top"><a href="https://acf1210.github.io/bureau/showcase/perfumery/index.html"><img src="site/assets/img/showcase/perfumery-desktop.webp" alt="Maison Orvé: A serif headline in a narrow column beside a field of gold, violet and green ink threads moving through water" width="100%"></a></td>
+<td width="28%" valign="top"><a href="https://acf1210.github.io/bureau/showcase/perfumery/index.html"><img src="site/assets/img/showcase/perfumery-mobile.webp" alt="Maison Orvé, mobile" width="100%"></a></td>
 </tr>
 <tr>
-<td width="33%" valign="top"><a href="https://acf1210.github.io/bureau/demos/fashion-atelier/index.html"><img src="site/assets/img/demos/fashion-atelier-desktop.webp" alt="Fashion Atelier: A high-contrast serif headline beside three overprinted cloth colours and a cropped giant wordmark" width="100%"></a><br><a href="https://acf1210.github.io/bureau/demos/fashion-atelier/index.html"><img src="site/assets/img/demos/fashion-atelier-mobile.webp" alt="Fashion Atelier, mobile" width="38%"></a><br><b>Fashion Atelier</b><br><sub>Tailoring atelier · Brodovitch × A. Albers × B. Thompson</sub><br><sub>A pattern drafted from your measurements. <a href="https://acf1210.github.io/bureau/demos/fashion-atelier/index.html">Open ↗</a></sub></td>
-<td width="33%" valign="top"><a href="https://acf1210.github.io/bureau/demos/record-label/index.html"><img src="site/assets/img/demos/record-label-desktop.webp" alt="Record Label: Condensed blue numerals and a wide black headline beside a yellow and blue type-only record sleeve" width="100%"></a><br><a href="https://acf1210.github.io/bureau/demos/record-label/index.html"><img src="site/assets/img/demos/record-label-mobile.webp" alt="Record Label, mobile" width="38%"></a><br><b>Record Label</b><br><sub>Record label · Reid Miles × Saville × Brody</sub><br><sub>Type-only sleeves that play a synthesised sketch. <a href="https://acf1210.github.io/bureau/demos/record-label/index.html">Open ↗</a></sub></td>
-<td width="33%" valign="top"><a href="https://acf1210.github.io/bureau/demos/museum-archive/index.html"><img src="site/assets/img/demos/museum-archive-desktop.webp" alt="Museum Archive: A bold grotesque headline between two red beams, over a room of glass easels with abstract signs" width="100%"></a><br><a href="https://acf1210.github.io/bureau/demos/museum-archive/index.html"><img src="site/assets/img/demos/museum-archive-mobile.webp" alt="Museum Archive, mobile" width="38%"></a><br><b>Museum Archive</b><br><sub>Photographic archive · Bo Bardi × Lustig × Munari</sub><br><sub>Glass easels with the record on the back. <a href="https://acf1210.github.io/bureau/demos/museum-archive/index.html">Open ↗</a></sub></td>
+<td colspan="2"><b>Maison Orvé</b> · Perfume house · <sub>Ruder × Greiman × Munari</sub><br>Compose top, heart and base; watch them move through water. <a href="https://acf1210.github.io/bureau/showcase/perfumery/index.html">Open ↗</a></td>
 </tr>
 <tr>
-<td width="33%" valign="top"><a href="https://acf1210.github.io/bureau/demos/hardware-store/index.html"><img src="site/assets/img/demos/hardware-store-desktop.webp" alt="Hardware Store: A grey lamp configurator with colour options and an illustrated desk lamp with a yellow shade" width="100%"></a><br><a href="https://acf1210.github.io/bureau/demos/hardware-store/index.html"><img src="site/assets/img/demos/hardware-store-mobile.webp" alt="Hardware Store, mobile" width="38%"></a><br><b>Hardware Store</b><br><sub>Product shop · Rams × Sottsass × Castiglioni</sub><br><sub>Configure the lamp, then see it apart, priced. <a href="https://acf1210.github.io/bureau/demos/hardware-store/index.html">Open ↗</a></sub></td>
+<td width="72%" valign="top"><a href="https://acf1210.github.io/bureau/showcase/ceramics/index.html"><img src="site/assets/img/showcase/ceramics-desktop.webp" alt="Torno: A celadon-glazed jar rendered in WebGL on terracotta and dark planes beside form chips and sliders" width="100%"></a></td>
+<td width="28%" valign="top"><a href="https://acf1210.github.io/bureau/showcase/ceramics/index.html"><img src="site/assets/img/showcase/ceramics-mobile.webp" alt="Torno, mobile" width="100%"></a></td>
+</tr>
+<tr>
+<td colspan="2"><b>Torno</b> · Pottery · <sub>Tanaka × Scarpa × Bass</sub><br>Pull a pot on the wheel and see what it holds before it is thrown. <a href="https://acf1210.github.io/bureau/showcase/ceramics/index.html">Open ↗</a></td>
+</tr>
+<tr>
+<td width="72%" valign="top"><a href="https://acf1210.github.io/bureau/showcase/ocean/index.html"><img src="site/assets/img/showcase/ocean-desktop.webp" alt="Maré: A giant condensed wordmark wrapped in cyan and orange contour lines on a deep blue ground" width="100%"></a></td>
+<td width="28%" valign="top"><a href="https://acf1210.github.io/bureau/showcase/ocean/index.html"><img src="site/assets/img/showcase/ocean-mobile.webp" alt="Maré, mobile" width="100%"></a></td>
+</tr>
+<tr>
+<td colspan="2"><b>Maré</b> · Ocean institute · <sub>Sutnar × Wyman × Kare</sub><br>Contours radiate from the name; raise the wind and the sea builds. <a href="https://acf1210.github.io/bureau/showcase/ocean/index.html">Open ↗</a></td>
+</tr>
+<tr>
+<td width="72%" valign="top"><a href="https://acf1210.github.io/bureau/showcase/foundry/index.html"><img src="site/assets/img/showcase/foundry-desktop.webp" alt="Glifo: A heavy black and red variable-font headline over five axis sliders on proof paper" width="100%"></a></td>
+<td width="28%" valign="top"><a href="https://acf1210.github.io/bureau/showcase/foundry/index.html"><img src="site/assets/img/showcase/foundry-mobile.webp" alt="Glifo, mobile" width="100%"></a></td>
+</tr>
+<tr>
+<td colspan="2"><b>Glifo</b> · Type foundry · <sub>A. Albers × Scher × Cooper</sub><br>Pull five axes by hand, weave a field of letters, open one in depth. <a href="https://acf1210.github.io/bureau/showcase/foundry/index.html">Open ↗</a></td>
 </tr>
 </table>
-
-| Template | Theme | Blend | Signature |
-|---|---|---|---|
-| [Kinetic Editorial](https://acf1210.github.io/bureau/demos/kinetic-editorial/index.html) | Night journal | Tschichold × Lubalin × Bass | An index filed by the live Lisbon hour |
-| [Product Surface](https://acf1210.github.io/bureau/demos/product-surface/index.html) | Planning desk | Tufte × Vignelli × Aicher | Raise the waterline; the order of failure follows |
-| [Immersive Experience](https://acf1210.github.io/bureau/demos/immersive-experience/index.html) | Light installation | Moholy-Nagy × Cooper × Eames | Shift the light; shader, title and focus follow |
-| [Legal Practice](https://acf1210.github.io/bureau/demos/legal-practice/index.html) | Arbitration chambers | Sutnar × Rand × Ruder | Every clause in two registers: legal and plain |
-| [Architecture Studio](https://acf1210.github.io/bureau/demos/architecture-studio/index.html) | Architecture studio | Ando × Mies × Scarpa | A slit of daylight that opens as you scroll |
-| [Restaurant Table](https://acf1210.github.io/bureau/demos/restaurant-table/index.html) | Tasting counter | Barragán × Wyman × J. Albers | Choose your seats on the counter arc |
-| [Private Bank](https://acf1210.github.io/bureau/demos/private-bank/index.html) | Family office | Müller-Brockmann × Crouwel × Tufte | Compounding with your numbers, formula shown |
-| [Clinic Care](https://acf1210.github.io/bureau/demos/clinic-care/index.html) | Respiratory clinic | Hara × Kare × Tanaka | A breathing guide that starts only when pressed |
-| [Developer API](https://acf1210.github.io/bureau/demos/developer-api/index.html) | Geocoding API | Gerstner × Weingart × Greiman | A playground that really matches typos |
-| [Fashion Atelier](https://acf1210.github.io/bureau/demos/fashion-atelier/index.html) | Tailoring atelier | Brodovitch × A. Albers × B. Thompson | A pattern drafted from your measurements |
-| [Record Label](https://acf1210.github.io/bureau/demos/record-label/index.html) | Record label | Reid Miles × Saville × Brody | Type-only sleeves that play a synthesised sketch |
-| [Museum Archive](https://acf1210.github.io/bureau/demos/museum-archive/index.html) | Photographic archive | Bo Bardi × Lustig × Munari | Glass easels with the record on the back |
-| [Hardware Store](https://acf1210.github.io/bureau/demos/hardware-store/index.html) | Product shop | Rams × Sottsass × Castiglioni | Configure the lamp, then see it apart, priced |
 <!-- gallery:end -->
 
-All are self-contained (HTML, CSS and JS in one file), pass the static audit with no P0 or P1, and use metric-matched font fallbacks so the layout never shifts. Two of them, Immersive Experience and Product Surface, keep visual-audit reports in `.bureau/qa/`; the rest carry no versioned visual evidence. People, brands, prices and data are fictional and labelled.
+All are self-contained (HTML, CSS and JS in one file) and pass the static audit and the visual audit from 320 to 1440 px with no P0 or P1. The floor still holds: real contrast, a keyboard path, reduced motion designed as a still, all copy readable without JavaScript, and no button that pretends to send. Studios, people and prices are fictional and labelled. The 13 scaffold templates remain in the skill (`new-project.mjs --list`).
 
 ---
 
@@ -217,10 +213,11 @@ The scaffold writes `BUREAU.md`, `DESIGN.md` (with lineage and dials), `MOTION.m
 | **Skill** | `SKILL.md` with doctrine, autonomy contract, router, hard rules and tool protocol |
 | **Depth** | 31 references, from concept and art direction to lineage and blend and refinement passes |
 | **Scripts** | anti-slop audit, Playwright visual audit, divergence, five-source reference survey, stateful review circuit with a 10-minute jury, tokens, Figma sync, doctor, scaffold |
-| **Templates** | 13 worlds with designed desktop and mobile, each with a `LINEAGE.md` |
+| **ShowCase** | 5 web models with their own phone composition, design first, each with a `LINEAGE.md` |
+| **Templates** | 13 scaffold worlds for `new-project.mjs`, each with a `LINEAGE.md` |
 | **Assets** | DTCG tokens, motion snippets, generated media, SVG diagrams |
 | **Docs** | 9 pages × 3 languages (PT-BR, EN, ES) |
-| **Tests** | 38 `node --test` tests, with fixtures in both directions for every rule |
+| **Tests** | 40 `node --test` tests, with fixtures in both directions for every rule |
 | **Installers** | Claude Code, Codex, Antigravity, Hermes; bash and PowerShell |
 
 ---
@@ -236,6 +233,7 @@ skill/                  the installable skill
 installers/             Claude, Codex, Antigravity, Hermes + bash/PowerShell
 docs/                   PT-BR, EN, ES
   assets/diagrams/      architecture, circuit, workflow, anti-slop
+showcase/               5 web models with mobile, design first
 site/                   landing and static docs
 scripts/                build-docs, capture-demos, gallery, og, serve
 tests/                  node --test

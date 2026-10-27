@@ -1,33 +1,38 @@
 #!/usr/bin/env node
 /* @bureau-internal — excluded from design audits */
 /**
- * Regenerate the template gallery in the showcase and the three READMEs from
- * skill/assets/templates/catalog.json, between <!-- gallery:start --> and <!-- gallery:end -->.
+ * Regenerate the ShowCase gallery in the landing and the three READMEs from
+ * showcase/catalog.json, between <!-- gallery:start --> and <!-- gallery:end -->.
  * Usage: node scripts/gallery.mjs [--check]
  */
 import fs from "node:fs";
 import path from "node:path";
 
 const root = path.resolve(import.meta.dirname, "..");
-const catalog = JSON.parse(fs.readFileSync(path.join(root, "skill", "assets", "templates", "catalog.json"), "utf8"));
+const catalog = JSON.parse(fs.readFileSync(path.join(root, "showcase", "catalog.json"), "utf8"));
 const check = process.argv.includes("--check");
-const PAGES = "https://acf1210.github.io/bureau/demos";
-const img = (id, kind) => `site/assets/img/demos/${id}-${kind}.webp`;
+const PAGES = "https://acf1210.github.io/bureau/showcase";
+const img = (id, kind) => `site/assets/img/showcase/${id}-${kind}.webp`;
 
+// README: each model gets a row of its own, the desktop fold beside its phone composition.
 const readme = (lang) => {
-  const head = { "pt-BR": ["Template", "Tema", "Mescla", "Assinatura"], en: ["Template", "Theme", "Blend", "Signature"], es: ["Plantilla", "Tema", "Mezcla", "Firma"] }[lang];
   const open = { "pt-BR": "Abrir", en: "Open", es: "Abrir" }[lang];
-  const cells = catalog.map((t) => `<td width="33%" valign="top"><a href="${PAGES}/${t.id}/index.html"><img src="${img(t.id, "desktop")}" alt="${t.title}: ${t.alt}" width="100%"></a><br><a href="${PAGES}/${t.id}/index.html"><img src="${img(t.id, "mobile")}" alt="${t.title}, mobile" width="38%"></a><br><b>${t.title}</b><br><sub>${t.theme[lang]} · ${t.lineage}</sub><br><sub>${t.move[lang]}. <a href="${PAGES}/${t.id}/index.html">${open} ↗</a></sub></td>`);
-  const rows = [];
-  for (let i = 0; i < cells.length; i += 3) rows.push(`<tr>\n${cells.slice(i, i + 3).join("\n")}\n</tr>`);
-  const table = `| ${head.join(" | ")} |\n|---|---|---|---|\n` + catalog.map((t) => `| [${t.title}](${PAGES}/${t.id}/index.html) | ${t.theme[lang]} | ${t.lineage} | ${t.move[lang]} |`).join("\n");
-  return `<table>\n${rows.join("\n")}\n</table>\n\n${table}`;
+  const mobile = { "pt-BR": "mobile", en: "mobile", es: "móvil" }[lang];
+  const rows = catalog.map((t) => `<tr>
+<td width="72%" valign="top"><a href="${PAGES}/${t.id}/index.html"><img src="${img(t.id, "desktop")}" alt="${t.title}: ${t.alt}" width="100%"></a></td>
+<td width="28%" valign="top"><a href="${PAGES}/${t.id}/index.html"><img src="${img(t.id, "mobile")}" alt="${t.title}, ${mobile}" width="100%"></a></td>
+</tr>
+<tr>
+<td colspan="2"><b>${t.title}</b> · ${t.theme[lang]} · <sub>${t.lineage}</sub><br>${t.move[lang]}. <a href="${PAGES}/${t.id}/index.html">${open} ↗</a></td>
+</tr>`);
+  return `<table>\n${rows.join("\n")}\n</table>`;
 };
 
-const site = () => catalog.map((t, i) => `      <a class="demo${i === 0 ? " demo--lead" : i === catalog.length - 1 ? " demo--close" : ""}" href="demos/${t.id}/index.html" aria-label="${t.title}: ${t.theme.en}. ${t.lineage}. ${t.move.en}.">
+const cls = (i) => i === 0 ? " demo--lead" : i === catalog.length - 1 ? " demo--wide" : "";
+const site = () => catalog.map((t, i) => `      <a class="demo${cls(i)}" href="showcase/${t.id}/index.html" aria-label="${t.title}: ${t.theme.en}. ${t.lineage}. ${t.move.en}.">
         <div class="demo__media">
-          <picture><source type="image/avif" srcset="assets/img/demos/${t.id}-desktop.avif"><img src="assets/img/demos/${t.id}-desktop.webp" alt="${t.title}: ${t.alt}." width="1200" height="750" loading="lazy"></picture>
-          <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/${t.id}-mobile.avif"><img src="assets/img/demos/${t.id}-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
+          <picture><source type="image/avif" srcset="assets/img/showcase/${t.id}-desktop.avif"><img src="assets/img/showcase/${t.id}-desktop.webp" alt="${t.title}: ${t.alt}." width="1200" height="750" loading="lazy"></picture>
+          <picture class="demo__phone"><source type="image/avif" srcset="assets/img/showcase/${t.id}-mobile.avif"><img src="assets/img/showcase/${t.id}-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
         </div>
         <div class="demo__body">
           <div><h3>${t.title}</h3><p><b>${t.lineage}.</b> ${t.move.en}.</p></div>
