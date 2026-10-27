@@ -65,7 +65,12 @@ img{max-width:100%}
 .topbar{position:fixed;inset:0 0 auto;height:var(--top);display:flex;align-items:center;gap:1rem;padding:0 var(--pad);background:var(--bar);color:var(--bar-ink);z-index:90}
 .topbar :focus-visible{outline-color:var(--bar-focus)}
 .brand{display:flex;align-items:center;gap:.6rem;min-height:44px;font:600 1.05rem/1 var(--display);font-stretch:112%;letter-spacing:.06em}
-.brand b{font-weight:inherit}.brand i{font-style:normal}.brand .pc{color:var(--bar-c)}.brand .pm{color:var(--bar-m)}.brand .py{color:var(--bar-y)}
+.brand b{font-weight:inherit}.brand i{font-style:normal}
+/* The B carries the three process plates as stacked bands: cyan, magenta, yellow, each a clipped copy of the letter (no gradient text). */
+.brand .pb{position:relative;display:inline-block;color:var(--bar-c)}
+.brand .pb::before,.brand .pb::after{content:"B";position:absolute;left:0;top:0}
+.brand .pb::before{color:var(--bar-m);clip-path:inset(36% 0 0 0)}
+.brand .pb::after{color:var(--bar-y);clip-path:inset(64% 0 0 0)}
 .brand span{font:400 .875rem/1 var(--body);letter-spacing:0;color:var(--bar-muted)}
 .topbar__spacer{flex:1}
 .search{position:relative;width:min(320px,34vw)}
