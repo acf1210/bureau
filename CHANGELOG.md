@@ -4,7 +4,7 @@ All notable changes to BUREAU are recorded here. The format follows Keep a Chang
 
 ## [Unreleased]
 
-## [4.0.0] — 2026-10-26
+## [4.0.0] — 2026-10-27
 
 ### Breaking
 
