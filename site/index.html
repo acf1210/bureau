@@ -12,8 +12,8 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#EDECE7" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#111113" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#0F0F11" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0A0A0B" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/archivo-var-latin.woff2" as="font" type="font/woff2" crossorigin>
 <script>document.documentElement.classList.add("js");</script>
@@ -22,23 +22,27 @@
   @font-face{font-family:"Archivo";src:url("assets/fonts/archivo-var-latin.woff2") format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
   @font-face{font-family:"Archivo";src:url("assets/fonts/archivo-var-latin-ext.woff2") format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:swap;unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF}
   @font-face{font-family:"JetBrains Mono";src:url("assets/fonts/jetbrains-mono-normal-latin.woff2") format("woff2");font-weight:400 700;font-display:swap}
-  /* Metric-matched fallback so the expanded display face does not reflow the hero when it arrives. */
-  @font-face{font-family:"Archivo Wide Fallback";src:local("Arial Black"),local("Arial"),local("Liberation Sans");size-adjust:118%;ascent-override:82%;descent-override:20%}
+  /* Metric-matched fallback so the light display face does not reflow the hero when it arrives. */
+  @font-face{font-family:"Archivo Fallback";src:local("Arial"),local("Liberation Sans");size-adjust:102%;ascent-override:90%;descent-override:22%}
   :root{
-    --paper:#EDECE7;--sheet:#F7F6F2;--ink:#121214;--muted:#57565F;--rule:#C9C7BF;--pencil:#C8102E;
+    --paper:#F7F6F2;--sheet:#FDFDFB;--ink:#17171A;--muted:#5C5B63;--rule:#E0DED6;--pencil:#C8102E;
     --cyan:#0089C4;--magenta:#C4006A;--yellow:#F3D000;--blend:multiply;
-    --display:"Archivo","Archivo Wide Fallback",Arial,sans-serif;
+    /* Pale washes of the three plates: the light ground of the hero and the tinted cells. */
+    --wash:#EDF3F6;--wash-c:#E3EFF6;--wash-m:#F7E8EF;--wash-y:#FAF3D6;
+    /* The masthead and the colophon stay black in both themes. */
+    --bar:#0F0F11;--bar-ink:#F3F2EE;--bar-muted:#ABAAB2;--bar-rule:#2A2A2F;--bar-focus:#FF5A4E;
+    --display:"Archivo","Archivo Fallback",Arial,sans-serif;
     --text:"Archivo",Arial,sans-serif;
     --mono:"JetBrains Mono",ui-monospace,monospace;
     --pad:clamp(16px,4vw,56px);--gut:clamp(16px,2vw,28px);--max:1520px;
     --reg:cubic-bezier(.22,.9,.18,1);--lead:cubic-bezier(.3,.7,.2,1);--turn:cubic-bezier(.65,0,.35,1);
     color-scheme:light dark;
   }
-  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#111113;--sheet:#19191C;--ink:#ECEBE6;--muted:#A5A3AB;--rule:#34333A;--pencil:#FF5A4E;--blend:screen}}
-  :root[data-theme="dark"]{--paper:#111113;--sheet:#19191C;--ink:#ECEBE6;--muted:#A5A3AB;--rule:#34333A;--pencil:#FF5A4E;--blend:screen}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#141416;--sheet:#1B1B1F;--ink:#ECEBE6;--muted:#A5A3AB;--rule:#323138;--pencil:#FF5A4E;--blend:screen;--wash:#171C20;--wash-c:#15212A;--wash-m:#24171E;--wash-y:#23200F;--bar:#0A0A0B}}
+  :root[data-theme="dark"]{--paper:#141416;--sheet:#1B1B1F;--ink:#ECEBE6;--muted:#A5A3AB;--rule:#323138;--pencil:#FF5A4E;--blend:screen;--wash:#171C20;--wash-c:#15212A;--wash-m:#24171E;--wash-y:#23200F;--bar:#0A0A0B}
   *,*::before,*::after{box-sizing:border-box}
   html{background:var(--paper);color:var(--ink);scrollbar-color:var(--rule) var(--paper);-webkit-text-size-adjust:100%}
-  body{margin:0;background:var(--paper);font:400 1.0625rem/1.55 var(--text);font-variant-numeric:tabular-nums;caret-color:var(--pencil);overflow-x:clip}
+  body{margin:0;background:var(--paper);font:400 1.0625rem/1.6 var(--text);font-variant-numeric:tabular-nums;caret-color:var(--pencil);overflow-x:clip}
   ::selection{background:var(--pencil);color:var(--paper)}
   a{color:inherit;text-underline-offset:.22em;text-decoration-thickness:1px}
   :focus-visible{outline:3px solid var(--pencil);outline-offset:3px}
@@ -49,38 +53,50 @@
   .wrap{max-width:var(--max);margin:0 auto;padding:0 var(--pad)}
   .grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gut)}
 
-  /* Header: the masthead of a proof, not a navigation bar. */
-  .site-head{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem 1.6rem;padding:1rem var(--pad);border-bottom:1px solid var(--rule);max-width:var(--max);margin:0 auto}
-  .brand{font:800 1.35rem/1 var(--display);font-stretch:125%;letter-spacing:-.03em;text-decoration:none;margin-right:auto;padding:.5rem 0}
-  .site-nav{display:flex;flex-wrap:wrap;gap:.2rem 1.3rem}
-  .site-nav a,.langs a{text-decoration:none;font-size:.9375rem;padding:.6rem 0;display:inline-block;color:var(--muted)}
+  /* Header: the masthead of a proof, set black across the full width. */
+  .bleed{box-shadow:0 0 0 100vmax var(--bar);clip-path:inset(0 -100vmax)}
+  .site-head{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem 1.6rem;padding:.8rem var(--pad);max-width:var(--max);margin:0 auto;background:var(--bar);color:var(--bar-ink)}
+  .site-head :focus-visible,.site-foot :focus-visible{outline-color:var(--bar-focus)}
+  .brand{font:600 1.2rem/1 var(--display);font-stretch:112%;letter-spacing:.06em;text-decoration:none;margin-right:auto;padding:.5rem 0}
+  .site-nav{display:flex;flex-wrap:wrap;gap:.2rem 1.4rem}
+  .site-nav a,.langs a{text-decoration:none;font-size:.9375rem;padding:.6rem 0;display:inline-block;color:var(--bar-muted)}
   .langs a{min-width:28px;text-align:center;padding:.6rem .2rem}
-  .site-nav a:hover,.langs a:hover{color:var(--ink);text-decoration:underline}
+  .site-nav a:hover,.langs a:hover{color:var(--bar-ink);text-decoration:underline}
   .langs{display:flex;gap:.9rem;font-family:var(--mono);font-size:.8125rem}
-  .head-cta{font-weight:600;font-size:.9375rem;text-decoration:none;border:1px solid var(--ink);padding:.6rem .9rem}
-  .head-cta:hover{background:var(--ink);color:var(--paper)}
+  .head-cta{font-weight:500;font-size:.9375rem;text-decoration:none;border:1px solid var(--bar-muted);padding:.6rem .9rem}
+  .head-cta:hover{background:var(--bar-ink);color:var(--bar);border-color:var(--bar-ink)}
 
-  /* Hero: slug rail, headline and the proof sheet, set off the page axis. */
-  .hero{padding-top:clamp(2.5rem,6vh,5rem);padding-bottom:4rem;row-gap:2.4rem}
-  .slug{grid-column:1 / span 2;font:400 .8125rem/1.7 var(--mono);color:var(--muted);border-top:2px solid var(--ink);padding-top:.7rem;align-self:start}
-  .slug b{color:var(--ink);font-weight:600}
-  .slug span,.slug b{display:block}
-  h1{grid-column:3 / -1;font:800 clamp(3rem,7.4vw,8.4rem)/.86 var(--display);font-stretch:125%;letter-spacing:-.035em;margin:0}
-  .hero-copy{grid-column:3 / span 3;align-self:start}
+  /* Hero: a pale wash under the masthead; light headline at the left, the proof sheet over three soft plates at the right, the numbers as tinted cells below. */
+  .hero-band{background:var(--wash);border-bottom:1px solid var(--rule);overflow:hidden}
+  .hero{padding-top:clamp(2.5rem,7vh,5.5rem);padding-bottom:clamp(2.5rem,6vh,4.5rem);row-gap:2.6rem;align-items:start}
+  .slug{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:.3rem 1.6rem;margin:0;font:400 .8125rem/1.7 var(--mono);color:var(--muted)}
+  .slug b{color:var(--ink);font-weight:500}
+  .slug span::before{content:"/";margin-right:1.6rem;color:var(--rule)}
+  .hero-copy{grid-column:1 / span 5;padding-top:clamp(0rem,2vh,1.5rem)}
+  h1{font:300 clamp(2.8rem,5.4vw,5.9rem)/1.02 var(--display);letter-spacing:-.035em;margin:0 0 1.8rem}
   h1 span{display:block}
-  .lede{font-size:clamp(1.05rem,1.25vw,1.2rem);max-width:34rem;margin:0 0 2rem}
-  .actions{display:flex;flex-wrap:wrap;gap:.7rem;margin-bottom:2.4rem}
-  .btn{display:inline-flex;align-items:center;min-height:48px;padding:.75rem 1.25rem;font:600 1rem var(--text);text-decoration:none;background:var(--ink);color:var(--paper);border:1px solid var(--ink);cursor:pointer}
-  .btn:hover{background:var(--paper);color:var(--ink)}
-  .btn.line{background:transparent;color:var(--ink)}
-  .btn.line:hover{background:var(--ink);color:var(--paper)}
-  .facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem 1.6rem;margin:0;border-top:1px solid var(--rule);padding-top:1rem;max-width:30rem}
-  .facts div{display:flex;flex-direction:column}
-  .facts dt{order:2;font-size:.875rem;color:var(--muted)}
-  .facts dd{order:1;margin:0;font:800 2.2rem/1 var(--display);font-stretch:112%}
+  /* The one pencil mark in the headline: a rule under "proof", below the descenders. */
+  h1 em{font-style:normal;position:relative}
+  h1 em::after{content:"";position:absolute;left:.02em;right:.02em;bottom:-.04em;height:.05em;background:var(--pencil)}
+  .lede{font-size:clamp(1.05rem,1.25vw,1.2rem);line-height:1.6;color:var(--muted);max-width:32rem;margin:0 0 2.2rem}
+  .lede strong{color:var(--ink);font-weight:500}
+  .actions{display:flex;flex-wrap:wrap;gap:.7rem}
+  .btn{display:inline-flex;align-items:center;min-height:48px;padding:.75rem 1.35rem;font:500 1rem var(--text);text-decoration:none;background:var(--ink);color:var(--paper);border:1px solid var(--ink);cursor:pointer}
+  .btn:hover{background:transparent;color:var(--ink)}
+  .btn.line{background:transparent;color:var(--ink);border-color:var(--muted)}
+  .btn.line:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .facts{grid-column:1 / -1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--gut);margin:0}
+  .facts div{display:flex;flex-direction:column;gap:.5rem;padding:1.1rem 1.2rem 1.2rem;background:var(--sheet);border-top:2px solid var(--ink)}
+  .facts div:nth-child(1){background:var(--wash-c)}.facts div:nth-child(2){background:var(--wash-m)}.facts div:nth-child(3){background:var(--wash-y)}
+  .facts dt{order:2;font-size:.9375rem;color:var(--muted)}
+  .facts dd{order:1;margin:0;font:300 clamp(2.2rem,3vw,3rem)/1 var(--display);letter-spacing:-.03em}
 
-  .proof{grid-column:6 / -1;align-self:start;position:relative;margin:0}
-  .sheet{position:relative;background:var(--sheet);border:1px solid var(--rule)}
+  .proof{grid-column:6 / -1;position:relative;margin:0}
+  /* Thompson's overprint, lightened: three pale plates slightly out of register behind the sheet. */
+  .halo{position:absolute;inset:-3rem -2rem auto auto;width:min(46rem,100%);aspect-ratio:1;pointer-events:none;z-index:0}
+  .halo i{position:absolute;width:62%;aspect-ratio:1;border-radius:50%;mix-blend-mode:var(--blend);opacity:.16}
+  .halo i:nth-child(1){background:var(--cyan);right:22%;top:0}.halo i:nth-child(2){background:var(--magenta);right:0;top:10%}.halo i:nth-child(3){background:var(--yellow);right:12%;top:30%;opacity:.3}
+  .sheet{position:relative;z-index:1;background:var(--sheet);border:1px solid var(--rule)}
   .sheet-head{display:flex;justify-content:space-between;gap:1rem;align-items:center;padding:.6rem .9rem;border-bottom:1px solid var(--rule);font:400 .8125rem var(--mono);color:var(--muted)}
   .plates{display:flex;height:10px;position:relative;width:96px}
   .plates i{flex:1;mix-blend-mode:var(--blend)}
@@ -111,13 +127,13 @@
   .marks .t{color:var(--muted)}
   .sheet-foot{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;justify-content:space-between;padding:.7rem .9rem;border-top:1px solid var(--rule)}
   .flip{display:inline-flex;border:1px solid var(--ink)}
-  .flip button{font:600 .9375rem var(--text);min-height:44px;padding:.65rem 1rem;background:transparent;color:var(--ink);border:0;cursor:pointer}
+  .flip button{font:500 .9375rem var(--text);min-height:44px;padding:.65rem 1rem;background:transparent;color:var(--ink);border:0;cursor:pointer}
   .flip button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
-  .self{font:600 .9375rem var(--text);min-height:44px;padding:.65rem 1rem;background:transparent;color:var(--ink);border:1px solid var(--ink);cursor:pointer}
+  .self{font:500 .9375rem var(--text);min-height:44px;padding:.65rem 1rem;background:transparent;color:var(--ink);border:1px solid var(--ink);cursor:pointer}
   .self:hover{background:var(--ink);color:var(--paper)}
   .verdict{font:400 .875rem var(--mono);margin:0;color:var(--ink);padding:.7rem .9rem;border-top:1px solid var(--rule);min-height:2.9rem}
   .verdict b{color:var(--pencil)}
-  .caption{font-size:.875rem;color:var(--muted);margin:.8rem 0 0;max-width:46rem}
+  .caption{position:relative;z-index:1;font-size:.875rem;color:var(--muted);margin:.8rem 0 0;max-width:46rem}
   .marks.live li{visibility:hidden}
   .marks.live li.on{visibility:visible}
   .no-js-only{display:block}
@@ -128,20 +144,20 @@
   /* Sections: a document, read top to bottom. */
   section{scroll-margin-top:1rem}
   .sec{padding-top:clamp(5rem,10vh,8rem);padding-bottom:1rem}
-  .sec-head{grid-column:3 / -1;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:var(--gut);align-items:end;border-top:2px solid var(--ink);padding-top:1.2rem;margin-bottom:2.6rem}
+  .sec-head{grid-column:3 / -1;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:var(--gut);align-items:end;border-top:1px solid var(--ink);padding-top:1.2rem;margin-bottom:2.6rem}
   .sec-label{grid-column:1 / span 2;font:400 .8125rem/1.7 var(--mono);color:var(--muted);padding-top:1.45rem}
-  h2{font:800 clamp(2.2rem,4.6vw,4.6rem)/.9 var(--display);font-stretch:118%;letter-spacing:-.03em;margin:0}
+  h2{font:300 clamp(2.1rem,4vw,4rem)/1.02 var(--display);letter-spacing:-.03em;margin:0}
   .sec-head p{margin:0;color:var(--muted);max-width:36rem}
   .body{grid-column:3 / -1}
 
   .argument{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gut)}
   .argument p{margin:0;max-width:30rem}
-  .argument b{display:block;font:700 1.15rem/1.25 var(--text);margin-bottom:.4rem}
+  .argument b{display:block;font:500 1.15rem/1.3 var(--text);margin-bottom:.4rem}
 
   .ledger{display:grid;grid-template-columns:4rem minmax(0,13rem) minmax(0,1fr) 3rem;column-gap:var(--gut);border-top:1px solid var(--ink)}
   .ledger > *{padding:.75rem 0;border-bottom:1px solid var(--rule);display:flex;align-items:center}
-  .ledger .g{font:600 .9375rem var(--mono)}
-  .ledger .w{justify-content:flex-end;font:800 1.3rem var(--display);font-stretch:110%}
+  .ledger .g{font:500 .9375rem var(--mono)}
+  .ledger .w{justify-content:flex-end;font:400 1.3rem var(--display)}
   .bar{position:relative;height:18px;width:100%}
   .bar i{position:absolute;left:0;top:0;bottom:0;width:calc(var(--v) / 15 * 100%);mix-blend-mode:var(--blend);transform-origin:left}
   .bar i:nth-child(1){background:var(--cyan)}
@@ -150,64 +166,66 @@
   .js .ledger:not(.in) .bar i{transform:scaleX(0)}
   .ledger.in .bar i{transition:transform .7s var(--reg);transition-delay:calc(var(--n) * 50ms)}
   .thresholds{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--gut);margin-top:1.8rem}
-  .thresholds div{border-top:1px solid var(--ink);padding-top:.6rem}
-  .thresholds b{display:block;font:800 1.9rem/1 var(--display);font-stretch:110%}
+  .thresholds div{border-top:1px solid var(--ink);padding:.8rem 1rem 1rem;background:var(--sheet)}
+  .thresholds div:nth-child(1){background:var(--wash-c)}.thresholds div:nth-child(2){background:var(--wash-y)}.thresholds div:nth-child(4){background:var(--wash-m)}
+  .thresholds b{display:block;font:300 2rem/1.1 var(--display);letter-spacing:-.02em}
   .thresholds span{font-size:.9375rem;color:var(--muted)}
   .rules{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gut);margin-top:2.4rem}
   .rules p{margin:0;font-size:.9375rem}
-  .rules b{display:block;margin-bottom:.3rem}
+  .rules b{display:block;font-weight:500;margin-bottom:.3rem}
 
   .cmds{width:100%;border-collapse:collapse}
   .cmds th,.cmds td{text-align:left;padding:.8rem 1rem .8rem 0;border-bottom:1px solid var(--rule);vertical-align:baseline}
   .cmds th{font:400 .8125rem var(--mono);color:var(--muted);border-bottom-color:var(--ink)}
-  .cmds td:first-child{font:600 1rem var(--mono);white-space:nowrap}
+  .cmds td:first-child{font:500 1rem var(--mono);white-space:nowrap}
   .cmds td:last-child{color:var(--muted)}
 
   /* ShowCase gallery (generated by scripts/gallery.mjs). */
   .demos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--gut)}
-  .demo{display:flex;flex-direction:column;text-decoration:none;border-top:2px solid var(--ink);padding-top:.8rem;min-width:0}
+  .demo{display:flex;flex-direction:column;text-decoration:none;border-top:1px solid var(--ink);padding-top:.8rem;min-width:0}
   .demo--lead{grid-column:1 / -1}
-  .demo__media{position:relative;overflow:hidden;background:var(--sheet);border:1px solid var(--rule);aspect-ratio:16 / 10}
+  .demo__media{position:relative;overflow:hidden;background:var(--wash);border:1px solid var(--rule);aspect-ratio:16 / 10}
   .demo--lead .demo__media{aspect-ratio:21 / 9}
   .demo__media > picture:first-child img{width:100%;height:100%;object-fit:cover;object-position:left top;display:block}
   .demo__phone{position:absolute;right:4%;bottom:-8%;width:18%;border:2px solid var(--ink);overflow:hidden;background:var(--paper)}
   .demo__phone img{display:block;width:100%;height:auto}
   .demo__body{display:flex;justify-content:space-between;gap:1rem;padding:.9rem 0 0}
-  .demo__body h3{font:800 1.5rem/1 var(--display);font-stretch:112%;margin:0 0 .3rem}
+  .demo__body h3{font:400 1.5rem/1.1 var(--display);letter-spacing:-.01em;margin:0 0 .3rem}
   .demo__body p{margin:0;font-size:.9375rem;color:var(--muted);max-width:40rem}
-  .demo__body p b{color:var(--ink);font-weight:600}
+  .demo__body p b{color:var(--ink);font-weight:500}
   .demo__tag{font:400 .8125rem var(--mono);color:var(--muted);white-space:nowrap}
   .demo:hover h3{text-decoration:underline;text-decoration-thickness:2px}
 
   .install{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:var(--gut)}
   .install p{margin:0 0 1rem;max-width:32rem}
   .tabs{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--ink)}
-  .tab{font:600 .9375rem var(--text);min-height:44px;padding:.65rem 1rem;background:transparent;color:var(--muted);border:0;border-bottom:3px solid transparent;cursor:pointer;margin-bottom:-1px}
+  .tab{font:500 .9375rem var(--text);min-height:44px;padding:.65rem 1rem;background:transparent;color:var(--muted);border:0;border-bottom:3px solid transparent;cursor:pointer;margin-bottom:-1px}
   .tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--ink)}
   .cmd{position:relative;background:var(--sheet);border:1px solid var(--rule);border-top:0;padding:1.2rem 1.2rem 1.2rem;overflow-x:auto}
   .cmd code{display:block;white-space:pre;font-size:.9375rem;line-height:1.7}
-  .copy{float:right;margin:0 0 .6rem 1rem;font:600 .875rem var(--text);min-height:40px;padding:.6rem .9rem;background:var(--ink);color:var(--paper);border:0;cursor:pointer}
+  .copy{float:right;margin:0 0 .6rem 1rem;font:500 .875rem var(--text);min-height:40px;padding:.6rem .9rem;background:var(--ink);color:var(--paper);border:0;cursor:pointer}
   .note{font-size:.9375rem;color:var(--muted)}
   .js .no-js-tabs{display:none}
 
   .docs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gut)}
-  .doc-link{display:flex;flex-direction:column;gap:.3rem;text-decoration:none;border-top:2px solid var(--ink);padding:1rem 0}
+  .doc-link{display:flex;flex-direction:column;gap:.3rem;text-decoration:none;border-top:1px solid var(--ink);padding:1rem 1.1rem 1.2rem;background:var(--sheet)}
+  .doc-link:nth-child(1){background:var(--wash-c)}.doc-link:nth-child(2){background:var(--wash-y)}.doc-link:nth-child(3){background:var(--wash-m)}
   .doc-link span{font:400 .8125rem var(--mono);color:var(--muted)}
-  .doc-link strong{font:800 2rem/1 var(--display);font-stretch:118%}
+  .doc-link strong{font:300 2rem/1.1 var(--display);letter-spacing:-.02em}
   .doc-link em{font-style:normal;color:var(--muted)}
   .doc-link:hover strong{text-decoration:underline;text-decoration-thickness:2px}
 
-  .site-foot{margin-top:clamp(5rem,10vh,8rem);border-top:1px solid var(--rule);padding-top:2rem;padding-bottom:3rem;row-gap:1.4rem;font-size:.9375rem;color:var(--muted)}
+  .site-foot{margin-top:clamp(5rem,10vh,8rem);padding-top:3rem;padding-bottom:3.5rem;row-gap:1.4rem;font-size:.9375rem;line-height:1.7;background:var(--bar);color:var(--bar-muted)}
   .site-foot p{margin:0}
+  .site-foot a{color:var(--bar-ink)}
   .site-foot .f1{grid-column:1 / span 4}.site-foot .f2{grid-column:5 / span 4}.site-foot .f3{grid-column:9 / -1}
-  .site-foot b{color:var(--ink)}
+  .site-foot b{color:var(--bar-ink);font-weight:600;letter-spacing:.06em}
 
   @media (max-width:1100px){
-    .slug{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:.2rem 1.4rem;border-top-width:1px}
-    h1{grid-column:1 / -1}
-    .hero-copy{grid-column:1 / -1;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:0 var(--gut);align-items:start}
-    .hero-copy .facts{grid-column:2;grid-row:1 / span 2}
+    .hero-copy{grid-column:1 / -1;padding-top:0}
+    h1{max-width:14ch}
     .proof{grid-column:1 / -1}
+    .facts{grid-template-columns:repeat(2,minmax(0,1fr))}
     .sec-label{grid-column:1 / -1;padding-top:0}
     .sec-head,.body{grid-column:1 / -1}
     .argument{grid-template-columns:minmax(0,1fr)}
@@ -216,8 +234,8 @@
   @media (max-width:720px){
     /* On a phone the sheet keeps the specimen and numbers; the marks become a list under it. */
     .stage{grid-template-columns:minmax(0,1fr)}
-    .hero-copy{grid-template-columns:minmax(0,1fr)}
-    .hero-copy .facts{grid-column:auto;grid-row:auto}
+    .slug span::before{margin-right:.6rem}
+    .slug{gap:.2rem .6rem}
     .frame{border-right:0;border-bottom:1px solid var(--rule)}
     .marks{columns:1}
     .sec-head{grid-template-columns:minmax(0,1fr);gap:1rem}
@@ -244,7 +262,7 @@
 </head>
 <body class="lp">
 <a class="skip-link" href="#top">Skip to main content</a>
-<header class="site-head">
+<header class="site-head bleed">
   <a class="brand" href="#top">BUREAU</a>
   <nav class="site-nav" aria-label="Primary">
     <a href="#proof">Proof</a>
@@ -264,21 +282,17 @@
 </header>
 
 <main id="top" tabindex="-1">
+  <div class="hero-band">
   <section class="hero wrap grid" id="proof" aria-labelledby="h-hero">
-    <p class="slug"><b>Job: BUREAU</b><span>v{{VERSION}}, MIT</span><span>Proof of {{DATE}}</span><span>Agent skill for</span><span>Claude Code, Codex, Antigravity, Hermes</span></p>
-    <h1 id="h-hero"><span>Every page</span><span>gets a proof.</span></h1>
+    <p class="slug"><b>Job: BUREAU</b><span>v{{VERSION}}, MIT</span><span>Proof of {{DATE}}</span><span>Agent skill for Claude Code, Codex, Antigravity, Hermes</span></p>
     <div class="hero-copy">
-      <p class="lede">BUREAU gives a coding model the workflow of a design bureau: concept, art direction, type, motion, accessibility, and a review that can say no. Beside this, its detector marks a generic generated page in red pencil, using the same rules the command line runs.</p>
+      <h1 id="h-hero"><span>Every page</span><span>gets a <em>proof</em>.</span></h1>
+      <p class="lede"><strong>BUREAU gives a coding model the workflow of a design bureau:</strong> concept, art direction, type, motion, accessibility, and a review that can say no. Beside this, its detector marks a generic generated page in red pencil, using the same rules the command line runs.</p>
       <div class="actions"><a class="btn" href="#install">Install the skill</a><a class="btn line" href="en/review-circuit.html">Read the circuit</a></div>
-      <dl class="facts">
-        <div><dt>pattern rules in the detector</dt><dd>32</dd></div>
-        <div><dt>project checks beside them</dt><dd>21</dd></div>
-        <div><dt>gates before a Tribunal</dt><dd>10</dd></div>
-        <div><dt>hosts, one skill folder</dt><dd>4</dd></div>
-      </dl>
     </div>
 
     <figure class="proof" aria-labelledby="proof-title">
+      <div class="halo" aria-hidden="true"><i></i><i></i><i></i></div>
       <div class="sheet">
         <div class="sheet-head"><span id="proof-title">Galley: a generic generated hero</span><span class="plates" aria-hidden="true"><i></i><i></i><i></i></span></div>
         <div class="stage">
@@ -322,7 +336,15 @@
       </div>
       <figcaption class="caption">The specimen is a deliberately generic page written for this proof, not anyone's site. The marks are the detector's real findings on its source, drawn at the elements they name; the 21 project checks run in the command line, not here.</figcaption>
     </figure>
+
+    <dl class="facts">
+      <div><dt>pattern rules in the detector</dt><dd>32</dd></div>
+      <div><dt>project checks beside them</dt><dd>21</dd></div>
+      <div><dt>gates before a Tribunal</dt><dd>10</dd></div>
+      <div><dt>hosts, one skill folder</dt><dd>4</dd></div>
+    </dl>
   </section>
+  </div>
 
   <section class="sec wrap grid" id="problem" aria-labelledby="h-problem">
     <p class="sec-label">Argument</p>
@@ -482,10 +504,10 @@ bash installers/install.sh --agent hermes --scope user</code></div></div>
   </section>
 </main>
 
-<footer class="site-foot wrap grid">
+<footer class="site-foot wrap grid bleed">
   <p class="f1"><b>BUREAU</b><br>An agent skill that designs like a studio.<br>v{{VERSION}}, MIT licence, {{DATE}}.</p>
   <p class="f2"><a href="https://github.com/acf1210/bureau" target="_blank" rel="noopener noreferrer">GitHub ↗</a><br><a href="en/install.html">Install</a><br><a href="en/review-circuit.html">Circuit</a></p>
-  <p class="f3">Set in Archivo and JetBrains Mono (SIL Open Font License). No analytics, no tracking, no account. PANTONE® is a trademark of Pantone LLC; BUREAU is not affiliated.</p>
+  <p class="f3">Set in Archivo (light and regular) and JetBrains Mono (SIL Open Font License). No analytics, no tracking, no account. PANTONE® is a trademark of Pantone LLC; BUREAU is not affiliated.</p>
 </footer>
 
 <script>
