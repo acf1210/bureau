@@ -6,7 +6,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 SKILL_SRC="$REPO_ROOT/skill"
-VERSION="$(cat "$REPO_ROOT/VERSION" 2>/dev/null || echo "7.2.0")"
+VERSION="$(cat "$REPO_ROOT/VERSION" 2>/dev/null || echo "7.3.0")"
 STAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 MARKER=".bureau-installed"
 

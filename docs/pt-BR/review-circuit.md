@@ -1,5 +1,7 @@
 # O circuito de revisão
 
+Cada jurado também examina dez perspectivas adaptadas dos [critérios do Agency Design Awards](https://www.agencydesignawards.com/judging-criteria): apresentação visual, apresentação escrita, propósito, relevância, criatividade, inovação, entrega, experiência, sociedade e opinião dos jurados. Registre evidências ou a razão de uma perspectiva não se aplicar e encaminhe achados aos votos dos portões; veja `skill/references/16-review-circuit.md`. Essa revisão complementar é manual e não cria uma nota oficial da premiação.
+
 A finalização também exige o júri independente de 10–15 membros e a revisão completa das Laws of UX descritos em `skill/references/29-jury-and-ux.md`. Todos votam em todos os portões e princípios. O loop do júri dura no máximo 10 minutos a partir de `--jury-start`; cada `--jury-round` pontua os votos e a decisão é a melhor rodada registrada nesse tempo. Dissidência na melhor rodada limita o veredito a condicional. Sem avaliadores independentes, o veredito permanece pendente.
 
 Dez portões independentes e um Tribunal. O objetivo não é produzir uma nota bonita; é impedir que o bureau aprove um trabalho por apego.
