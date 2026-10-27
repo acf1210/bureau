@@ -97,7 +97,7 @@ This prevents "I approved it yesterday, changed 40 files today, it's fine". It i
 
 ## 7. Progressive disclosure
 
-The agent reads `SKILL.md` (≈350 lines), then only:
+The agent reads `SKILL.md` (≈160 lines), then only:
 
 - `00-doctrine` before creating;
 - `16-review-circuit` before reviewing;
@@ -121,7 +121,7 @@ References are independent. None requires the agent to have read the others.
 To add a domain:
 
 1. create `references/33-your-domain.md`;
-2. add the row to the §9 table in `SKILL.md`;
+2. add the row to the router table (§4) in `SKILL.md`;
 3. if it has mechanical rules, add `BS-*` rules to `scripts/lib/rules.mjs`;
 4. if it adds a gate, adjust `scripts/lib/gates.mjs` and rebalance weights to 100;
 5. test with `node --test`.

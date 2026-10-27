@@ -97,7 +97,7 @@ Isso impede o clássico "aprovei ontem, mexi em 40 arquivos hoje, está tudo bem
 
 ## 7. Divulgação progressiva
 
-O agente lê `SKILL.md` (≈350 linhas) e só então:
+O agente lê `SKILL.md` (≈160 linhas) e só então:
 
 - `00-doctrine` antes de criar;
 - `16-review-circuit` antes de revisar;
@@ -121,7 +121,7 @@ As referências são independentes. Nenhuma depende de o agente ter lido as outr
 Para adicionar um domínio:
 
 1. crie `references/33-seu-dominio.md`;
-2. adicione a linha na tabela §9 do `SKILL.md`;
+2. adicione a linha na tabela do roteador (§4) do `SKILL.md`;
 3. se houver regra mecânica, adicione em `scripts/lib/rules.mjs` com ID `BS-*`;
 4. se houver portão novo, ajuste `scripts/lib/gates.mjs` e redistribua os pesos para 100;
 5. teste com `node --test`.
