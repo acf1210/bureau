@@ -49,11 +49,13 @@ export const gates = [
     evidence: [
       { label: "Decision record", path: ".bureau/comps/decision.md" },
       { label: "Lineage blend", path: ".bureau/comps/blend.md" },
+      { label: "Five-source reference survey", path: ".bureau/research/survey.json" },
       { label: "Three comps + decision + blend", path: ".bureau/comps/*", min: 5 }
     ],
     hardFails: [
       "The concept could belong to any competitor unchanged",
       "One source dominates: the attribution test names it",
+      "Fewer than five references verified in queue order, or no named pattern and departure",
       "No signature move, or a generic effect",
       "Depends on assets that do not exist and cannot be produced"
     ]

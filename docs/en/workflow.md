@@ -12,7 +12,7 @@ To compare versions by design quality or approval rate, use the paired real-brie
 
 For an assessment independent of award rubrics and the review circuit, use `skill/references/28-independent-design-assessment.md` and `skill/assets/studio-templates/independent-assessment.md`. Independent reviewers score five dimensions using evidence; missing evidence leaves the total unassessed.
 
-For deeper briefs, reference research and optional candidate assessment, use `skill/references/27-design-intelligence.md` and `skill/assets/studio-templates/qualification.md`. The 25 requested source entries are a menu, including names still needing identification; the rubric requires evidence for every score. Continuous indexing and trend prediction are not implemented.
+For deeper briefs, reference research and optional candidate assessment, use `skill/references/27-design-intelligence.md` and `skill/assets/studio-templates/qualification.md`. The design engine starts from a five-source survey (`skill/references/30-reference-survey.md`): `survey.mjs` orders the 25 entries by the brief's need, a source that cannot be verified is skipped with its reason and the next one taken until five are verified, with the shared pattern and the creative departure recorded. The 25 entries include names still needing identification; the rubric requires evidence for every score. Continuous indexing and trend prediction are not implemented.
 
 `node skill/scripts/source-monitor.mjs --out source-report.json` records availability of identified sources' `robots.txt` endpoints. The repository workflow schedules it daily at 09:00 UTC and retains reports for 30 days when GitHub Actions is enabled. It does not index projects or classify designs and will not overwrite a report.
 

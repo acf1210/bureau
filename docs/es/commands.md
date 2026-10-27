@@ -161,7 +161,14 @@ El informe incluye overflow, contraste, objetivos táctiles, imágenes, fuentes,
 ```bash
 node skill/scripts/review.mjs --status
 node skill/scripts/review.mjs --gate g1-concept --scores .bureau/review/g1.json
+node skill/scripts/survey.mjs --init --need landing --probe
+node skill/scripts/survey.mjs --check
 node skill/scripts/review.mjs --delivery-init
+node skill/scripts/review.mjs --jury-init
+node skill/scripts/review.mjs --jury-start
+node skill/scripts/review.mjs --jury-round
+node skill/scripts/review.mjs --regate
+node skill/scripts/review.mjs --jury-status
 node skill/scripts/review.mjs --final --tribunal .bureau/review/tribunal.json
 node skill/scripts/review.mjs --report
 ```
@@ -170,6 +177,8 @@ node skill/scripts/review.mjs --report
 - Exige evidencia.
 - Rechaza score < 3,5 y P0.
 - Marca puertas obsoletas por hash.
+- La puerta 1 exige el relevamiento de cinco fuentes verificadas, en el orden de la cola.
+- El jurado tiene un time box de 10 minutos; vale la mejor ronda registrada dentro de él.
 - Genera `.bureau/review/scorecard.html`.
 
 ---

@@ -16,7 +16,11 @@ Example: *A wealth platform for founders.* Subject: private markets. Tension: en
 
 Weak concept: "Modern, clean, trustworthy fintech." No tension, no form, no ownership.
 
-## 2. Generate three, not one
+## 2. Survey before you generate
+
+Run the five-source survey in `30-reference-survey.md` first. Its `pattern` is what the category's users expect; its `creative` field is the departure this project owns. Each direction below states how it treats that pattern: kept, bent or replaced, and why. A direction that only restates the pattern is a gallery entry, not a concept.
+
+## 3. Generate three, not one
 
 Three directions force a real decision. They must differ on **at least three of the four axes** (ground, voice, light, motion), on the signature move, and on the lineage: no source may appear in two directions.
 
@@ -53,7 +57,7 @@ Use a lens to escape the first obvious idea.
 
 A strong direction often fuses two lenses: *Documentary × Instrumental* for a security company; *Material × Editorial* for a fashion house.
 
-## 3. Concept quality test
+## 4. Concept quality test
 
 Score each direction 0–2 on five criteria. Anything below 7/10 is not ready.
 
@@ -65,7 +69,7 @@ Score each direction 0–2 on five criteria. Anything below 7/10 is not ready.
 | **Feasible** | needs unavailable tech | expensive but possible | buildable within budget |
 | **Ethical** | manipulates or fabricates | neutral | reinforces the user's goal |
 
-## 4. Selection
+## 5. Selection
 
 Use a weighted matrix tied to the brief, not to personal preference.
 
@@ -80,7 +84,7 @@ Use a weighted matrix tied to the brief, not to personal preference.
 
 Write the scores and the reasoning in `.bureau/comps/decision.md`. Include the rejected directions and why. This is how a future session avoids reopening a settled decision.
 
-## 5. Comps
+## 6. Comps
 
 Comps are **arguments**, not decoration. Make three cheap, high-fidelity-enough artifacts:
 
@@ -95,13 +99,13 @@ Rules:
 - Keep all three at the same viewport for honest comparison.
 - Do not let the comp become the build by accident; label it `comp-*` and rebuild with the design system.
 
-## 6. Naming the direction
+## 7. Naming the direction
 
 A direction needs a name the team can say in a meeting: *The Ledger*, *Cold Storage*, *Field Notes*, *The Loom*, *Night Shift*, *The Vitrine*, *Paper Radio*, *Terminal Garden*.
 
 Avoid names that are just adjectives (*Modern*, *Bold*, *Clean*). A name should imply a world.
 
-## 7. Common concept failures
+## 8. Common concept failures
 
 | Failure | Symptom | Fix |
 |---|---|---|
@@ -113,7 +117,7 @@ Avoid names that are just adjectives (*Modern*, *Bold*, *Clean*). A name should 
 | **Committee concept** | every stakeholder added something | return to the one-sentence thesis |
 | **Inaccessible concept** | depends on hover/vision/motion only | design the non-visual path now |
 
-## 8. Concept prompts by category
+## 9. Concept prompts by category
 
 Use these as starting points, never as answers.
 
@@ -128,8 +132,9 @@ Use these as starting points, never as answers.
 - **Real estate / architecture**: space as sequence. Ground: blueprint + photography. Voice: architectural mono. Motion: threshold transitions.
 - **Food / hospitality**: memory through material. Ground: linen, ceramic, steam. Voice: warm editorial. Motion: service pace.
 
-## 9. Output of Gate 1
+## 10. Output of Gate 1
 
+- `.bureau/research/survey.json`: five verified references, the shared pattern and the departure (`survey.mjs --check` exits 0).
 - Three directions with the template above, each with its own lineage.
 - `.bureau/comps/blend.md` for the chosen direction.
 - Three comps at the same viewport.

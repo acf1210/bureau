@@ -6,12 +6,16 @@
  *   node scripts/review.mjs --status
  *   node scripts/review.mjs --gate g1-concept --scores .bureau/review/g1.json
  *   node scripts/review.mjs --delivery-init
+ *   node scripts/review.mjs --jury-start | --jury-round | --jury-status
  *   node scripts/review.mjs --final --tribunal .bureau/review/tribunal.json
  */
 
 import fs from "node:fs";
 import path from "node:path";
-import { validateJury, UX_LAWS } from "./lib/jury.mjs";
+import { spawnSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
+import { validateJury, validateMembers, scoreMembers, bestRound, deadline, issueErrors, UX_LAWS, JURY_BUDGET_SECONDS } from "./lib/jury.mjs";
+import { validateSurvey } from "./lib/sources.mjs";
 import {
   gates, gateById, GATE_ORDER, VERDICTS,
   checkEvidence, normalizeScores, validateEvidenceFiles,
@@ -22,7 +26,7 @@ import {
 const STATE_VERSION = 1;
 
 function parseArgs(argv) {
-  const opts = { root: process.cwd(), json: false, gate: null, scores: null, final: false, tribunal: null, status: false, reset: false, yes: false, report: false, deliveryInit: false, juryInit: false };
+  const opts = { root: process.cwd(), json: false, gate: null, scores: null, final: false, tribunal: null, status: false, reset: false, yes: false, report: false, deliveryInit: false, juryInit: false, jury: null, regate: false };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === "--root") opts.root = path.resolve(argv[++i]);
@@ -36,6 +40,10 @@ function parseArgs(argv) {
     else if (a === "--report") opts.report = true;
     else if (a === "--delivery-init") opts.deliveryInit = true;
     else if (a === "--jury-init") opts.juryInit = true;
+    else if (a === "--regate") opts.regate = true;
+    else if (a === "--jury-start") opts.jury = "start";
+    else if (a === "--jury-round") opts.jury = "round";
+    else if (a === "--jury-status") opts.jury = "status";
     else if (a === "--json") opts.json = true;
     else if (a === "--help" || a === "-h") {
       console.log(`BUREAU review circuit
@@ -43,8 +51,12 @@ function parseArgs(argv) {
 Usage:
   node scripts/review.mjs --status
   node scripts/review.mjs --gate <id> --scores <file>
+  node scripts/review.mjs --regate          replay every gate from .bureau/review/<gate>.json
   node scripts/review.mjs --delivery-init
   node scripts/review.mjs --jury-init
+  node scripts/review.mjs --jury-start     start the 10-minute jury loop
+  node scripts/review.mjs --jury-round     score the current votes as one round
+  node scripts/review.mjs --jury-status    time left and best round so far
   node scripts/review.mjs --final [--tribunal <file>]
   node scripts/review.mjs --report
   node scripts/review.mjs --reset --yes
@@ -144,6 +156,14 @@ function ensureDirs(root) {
   fs.mkdirSync(path.join(root, ".bureau", "qa", "screenshots"), { recursive: true });
 }
 
+// Gate 1 reads the survey itself: presence alone would let an empty queue through.
+function gateSurveyErrors(root, gateId) {
+  if (gateId !== "g1-concept") return [];
+  const file = path.join(root, ".bureau", "research", "survey.json");
+  if (!fs.existsSync(file)) return [];
+  return validateSurvey(readJson(file)).errors;
+}
+
 function gateCommand(root, state, gateId, scoresFile) {
   const gate = gateById.get(gateId);
   if (!gate) {
@@ -179,6 +199,11 @@ function gateCommand(root, state, gateId, scoresFile) {
   }
 
   const ev = checkEvidence(root, gate.evidence);
+  const surveyErrors = gateSurveyErrors(root, gate.id);
+  if (surveyErrors.length) {
+    console.error("Gate blocked: reference survey incomplete (scripts/survey.mjs --check).\n- " + surveyErrors.join("\n- "));
+    process.exit(4);
+  }
   const missingEvidence = validateEvidenceFiles(root, normalized.value.evidence);
   const issueEvidenceMissing = [];
   for (const issue of normalized.value.issues) {
@@ -403,6 +428,11 @@ function finalCommand(root, state, tribunalFile, asJson) {
       console.error(`Cannot finalize: ${row.def.id} evidence missing: ${ev.missing.map((m) => m.path).join(", ")}`);
       blocked = true;
     }
+    const survey = gateSurveyErrors(root, row.def.id);
+    if (survey.length) {
+      console.error(`Cannot finalize: reference survey incomplete: ${survey.join("; ")}`);
+      blocked = true;
+    }
     const listed = validateEvidenceFiles(root, row.result.evidence || []);
     if (listed.length) {
       console.error(`Cannot finalize: ${row.def.id} evidence file(s) removed: ${listed.join(", ")}`);
@@ -424,11 +454,9 @@ function finalCommand(root, state, tribunalFile, asJson) {
   }
 
   const jury = readJson(path.join(root, ".bureau", "review", "jury.json"));
-  const juryErrors = validateJury(jury, GATE_ORDER, sourceHash(root).hash, (p) => {
-    try { return fs.statSync(path.resolve(root, p)).isFile(); } catch { return false; }
-  });
-  if (juryErrors.length) {
-    console.error("Cannot finalize: jury incomplete or stale.\n- " + juryErrors.join("\n- "));
+  const juryCheck = validateJury(jury, GATE_ORDER, sourceHash(root).hash, evidenceChecker(root));
+  if (juryCheck.errors.length) {
+    console.error("Cannot finalize: jury incomplete or stale.\n- " + juryCheck.errors.join("\n- "));
     process.exit(1);
   }
 
@@ -482,8 +510,14 @@ function finalCommand(root, state, tribunalFile, asJson) {
   if (blocking.length) { finalVerdict = "fail"; reason = `${blocking.length} unresolved P0 issue(s).`; }
   // A single-context review cannot certify Award Track: the thread that built the work is its weakest reviewer.
   if (tribunal?.method === "degraded" && finalVerdict === "award") { finalVerdict = "pass"; reason = "DEGRADED review: single context; Award Track needs an isolated Tribunal."; }
+  // The time box keeps the best round; a best round with dissent is a decision, not a unanimous pass.
+  if (!juryCheck.unanimous && ["pass", "award"].includes(finalVerdict)) {
+    finalVerdict = "conditional";
+    reason = `Jury time box closed on round ${juryCheck.best.n} at ${juryCheck.best.score}/100 with ${juryCheck.fails.length} dissenting vote(s); written acceptance required.`;
+  }
 
   state.tribunal = tribunal;
+  state.jury = { round: juryCheck.best.n, score: juryCheck.best.score, unanimous: juryCheck.unanimous, dissent: juryCheck.fails, rounds: jury.rounds.length };
   state.total = total;
   state.verdict = { verdict: finalVerdict, reason, at: new Date().toISOString() };
   state.issues = issues;
@@ -493,11 +527,87 @@ function finalCommand(root, state, tribunalFile, asJson) {
   const data = writeScorecards(root, state);
 
   console.log(`BUREAU TRIBUNAL — ${finalVerdict.toUpperCase()}`);
-  console.log(`${total}/100 · ${data.gates.length} gates · P0 ${blocking.length} · P1 ${conditional.length}`);
+  console.log(`${total}/100 · ${data.gates.length} gates · P0 ${blocking.length} · P1 ${conditional.length} · jury ${juryCheck.best.score}/100 (round ${juryCheck.best.n} of ${jury.rounds.length})`);
   console.log(reason);
   console.log(`\nScorecard: ${path.relative(process.cwd(), paths(root).scorecardHtml)}`);
   if (asJson) console.log(JSON.stringify(data, null, 2));
   if (finalVerdict === "fail") process.exit(1);
+}
+
+// After a jury fix the source hash changes and every gate goes stale; replaying the ten
+// score files in order, one command, keeps a correction round inside the time box.
+function regateCommand(root) {
+  const self = fileURLToPath(import.meta.url);
+  for (const id of GATE_ORDER) {
+    const file = path.join(".bureau", "review", `${id}.json`);
+    if (!fs.existsSync(path.join(root, file))) { console.error(`Regate stopped: ${file} missing.`); process.exit(2); }
+    const r = spawnSync(process.execPath, [self, "--root", root, "--gate", id, "--scores", path.join(root, file)], { encoding: "utf8" });
+    if (r.status !== 0) { console.error(`Regate stopped at ${id}:\n${r.stdout}${r.stderr}`); process.exit(r.status || 1); }
+  }
+  console.log(`Regate: ${GATE_ORDER.length} gates replayed against ${sourceHash(root).hash.slice(0, 12)}.`);
+}
+
+function evidenceChecker(root) {
+  const cache = new Map();
+  return (p) => {
+    if (!cache.has(p)) { try { cache.set(p, fs.statSync(path.resolve(root, p)).isFile()); } catch { cache.set(p, false); } }
+    return cache.get(p);
+  };
+}
+
+// Jurors may write their own files in .bureau/review/jurors/ so they can vote concurrently;
+// otherwise the members array in jury.json is used.
+function juryMembers(root, jury) {
+  const dir = path.join(root, ".bureau", "review", "jurors");
+  const files = fs.existsSync(dir) ? fs.readdirSync(dir).filter((f) => f.endsWith(".json")).sort() : [];
+  return files.length ? files.map((f) => readJson(path.join(dir, f))) : jury.members;
+}
+
+const minutes = (ms) => `${Math.floor(ms / 60000)}m${String(Math.round((ms % 60000) / 1000)).padStart(2, "0")}s`;
+
+function juryCommand(root, action, yes, asJson) {
+  const file = path.join(root, ".bureau", "review", "jury.json");
+  const jury = readJson(file);
+  if (!jury) { console.error(`${file} missing or unreadable; run --jury-init first.`); process.exit(2); }
+  const now = Date.now();
+  const save = () => fs.writeFileSync(file, JSON.stringify(jury, null, 2) + "\n");
+  if (action === "start") {
+    if (jury.loop?.startedAt && !yes) { console.error("The jury loop already started; --yes discards its rounds and starts a new ten minutes."); process.exit(2); }
+    jury.loop = { startedAt: new Date(now).toISOString(), budgetSeconds: JURY_BUDGET_SECONDS };
+    jury.rounds = [];
+    save();
+    console.log(`Jury loop started: ${JURY_BUDGET_SECONDS / 60} minutes, closes ${new Date(deadline(jury.loop)).toISOString()}.`);
+    return;
+  }
+  const end = deadline(jury.loop);
+  if (end === null) { console.error("Start the loop first: --jury-start."); process.exit(2); }
+  const rounds = jury.rounds || [];
+  const best = bestRound(rounds, end);
+  if (action === "status") {
+    const status = { remainingSeconds: Math.max(0, Math.round((end - now) / 1000)), rounds: rounds.length, best: best && { n: best.n, score: best.score, unanimous: best.unanimous } };
+    if (asJson) console.log(JSON.stringify(status, null, 2));
+    else console.log(`Jury loop: ${minutes(Math.max(0, end - now))} left · ${rounds.length} round(s) · best ${best ? `round ${best.n} at ${best.score}/100${best.unanimous ? ", unanimous" : ""}` : "none"}.`);
+    return;
+  }
+  if (now > end) {
+    console.error(`Time box closed ${minutes(now - end)} ago. No new rounds; finalize with the best round${best ? ` (round ${best.n}, ${best.score}/100)` : ""}.`);
+    process.exit(3);
+  }
+  const members = juryMembers(root, jury);
+  const exists = evidenceChecker(root);
+  const errors = [...validateMembers(members, GATE_ORDER, exists), ...issueErrors(jury.issues, exists, false)];
+  if (errors.length) { console.error("Round not recorded: votes incomplete.\n- " + errors.slice(0, 20).join("\n- ") + (errors.length > 20 ? `\n- … ${errors.length - 20} more` : "")); process.exit(1); }
+  const tally = scoreMembers(members, GATE_ORDER);
+  const opened = rounds.length ? Date.parse(rounds[rounds.length - 1].closedAt) : Date.parse(jury.loop.startedAt);
+  const round = { n: rounds.length + 1, sourceHash: sourceHash(root).hash, closedAt: new Date(now).toISOString(), seconds: Math.round((now - opened) / 1000), score: tally.score, passes: tally.passes, applicable: tally.applicable, unanimous: tally.unanimous, fails: tally.fails, issues: jury.issues, members };
+  jury.rounds = [...rounds, round];
+  save();
+  const lead = bestRound(jury.rounds, end);
+  const left = end - now;
+  console.log(`Round ${round.n}: ${round.score}/100 (${round.passes}/${round.applicable})${round.unanimous ? " · unanimous" : ` · ${round.fails.length} dissent`} · best round ${lead.n} · ${minutes(left)} left.`);
+  if (round.unanimous) console.log("Unanimous: stop the loop and finalize.");
+  else if (left < round.seconds * 1000) console.log(`Another round took ${minutes(round.seconds * 1000)}; it will not fit. Finalize with round ${lead.n}.`);
+  else console.log("Fix the most-failed votes in one revision, refresh the evidence pack, then record the next round.");
 }
 
 function main() {
@@ -513,7 +623,7 @@ function main() {
     console.log("Circuit state reset.");
     return;
   }
-  if (opts.status || (!opts.gate && !opts.final && !opts.report && !opts.deliveryInit && !opts.juryInit)) {
+  if (opts.status || (!opts.gate && !opts.final && !opts.report && !opts.deliveryInit && !opts.juryInit && !opts.jury && !opts.regate)) {
     printStatus(root, state, opts.json);
     return;
   }
@@ -532,10 +642,18 @@ function main() {
   if (opts.juryInit) {
     const file = path.join(root, ".bureau", "review", "jury.json");
     const votes = (keys) => Object.fromEntries(keys.map((key) => [key, { result: "pending", reason: "", evidence: "" }]));
-    const draft = { sourceHash: sourceHash(root).hash, issues: [], members: Array.from({ length: 10 }, () => ({ id: "", specialty: "", independent: "", categories: votes(GATE_ORDER), laws: votes(UX_LAWS) })) };
+    const draft = { loop: null, rounds: [], issues: [], members: Array.from({ length: 10 }, () => ({ id: "", specialty: "", independent: "", categories: votes(GATE_ORDER), laws: votes(UX_LAWS) })) };
     try { fs.writeFileSync(file, JSON.stringify(draft, null, 2) + "\n", { flag: "wx" }); }
     catch (error) { if (error.code === "EEXIST") { console.error(`${file} exists; preserve it or move it before initializing.`); process.exit(2); } throw error; }
     console.log(`Jury draft written: ${file}. All votes are pending; no reviewers are assigned.`);
+    return;
+  }
+  if (opts.jury) {
+    juryCommand(root, opts.jury, opts.yes, opts.json);
+    return;
+  }
+  if (opts.regate) {
+    regateCommand(root);
     return;
   }
   if (opts.final) {

@@ -3,7 +3,7 @@ name: bureau
 description: Autonomous digital design bureau for award-grade websites and product surfaces. Use when designing, redesigning, prototyping, or reviewing any web experience that must feel crafted and technologically ambitious — landing pages, portfolios, product marketing, editorial sites, immersive experiences, design systems, Figma-to-code, motion/WebGL/video, Playwright QA, accessibility, performance, and anti-AI-slop review. Triggers include "design a site", "make it premium", "Awwwards-level", "redesign this", "build a landing page", "review my UI", "anti-slop", "Figma to code", "add motion", "make it futuristic".
 license: MIT
 metadata:
-  version: "4.0.0"
+  version: "5.0.0"
   homepage: "https://github.com/acf1210/bureau"
 ---
 
@@ -94,7 +94,7 @@ If the user invokes `/bureau <command>` (or the host exposes commands), execute 
 |---|---|---|
 | New site / redesign / "make it premium" | `init` → `concept` → `direction` → `build` | Read `references/01-init-and-brief.md` |
 | "Run the whole thing" / autonomy | `auto` | Full pipeline, three checkpoints |
-| "What should this look like?" | `concept` | `references/02-concept-engine.md`, `23-lineage-and-blend.md` |
+| "What should this look like?" | `concept` | `references/30-reference-survey.md` (five sources first), `02-concept-engine.md`, `23-lineage-and-blend.md` |
 | Design system, tokens, type/color | `direction` | `references/03-art-direction.md`, `04-typography.md`, `05-color-pantone.md` |
 | Polish, "make it sharper", detail pass | `build` | `references/24-refinement-passes.md` |
 | Collaborative design, technical illustration, creative tools | `concept` → `build` | `references/25-collaborative-studio.md` |
@@ -141,14 +141,17 @@ node scripts/visual-audit.mjs http://localhost:3000 --out .bureau/qa
 node scripts/divergence.mjs index.html --templates --out .bureau/evidence/divergence.json
 
 # 2. One gate at a time (writes state, refuses out-of-order gates)
+node scripts/survey.mjs --check            # Gate 1 needs five verified references
 node scripts/review.mjs --gate g1-concept --scores .bureau/review/g1.json
 
-# 3. Delivery Gate, then Tribunal (fresh context, method declared)
+# 3. Delivery Gate, ten-minute jury loop, then Tribunal (fresh context, method declared)
 node scripts/review.mjs --delivery-init
+node scripts/review.mjs --jury-start       # clock starts after the evidence pack is built
+node scripts/review.mjs --jury-round       # once per round; --regate after a fix
 node scripts/review.mjs --final --tribunal .bureau/review/tribunal.json
 ```
 
-Three rules hold the circuit honest: **judge before you measure** (write the design review before reading detector output); **the builder is the weakest reviewer** (the Tribunal runs in a fresh context, or the run is declared degraded and cannot reach Award Track); **checked rules hold, prose rules drift** (every mechanical rule has a failing and a passing fixture). Gate 1 requires a six-axis pre-build critique; Gate 7 requires Nielsen's ten heuristics; the final requires a clean Delivery Gate and the independent 10–15-member jury record in `references/29-jury-and-ux.md`. Do not invent reviewers or votes when independent reviewers are unavailable.
+Three rules hold the circuit honest: **judge before you measure** (write the design review before reading detector output); **the builder is the weakest reviewer** (the Tribunal runs in a fresh context, or the run is declared degraded and cannot reach Award Track); **checked rules hold, prose rules drift** (every mechanical rule has a failing and a passing fixture). Gate 1 requires a five-source reference survey (`references/30-reference-survey.md`: verify in queue order, skip what cannot be verified with a reason, name the shared pattern and the departure) and a six-axis pre-build critique; Gate 7 requires Nielsen's ten heuristics; the final requires a clean Delivery Gate and the independent 10–15-member jury record in `references/29-jury-and-ux.md`. The jury loop is time-boxed to ten minutes; the decision is the best round recorded inside it, and a best round with dissent caps the verdict at conditional. Do not invent reviewers or votes when independent reviewers are unavailable.
 
 **Pass thresholds:** `≥ 90` Award Track · `82–89` Pass · `72–81` Conditional · `< 72` Fail. Any gate `< 3.5/5`, any P0 issue, or any missing evidence is a hard failure. The Tribunal may veto a numerically passing release for taste reasons, but must write the reason and the smallest fix.
 
@@ -330,6 +333,7 @@ Load only what the task needs. Paths are relative to this file.
 | Design intelligence and qualification | `references/27-design-intelligence.md` |
 | Independent design-quality assessment | `references/28-independent-design-assessment.md` |
 | Independent jury and Laws of UX | `references/29-jury-and-ux.md` |
+| Five-source reference survey: pattern and departure | `references/30-reference-survey.md` |
 | Launch, analytics, evolution | `references/21-ship-and-evolve.md` |
 | Install, update, troubleshoot | `references/22-installers.md` |
 

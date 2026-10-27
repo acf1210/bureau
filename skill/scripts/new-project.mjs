@@ -115,7 +115,8 @@ function design(name) {
 > Visual contract. Tokens are normative. Replace TODO.
 
 ## Lineage
-Write \`.bureau/comps/blend.md\` first (references/23-lineage-and-blend.md).
+Survey five references first (references/30-reference-survey.md), then write
+\`.bureau/comps/blend.md\` (references/23-lineage-and-blend.md).
 The scaffold's LINEAGE.md is a worked example, not this project's lineage.
 - Dominant (50–60%): TODO — designer, documented work, principle, axis.
 - Counter (25–35%): TODO — must pull against the dominant.
@@ -286,7 +287,8 @@ Start with \`BUREAU.md\`: replace every TODO before designing.
 
   console.log(`BUREAU project created: ${target}`);
   console.log(`Template: ${opts.template}`);
-  console.log(`Next: fill BUREAU.md, write .bureau/comps/blend.md, then run the concept gate.`);
+  console.log(`Next: fill BUREAU.md, then survey five references: node ${path.join(SKILL_ROOT, "scripts", "survey.mjs")} --init --need <need> --probe`);
+  console.log(`Then write .bureau/comps/blend.md and run the concept gate.`);
   console.log(`The page starts as a copy of the template. Before Gate 2: node ${path.join(SKILL_ROOT, "scripts", "divergence.mjs")} index.html --templates`);
 }
 

@@ -1,6 +1,6 @@
 # Architecture
 
-BUREAU is a **progressive-disclosure** system: a short router, 30 depth modules, and scripts that turn opinion into evidence.
+BUREAU is a **progressive-disclosure** system: a short router, 31 depth modules, and scripts that turn opinion into evidence.
 
 ![BUREAU architecture](../assets/diagrams/architecture.svg)
 
@@ -10,7 +10,7 @@ BUREAU is a **progressive-disclosure** system: a short router, 30 depth modules,
 |---|---|---|
 | **Doctrine** | `SKILL.md` | identity, hard rules, autonomy contract |
 | **Router** | `SKILL.md` §4 | intent → command → reference |
-| **Depth** | `references/00–24` | one domain per file, loaded on demand |
+| **Depth** | `references/00–30` | one domain per file, loaded on demand |
 | **Execution** | `scripts/*.mjs` | detector, QA, tokens, Figma, review, scaffold |
 | **Material** | `assets/templates`, `tokens`, `snippets`, `media` | real starting points |
 | **State** | `BUREAU.md`, `DESIGN.md`, `MOTION.md`, `.bureau/` | project memory and evidence |
@@ -120,7 +120,7 @@ References are independent. None requires the agent to have read the others.
 
 To add a domain:
 
-1. create `references/30-your-domain.md`;
+1. create `references/31-your-domain.md`;
 2. add the row to the §9 table in `SKILL.md`;
 3. if it has mechanical rules, add `BS-*` rules to `scripts/lib/rules.mjs`;
 4. if it adds a gate, adjust `scripts/lib/gates.mjs` and rebalance weights to 100;

@@ -2,7 +2,7 @@
 
 **O bureau de design digital autônomo.** Uma skill de agente que dá a um modelo de linguagem o trabalho de um estúdio inteiro: direção de criação, direção de arte, tipografia, motion, creative technology, acessibilidade, performance e uma revisão adversarial que diz *não*.
 
-[![Versão](https://img.shields.io/badge/version-4.0.0-F2C230?style=flat-square&labelColor=121212)](VERSION)
+[![Versão](https://img.shields.io/badge/version-5.0.0-F2C230?style=flat-square&labelColor=121212)](VERSION)
 [![Licença](https://img.shields.io/badge/license-MIT-E2507F?style=flat-square&labelColor=121212)](LICENSE)
 [![Templates](https://img.shields.io/badge/templates-13-1E4FD6?style=flat-square&labelColor=121212)](#galeria)
 [![Hosts](https://img.shields.io/badge/hosts-Claude%20%7C%20Codex%20%7C%20Antigravity%20%7C%20Hermes-EDEBE4?style=flat-square&labelColor=121212)](#instalação)
@@ -82,7 +82,7 @@ Todos são autocontidos (HTML, CSS e JS num arquivo), passam no audit estático 
 ![Fluxo do BUREAU: intake, conceito, direção, build, refinamento, motion, QA e revisão](docs/assets/diagrams/workflow.svg)
 
 1. **Intake.** A verdade do produto vai para `BUREAU.md`: público, oferta, provas com fonte, não-objetivos.
-2. **Conceito.** Três direções, cada uma com uma mescla de três linhagens. A escolhida vai para `blend.md`.
+2. **Conceito.** Primeiro um levantamento de cinco referências verificadas entre as 25 fontes (a fonte que não puder ser verificada é pulada e a próxima é usada), com o padrão comum e a ruptura nomeados. Depois três direções, cada uma com uma mescla de três linhagens. A escolhida vai para `blend.md`.
 3. **Direção.** `DESIGN.md` com tokens normativos, dials ENERGY / RHYTHM / MOTION e o mundo visual.
 4. **Build e refinamento.** Sete passes, da estrutura ao detalhe, cada um com evidência.
 5. **QA e revisão.** Audit estático, audit visual em cinco larguras, dez portões, Delivery Gate e Tribunal.
@@ -102,7 +102,7 @@ Todos são autocontidos (HTML, CSS e JS num arquivo), passam no audit estático 
 | Conditional | 72–81 |
 | Fail | < 72 |
 
-Qualquer P0, qualquer portão abaixo de 3,5/5, evidência ausente, fonte alterada depois da revisão ou um Delivery Gate sujo **reprova**. Um 95 com um P0 de acessibilidade é Fail. Um Tribunal no mesmo contexto que construiu o trabalho é declarado *degraded* e não chega a Award.
+Qualquer P0, qualquer portão abaixo de 3,5/5, evidência ausente, fonte alterada depois da revisão ou um Delivery Gate sujo **reprova**. Um 95 com um P0 de acessibilidade é Fail. Um Tribunal no mesmo contexto que construiu o trabalho é declarado *degraded* e não chega a Award. O loop do júri tem limite de 10 minutos: os jurados votam em paralelo, cada rodada é pontuada e a melhor rodada dentro do prazo é a decisão.
 
 [Leia o circuito completo →](docs/pt-BR/review-circuit.md)
 
@@ -215,12 +215,12 @@ O scaffold cria `BUREAU.md`, `DESIGN.md` (com linhagem e dials), `MOTION.md`, `.
 | Camada | Conteúdo |
 |---|---|
 | **Skill** | `SKILL.md` com doutrina, contrato de autonomia, roteador, regras duras e protocolo de ferramentas |
-| **Profundidade** | 30 referências, de conceito e direção de arte a linhagem e mescla e passes de refinamento |
-| **Scripts** | audit anti-slop, audit visual Playwright, divergência, circuito de revisão com estado, tokens, sync Figma, doctor, scaffold |
+| **Profundidade** | 31 referências, de conceito e direção de arte a linhagem e mescla e passes de refinamento |
+| **Scripts** | audit anti-slop, audit visual Playwright, divergência, levantamento de cinco fontes, circuito de revisão com estado e júri de 10 minutos, tokens, sync Figma, doctor, scaffold |
 | **Templates** | 13 mundos com desktop e mobile desenhados, cada um com `LINEAGE.md` |
 | **Assets** | tokens DTCG, snippets de motion, mídia gerada, diagramas SVG |
 | **Docs** | 9 páginas × 3 idiomas (PT-BR, EN, ES) |
-| **Testes** | 33 testes `node --test`, com fixtures nos dois sentidos para cada regra |
+| **Testes** | 38 testes `node --test`, com fixtures nos dois sentidos para cada regra |
 | **Installers** | Claude Code, Codex, Antigravity, Hermes; bash e PowerShell |
 
 ---
@@ -230,8 +230,8 @@ O scaffold cria `BUREAU.md`, `DESIGN.md` (com linhagem e dials), `MOTION.md`, `.
 ```
 skill/                  a skill instalável
   SKILL.md              roteador + doutrina + contrato
-  references/           30 módulos
-  scripts/              audit, visual-audit, divergence, review, tokens, figma-sync, doctor, scaffold
+  references/           31 módulos
+  scripts/              audit, visual-audit, divergence, survey, review, tokens, figma-sync, doctor, scaffold
   assets/templates/     13 templates + catalog.json
 installers/             Claude, Codex, Antigravity, Hermes + bash/PowerShell
 docs/                   PT-BR, EN, ES
