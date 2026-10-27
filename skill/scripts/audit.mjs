@@ -31,7 +31,7 @@ function readVersion() {
     const p = path.join(__dirname, "..", "..", "VERSION");
     return fs.readFileSync(p, "utf8").trim();
   } catch {
-    return "7.3.0";
+    return "7.4.0";
   }
 }
 

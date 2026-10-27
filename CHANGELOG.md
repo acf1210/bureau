@@ -4,6 +4,12 @@ All notable changes to BUREAU are recorded here. The format follows Keep a Chang
 
 ## [Unreleased]
 
+## [7.4.0] — 2026-10-27
+
+### Changed
+
+- `SKILL.md` rewritten for token economy with no rule, command or threshold removed: 3,800 → 2,070 words (−45%), 389 → 159 lines; the always-loaded description 75 → 58 words. The router and the reference map are one table; the seven workflow phases are one table with a done-when column; truth rules appear once; gates, floors and budgets are compact lists; install moved to `references/22-installers.md`. Docs cross-references updated.
+
 ## [7.3.0] — 2026-10-27
 
 ### Added
@@ -230,7 +236,8 @@ The review circuit asks for more evidence. Projects reviewed under 1.0.0 need th
 - `visual-audit` uses hash-level screenshot comparison, not pixel diff.
 - The three templates use fictional demo content, clearly labeled where it could be mistaken for proof.
 
-[Unreleased]: https://github.com/acf1210/bureau/compare/v7.3.0...HEAD
+[Unreleased]: https://github.com/acf1210/bureau/compare/v7.4.0...HEAD
+[7.4.0]: https://github.com/acf1210/bureau/compare/v7.3.0...v7.4.0
 [7.3.0]: https://github.com/acf1210/bureau/compare/v7.2.0...v7.3.0
 [7.2.0]: https://github.com/acf1210/bureau/compare/v7.1.0...v7.2.0
 [7.1.0]: https://github.com/acf1210/bureau/compare/v7.0.0...v7.1.0
