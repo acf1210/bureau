@@ -12,8 +12,7 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#0F0F11" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0A0A0B" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#0F0F11">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/archivo-var-latin.woff2" as="font" type="font/woff2" crossorigin>
 <script>document.documentElement.classList.add("js");</script>
@@ -29,17 +28,15 @@
     --cyan:#0089C4;--magenta:#C4006A;--yellow:#F3D000;--blend:multiply;
     /* Pale washes of the three plates: the light ground of the hero and the tinted cells. */
     --wash:#EDF3F6;--wash-c:#E3EFF6;--wash-m:#F7E8EF;--wash-y:#FAF3D6;
-    /* The masthead and the colophon stay black in both themes. */
+    /* The page is light in every scheme; only the masthead and the colophon are black. */
     --bar:#0F0F11;--bar-ink:#F3F2EE;--bar-muted:#ABAAB2;--bar-rule:#2A2A2F;--bar-focus:#FF5A4E;
     --display:"Archivo","Archivo Fallback",Arial,sans-serif;
     --text:"Archivo",Arial,sans-serif;
     --mono:"JetBrains Mono",ui-monospace,monospace;
     --pad:clamp(16px,4vw,56px);--gut:clamp(16px,2vw,28px);--max:1520px;
     --reg:cubic-bezier(.22,.9,.18,1);--lead:cubic-bezier(.3,.7,.2,1);--turn:cubic-bezier(.65,0,.35,1);
-    color-scheme:light dark;
+    color-scheme:light;
   }
-  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#141416;--sheet:#1B1B1F;--ink:#ECEBE6;--muted:#A5A3AB;--rule:#323138;--pencil:#FF5A4E;--blend:screen;--wash:#171C20;--wash-c:#15212A;--wash-m:#24171E;--wash-y:#23200F;--bar:#0A0A0B}}
-  :root[data-theme="dark"]{--paper:#141416;--sheet:#1B1B1F;--ink:#ECEBE6;--muted:#A5A3AB;--rule:#323138;--pencil:#FF5A4E;--blend:screen;--wash:#171C20;--wash-c:#15212A;--wash-m:#24171E;--wash-y:#23200F;--bar:#0A0A0B}
   *,*::before,*::after{box-sizing:border-box}
   html{background:var(--paper);color:var(--ink);scrollbar-color:var(--rule) var(--paper);-webkit-text-size-adjust:100%}
   body{margin:0;background:var(--paper);font:400 1.0625rem/1.6 var(--text);font-variant-numeric:tabular-nums;caret-color:var(--pencil);overflow-x:clip}
@@ -66,18 +63,15 @@
   .head-cta{font-weight:500;font-size:.9375rem;text-decoration:none;border:1px solid var(--bar-muted);padding:.6rem .9rem}
   .head-cta:hover{background:var(--bar-ink);color:var(--bar);border-color:var(--bar-ink)}
 
-  /* Hero: a pale wash under the masthead; light headline at the left, the proof sheet over three soft plates at the right, the numbers as tinted cells below. */
-  .hero-band{background:var(--wash);border-bottom:1px solid var(--rule);overflow:hidden}
-  .hero{padding-top:clamp(2.5rem,7vh,5.5rem);padding-bottom:clamp(2.5rem,6vh,4.5rem);row-gap:2.6rem;align-items:start}
+  /* Hero: the circuit drawn as a transit diagram (Beck 1933, Vignelli 1972). Ten gates are stations on 90° and 45° lines;
+     the Tribunal is an interchange that can send the page back. */
+  .hero{padding-top:clamp(2.5rem,7vh,5rem);padding-bottom:clamp(2.5rem,6vh,4rem);row-gap:2.6rem;align-items:center}
   .slug{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:.3rem 1.6rem;margin:0;font:400 .8125rem/1.7 var(--mono);color:var(--muted)}
   .slug b{color:var(--ink);font-weight:500}
   .slug span::before{content:"/";margin-right:1.6rem;color:var(--rule)}
-  .hero-copy{grid-column:1 / span 5;padding-top:clamp(0rem,2vh,1.5rem)}
-  h1{font:300 clamp(2.8rem,5.4vw,5.9rem)/1.02 var(--display);letter-spacing:-.035em;margin:0 0 1.8rem}
+  .hero-copy{grid-column:1 / span 5}
+  h1{font:300 clamp(2.6rem,4.3vw,4.8rem)/1.04 var(--display);letter-spacing:-.035em;margin:0 0 1.6rem}
   h1 span{display:block}
-  /* The one pencil mark in the headline: a rule under "proof", below the descenders. */
-  h1 em{font-style:normal;position:relative}
-  h1 em::after{content:"";position:absolute;left:.02em;right:.02em;bottom:-.04em;height:.05em;background:var(--pencil)}
   .lede{font-size:clamp(1.05rem,1.25vw,1.2rem);line-height:1.6;color:var(--muted);max-width:32rem;margin:0 0 2.2rem}
   .lede strong{color:var(--ink);font-weight:500}
   .actions{display:flex;flex-wrap:wrap;gap:.7rem}
@@ -85,18 +79,44 @@
   .btn:hover{background:transparent;color:var(--ink)}
   .btn.line{background:transparent;color:var(--ink);border-color:var(--muted)}
   .btn.line:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+  .line-map{grid-column:6 / -1;margin:0;padding:clamp(1rem,2vw,1.6rem);background:var(--sheet);border:1px solid var(--rule)}
+  .map{display:block;width:100%;height:auto}
+  .map .seg{fill:none;stroke-width:8;stroke-linecap:round;stroke-linejoin:round}
+  .map .m{stroke:var(--magenta)}.map .c{stroke:var(--cyan)}.map .k{stroke:var(--ink)}
+  .map .back{fill:none;stroke:var(--pencil);stroke-width:2;stroke-dasharray:6 6}
+  .map .tip{fill:var(--pencil)}
+  .map .st circle{fill:var(--sheet);stroke:var(--ink);stroke-width:3;transition:fill .25s var(--reg)}
+  .map .st.on circle{fill:var(--ink)}
+  .map .x rect{fill:var(--sheet);stroke:var(--pencil);stroke-width:3;transition:fill .25s var(--reg)}
+  .map .x.on rect{fill:var(--pencil)}
+  .map .end{fill:var(--ink)}
+  .map text{font:400 15px var(--text);fill:var(--ink)}
+  .map .gid{font:500 13px var(--mono);fill:var(--muted)}
+  .map .note{font:400 14px var(--text);fill:var(--muted)}
+  .map .car{display:none;fill:var(--pencil);stroke:var(--sheet);stroke-width:3}
+  .js .map .car{display:inline}
+  .legend{display:flex;flex-wrap:wrap;gap:.5rem 1.6rem;list-style:none;margin:1rem 0 0;padding:1rem 0 0;border-top:1px solid var(--rule);font-size:.875rem;color:var(--muted)}
+  .legend li{display:flex;align-items:center;gap:.55rem}
+  .legend i{display:inline-block;width:1.6rem;height:6px;border-radius:3px}
+  .legend .m{background:var(--magenta)}.legend .c{background:var(--cyan)}.legend .k{background:var(--ink)}
+  .legend .x{width:12px;height:12px;border-radius:0;border:2px solid var(--pencil);transform:rotate(45deg);margin:0 .4rem}
+  /* The stations as a list: read by assistive technology everywhere, drawn as a vertical line on a phone. */
+  .stops{list-style:none;margin:0;padding:0}
+  .stops li{position:relative;margin-left:.6rem;padding:.45rem 0 .45rem 1.95rem}
+  .stops li::after{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--l,var(--ink))}
+  .stops li::before{content:"";position:absolute;z-index:1;left:-4px;top:.75rem;width:14px;height:14px;border-radius:50%;background:var(--sheet);border:3px solid var(--ink);box-sizing:border-box}
+  .stops .m{--l:var(--magenta)}.stops .c{--l:var(--cyan)}.stops .k{--l:var(--ink)}
+  .stops .x::before{border-radius:0;border-color:var(--pencil);transform:rotate(45deg)}
+  .stops span{font:500 .8125rem var(--mono);color:var(--muted);margin-right:.5rem}
   .facts{grid-column:1 / -1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--gut);margin:0}
   .facts div{display:flex;flex-direction:column;gap:.5rem;padding:1.1rem 1.2rem 1.2rem;background:var(--sheet);border-top:2px solid var(--ink)}
   .facts div:nth-child(1){background:var(--wash-c)}.facts div:nth-child(2){background:var(--wash-m)}.facts div:nth-child(3){background:var(--wash-y)}
   .facts dt{order:2;font-size:.9375rem;color:var(--muted)}
   .facts dd{order:1;margin:0;font:300 clamp(2.2rem,3vw,3rem)/1 var(--display);letter-spacing:-.03em}
 
-  .proof{grid-column:6 / -1;position:relative;margin:0}
-  /* Thompson's overprint, lightened: three pale plates slightly out of register behind the sheet. */
-  .halo{position:absolute;inset:-3rem -2rem auto auto;width:min(46rem,100%);aspect-ratio:1;pointer-events:none;z-index:0}
-  .halo i{position:absolute;width:62%;aspect-ratio:1;border-radius:50%;mix-blend-mode:var(--blend);opacity:.16}
-  .halo i:nth-child(1){background:var(--cyan);right:22%;top:0}.halo i:nth-child(2){background:var(--magenta);right:0;top:10%}.halo i:nth-child(3){background:var(--yellow);right:12%;top:30%;opacity:.3}
-  .sheet{position:relative;z-index:1;background:var(--sheet);border:1px solid var(--rule)}
+  .proof{grid-column:3 / -1;position:relative;margin:0}
+  .sheet{position:relative;background:var(--sheet);border:1px solid var(--rule)}
   .sheet-head{display:flex;justify-content:space-between;gap:1rem;align-items:center;padding:.6rem .9rem;border-bottom:1px solid var(--rule);font:400 .8125rem var(--mono);color:var(--muted)}
   .plates{display:flex;height:10px;position:relative;width:96px}
   .plates i{flex:1;mix-blend-mode:var(--blend)}
@@ -133,7 +153,7 @@
   .self:hover{background:var(--ink);color:var(--paper)}
   .verdict{font:400 .875rem var(--mono);margin:0;color:var(--ink);padding:.7rem .9rem;border-top:1px solid var(--rule);min-height:2.9rem}
   .verdict b{color:var(--pencil)}
-  .caption{position:relative;z-index:1;font-size:.875rem;color:var(--muted);margin:.8rem 0 0;max-width:46rem}
+  .caption{font-size:.875rem;color:var(--muted);margin:.8rem 0 0;max-width:46rem}
   .marks.live li{visibility:hidden}
   .marks.live li.on{visibility:visible}
   .no-js-only{display:block}
@@ -222,8 +242,8 @@
   .site-foot b{color:var(--bar-ink);font-weight:600;letter-spacing:.06em}
 
   @media (max-width:1100px){
-    .hero-copy{grid-column:1 / -1;padding-top:0}
-    h1{max-width:14ch}
+    .hero-copy{grid-column:1 / -1}
+    .line-map{grid-column:1 / -1}
     .proof{grid-column:1 / -1}
     .facts{grid-template-columns:repeat(2,minmax(0,1fr))}
     .sec-label{grid-column:1 / -1;padding-top:0}
@@ -234,6 +254,8 @@
   @media (max-width:720px){
     /* On a phone the sheet keeps the specimen and numbers; the marks become a list under it. */
     .stage{grid-template-columns:minmax(0,1fr)}
+    .map,.legend{display:none}
+    .stops{position:static;width:auto;height:auto;overflow:visible;clip:auto;white-space:normal}
     .slug span::before{margin-right:.6rem}
     .slug{gap:.2rem .6rem}
     .frame{border-right:0;border-bottom:1px solid var(--rule)}
@@ -282,17 +304,70 @@
 </header>
 
 <main id="top" tabindex="-1">
-  <div class="hero-band">
-  <section class="hero wrap grid" id="proof" aria-labelledby="h-hero">
-    <p class="slug"><b>Job: BUREAU</b><span>v{{VERSION}}, MIT</span><span>Proof of {{DATE}}</span><span>Agent skill for Claude Code, Codex, Antigravity, Hermes</span></p>
+  <section class="hero wrap grid" id="line" aria-labelledby="h-hero">
+    <p class="slug"><b>Job: BUREAU</b><span>v{{VERSION}}, MIT</span><span>Line guide of {{DATE}}</span><span>Agent skill for Claude Code, Codex, Antigravity, Hermes</span></p>
     <div class="hero-copy">
-      <h1 id="h-hero"><span>Every page</span><span>gets a <em>proof</em>.</span></h1>
-      <p class="lede"><strong>BUREAU gives a coding model the workflow of a design bureau:</strong> concept, art direction, type, motion, accessibility, and a review that can say no. Beside this, its detector marks a generic generated page in red pencil, using the same rules the command line runs.</p>
-      <div class="actions"><a class="btn" href="#install">Install the skill</a><a class="btn line" href="en/review-circuit.html">Read the circuit</a></div>
+      <h1 id="h-hero"><span>Brief to launch,</span><span>ten gates that</span><span>can say no.</span></h1>
+      <p class="lede"><strong>BUREAU gives a coding model the workflow of a design bureau:</strong> concept, art direction, type, motion, accessibility, and a review circuit. Every page rides the same line, and the Tribunal can send it back.</p>
+      <div class="actions"><a class="btn" href="#install">Install the skill</a><a class="btn line" href="#proof">Watch a proof</a></div>
     </div>
 
+    <figure class="line-map" aria-labelledby="map-title">
+      <figcaption class="sr-only" id="map-title">The review circuit as a line diagram: ten gates in order, then a Tribunal that passes the page to launch or sends it back for changes.</figcaption>
+      <svg class="map" id="map" viewBox="0 0 800 440" aria-hidden="true">
+        <path id="route" d="M40 80 H240 L320 160 H620 L680 220 V300 L620 360 H360" fill="none" stroke="none"/>
+        <path class="back" d="M480 346 V250 H240 L140 150 V100"/>
+        <polygon class="tip" points="133,106 140,94 147,106"/>
+        <text class="note" x="496" y="292">Fails: back for changes</text>
+        <path class="seg m" d="M40 80 H240 L320 160"/>
+        <path class="seg c" d="M320 160 H620 L680 220 V280"/>
+        <path class="seg k" d="M680 280 V300 L620 360 H360"/>
+        <g class="st" data-x="40" data-y="80"><circle cx="40" cy="80" r="9"/><text class="gid" x="40" y="34" text-anchor="middle">G0 · 5</text><text x="40" y="54" text-anchor="middle">Intake</text></g>
+        <g class="st" data-x="140" data-y="80"><circle cx="140" cy="80" r="9"/><text class="gid" x="140" y="34" text-anchor="middle">G1 · 14</text><text x="140" y="54" text-anchor="middle">Concept</text></g>
+        <g class="st" data-x="240" data-y="80"><circle cx="240" cy="80" r="9"/><text class="gid" x="240" y="34" text-anchor="middle">G2 · 15</text><text x="240" y="54" text-anchor="middle">Direction</text></g>
+        <g class="st" data-x="380" data-y="160"><circle cx="380" cy="160" r="9"/><text x="380" y="194" text-anchor="middle">Type and colour</text><text class="gid" x="380" y="212" text-anchor="middle">G3 · 12</text></g>
+        <g class="st" data-x="460" data-y="160"><circle cx="460" cy="160" r="9"/><text class="gid" x="460" y="116" text-anchor="middle">G4 · 12</text><text x="460" y="136" text-anchor="middle">Composition</text></g>
+        <g class="st" data-x="540" data-y="160"><circle cx="540" cy="160" r="9"/><text x="540" y="194" text-anchor="middle">Motion</text><text class="gid" x="540" y="212" text-anchor="middle">G5 · 12</text></g>
+        <g class="st" data-x="620" data-y="160"><circle cx="620" cy="160" r="9"/><text class="gid" x="620" y="116" text-anchor="middle">G6 · 10</text><text x="620" y="136" text-anchor="middle">Engineering</text></g>
+        <g class="st" data-x="680" data-y="250"><circle cx="680" cy="250" r="9"/><text class="gid" x="700" y="240">G7 · 9</text><text x="700" y="260">Access</text></g>
+        <g class="st" data-x="580" data-y="360"><circle cx="580" cy="360" r="9"/><text x="580" y="394" text-anchor="middle">Truth</text><text class="gid" x="580" y="412" text-anchor="middle">G8 · 8</text></g>
+        <g class="x" data-x="480" data-y="360"><rect x="469" y="349" width="22" height="22" transform="rotate(45 480 360)"/><text x="480" y="394" text-anchor="middle">Tribunal</text><text class="gid" x="480" y="412" text-anchor="middle">fresh context</text></g>
+        <g class="st" data-x="360" data-y="360"><rect class="end" x="355" y="342" width="10" height="36"/><circle cx="360" cy="360" r="9"/><text x="360" y="394" text-anchor="middle">Launch</text><text class="gid" x="360" y="412" text-anchor="middle">G9 · 3</text></g>
+        <circle class="car" id="car" cx="40" cy="80" r="7"/>
+      </svg>
+      <ol class="stops sr-only">
+        <li class="m"><span>G0</span>Intake, weight 5</li>
+        <li class="m"><span>G1</span>Concept, weight 14</li>
+        <li class="m"><span>G2</span>Direction, weight 15</li>
+        <li class="c"><span>G3</span>Type and colour, weight 12</li>
+        <li class="c"><span>G4</span>Composition, weight 12</li>
+        <li class="c"><span>G5</span>Motion, weight 12</li>
+        <li class="c"><span>G6</span>Engineering, weight 10</li>
+        <li class="c"><span>G7</span>Access, weight 9</li>
+        <li class="k"><span>G8</span>Truth, weight 8</li>
+        <li class="k x"><span>T</span>Tribunal, in a fresh context; a fail goes back for changes</li>
+        <li class="k"><span>G9</span>Launch, weight 3</li>
+      </ol>
+      <ul class="legend">
+        <li><i class="m"></i>Concept line, G0–G2</li>
+        <li><i class="c"></i>Craft line, G3–G7</li>
+        <li><i class="k"></i>Truth line, G8–G9</li>
+        <li><i class="x"></i>Tribunal: pass or back</li>
+      </ul>
+    </figure>
+
+    <dl class="facts">
+      <div><dt>pattern rules in the detector</dt><dd>32</dd></div>
+      <div><dt>project checks beside them</dt><dd>21</dd></div>
+      <div><dt>gates before a Tribunal</dt><dd>10</dd></div>
+      <div><dt>hosts, one skill folder</dt><dd>4</dd></div>
+    </dl>
+  </section>
+
+  <section class="sec wrap grid" id="proof" aria-labelledby="h-proof">
+    <p class="sec-label">Proof</p>
+    <div class="sec-head"><h2 id="h-proof">Every page gets a proof.</h2><p>The detector marks a generic generated page in red pencil, with the same rules the command line runs. Flip to the reviewed version, or proof this page.</p></div>
     <figure class="proof" aria-labelledby="proof-title">
-      <div class="halo" aria-hidden="true"><i></i><i></i><i></i></div>
       <div class="sheet">
         <div class="sheet-head"><span id="proof-title">Galley: a generic generated hero</span><span class="plates" aria-hidden="true"><i></i><i></i><i></i></span></div>
         <div class="stage">
@@ -336,15 +411,7 @@
       </div>
       <figcaption class="caption">The specimen is a deliberately generic page written for this proof, not anyone's site. The marks are the detector's real findings on its source, drawn at the elements they name; the 21 project checks run in the command line, not here.</figcaption>
     </figure>
-
-    <dl class="facts">
-      <div><dt>pattern rules in the detector</dt><dd>32</dd></div>
-      <div><dt>project checks beside them</dt><dd>21</dd></div>
-      <div><dt>gates before a Tribunal</dt><dd>10</dd></div>
-      <div><dt>hosts, one skill folder</dt><dd>4</dd></div>
-    </dl>
   </section>
-  </div>
 
   <section class="sec wrap grid" id="problem" aria-labelledby="h-problem">
     <p class="sec-label">Argument</p>
@@ -550,6 +617,31 @@ bash installers/install.sh --agent hermes --scope user</code></div></div>
     });
   }
   for (const box of document.querySelectorAll(".cmd")) if (box.scrollWidth > box.clientWidth + 1) { box.tabIndex = 0; box.setAttribute("aria-label", box.getAttribute("aria-label") + ", scrollable"); }
+
+  // The hero line: a car runs the circuit once, lighting each gate as it passes, and holds at the Tribunal before Launch.
+  const route = document.getElementById("route"), car = document.getElementById("car");
+  const stops = [...document.querySelectorAll(".map [data-x]")];
+  if (route && car && route.getTotalLength) {
+    const len = route.getTotalLength();
+    const near = (x, y) => { let best = 0, d = Infinity; for (let l = 0; l <= len; l += 2) { const p = route.getPointAtLength(l), e = (p.x - x) ** 2 + (p.y - y) ** 2; if (e < d) { d = e; best = l; } } return best; };
+    const at = stops.map((g) => near(+g.dataset.x, +g.dataset.y));
+    const hold = at[stops.findIndex((g) => g.classList.contains("x"))];
+    const put = (l) => { const p = route.getPointAtLength(l); car.setAttribute("cx", p.x); car.setAttribute("cy", p.y); stops.forEach((g, i) => g.classList.toggle("on", at[i] <= l + 1)); };
+    const ride = () => {
+      if (matchMedia("(prefers-reduced-motion: reduce)").matches) return put(len);
+      const speed = len / 5200, pause = 900;
+      let t0 = null;
+      const step = (t) => {
+        t0 ??= t;
+        const run = (t - t0) * speed, l = run < hold ? run : run < hold + pause * speed ? hold : run - pause * speed;
+        put(Math.min(l, len));
+        if (l < len) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    };
+    if ("IntersectionObserver" in window) new IntersectionObserver(([e], o) => { if (e.isIntersecting) { o.disconnect(); ride(); } }, { threshold: .4 }).observe(route.ownerSVGElement);
+    else ride();
+  }
 
   // The gate ledger inks once when it enters.
   const ledger = document.getElementById("ledger");
