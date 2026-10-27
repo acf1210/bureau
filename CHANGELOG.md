@@ -4,6 +4,13 @@ All notable changes to BUREAU are recorded here. The format follows Keep a Chang
 
 ## [Unreleased]
 
+## [7.8.0] — 2026-10-27
+
+### Added
+
+- `references/35-build-libraries.md`: construction libraries in three layers, one choice per layer. Styling: Open Props, Tailwind CSS, Bootstrap, Bulma, DaisyUI. Components: Radix UI, Ark UI, shadcn/ui, Chakra UI, Material UI, HeroUI (formerly NextUI), Vuetify. Behaviour: Alpine.js, Motion (formerly Framer Motion), GSAP (Standard "no charge" licence, not OSI). Each with npm package, licence and version read on 2026-10-27, when to use it and how its default face is removed. Pre-production: library per layer recorded in `config.json`, tokens mapped into the theme before the first comp. Post-production: divergence, tokens only, keyboard and ARIA, reduced motion and bundle weight, recorded in `.bureau/evidence/stack.md`. No new dependency.
+- Router row and a tools line in `SKILL.md`; cross-reference from `19`; one sentence in the design-language docs (PT-BR, EN, ES).
+
 ## [7.7.0] — 2026-10-27
 
 ### Added
@@ -266,7 +273,8 @@ The review circuit asks for more evidence. Projects reviewed under 1.0.0 need th
 - `visual-audit` uses hash-level screenshot comparison, not pixel diff.
 - The three templates use fictional demo content, clearly labeled where it could be mistaken for proof.
 
-[Unreleased]: https://github.com/acf1210/bureau/compare/v7.7.0...HEAD
+[Unreleased]: https://github.com/acf1210/bureau/compare/v7.8.0...HEAD
+[7.8.0]: https://github.com/acf1210/bureau/compare/v7.7.0...v7.8.0
 [7.7.0]: https://github.com/acf1210/bureau/compare/v7.6.0...v7.7.0
 [7.6.0]: https://github.com/acf1210/bureau/compare/v7.5.1...v7.6.0
 [7.5.1]: https://github.com/acf1210/bureau/compare/v7.5.0...v7.5.1

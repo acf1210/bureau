@@ -3,7 +3,7 @@ name: bureau
 description: Design bureau for award-grade websites and product surfaces. Use to design, redesign, prototype or review a web experience: landing pages, portfolios, product marketing, editorial and immersive sites, design systems, Figma-to-code, motion/WebGL/video, Playwright QA, accessibility, performance, anti-AI-slop review. Triggers: "design a site", "make it premium", "Awwwards-level", "redesign this", "landing page", "review my UI", "anti-slop", "Figma to code", "add motion".
 license: MIT
 metadata:
-  version: "7.7.0"
+  version: "7.8.0"
   homepage: "https://github.com/acf1210/bureau"
 ---
 
@@ -70,6 +70,7 @@ Run `/bureau <command>` when invoked; otherwise infer from the table. Load only 
 | System, tokens, type, color, style | `direction` | `03-art-direction`, `04-typography`, `05-color-pantone`, `06-layout-composition`, `32-visual-style-vocabulary` |
 | Palette generation, extraction, gamut and contrast checks | `direction` → `qa` | `34-color-tooling` |
 | Polish, detail pass | `build` | `24-refinement-passes`, `11-interaction-microstates`, `19-stack-recipes` |
+| CSS framework, component kit, Tailwind, shadcn, GSAP, Alpine | `init` → `build` → `qa` | `35-build-libraries` |
 | Motion, parallax, video, 3D | `motion` | `31-motion-production`, `07-motion-choreography`, `08-webgl-shaders`, `09-video-parallax` |
 | Imagery, texture, icons | `build` | `10-imagery-art` |
 | Collaborative design, technical illustration | `concept` → `build` | `25-collaborative-studio` |
@@ -145,6 +146,7 @@ P1 needs a written, page-specific waiver; P2 is answered, never ignored. A clean
 - **Playwright:** bundled scripts for evidence, MCP/browser for exploration (`15`); read screenshots, not only JSON; record console, requests, overflow, contrast, motion.
 - **Images and video:** art-direct lens, light, material, palette, composition and exclusions; avoid the AI look. Video: short muted loops, poster, H.264/HEVC/AV1 + WebM, static fallback (`10`, `09`).
 - **Colour libraries:** Poline, ColorBox, Chroma.js, Leonardo and Color Thief before the build; Color.js, Leonardo and `tokens.mjs --check` after it; none ships unless the page computes colour at runtime (`34`).
+- **Build libraries:** one per layer (styling, components, behaviour); headless primitives first; the kit's default face is removed before the first comp (`35`).
 - **Fonts and icons:** licensed, ship only what is used; Font Awesome is a fallback, not a concept (`04`).
 
 ## 9. Deliver
