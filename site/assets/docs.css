@@ -41,6 +41,9 @@
   --bar-muted:#ABAAB2;
   --bar-rule:#3A3A40;
   --bar-focus:#FF5A4E;
+  --bar-c:#1FA3DD;
+  --bar-m:#E8408F;
+  --bar-y:#F3D000;
   --sidebar:292px;
   --top:64px;
   --pad:clamp(1.25rem,3vw,3rem);
@@ -62,6 +65,7 @@ img{max-width:100%}
 .topbar{position:fixed;inset:0 0 auto;height:var(--top);display:flex;align-items:center;gap:1rem;padding:0 var(--pad);background:var(--bar);color:var(--bar-ink);z-index:90}
 .topbar :focus-visible{outline-color:var(--bar-focus)}
 .brand{display:flex;align-items:center;gap:.6rem;min-height:44px;font:600 1.05rem/1 var(--display);font-stretch:112%;letter-spacing:.06em}
+.brand b{font-weight:inherit}.brand i{font-style:normal}.brand .pc{color:var(--bar-c)}.brand .pm{color:var(--bar-m)}.brand .py{color:var(--bar-y)}
 .brand span{font:400 .875rem/1 var(--body);letter-spacing:0;color:var(--bar-muted)}
 .topbar__spacer{flex:1}
 .search{position:relative;width:min(320px,34vw)}

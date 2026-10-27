@@ -4,6 +4,12 @@ All notable changes to BUREAU are recorded here. The format follows Keep a Chang
 
 ## [Unreleased]
 
+## [7.9.4] — 2026-10-27
+
+### Changed
+
+- The BUREAU logo in the landing and docs top bars sets its E, A and U in the three process plates (Pantone Process Cyan, Magenta and Yellow as screen approximations, lifted for the black bar: `#1FA3DD`, `#E8408F`, `#F3D000`). The link keeps "BUREAU" as its accessible name.
+
 ## [7.9.3] — 2026-10-27
 
 ### Changed
@@ -304,7 +310,8 @@ The review circuit asks for more evidence. Projects reviewed under 1.0.0 need th
 - `visual-audit` uses hash-level screenshot comparison, not pixel diff.
 - The three templates use fictional demo content, clearly labeled where it could be mistaken for proof.
 
-[Unreleased]: https://github.com/acf1210/bureau/compare/v7.9.3...HEAD
+[Unreleased]: https://github.com/acf1210/bureau/compare/v7.9.4...HEAD
+[7.9.4]: https://github.com/acf1210/bureau/compare/v7.9.3...v7.9.4
 [7.9.3]: https://github.com/acf1210/bureau/compare/v7.9.2...v7.9.3
 [7.9.2]: https://github.com/acf1210/bureau/compare/v7.9.1...v7.9.2
 [7.9.1]: https://github.com/acf1210/bureau/compare/v7.9.0...v7.9.1
