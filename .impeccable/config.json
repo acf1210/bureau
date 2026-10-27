@@ -479,6 +479,15 @@
         ],
         "createdAt": "2026-10-26T19:19:17.845Z",
         "reason": "Claude triage: sleeve credit uses max(12px, 6.5cqi); the detector cannot resolve container units"
+      },
+      {
+        "rule": "clipped-overflow-container",
+        "value": "*",
+        "files": [
+          "site/index.html"
+        ],
+        "createdAt": "2026-10-27T20:32:44.636237Z",
+        "reason": "Claude triage: both clips are the design. .frame must crop the scaled specimen iframe and the registration plates to the sheet; .demo__media crops the phone mockup that sits off the card's lower edge. Nothing interactive (menu, tooltip) lives inside either."
       }
     ]
   }

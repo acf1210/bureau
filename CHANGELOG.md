@@ -4,6 +4,12 @@ All notable changes to BUREAU are recorded here. The format follows Keep a Chang
 
 ## [Unreleased]
 
+## [7.5.1] — 2026-10-27
+
+### Fixed
+
+- Landing finish: the proof-mark circles grow so their codes keep an inset from the ring, and buttons, tabs and the copy control get explicit padding instead of relying on a minimum height. The two deliberate clips (the specimen frame, the ShowCase phone) are recorded as sanctioned in `.impeccable/config.json`.
+
 ## [7.5.0] — 2026-10-27
 
 ### Changed
@@ -246,7 +252,8 @@ The review circuit asks for more evidence. Projects reviewed under 1.0.0 need th
 - `visual-audit` uses hash-level screenshot comparison, not pixel diff.
 - The three templates use fictional demo content, clearly labeled where it could be mistaken for proof.
 
-[Unreleased]: https://github.com/acf1210/bureau/compare/v7.5.0...HEAD
+[Unreleased]: https://github.com/acf1210/bureau/compare/v7.5.1...HEAD
+[7.5.1]: https://github.com/acf1210/bureau/compare/v7.5.0...v7.5.1
 [7.5.0]: https://github.com/acf1210/bureau/compare/v7.4.0...v7.5.0
 [7.4.0]: https://github.com/acf1210/bureau/compare/v7.3.0...v7.4.0
 [7.3.0]: https://github.com/acf1210/bureau/compare/v7.2.0...v7.3.0
