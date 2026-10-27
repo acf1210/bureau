@@ -5,7 +5,7 @@ A showcase model: design first, performance last. It is a worked example of a bl
 | Role | Lineage | Principle | Axis | Becomes, here | Not copied |
 |---|---|---|---|---|---|
 | Dominant 55% | Josef Müller-Brockmann, Tonhalle concert posters and *Grid Systems in Graphic Design* (1981) | The modular grid as objective order; music drawn as structure | Grid | The show is a score: five shells by sixteen beats, one module for every metal card | His poster compositions |
-| Counter 30% | Herb Lubalin, *Avant Garde* magazine (1968–71) | Letters set tight until the word becomes an image | Display voice | PÓLVORA set at −0.075 em over the film, loosening as the film scrolls away | The Avant Garde logotype |
+| Counter 30% | Herb Lubalin, *Avant Garde* magazine (1968–71) | Letters set tight until the word becomes an image | Display voice | PÓLVORA set at −0.055 em over the film, loosening as the film scrolls away | The Avant Garde logotype |
 | Accent 15% | Saul Bass, title sequences (1958–59) | Motion that cuts instead of fading | Motion | Letters cut in one beat apart; finale cues cut on the second; beats flash on the playhead | His cut-paper figures |
 
 - **Tension:** Müller-Brockmann's cool grid against fire that has no edges.
