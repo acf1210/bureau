@@ -2,6 +2,8 @@
 
 Para cada concepto, registra decisiones de UI, UX e innovación y un plan de evidencias usando `skill/references/16-review-circuit.md`. Son interpretaciones de BUREAU de las [definiciones de CSS Design Awards](https://www.cssdesignawards.com/sites/guidance/43364/), no subcriterios oficiales ni una predicción de premios.
 
+Bibliotecas de construcción de UI por capa (estilo, componentes, comportamiento), cómo elegirlas antes del build y verificarlas después: `skill/references/35-build-libraries.md`.
+
 Las bibliotecas de color por fase (generación y extracción antes del build; comprobación de contraste, gamut y temas después) están en `skill/references/34-color-tooling.md`. Ninguna es dependencia de BUREAU.
 
 Para un vocabulario práctico de estilos visuales y sus trade-offs, usa `skill/references/32-visual-style-vocabulary.md`. Elige una lente a partir del brief y prueba con contenido real; una etiqueta de estilo no demuestra usabilidad ni conversión.

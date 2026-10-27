@@ -135,6 +135,8 @@ export const metadata = {
 
 ## 6. Styling
 
+Libraries per layer (Tailwind, Bootstrap, Bulma, Open Props, DaisyUI; Radix, Ark, shadcn/ui, Chakra, MUI, HeroUI, Vuetify; Alpine, Motion, GSAP), with checks before and after the build: `35-build-libraries.md`.
+
 | Approach | Use when |
 |---|---|
 | **CSS custom properties + layers** | default; maximum control, zero runtime |
