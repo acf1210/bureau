@@ -1,6 +1,6 @@
 # DESIGN — the BUREAU site (Proof)
 
-> Visual contract for `site/index.html`, `site/assets/docs.css` and `site/og.html`. Tokens are normative. Rebuilt 2026-10-27 for 7.5.0; hero, palette and type lightened in 7.9.1; hero redrawn as a line diagram and the landing made light-only in 7.9.2; lineage and decision in `.bureau/comps/blend.md` and `decision.md`.
+> Visual contract for `site/index.html`, `site/assets/docs.css` and `site/og.html`. Tokens are normative. Rebuilt 2026-10-27 for 7.5.0; hero, palette and type lightened in 7.9.1; hero redrawn as a line diagram and the landing made light-only in 7.9.2; docs pages made light-only with a black top bar and the same light type in 7.9.3; lineage and decision in `.bureau/comps/blend.md` and `decision.md`.
 
 ## Concept
 
@@ -53,6 +53,10 @@ Red is the editor's pencil and nothing else: no red buttons, no red headings.
 - **Mark:** circled symbol (del, wf, qy, ins, mo, eng) + rule ID in mono + title; severity as P0/P1/P2 text, not colour.
 - **Gate ledger:** ten rows, bar length = weight (out of 15), overprint fill; the totals row states the pass thresholds.
 - **Buttons:** ink on paper, 48 px tall, square; secondary = 1 px ink outline. Focus: 3 px `--pencil` outline, 3 px offset.
+
+## Docs pages
+
+`site/assets/docs.css` uses the landing's tokens: `--paper` ground, `--sheet` sidebar and code, `--wash-c` callouts, `--wash-m` quotes, and the black `--bar` for the fixed top bar (brand in Archivo 600 / wdth 112%, search and buttons in bar colours, focus `--bar-focus`). Headings Archivo 300 (h1, h2), 500 (h3, strong). No dark theme and no theme toggle.
 
 ## Responsive
 
