@@ -2,7 +2,7 @@
 
 **The autonomous digital design bureau.** An agent skill that gives a language model the work of a whole studio: creative direction, art direction, typography, motion, creative technology, accessibility, performance, and an adversarial review that says *no*.
 
-[![Version](https://img.shields.io/badge/version-7.5.1-F2C230?style=flat-square&labelColor=121212)](VERSION)
+[![Version](https://img.shields.io/badge/version-7.6.0-F2C230?style=flat-square&labelColor=121212)](VERSION)
 [![License](https://img.shields.io/badge/license-MIT-E2507F?style=flat-square&labelColor=121212)](LICENSE)
 [![ShowCase](https://img.shields.io/badge/showcase-4-1E4FD6?style=flat-square&labelColor=121212)](#showcase)
 [![Hosts](https://img.shields.io/badge/hosts-Claude%20%7C%20Codex%20%7C%20Antigravity%20%7C%20Hermes-EDEBE4?style=flat-square&labelColor=121212)](#install)

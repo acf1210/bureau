@@ -26,7 +26,7 @@ Write the extraction in `.bureau/comps/references.md`:
 
 Never open a reference and immediately code. That is how cosplay happens.
 
-Galleries tell you what the current default looks like. They are not lineages. Principles come from documented work by named designers, blended three at a time: see `23-lineage-and-blend.md`. If you save a reference page locally, compare your build against it with `scripts/divergence.mjs`.
+Galleries tell you what the current default looks like. They are not lineages. Principles come from documented work by named designers, blended three at a time: see `23-lineage-and-blend.md`. If you save a reference page locally (tools and limits in `33-reference-acquisition.md`), compare your build against it with `scripts/divergence.mjs`.
 
 ## 2. Galleries — landing and marketing
 

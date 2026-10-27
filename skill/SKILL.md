@@ -3,7 +3,7 @@ name: bureau
 description: Design bureau for award-grade websites and product surfaces. Use to design, redesign, prototype or review a web experience: landing pages, portfolios, product marketing, editorial and immersive sites, design systems, Figma-to-code, motion/WebGL/video, Playwright QA, accessibility, performance, anti-AI-slop review. Triggers: "design a site", "make it premium", "Awwwards-level", "redesign this", "landing page", "review my UI", "anti-slop", "Figma to code", "add motion".
 license: MIT
 metadata:
-  version: "7.5.1"
+  version: "7.6.0"
   homepage: "https://github.com/acf1210/bureau"
 ---
 
@@ -78,6 +78,7 @@ Run `/bureau <command>` when invoked; otherwise infer from the table. Load only 
 | "Does this look AI-made?" | `slop` | `17-anti-ai-slop` |
 | Copy, claims, SEO, launch | `ship` | `18-copy-and-truth`, `21-ship-and-evolve` |
 | Inspiration | `concept` | `20-reference-library` |
+| Capture reference pages, scraping or crawling tools | `concept` | `33-reference-acquisition` |
 | Research, qualification, candidates | `init` → `concept` | `27-design-intelligence` |
 | Independent quality assessment / version comparison | `review` | `28-independent-design-assessment`, `26-outcome-evaluation` |
 | Install, repair | `doctor` | `22-installers` |
@@ -139,6 +140,7 @@ P1 needs a written, page-specific waiver; P2 is answered, never ignored. A clean
 ## 8. Tools
 
 - **Figma:** MCP when available (`14`); read variables and screenshots; claim fidelity only with a side-by-side. Otherwise tokens JSON and screenshots as comps, limitation stated.
+- **Reference capture:** Playwright first; Crawl4AI or Firecrawl for page Markdown, ScrapeGraphAI for fields; crawlers only on owned hosts; never bypass a block (`33`).
 - **Playwright:** bundled scripts for evidence, MCP/browser for exploration (`15`); read screenshots, not only JSON; record console, requests, overflow, contrast, motion.
 - **Images and video:** art-direct lens, light, material, palette, composition and exclusions; avoid the AI look. Video: short muted loops, poster, H.264/HEVC/AV1 + WebM, static fallback (`10`, `09`).
 - **Fonts and icons:** licensed, ship only what is used; Font Awesome is a fallback, not a concept (`04`).
