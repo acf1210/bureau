@@ -63,6 +63,8 @@
   .hero__lede{max-width:48ch;color:var(--muted);font-size:clamp(1rem,1.2vw,1.12rem);margin:0 0 1.7rem}
   .hero__actions{display:flex;flex-wrap:wrap;gap:.7rem;align-items:center}
   .btn{display:inline-flex;align-items:center;gap:.6rem;min-height:46px;padding:.85rem 1.05rem;border:1px solid var(--ink);background:var(--ink);color:#0B0B0C;font:500 12px/1 var(--mono);letter-spacing:.04em;cursor:pointer;transition:background .2s,color .2s,border-color .2s,transform .2s}
+  .hero__actions .btn--primary{min-height:58px;padding:1rem 1.5rem;font-size:15px;font-weight:600;gap:1.5rem}
+  .hero__actions .btn--primary span{font-size:20px;line-height:1}
   .btn:hover{background:var(--acid);border-color:var(--acid);transform:translateY(-2px)}
   .btn--ghost{background:transparent;color:var(--ink);border-color:var(--line)}
   .btn--ghost:hover{background:transparent;color:var(--acid);border-color:var(--acid)}
@@ -264,10 +266,10 @@
         <p class="kicker"><i aria-hidden="true"></i> Open-source agent skill, v{{VERSION}}, MIT licence</p>
         <h1><span>Bureau</span></h1>
         <p class="hero__tagline">The autonomous digital design bureau.</p>
-        <p class="hero__lede">Concept, art direction, motion, WebGL, Figma, Playwright evidence, accessibility, performance, and a review circuit that can say no. Installs into Claude, Codex, Antigravity and Hermes.</p>
+        <p class="hero__lede">Turn a brief into a distinctive website: develop the concept, build the experience, and review the result with evidence. Works with Claude Code, Codex, Antigravity and Hermes.</p>
         <div class="hero__actions">
-          <a class="btn" href="#install">Install the skill <span aria-hidden="true">↓</span></a>
-          <a class="btn btn--ghost" href="en/index.html">Read the docs <span aria-hidden="true">↗</span></a>
+          <a class="btn btn--primary" href="#install">Install BUREAU <span aria-hidden="true">↓</span></a>
+          <a class="btn btn--ghost" href="#showcase">Explore the showcase <span aria-hidden="true">↓</span></a>
         </div>
       </div>
       <aside class="hero__card" aria-label="BUREAU at a glance">
@@ -389,7 +391,7 @@
   <section class="section wrap" id="showcase">
     <div class="section-head">
       <h2 class="reveal">Four models. Design first.</h2>
-      <p class="reveal">Four studios that do not exist, each built from a blend of three designers and given a phone composition of its own: a mountain observatory, a perfume house, an ocean institute and a type foundry. Design leads every decision here; performance comes last. <a class="standalone" href="showcase/index.html" style="border-bottom:1px solid var(--line)">Open the ShowCase ↗</a></p>
+      <p class="reveal">Four fictional studios, each built from a blend of three designers and given a phone composition of its own: a mountain observatory, a perfume house, an ocean institute and a type foundry. Explore the design decisions and interactions in each example. <a class="standalone" href="showcase/index.html" style="border-bottom:1px solid var(--line)">Open the ShowCase ↗</a></p>
     </div>
     <div class="demos">
       <!-- gallery:start -->

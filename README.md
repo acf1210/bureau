@@ -2,12 +2,18 @@
 
 **O bureau de design digital autônomo.** Uma skill de agente que dá a um modelo de linguagem o trabalho de um estúdio inteiro: direção de criação, direção de arte, tipografia, motion, creative technology, acessibilidade, performance e uma revisão adversarial que diz *não*.
 
-[![Versão](https://img.shields.io/badge/version-6.0.0-F2C230?style=flat-square&labelColor=121212)](VERSION)
+[![Versão](https://img.shields.io/badge/version-6.0.1-F2C230?style=flat-square&labelColor=121212)](VERSION)
 [![Licença](https://img.shields.io/badge/license-MIT-E2507F?style=flat-square&labelColor=121212)](LICENSE)
-[![ShowCase](https://img.shields.io/badge/showcase-5-1E4FD6?style=flat-square&labelColor=121212)](#showcase)
+[![ShowCase](https://img.shields.io/badge/showcase-4-1E4FD6?style=flat-square&labelColor=121212)](#showcase)
 [![Hosts](https://img.shields.io/badge/hosts-Claude%20%7C%20Codex%20%7C%20Antigravity%20%7C%20Hermes-EDEBE4?style=flat-square&labelColor=121212)](#instalação)
 
 [Português](README.md) · [English](README.en.md) · [Español](README.es.md) · [Documentação](https://acf1210.github.io/bureau/pt-BR/index.html) · [ShowCase ao vivo](https://acf1210.github.io/bureau/showcase/index.html)
+
+> **[Comece a usar o BUREAU →](#instalação)**
+>
+> Escolha seu agente, instale a skill e transforme um briefing em uma experiência digital com revisão fundamentada em evidências.
+>
+> [Veja os projetos ao vivo](https://acf1210.github.io/bureau/showcase/index.html) · [Leia o fluxo completo](docs/pt-BR/workflow.md)
 
 ![As composições mobile dos quatro modelos do ShowCase do BUREAU: um observatório, uma perfumaria, um instituto oceanográfico e uma fundição tipográfica](site/assets/img/readme-banner.webp)
 
