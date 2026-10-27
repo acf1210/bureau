@@ -4,6 +4,17 @@ All notable changes to BUREAU are recorded here. The format follows Keep a Chang
 
 ## [Unreleased]
 
+## [5.2.0] — 2026-10-27
+
+### Added
+
+- **Pólvora** (`showcase/pyrotechnics`; Müller-Brockmann × Lubalin × Bass), a pyrotechnic studio built on motion and video: a full-bleed opening film (wide and tall versions), five films of the metals that colour the stars, a finale scrubbed by the scroll with cue cuts, and a sixteen-beat composer that fires every rocket early by its climb time so it breaks on the beat. One switch pauses all motion; reduced motion starts paused with posters.
+- `showcase/pyrotechnics/pyro.js`, the deterministic fireworks engine the composer runs, and `scripts/render-showcase-video.mjs`, which renders the same engine frame by frame to H.264 (seamless crossfaded loops; keyframes every four frames for the scrubbed finale).
+
+### Removed
+
+- The Torno ceramics model and its captures.
+
 ## [5.1.1] — 2026-10-27
 
 ### Fixed
@@ -172,7 +183,8 @@ The review circuit asks for more evidence. Projects reviewed under 1.0.0 need th
 - `visual-audit` uses hash-level screenshot comparison, not pixel diff.
 - The three templates use fictional demo content, clearly labeled where it could be mistaken for proof.
 
-[Unreleased]: https://github.com/acf1210/bureau/compare/v5.1.1...HEAD
+[Unreleased]: https://github.com/acf1210/bureau/compare/v5.2.0...HEAD
+[5.2.0]: https://github.com/acf1210/bureau/compare/v5.1.1...v5.2.0
 [5.1.1]: https://github.com/acf1210/bureau/compare/v5.1.0...v5.1.1
 [5.1.0]: https://github.com/acf1210/bureau/compare/v5.0.1...v5.1.0
 [5.0.1]: https://github.com/acf1210/bureau/compare/v5.0.0...v5.0.1

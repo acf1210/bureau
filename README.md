@@ -2,14 +2,14 @@
 
 **O bureau de design digital autônomo.** Uma skill de agente que dá a um modelo de linguagem o trabalho de um estúdio inteiro: direção de criação, direção de arte, tipografia, motion, creative technology, acessibilidade, performance e uma revisão adversarial que diz *não*.
 
-[![Versão](https://img.shields.io/badge/version-5.1.1-F2C230?style=flat-square&labelColor=121212)](VERSION)
+[![Versão](https://img.shields.io/badge/version-5.2.0-F2C230?style=flat-square&labelColor=121212)](VERSION)
 [![Licença](https://img.shields.io/badge/license-MIT-E2507F?style=flat-square&labelColor=121212)](LICENSE)
 [![ShowCase](https://img.shields.io/badge/showcase-5-1E4FD6?style=flat-square&labelColor=121212)](#showcase)
 [![Hosts](https://img.shields.io/badge/hosts-Claude%20%7C%20Codex%20%7C%20Antigravity%20%7C%20Hermes-EDEBE4?style=flat-square&labelColor=121212)](#instalação)
 
 [Português](README.md) · [English](README.en.md) · [Español](README.es.md) · [Documentação](https://acf1210.github.io/bureau/pt-BR/index.html) · [ShowCase ao vivo](https://acf1210.github.io/bureau/showcase/index.html)
 
-![As composições mobile dos cinco modelos do ShowCase do BUREAU: um observatório sob um céu em WebGL, uma perfumaria com fios de tinta na água, um vaso de cerâmica renderizado no torno, um instituto oceanográfico com contornos irradiando do nome e uma fundição tipográfica de eixos variáveis](site/assets/img/readme-banner.webp)
+![As composições mobile dos cinco modelos do ShowCase do BUREAU: um observatório sob um céu em WebGL, uma perfumaria com fios de tinta na água, um espetáculo de fogos renderizado em vídeo sobre uma cidade e um rio, um instituto oceanográfico com contornos irradiando do nome e uma fundição tipográfica de eixos variáveis](site/assets/img/readme-banner.webp)
 
 ---
 
@@ -27,7 +27,7 @@ Modelos aprendem a média da internet. Sem direção, entregam o mesmo hero cent
 
 ## ShowCase
 
-Cinco modelos web, cinco estúdios fictícios, cada um com uma composição mobile própria: um observatório de montanha, uma perfumaria, um ateliê de cerâmica, um instituto oceanográfico e uma fundição tipográfica. Aqui o design manda em cada decisão e a performance vem por último: shaders WebGL, campos de partículas, tipografia variável e renderização ao vivo usados sem economia. Cada modelo tem um `LINEAGE.md` com a sua mescla de três designers.
+Cinco modelos web, cinco estúdios fictícios, cada um com uma composição mobile própria: um observatório de montanha, uma perfumaria, um estúdio de pirotecnia, um instituto oceanográfico e uma fundição tipográfica. Aqui o design manda em cada decisão e a performance vem por último: shaders WebGL, campos de partículas, tipografia variável e renderização ao vivo usados sem economia. Cada modelo tem um `LINEAGE.md` com a sua mescla de três designers.
 
 <!-- gallery:start -->
 <table>
@@ -46,11 +46,11 @@ Cinco modelos web, cinco estúdios fictícios, cada um com uma composição mobi
 <td colspan="2"><b>Maison Orvé</b> · Perfumaria · <sub>Ruder × Greiman × Munari</sub><br>Componha topo, coração e fundo e veja-os mover-se na água. <a href="https://acf1210.github.io/bureau/showcase/perfumery/index.html">Abrir ↗</a></td>
 </tr>
 <tr>
-<td width="72%" valign="top"><a href="https://acf1210.github.io/bureau/showcase/ceramics/index.html"><img src="site/assets/img/showcase/ceramics-desktop.webp" alt="Torno: A celadon-glazed jar rendered in WebGL on terracotta and dark planes beside form chips and sliders" width="100%"></a></td>
-<td width="28%" valign="top"><a href="https://acf1210.github.io/bureau/showcase/ceramics/index.html"><img src="site/assets/img/showcase/ceramics-mobile.webp" alt="Torno, mobile" width="100%"></a></td>
+<td width="72%" valign="top"><a href="https://acf1210.github.io/bureau/showcase/pyrotechnics/index.html"><img src="site/assets/img/showcase/pyrotechnics-desktop.webp" alt="Pólvora: A giant tight wordmark PÓLVORA over a rendered film of fireworks breaking above a city and its river" width="100%"></a></td>
+<td width="28%" valign="top"><a href="https://acf1210.github.io/bureau/showcase/pyrotechnics/index.html"><img src="site/assets/img/showcase/pyrotechnics-mobile.webp" alt="Pólvora, mobile" width="100%"></a></td>
 </tr>
 <tr>
-<td colspan="2"><b>Torno</b> · Ateliê de cerâmica · <sub>Tanaka × Scarpa × Bass</sub><br>Puxe um vaso no torno e veja quanto ele comporta antes de ser feito. <a href="https://acf1210.github.io/bureau/showcase/ceramics/index.html">Abrir ↗</a></td>
+<td colspan="2"><b>Pólvora</b> · Estúdio de pirotecnia · <sub>Müller-Brockmann × Lubalin × Bass</sub><br>Filmes renderizados, um finale guiado pelo scroll e uma partitura que dispara na batida. <a href="https://acf1210.github.io/bureau/showcase/pyrotechnics/index.html">Abrir ↗</a></td>
 </tr>
 <tr>
 <td width="72%" valign="top"><a href="https://acf1210.github.io/bureau/showcase/ocean/index.html"><img src="site/assets/img/showcase/ocean-desktop.webp" alt="Maré: A giant condensed wordmark wrapped in cyan and orange contour lines on a deep blue ground" width="100%"></a></td>
@@ -69,7 +69,7 @@ Cinco modelos web, cinco estúdios fictícios, cada um com uma composição mobi
 </table>
 <!-- gallery:end -->
 
-Todos são autocontidos (HTML, CSS e JS num arquivo) e passam no audit estático e no audit visual de 320 a 1440 px sem P0 nem P1. O piso continua valendo: contraste real, caminho por teclado, movimento reduzido desenhado como imagem parada, todo o texto legível sem JavaScript e nenhum botão que finja enviar. Estúdios, pessoas e preços são fictícios e rotulados. Os 13 templates de scaffold continuam na skill (`new-project.mjs --list`).
+Cada modelo é uma página com o próprio CSS e JS; a Pólvora traz também o motor `pyro.js` e os vídeos que ele renderizou quadro a quadro (`scripts/render-showcase-video.mjs`). Todos passam no audit estático e no audit visual de 320 a 1440 px sem P0 nem P1. O piso continua valendo: contraste real, caminho por teclado, movimento reduzido desenhado como imagem parada, todo o texto legível sem JavaScript e nenhum botão que finja enviar. Estúdios, pessoas e preços são fictícios e rotulados. Os 13 templates de scaffold continuam na skill (`new-project.mjs --list`).
 
 ---
 
