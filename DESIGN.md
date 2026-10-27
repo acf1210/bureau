@@ -1,6 +1,6 @@
 # DESIGN — the BUREAU site (Proof)
 
-> Visual contract for `site/index.html`, `site/assets/docs.css` and `site/og.html`. Tokens are normative. Rebuilt 2026-10-27 for 7.5.0; lineage and decision in `.bureau/comps/blend.md` and `decision.md`.
+> Visual contract for `site/index.html`, `site/assets/docs.css` and `site/og.html`. Tokens are normative. Rebuilt 2026-10-27 for 7.5.0; hero, palette and type lightened in 7.9.1; lineage and decision in `.bureau/comps/blend.md` and `decision.md`.
 
 ## Concept
 
@@ -15,11 +15,15 @@
 
 | Token | Light | Dark | Role | Contrast on ground |
 |---|---|---|---|---|
-| `--paper` | `#EDECE7` | `#111113` | ground | — |
-| `--sheet` | `#F7F6F2` | `#19191C` | proof sheet, panels | — |
-| `--ink` | `#121214` | `#ECEBE6` | text | 15.8 / 15.8 |
-| `--muted` | `#57565F` | `#A5A3AB` | secondary text | 6.1 / 7.6 |
-| `--rule` | `#C9C7BF` | `#34333A` | hairlines | non-text |
+| `--paper` | `#F7F6F2` | `#141416` | ground | — |
+| `--sheet` | `#FDFDFB` | `#1B1B1F` | proof sheet, panels | — |
+| `--ink` | `#17171A` | `#ECEBE6` | text | 16.5 / 15.4 |
+| `--muted` | `#5C5B63` | `#A5A3AB` | secondary text | 6.2 / 7.4 |
+| `--rule` | `#E0DED6` | `#323138` | hairlines | non-text |
+| `--wash` | `#EDF3F6` | `#171C20` | hero ground | — |
+| `--wash-c` `--wash-m` `--wash-y` | `#E3EFF6` `#F7E8EF` `#FAF3D6` | `#15212A` `#24171E` `#23200F` | pale plate tints for fact, threshold and doc cells; text stays `--ink`/`--muted` | — |
+| `--bar` | `#0F0F11` | `#0A0A0B` | masthead and colophon, black in both themes | — |
+| `--bar-ink` `--bar-muted` | `#F3F2EE` `#ABAAB2` | same | text on the bar | 17.6 / 8.3 |
 | `--pencil` | `#C8102E` | `#FF5A4E` | proof marks, the one accent | 5.0 / 6.1 |
 | `--cyan` `--magenta` `--yellow` | `#0089C4` `#C4006A` `#F3D000` | same | overprint planes only, `mix-blend-mode: multiply` (light) / `screen` (dark); never text | — |
 
@@ -28,8 +32,9 @@ Red is the editor's pencil and nothing else: no red buttons, no red headings.
 ## Type
 
 - **Archivo** variable, self-hosted (`archivo-var-latin*.woff2`, wght 100–900, wdth 62–125%, OFL).
-  - Display: wght 800, wdth 125%, tracking −0.035em, line-height .86; sizes `clamp(3.2rem, 9.4vw, 9.6rem)` (h1), `clamp(2.2rem, 5vw, 4.6rem)` (h2).
-  - Body: wght 400, wdth 100%, 17–19 px, line-height 1.55, measure ≤ 62ch.
+  - Display: wght 300, wdth 100%, tracking −0.035em, line-height 1.02; sizes `clamp(2.8rem, 5.4vw, 5.9rem)` (h1), `clamp(2.1rem, 4vw, 4rem)` (h2). Figures in fact and threshold cells also wght 300.
+  - Body: wght 400, wdth 100%, 17–19 px, line-height 1.6, measure ≤ 62ch; emphasis and buttons wght 500.
+  - Brand: wght 600, wdth 112%, tracking .06em, on the black bar.
   - Labels: wght 600, wdth 87%, 13–14 px uppercase only for the slug rail.
 - **JetBrains Mono** (OFL): rule IDs, line numbers, commands, the slug.
 - Two families. Bodoni Moda is retired from the site.

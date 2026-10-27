@@ -4,6 +4,14 @@ All notable changes to BUREAU are recorded here. The format follows Keep a Chang
 
 ## [Unreleased]
 
+## [7.9.1] — 2026-10-27
+
+### Changed
+
+- Landing hero rebuilt: a pale wash ground, the headline at the left in Archivo 300 with one pencil rule under "proof", the proof sheet at the right over three pale overprint plates, and the four numbers as tinted cells across the hero.
+- Masthead and footer set black across the full width in both themes; focus ring lightened on the bar.
+- Lighter palette (`--paper`, `--sheet`, `--rule`) and pale plate washes for fact, threshold and doc cells; display type moved from wght 800 / wdth 125% to wght 300 / wdth 100%. `DESIGN.md` updated.
+
 ## [7.9.0] — 2026-10-27
 
 ### Added
@@ -280,7 +288,8 @@ The review circuit asks for more evidence. Projects reviewed under 1.0.0 need th
 - `visual-audit` uses hash-level screenshot comparison, not pixel diff.
 - The three templates use fictional demo content, clearly labeled where it could be mistaken for proof.
 
-[Unreleased]: https://github.com/acf1210/bureau/compare/v7.9.0...HEAD
+[Unreleased]: https://github.com/acf1210/bureau/compare/v7.9.1...HEAD
+[7.9.1]: https://github.com/acf1210/bureau/compare/v7.9.0...v7.9.1
 [7.9.0]: https://github.com/acf1210/bureau/compare/v7.8.0...v7.9.0
 [7.8.0]: https://github.com/acf1210/bureau/compare/v7.7.0...v7.8.0
 [7.7.0]: https://github.com/acf1210/bureau/compare/v7.6.0...v7.7.0

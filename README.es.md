@@ -2,7 +2,7 @@
 
 **El bureau de diseño digital autónomo.** Una skill de agente que le da a un modelo de lenguaje el trabajo de un estudio entero: dirección creativa, dirección de arte, tipografía, motion, creative technology, accesibilidad, rendimiento y una revisión adversarial que dice *no*.
 
-[![Versión](https://img.shields.io/badge/version-7.9.0-F2C230?style=flat-square&labelColor=121212)](VERSION)
+[![Versión](https://img.shields.io/badge/version-7.9.1-F2C230?style=flat-square&labelColor=121212)](VERSION)
 [![Licencia](https://img.shields.io/badge/license-MIT-E2507F?style=flat-square&labelColor=121212)](LICENSE)
 [![ShowCase](https://img.shields.io/badge/showcase-4-1E4FD6?style=flat-square&labelColor=121212)](#showcase)
 [![Hosts](https://img.shields.io/badge/hosts-Claude%20%7C%20Codex%20%7C%20Antigravity%20%7C%20Hermes-EDEBE4?style=flat-square&labelColor=121212)](#instalación)
