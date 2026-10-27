@@ -4,6 +4,12 @@ All notable changes to BUREAU are recorded here. The format follows Keep a Chang
 
 ## [Unreleased]
 
+## [5.1.1] — 2026-10-27
+
+### Fixed
+
+- ShowCase padding: the Torno wheel label had no horizontal inset on its dark band, and Cerro Lumen's evening cards set "Moon too bright" 6 px from their border; both now inset 11–14 px.
+
 ## [5.1.0] — 2026-10-27
 
 ### Added
@@ -166,7 +172,8 @@ The review circuit asks for more evidence. Projects reviewed under 1.0.0 need th
 - `visual-audit` uses hash-level screenshot comparison, not pixel diff.
 - The three templates use fictional demo content, clearly labeled where it could be mistaken for proof.
 
-[Unreleased]: https://github.com/acf1210/bureau/compare/v5.1.0...HEAD
+[Unreleased]: https://github.com/acf1210/bureau/compare/v5.1.1...HEAD
+[5.1.1]: https://github.com/acf1210/bureau/compare/v5.1.0...v5.1.1
 [5.1.0]: https://github.com/acf1210/bureau/compare/v5.0.1...v5.1.0
 [5.0.1]: https://github.com/acf1210/bureau/compare/v5.0.0...v5.0.1
 [5.0.0]: https://github.com/acf1210/bureau/compare/v4.0.0...v5.0.0
