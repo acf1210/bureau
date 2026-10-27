@@ -4,6 +4,14 @@ All notable changes to BUREAU are recorded here. The format follows Keep a Chang
 
 ## [Unreleased]
 
+## [7.10.0] — 2026-10-27
+
+### Added
+
+- `references/37-logo-sources.md`: 15 logo collections and tools with strength, file licence and size counted on 2026-10-27 (Simple Icons 3,467 SVGs, Logos Apps 15,017, Devicon 657 technologies, gilbarbara/logos 2,045, SVGL 1,115, Super Tiny Icons 479 all under 1,013 bytes, Skill Icons 402, Cryptocurrency Icons 483, Libre Logos, Logoipsum, Open Source Branding Toolkit, Iconify, Font Awesome Free Brands, VectorLogoZone, Remix Icon). Rules: a file licence is not a trademark licence; Logos Apps excludes its logo files from MIT; Remix Icon forbids use as a logo; customer and partner logos only with written permission (BS-I05, G8); placeholders only in comps (BS-W04). Pre-production choice of one source per row; post-production checks for permission, set consistency, contrast, accessible names, weight and licence record.
+- `references/38-open-fonts.md`: 4 platforms (Google Fonts, 2,016 OFL family folders; Open Foundry; Font Library; Use & Modify), 5 open-source foundries, 8 families (Inter, Fira Code, JetBrains Mono, Source Sans 3, Source Serif 4, Source Code Pro, Gentium, Charis) and 2 tools (SIL Open Font License, FontBakery) with licence and status on 2026-10-27. Corrections recorded: Montserrat is Julieta Ulanovsky's, not Omnibus-Type's; Source Sans Pro and Source Serif Pro are now Source Sans 3 and Source Serif 4; FontBakery moved to `fonttools/fontbakery`; Velvetyne's site redirected to a strike-support page. Pre-production shortlist and specimen test; post-production checks for licence file, subsets, fallback metrics, glyph coverage and the BS-T01/BS-T02 tells.
+- Router rows and tools lines in `SKILL.md`; cross-references from `04`, `10` and `18`; one paragraph in the design-language docs (PT-BR, EN, ES).
+
 ## [7.9.6] — 2026-10-27
 
 ### Changed
@@ -322,7 +330,8 @@ The review circuit asks for more evidence. Projects reviewed under 1.0.0 need th
 - `visual-audit` uses hash-level screenshot comparison, not pixel diff.
 - The three templates use fictional demo content, clearly labeled where it could be mistaken for proof.
 
-[Unreleased]: https://github.com/acf1210/bureau/compare/v7.9.6...HEAD
+[Unreleased]: https://github.com/acf1210/bureau/compare/v7.10.0...HEAD
+[7.10.0]: https://github.com/acf1210/bureau/compare/v7.9.6...v7.10.0
 [7.9.6]: https://github.com/acf1210/bureau/compare/v7.9.5...v7.9.6
 [7.9.5]: https://github.com/acf1210/bureau/compare/v7.9.4...v7.9.5
 [7.9.4]: https://github.com/acf1210/bureau/compare/v7.9.3...v7.9.4

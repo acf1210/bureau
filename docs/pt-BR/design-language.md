@@ -2,6 +2,8 @@
 
 Para cada conceito, registre decisões de UI, UX e inovação e um plano de evidências usando `skill/references/16-review-circuit.md`. São interpretações da BUREAU das [definições do CSS Design Awards](https://www.cssdesignawards.com/sites/guidance/43364/), não subcritérios oficiais nem uma previsão de prêmio.
 
+Fontes de logos (15 coleções e ferramentas, com licença e tamanho em 2026-10-27) e como usar marcas de terceiros com permissão: `skill/references/37-logo-sources.md`. Plataformas, foundries e famílias de fontes abertas (19, com licença em 2026-10-27) e como verificar uma fonte antes de publicá-la: `skill/references/38-open-fonts.md`.
+
 Fontes de fotos e vídeos de banco de imagens (30, com licença e status em 2026-10-27) e como encontrar, licenciar e verificar um asset antes e depois do build: `skill/references/36-stock-media.md`.
 
 Bibliotecas de construção de UI por camada (estilo, componentes, comportamento), como escolhê-las antes do build e verificá-las depois: `skill/references/35-build-libraries.md`.

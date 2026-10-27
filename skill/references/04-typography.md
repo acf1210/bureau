@@ -40,7 +40,7 @@ Choose by **voice**, not by trend.
 11. Unbounded + Manrope + JetBrains Mono — AI/space.
 12. Literata + Karla + Spline Sans Mono — reading-first.
 
-Verify licenses (most Google Fonts are OFL) and self-host.
+Verify licenses (most Google Fonts are OFL) and self-host. Open font platforms, foundries and licence checks: `38-open-fonts.md`.
 
 ## 2. Type system
 

@@ -55,7 +55,7 @@ Workflow:
 
 ## 3. Photography treatment
 
-Where to find licensed photos and video when there is no shoot, and how to record each licence: `36-stock-media.md`.
+Where to find licensed photos and video when there is no shoot, and how to record each licence: `36-stock-media.md`. Logo files, brand marks and placeholder logos: `37-logo-sources.md`.
 
 - **One grade** across the site: temperature, contrast, grain, black point.
 - **One crop logic**: all portraits 4:5, all environments 16:9, all details 1:1.

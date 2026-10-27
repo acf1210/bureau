@@ -1,5 +1,7 @@
 # Visual language
 
+Logo sources (15 collections and tools, with licence and size as of 2026-10-27) and how to use third-party marks with permission: `skill/references/37-logo-sources.md`. Open font platforms, foundries and families (19, with licence as of 2026-10-27) and how to check a font before it ships: `skill/references/38-open-fonts.md`.
+
 Stock photo and video sources (30, with licence and status as of 2026-10-27) and how to find, license and verify an asset before and after the build: `skill/references/36-stock-media.md`.
 
 UI build libraries by layer (styling, components, behaviour), how to choose them before the build and verify them after it: `skill/references/35-build-libraries.md`.
