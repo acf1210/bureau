@@ -100,6 +100,8 @@ Un promedio de 95 con un P0 de accesibilidad es **Fail**. Ese es el punto.
 
 ### G5 — Motion
 
+Se requieren cinco referencias premiadas de motion distintas y su síntesis en `.bureau/research/motion.json`; consulta `skill/references/31-motion-production.md`.
+
 **Criterios:** una entrada, una narrativa de scroll, una firma de interacción; carácter consistente; reduced motion diseñado; 60 fps; sin secuestro de scroll.
 
 **Fallas duras:** reduced motion ignorado; scroll hijack; audio automático; P0 de performance; flash > 3 Hz.

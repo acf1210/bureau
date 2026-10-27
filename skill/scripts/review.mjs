@@ -16,6 +16,7 @@ import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { validateJury, validateMembers, scoreMembers, bestRound, deadline, issueErrors, UX_LAWS, JURY_BUDGET_SECONDS } from "./lib/jury.mjs";
 import { validateSurvey } from "./lib/sources.mjs";
+import { validateMotionResearch } from "./lib/motion-research.mjs";
 import {
   gates, gateById, GATE_ORDER, VERDICTS,
   checkEvidence, normalizeScores, validateEvidenceFiles,
@@ -164,6 +165,12 @@ function gateSurveyErrors(root, gateId) {
   return validateSurvey(readJson(file)).errors;
 }
 
+function gateMotionResearchErrors(root, gateId) {
+  if (gateId !== "g5-motion") return [];
+  const file = path.join(root, ".bureau", "research", "motion.json");
+  return validateMotionResearch(readJson(file), (p) => { try { return fs.statSync(path.resolve(root, p)).isFile(); } catch { return false; } }).errors;
+}
+
 function gateCommand(root, state, gateId, scoresFile) {
   const gate = gateById.get(gateId);
   if (!gate) {
@@ -202,6 +209,11 @@ function gateCommand(root, state, gateId, scoresFile) {
   const surveyErrors = gateSurveyErrors(root, gate.id);
   if (surveyErrors.length) {
     console.error("Gate blocked: reference survey incomplete (scripts/survey.mjs --check).\n- " + surveyErrors.join("\n- "));
+    process.exit(4);
+  }
+  const motionResearchErrors = gateMotionResearchErrors(root, gate.id);
+  if (motionResearchErrors.length) {
+    console.error("Gate blocked: awarded motion research incomplete (scripts/motion-research.mjs --check).\n- " + motionResearchErrors.join("\n- "));
     process.exit(4);
   }
   const missingEvidence = validateEvidenceFiles(root, normalized.value.evidence);
@@ -431,6 +443,11 @@ function finalCommand(root, state, tribunalFile, asJson) {
     const survey = gateSurveyErrors(root, row.def.id);
     if (survey.length) {
       console.error(`Cannot finalize: reference survey incomplete: ${survey.join("; ")}`);
+      blocked = true;
+    }
+    const motionResearch = gateMotionResearchErrors(root, row.def.id);
+    if (motionResearch.length) {
+      console.error(`Cannot finalize: awarded motion research incomplete: ${motionResearch.join("; ")}`);
       blocked = true;
     }
     const listed = validateEvidenceFiles(root, row.result.evidence || []);

@@ -4,6 +4,8 @@ The circuit exists to stop the bureau from shipping work it has talked itself in
 
 **Gate Zero + Nine Gates + Tribunal.** Weighted 100. Any hard failure vetoes the release, regardless of score.
 
+Gate 5 also requires five documented awarded motion references and a project-specific synthesis, checked as described in `31-motion-production.md`. The script validates the record, not the truth of the cited awards or observations.
+
 ```text
 G0 Intake ──► G1 Concept ──► G2 Direction ──► G3 Type & Color
                                                    │

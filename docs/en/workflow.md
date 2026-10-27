@@ -118,6 +118,8 @@ A campaign site fits 5–7 days. A product with CMS and multiple surfaces, 2–4
 
 ## E. Motion (G5)
 
+Document five distinct awarded motion references with `node skill/scripts/motion-research.mjs --init` and `node skill/scripts/motion-research.mjs --check`. Use `node skill/scripts/motion-research.mjs --plan` to generate a draft production plan. Record award sources and local observation evidence; `skill/references/31-motion-production.md` explains the process and optional tools. G5 requires the completed record.
+
 **Do:**
 
 - Write `MOTION.md` before the effect.
