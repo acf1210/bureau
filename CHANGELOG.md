@@ -4,6 +4,12 @@ All notable changes to BUREAU are recorded here. The format follows Keep a Chang
 
 ## [Unreleased]
 
+## [5.2.1] — 2026-10-27
+
+### Fixed
+
+- Pólvora finish: the wordmark and headings keep their letter shapes (−0.055 em and −0.03 em, were −0.075 and −0.05), the metal cards drop the 3 px colour bar for a hairline, and the composer's status sits in an inset chip.
+
 ## [5.2.0] — 2026-10-27
 
 ### Added
@@ -183,7 +189,8 @@ The review circuit asks for more evidence. Projects reviewed under 1.0.0 need th
 - `visual-audit` uses hash-level screenshot comparison, not pixel diff.
 - The three templates use fictional demo content, clearly labeled where it could be mistaken for proof.
 
-[Unreleased]: https://github.com/acf1210/bureau/compare/v5.2.0...HEAD
+[Unreleased]: https://github.com/acf1210/bureau/compare/v5.2.1...HEAD
+[5.2.1]: https://github.com/acf1210/bureau/compare/v5.2.0...v5.2.1
 [5.2.0]: https://github.com/acf1210/bureau/compare/v5.1.1...v5.2.0
 [5.1.1]: https://github.com/acf1210/bureau/compare/v5.1.0...v5.1.1
 [5.1.0]: https://github.com/acf1210/bureau/compare/v5.0.1...v5.1.0
