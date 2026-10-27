@@ -83,6 +83,8 @@ Pair with a hard black section for contrast and one saturated accent. Add textur
 
 ## 2. Color science for screens
 
+Libraries that generate, extract and verify colour (Color.js, Chroma.js, Leonardo, ColorBox, Color Thief, Poline), by production phase: `34-color-tooling.md`.
+
 ### Use OKLCH for systems
 
 OKLCH is perceptually uniform: equal lightness steps look equal. It also keeps hue stable when you change lightness, unlike HSL.

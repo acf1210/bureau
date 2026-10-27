@@ -4,6 +4,13 @@ All notable changes to BUREAU are recorded here. The format follows Keep a Chang
 
 ## [Unreleased]
 
+## [7.7.0] — 2026-10-27
+
+### Added
+
+- `references/34-color-tooling.md`: colour libraries by production phase. Pre-production: Color Thief on reference captures and brand imagery, Poline for harmonies from concept anchors, ColorBox or Chroma.js for ramps, Leonardo for roles set by contrast ratio, Color.js for P3 with sRGB fallback. Post-production: contrast of every pair and state, recomputed dark theme, gamut, data scales, image grading and image-driven UI legibility, recorded in `.bureau/evidence/color.md`. `tokens.mjs --check` stays the gate. No new dependency; a library ships only when the page computes colour at runtime.
+- Router row and a tools line in `SKILL.md`; cross-references from `05` and `24`; one sentence in the design-language docs (PT-BR, EN, ES).
+
 ## [7.6.0] — 2026-10-27
 
 ### Added
@@ -259,7 +266,8 @@ The review circuit asks for more evidence. Projects reviewed under 1.0.0 need th
 - `visual-audit` uses hash-level screenshot comparison, not pixel diff.
 - The three templates use fictional demo content, clearly labeled where it could be mistaken for proof.
 
-[Unreleased]: https://github.com/acf1210/bureau/compare/v7.6.0...HEAD
+[Unreleased]: https://github.com/acf1210/bureau/compare/v7.7.0...HEAD
+[7.7.0]: https://github.com/acf1210/bureau/compare/v7.6.0...v7.7.0
 [7.6.0]: https://github.com/acf1210/bureau/compare/v7.5.1...v7.6.0
 [7.5.1]: https://github.com/acf1210/bureau/compare/v7.5.0...v7.5.1
 [7.5.0]: https://github.com/acf1210/bureau/compare/v7.4.0...v7.5.0

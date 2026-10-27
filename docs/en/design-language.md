@@ -1,5 +1,7 @@
 # Visual language
 
+Colour libraries by phase (generation and extraction before the build; contrast, gamut and theme checks after it) are in `skill/references/34-color-tooling.md`. None is a BUREAU dependency.
+
 For a practical vocabulary of visual styles and their trade-offs, use `skill/references/32-visual-style-vocabulary.md`. Select a lens from the brief and test it with real content; a style label does not establish usability or conversion.
 
 For each concept, record UI, UX and innovation decisions and an evidence plan using `skill/references/16-review-circuit.md`. These are BUREAU interpretations of the [CSS Design Awards definitions](https://www.cssdesignawards.com/sites/guidance/43364/), not official subcriteria or an award prediction.
