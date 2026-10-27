@@ -24,7 +24,6 @@
 | `--wash` | `#EDF3F6` | `#171C20` | hero ground | — |
 | `--wash-c` `--wash-m` `--wash-y` | `#E3EFF6` `#F7E8EF` `#FAF3D6` | `#15212A` `#24171E` `#23200F` | pale plate tints for fact, threshold and doc cells; text stays `--ink`/`--muted` | — |
 | `--bar` | `#0F0F11` | — | masthead and colophon, the only black surfaces | — |
-| `--bar-c` `--bar-m` `--bar-y` | `#1FA3DD` `#E8408F` `#F3D000` | — | the B of the BUREAU logo, in three stacked bands (cyan, magenta, yellow), each a clipped copy of the letter: Pantone Process Cyan, Magenta and Yellow as screen approximations, lifted for black | 6.7 / 5.1 / 12.6 |
 | `--bar-ink` `--bar-muted` | `#F3F2EE` `#ABAAB2` | same | text on the bar | 17.6 / 8.3 |
 | `--pencil` | `#C8102E` | `#FF5A4E` | proof marks, the one accent | 5.0 / 6.1 |
 | `--cyan` `--magenta` `--yellow` | `#0089C4` `#C4006A` `#F3D000` | same | overprint planes only, `mix-blend-mode: multiply` (light) / `screen` (dark); never text | — |

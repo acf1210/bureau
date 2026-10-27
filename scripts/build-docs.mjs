@@ -272,7 +272,7 @@ function pageHtml({ lang, slug, title, description, html, toc, prev, next }) {
 <div class="progress" id="progress"></div>
 <header class="topbar">
   <button class="button-ghost mobile-menu" id="menu" type="button" aria-label="Menu">☰</button>
-  <a class="brand" href="../index.html" aria-label="BUREAU / ${escapeHtml(meta.docs)}"><b><i class="pb">B</i>UREAU</b> <span>/ ${escapeHtml(meta.docs)}</span></a>
+  <a class="brand" href="../index.html">BUREAU <span>/ ${escapeHtml(meta.docs)}</span></a>
   <div class="topbar__spacer"></div>
   <div class="search">
     <input id="search-input" type="search" placeholder="${escapeHtml(meta.search)}" aria-label="${escapeHtml(meta.search)}" autocomplete="off">
