@@ -46,6 +46,8 @@ Look at the display line at 200%. If a glyph collides, disappears, or reads as a
 
 ## 4. P3 — Colour and light
 
+Verify with the post-production checks in `34-color-tooling.md` §3.
+
 - List every colour on the page and its role. A colour without a role is removed.
 - Accent at full strength: at most three uses above the fold.
 - Focus, selection, and form states use the world's colours, not browser blue.
