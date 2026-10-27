@@ -4,6 +4,22 @@ All notable changes to BUREAU are recorded here. The format follows Keep a Chang
 
 ## [Unreleased]
 
+## [5.0.0] — 2026-10-27
+
+### Breaking
+
+- Gate 1 requires `.bureau/research/survey.json`: five references verified in queue order from five of the 25 requested sources, covering at least three lenses, with the shared pattern (shown by three or more of them), the creative departure and what may not be taken. A source that cannot be verified is skipped with its reason and the next one is taken; a pending source ahead of a verified one is an error.
+- The jury loop is time-boxed to ten minutes. `jury.json` records `loop` and scored `rounds`; `--final` takes the best round recorded inside the window, requires the delivered source to be that round's revision, rejects late rounds and a score that does not match the votes, and caps the verdict at conditional when the best round has dissent. Records made under 4.0.0 need `--jury-start` and at least one `--jury-round`.
+
+### Added
+
+- `survey.mjs --init --need <need> [--probe] | --check` and `lib/sources.mjs`, the registry of the 25 sources with identity status, needs and lens; `--probe` checks robots.txt reachability in queue order, skips unreachable or redirected sources and stops after seven reachable ones. Reference `30-reference-survey.md`.
+- `review.mjs --jury-start`, `--jury-round`, `--jury-status` and `--regate` (replays the ten gates after a fix in one command). Jurors can write separate files in `.bureau/review/jurors/` and vote in parallel.
+
+### Changed
+
+- "Pintura / Hover Statues" is read as Hover States (hoverstat.es), a probable match to confirm; UX Archive (uxarchive.com) is recorded as unavailable; Godly's robots.txt redirects to recent.design. Canvas remains unidentified. `source-monitor.mjs` reads the shared registry.
+
 ## [4.0.0] — 2026-10-27
 
 ### Breaking
@@ -127,7 +143,8 @@ The review circuit asks for more evidence. Projects reviewed under 1.0.0 need th
 - `visual-audit` uses hash-level screenshot comparison, not pixel diff.
 - The three templates use fictional demo content, clearly labeled where it could be mistaken for proof.
 
-[Unreleased]: https://github.com/acf1210/bureau/compare/v4.0.0...HEAD
+[Unreleased]: https://github.com/acf1210/bureau/compare/v5.0.0...HEAD
+[5.0.0]: https://github.com/acf1210/bureau/compare/v4.0.0...v5.0.0
 [4.0.0]: https://github.com/acf1210/bureau/compare/v3.0.0...v4.0.0
 [3.0.0]: https://github.com/acf1210/bureau/compare/v2.0.0...v3.0.0
 [2.0.0]: https://github.com/acf1210/bureau/compare/v1.0.0...v2.0.0

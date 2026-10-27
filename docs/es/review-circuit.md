@@ -1,6 +1,6 @@
 # El circuito de revisión
 
-La finalización también exige el jurado independiente de 10–15 miembros y la revisión completa de Laws of UX descritos en `skill/references/29-jury-and-ux.md`. Todos votan en todas las puertas y principios; los hallazgos no resueltos requieren corrección y una nueva revisión completa. Sin evaluadores independientes, el veredicto queda pendiente.
+La finalización también exige el jurado independiente de 10–15 miembros y la revisión completa de Laws of UX descritos en `skill/references/29-jury-and-ux.md`. Todos votan en todas las puertas y principios. El bucle del jurado dura como máximo 10 minutos desde `--jury-start`; cada `--jury-round` puntúa los votos y la decisión es la mejor ronda registrada en ese tiempo. La disidencia en la mejor ronda limita el veredicto a condicional. Sin evaluadores independientes, el veredicto queda pendiente.
 
 Diez puertas independientes y un Tribunal. El objetivo no es producir una nota bonita; es impedir que el bureau apruebe un trabajo por apego.
 

@@ -1,6 +1,6 @@
 # Arquitectura
 
-BUREAU es un sistema de **divulgación progresiva**: un enrutador corto, 30 módulos de profundidad y un conjunto de scripts que convierten opinión en evidencia.
+BUREAU es un sistema de **divulgación progresiva**: un enrutador corto, 31 módulos de profundidad y un conjunto de scripts que convierten opinión en evidencia.
 
 ![Arquitectura de BUREAU](../assets/diagrams/architecture.svg)
 
@@ -10,7 +10,7 @@ BUREAU es un sistema de **divulgación progresiva**: un enrutador corto, 30 mód
 |---|---|---|
 | **Doctrina** | `SKILL.md` | identidad, reglas duras, contrato de autonomía |
 | **Enrutador** | `SKILL.md` §4 | intención → comando → referencia |
-| **Profundidad** | `references/00–24` | un dominio por archivo, cargado bajo demanda |
+| **Profundidad** | `references/00–30` | un dominio por archivo, cargado bajo demanda |
 | **Ejecución** | `scripts/*.mjs` | detector, QA, tokens, Figma, review, scaffold |
 | **Materia** | `assets/templates`, `tokens`, `snippets`, `media` | puntos de partida reales |
 | **Estado** | `BUREAU.md`, `DESIGN.md`, `MOTION.md`, `.bureau/` | memoria del proyecto y evidencia |
@@ -120,7 +120,7 @@ Las referencias son independientes. Ninguna depende de que el agente haya leído
 
 Para añadir un dominio:
 
-1. crear `references/30-su-dominio.md`;
+1. crear `references/31-su-dominio.md`;
 2. añadir la línea en la tabla §9 del `SKILL.md`;
 3. si hay una regla mecánica, añadirla en `scripts/lib/rules.mjs` con ID `BS-*`;
 4. si hay una puerta nueva, ajustar `scripts/lib/gates.mjs` y redistribuir los pesos a 100;

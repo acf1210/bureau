@@ -109,7 +109,7 @@ node skill/scripts/review.mjs --status
 ```
 skill/                 the installable skill
   SKILL.md             router and doctrine
-  references/          30 depth modules
+  references/          31 depth modules
   scripts/             audit, visual-audit, review, tokens, figma-sync, doctor, scaffold
   assets/              templates, tokens, snippets, media, diagrams
 installers/            Claude, Codex, Antigravity, Hermes + bash/PowerShell

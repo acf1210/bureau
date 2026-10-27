@@ -3,26 +3,16 @@
 import fs from "node:fs/promises";
 import { pathToFileURL } from "node:url";
 
-// Monitoring robots.txt only avoids collecting site content or bypassing access restrictions.
-export const sources = [
-  ["awwwards", "https://www.awwwards.com"], ["fwa", "https://thefwa.com"],
-  ["css-design-awards", "https://www.cssdesignawards.com"], ["siteinspire", "https://www.siteinspire.com"],
-  ["godly", "https://godly.website"], ["behance", "https://www.behance.net"],
-  ["dribbble", "https://dribbble.com"], ["mobbin", "https://mobbin.com"],
-  ["landbook", "https://land-book.com"], ["minimal-gallery", "https://minimal.gallery"],
-  ["lapa-ninja", "https://www.lapa.ninja"], ["one-page-love", "https://onepagelove.com"],
-  ["curated-design", "https://curated.design"], ["saasframe", "https://www.saasframe.io"],
-  ["saas-landing-page", "https://saaslandingpage.com"], ["dark-mode-design", "https://www.darkmodedesign.com"],
-  ["brutalist-websites", "https://brutalistwebsites.com"], ["ui-sources", "https://www.uisources.com"],
-  ["refero", "https://refero.design"], ["goodbrief", "https://goodbrief.io"],
-  ["webflow-showcase", "https://webflow.com"], ["layers", "https://layers.to"]
-];
-export const unidentified = ["Pintura / Hover Statues", "UX Archive", "Canvas"];
+import { SOURCES } from "./lib/sources.mjs";
 
-export async function monitor(fetcher = fetch, clock = () => new Date()) {
+// Monitoring robots.txt only avoids collecting site content or bypassing access restrictions.
+export const sources = SOURCES.filter((s) => s.origin).map((s) => [s.id, new URL(s.origin).origin]);
+export const unidentified = SOURCES.filter((s) => !s.origin).map((s) => s.name);
+
+export async function monitor(fetcher = fetch, clock = () => new Date(), list = sources) {
   const results = [];
   // Sequential requests bound load on remote services; redirects are reported, never followed.
-  for (const [id, origin] of sources) {
+  for (const [id, origin] of list) {
     const checkedAt = clock().toISOString();
     try {
       const response = await fetcher(`${origin}/robots.txt`, {

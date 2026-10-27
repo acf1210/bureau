@@ -159,7 +159,14 @@ The report covers overflow, contrast, touch targets, images, fonts, videos, cons
 ```bash
 node skill/scripts/review.mjs --status
 node skill/scripts/review.mjs --gate g1-concept --scores .bureau/review/g1.json
+node skill/scripts/survey.mjs --init --need landing --probe
+node skill/scripts/survey.mjs --check
 node skill/scripts/review.mjs --delivery-init
+node skill/scripts/review.mjs --jury-init
+node skill/scripts/review.mjs --jury-start
+node skill/scripts/review.mjs --jury-round
+node skill/scripts/review.mjs --regate
+node skill/scripts/review.mjs --jury-status
 node skill/scripts/review.mjs --final --tribunal .bureau/review/tribunal.json
 node skill/scripts/review.mjs --report
 ```
@@ -168,6 +175,8 @@ node skill/scripts/review.mjs --report
 - Enforces evidence.
 - Refuses score < 3.5 and P0.
 - Marks stale gates by hash.
+- Gate 1 requires the survey of five verified sources, in queue order.
+- The jury has a 10-minute time box; the best round recorded inside it stands.
 - Writes `.bureau/review/scorecard.html`.
 
 ---

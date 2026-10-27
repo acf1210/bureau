@@ -8,7 +8,7 @@ Record the business problem, offer, positioning, audience, current alternative, 
 
 ## 2. Research with a boundary
 
-Choose sources appropriate to the brief; the 25 requested entries below are a research menu, not a requirement to scan every site or a claim of global coverage. Some names are ambiguous and require identification before use. Record access date, exact project URL, creator attribution, surface and state, reason for selection, observation, source limitations, transferable principle and what must not be copied. Use the project itself where possible, not just a gallery screenshot. If a source is inaccessible or restricted, record that and continue with permitted alternatives.
+For the design engine, run the five-source survey in `30-reference-survey.md`: it orders these sources by need, skips what cannot be verified and moves to the next until five are verified. For other research, choose sources appropriate to the brief; the 25 requested entries below are a research menu, not a requirement to scan every site or a claim of global coverage. Some names are ambiguous and require identification before use. Record access date, exact project URL, creator attribution, surface and state, reason for selection, observation, source limitations, transferable principle and what must not be copied. Use the project itself where possible, not just a gallery screenshot. If a source is inaccessible or restricted, record that and continue with permitted alternatives.
 
 | Source | Useful starting point | Limitation |
 |---|---|---|
@@ -16,7 +16,7 @@ Choose sources appropriate to the brief; the 25 requested entries below are a re
 | [FWA](https://thefwa.com/) | Interactive experiences | Verify access and the behavior in the original project. |
 | [CSS Design Awards](https://www.cssdesignawards.com/) | Interaction and jury evaluations | Scores reflect that platform's criteria. |
 | [SiteInspire](https://www.siteinspire.com/) | Categorized web compositions | Gallery inclusion does not establish usability. |
-| [Godly](https://godly.website/) | Art direction and interaction references | The URL may redirect or be unavailable; verify the destination. |
+| [Godly](https://godly.website/) | Art direction and interaction references | On 2026-10-27 its robots.txt redirected to recent.design; verify the destination. |
 | [Behance](https://www.behance.net/) | Case studies and process | Access may be restricted; verify each creator's actual contribution. |
 | [Dribbble](https://dribbble.com/) | Visual and component studies | A static shot alone does not demonstrate a working flow. |
 | [Mobbin](https://mobbin.com/) | Shipped interface patterns and flows | Access and reuse depend on its terms and account. |
@@ -29,10 +29,10 @@ Choose sources appropriate to the brief; the 25 requested entries below are a re
 | [SaaS Landing Page](https://saaslandingpage.com/) | SaaS landing-page and pricing patterns | Gallery inclusion is not proof of conversion. |
 | [Dark Mode Design](https://www.darkmodedesign.com/) | Dark surface and visual hierarchy | Measure contrast and interaction states independently. |
 | [Brutalist Websites](https://brutalistwebsites.com/) | Experimental structure and visual language | Experimental form does not establish accessibility or usability. |
-| Pintura / Hover Statues | Potential shader and interaction references | Names or URLs are not sufficiently identified; verify before use. |
+| Pintura / Hover Statues → [Hover States](https://www.hoverstat.es/) | Alternative design, code and interaction | Probable match only; confirm the intended source. "Pintura" alone names no single gallery. |
 | [UI Sources](https://www.uisources.com/) | Interface examples | The checked address redirected to ScreensDesign; verify current identity and terms. |
 | [Refero](https://refero.design/) | Product interface examples | Verify access, current coverage and permissions. |
-| UX Archive | User-flow references | The intended service and current availability are unverified; identify before use. |
+| UX Archive ([uxarchive.com](https://uxarchive.com/)) | User-flow references | Returned a Cloudflare error page on 2026-10-27; treat as unavailable until it serves content. |
 | [Goodbrief](https://goodbrief.io/) | Practice prompts and fictional briefs | Generated challenges are not real-client outcomes or approval-rate evidence. |
 | Canvas | Visual experimentation | Name is ambiguous; identify the intended product before use. |
 | [Webflow Showcase](https://webflow.com/made-in-webflow) | Community websites and interactions | Verify each project's implementation and reuse permissions. |

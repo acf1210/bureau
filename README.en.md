@@ -2,7 +2,7 @@
 
 **The autonomous digital design bureau.** An agent skill that gives a language model the work of a whole studio: creative direction, art direction, typography, motion, creative technology, accessibility, performance, and an adversarial review that says *no*.
 
-[![Version](https://img.shields.io/badge/version-4.0.0-F2C230?style=flat-square&labelColor=121212)](VERSION)
+[![Version](https://img.shields.io/badge/version-5.0.0-F2C230?style=flat-square&labelColor=121212)](VERSION)
 [![License](https://img.shields.io/badge/license-MIT-E2507F?style=flat-square&labelColor=121212)](LICENSE)
 [![Templates](https://img.shields.io/badge/templates-13-1E4FD6?style=flat-square&labelColor=121212)](#gallery)
 [![Hosts](https://img.shields.io/badge/hosts-Claude%20%7C%20Codex%20%7C%20Antigravity%20%7C%20Hermes-EDEBE4?style=flat-square&labelColor=121212)](#install)
@@ -82,7 +82,7 @@ All are self-contained (HTML, CSS and JS in one file), pass the static audit wit
 ![The BUREAU workflow: intake, concept, direction, build, refinement, motion, QA and review](docs/assets/diagrams/workflow.svg)
 
 1. **Intake.** Product truth goes into `BUREAU.md`: audience, offer, sourced proof, non-goals.
-2. **Concept.** Three directions, each a blend of three lineages. The chosen one goes into `blend.md`.
+2. **Concept.** First a survey of five verified references from the 25 sources (a source that cannot be verified is skipped and the next one taken), naming the shared pattern and the departure. Then three directions, each a blend of three lineages. The chosen one goes into `blend.md`.
 3. **Direction.** `DESIGN.md` with normative tokens, ENERGY / RHYTHM / MOTION dials and the visual world.
 4. **Build and refinement.** Seven passes, from structure to detail, each with evidence.
 5. **QA and review.** Static audit, visual audit at five widths, ten gates, the Delivery Gate and the Tribunal.
@@ -102,7 +102,7 @@ All are self-contained (HTML, CSS and JS in one file), pass the static audit wit
 | Conditional | 72–81 |
 | Fail | < 72 |
 
-Any P0, any gate under 3.5/5, missing evidence, source changed after review, or an unclean Delivery Gate **fails**. A 95 with one accessibility P0 is a Fail. A Tribunal run in the same context that built the work is declared *degraded* and cannot reach Award.
+Any P0, any gate under 3.5/5, missing evidence, source changed after review, or an unclean Delivery Gate **fails**. A 95 with one accessibility P0 is a Fail. A Tribunal run in the same context that built the work is declared *degraded* and cannot reach Award. The jury loop is capped at 10 minutes: jurors vote in parallel, each round is scored, and the best round inside the window is the decision.
 
 [Read the full circuit →](docs/en/review-circuit.md)
 
@@ -215,12 +215,12 @@ The scaffold writes `BUREAU.md`, `DESIGN.md` (with lineage and dials), `MOTION.m
 | Layer | Contents |
 |---|---|
 | **Skill** | `SKILL.md` with doctrine, autonomy contract, router, hard rules and tool protocol |
-| **Depth** | 30 references, from concept and art direction to lineage and blend and refinement passes |
-| **Scripts** | anti-slop audit, Playwright visual audit, divergence, stateful review circuit, tokens, Figma sync, doctor, scaffold |
+| **Depth** | 31 references, from concept and art direction to lineage and blend and refinement passes |
+| **Scripts** | anti-slop audit, Playwright visual audit, divergence, five-source reference survey, stateful review circuit with a 10-minute jury, tokens, Figma sync, doctor, scaffold |
 | **Templates** | 13 worlds with designed desktop and mobile, each with a `LINEAGE.md` |
 | **Assets** | DTCG tokens, motion snippets, generated media, SVG diagrams |
 | **Docs** | 9 pages × 3 languages (PT-BR, EN, ES) |
-| **Tests** | 33 `node --test` tests, with fixtures in both directions for every rule |
+| **Tests** | 38 `node --test` tests, with fixtures in both directions for every rule |
 | **Installers** | Claude Code, Codex, Antigravity, Hermes; bash and PowerShell |
 
 ---
@@ -230,8 +230,8 @@ The scaffold writes `BUREAU.md`, `DESIGN.md` (with lineage and dials), `MOTION.m
 ```
 skill/                  the installable skill
   SKILL.md              router + doctrine + contract
-  references/           30 modules
-  scripts/              audit, visual-audit, divergence, review, tokens, figma-sync, doctor, scaffold
+  references/           31 modules
+  scripts/              audit, visual-audit, divergence, survey, review, tokens, figma-sync, doctor, scaffold
   assets/templates/     13 templates + catalog.json
 installers/             Claude, Codex, Antigravity, Hermes + bash/PowerShell
 docs/                   PT-BR, EN, ES

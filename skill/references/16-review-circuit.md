@@ -311,7 +311,7 @@ Name the weakest axis and what you changed (`critique.weakest`). A perfect row m
 
 **Persona: The Partner.** Reads every gate, the evidence, and the original brief. Has veto power.
 
-Before the Tribunal can finalize, an independent jury of 10–15 distinct specialists must review every gate and every Laws of UX principle as described in `29-jury-and-ux.md`. Every member must vote on every gate and every principle; any unresolved failure restarts the review after correction. The Tribunal then asks:
+Before the Tribunal can finalize, an independent jury of 10–15 distinct specialists must review every gate and every Laws of UX principle as described in `29-jury-and-ux.md`. Every member must vote on every gate and every principle. The loop is time-boxed to ten minutes from `--jury-start`; each `--jury-round` scores the votes, and the decision is the best round inside the window (dissent in that round caps the verdict at conditional). The Tribunal then asks:
 
 1. Does the work keep the promise of `BUREAU.md`?
 2. Is the signature move actually memorable, or merely present?
@@ -357,7 +357,7 @@ g0 must pass → g1 → g2 → g3 → g4 → g5 → g6 → g7 → g8 → g9 → 
 - Source changes after a gate mark it **stale**; the final refuses stale gates unless the gate is re-run.
 - Evidence paths are validated against the filesystem.
 - Scores below 3.5 or any P0 issue fail the gate immediately.
-- Gate 1 needs the six-axis `critique`; any axis under 3 fails it.
+- Gate 1 needs a complete `.bureau/research/survey.json` (`30-reference-survey.md`) and the six-axis `critique`; any axis under 3 fails it.
 - Gate 7 needs the ten `heuristics`; under half the applicable maximum fails it.
 - The final refuses a missing or unclean Delivery Gate, and a Tribunal without a declared method.
 
@@ -365,6 +365,9 @@ g0 must pass → g1 → g2 → g3 → g4 → g5 → g6 → g7 → g8 → g9 → 
 node scripts/review.mjs --status
 node scripts/review.mjs --gate g2-direction --scores .bureau/review/g2.json
 node scripts/review.mjs --delivery-init
+node scripts/review.mjs --jury-start
+node scripts/review.mjs --jury-round
+node scripts/review.mjs --regate
 node scripts/review.mjs --final --tribunal .bureau/review/tribunal.json
 ```
 
