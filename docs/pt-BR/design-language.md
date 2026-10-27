@@ -2,6 +2,8 @@
 
 Para cada conceito, registre decisões de UI, UX e inovação e um plano de evidências usando `skill/references/16-review-circuit.md`. São interpretações da BUREAU das [definições do CSS Design Awards](https://www.cssdesignawards.com/sites/guidance/43364/), não subcritérios oficiais nem uma previsão de prêmio.
 
+Fontes de fotos e vídeos de banco de imagens (30, com licença e status em 2026-10-27) e como encontrar, licenciar e verificar um asset antes e depois do build: `skill/references/36-stock-media.md`.
+
 Bibliotecas de construção de UI por camada (estilo, componentes, comportamento), como escolhê-las antes do build e verificá-las depois: `skill/references/35-build-libraries.md`.
 
 Bibliotecas de cor por fase (geração e extração antes do build; checagem de contraste, gamut e temas depois dele) estão em `skill/references/34-color-tooling.md`. Nenhuma é dependência do BUREAU.

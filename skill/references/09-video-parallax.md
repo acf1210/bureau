@@ -15,6 +15,8 @@ Do not use video for:
 
 ## 2. The video brief
 
+Stock video sources and their licences: `36-stock-media.md` §3.
+
 ```markdown
 - Duration: 4–8s loop (hero), 15–45s (narrative)
 - Subject: <what moves, what stays still>

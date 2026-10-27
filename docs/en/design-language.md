@@ -1,5 +1,7 @@
 # Visual language
 
+Stock photo and video sources (30, with licence and status as of 2026-10-27) and how to find, license and verify an asset before and after the build: `skill/references/36-stock-media.md`.
+
 UI build libraries by layer (styling, components, behaviour), how to choose them before the build and verify them after it: `skill/references/35-build-libraries.md`.
 
 Colour libraries by phase (generation and extraction before the build; contrast, gamut and theme checks after it) are in `skill/references/34-color-tooling.md`. None is a BUREAU dependency.

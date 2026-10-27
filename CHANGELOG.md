@@ -4,6 +4,13 @@ All notable changes to BUREAU are recorded here. The format follows Keep a Chang
 
 ## [Unreleased]
 
+## [7.9.0] — 2026-10-27
+
+### Added
+
+- `references/36-stock-media.md`: 15 photo and 15 video sources with strength, licence to check and the status an HTTP request returned on 2026-10-27. Reshot is retired (Envato notice); Videvo and Mazwai redirect to Freepik; Life of Vids did not respond; Burst moved to shopify.com/stock-photos; Unsplash, Pixabay and Pond5 refused automated requests. Rules: brief before search, no hotlinking, a licence record per asset in `BUREAU.md`, no stock person as a customer or testimonial. Pre-production search and cliché rejection; post-production checks for licence (G8), grading, encoding and access.
+- Router row and a tools line in `SKILL.md`; cross-references from `09` and `10`; one sentence in the design-language docs (PT-BR, EN, ES).
+
 ## [7.8.0] — 2026-10-27
 
 ### Added
@@ -273,7 +280,8 @@ The review circuit asks for more evidence. Projects reviewed under 1.0.0 need th
 - `visual-audit` uses hash-level screenshot comparison, not pixel diff.
 - The three templates use fictional demo content, clearly labeled where it could be mistaken for proof.
 
-[Unreleased]: https://github.com/acf1210/bureau/compare/v7.8.0...HEAD
+[Unreleased]: https://github.com/acf1210/bureau/compare/v7.9.0...HEAD
+[7.9.0]: https://github.com/acf1210/bureau/compare/v7.8.0...v7.9.0
 [7.8.0]: https://github.com/acf1210/bureau/compare/v7.7.0...v7.8.0
 [7.7.0]: https://github.com/acf1210/bureau/compare/v7.6.0...v7.7.0
 [7.6.0]: https://github.com/acf1210/bureau/compare/v7.5.1...v7.6.0
