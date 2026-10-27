@@ -1,36 +1,14 @@
 @font-face{
   font-family:"Archivo";
-  src:url("fonts/archivo-normal-latin.woff2") format("woff2");
-  font-weight:300 600;font-style:normal;font-display:swap;
-  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+  src:url("fonts/archivo-var-latin.woff2") format("woff2");
+  font-weight:100 900;font-stretch:62% 125%;font-style:normal;font-display:swap;
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
 }
 @font-face{
   font-family:"Archivo";
-  src:url("fonts/archivo-normal-latin-ext.woff2") format("woff2");
-  font-weight:300 600;font-style:normal;font-display:swap;
-  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1E00-1E9F,U+1EF2-1EFF;
-}
-@font-face{
-  font-family:"Bodoni Moda";
-  src:url("fonts/bodoni-moda-normal-latin.woff2") format("woff2");
-  font-weight:400 500;font-style:normal;font-display:swap;
-}
-@font-face{
-  font-family:"Bodoni Moda";
-  src:url("fonts/bodoni-moda-italic-latin.woff2") format("woff2");
-  font-weight:400 500;font-style:italic;font-display:swap;
-}
-@font-face{
-  font-family:"Bodoni Moda";
-  src:url("fonts/bodoni-moda-normal-latin-ext.woff2") format("woff2");
-  font-weight:400 500;font-style:normal;font-display:swap;
-  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1E00-1E9F,U+1EF2-1EFF;
-}
-@font-face{
-  font-family:"Bodoni Moda";
-  src:url("fonts/bodoni-moda-italic-latin-ext.woff2") format("woff2");
-  font-weight:400 500;font-style:italic;font-display:swap;
-  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1E00-1E9F,U+1EF2-1EFF;
+  src:url("fonts/archivo-var-latin-ext.woff2") format("woff2");
+  font-weight:100 900;font-stretch:62% 125%;font-style:normal;font-display:swap;
+  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF;
 }
 @font-face{
   font-family:"JetBrains Mono";
@@ -42,49 +20,46 @@
   src:url("fonts/jetbrains-mono-normal-latin-ext.woff2") format("woff2");
   font-weight:400 500;font-style:normal;font-display:swap;
 }
-
+/* The Proof identity (DESIGN.md): paper by default, plate in dark mode; pencil red only for marks and warnings. */
 :root{
-  --bg:#0B0B0C;
-  --bg-2:#101012;
-  --surface:#151518;
-  --ink:#F1EDE6;
-  --muted:#A09A90;
-  --faint:#8A857C;
-  --line:#2A2A30;
-  --line-soft:#1D1D22;
-  --acid:#D6FF3E;
-  --ember:#FF4A1C;
-  --blue:#4D7CFE;
-  --code:#111114;
+  --bg:#EDECE7;
+  --bg-2:#F2F1EC;
+  --surface:#F7F6F2;
+  --ink:#121214;
+  --muted:#57565F;
+  --faint:#5F5E66;
+  --line:#C9C7BF;
+  --line-soft:#DCDAD3;
+  --acid:#0B5E86;
+  --ember:#C8102E;
+  --blue:#0B5E86;
+  --code:#F7F6F2;
   --sidebar:292px;
   --top:64px;
   --pad:clamp(1.25rem,3vw,3rem);
-  --display:"Bodoni Moda",Georgia,serif;
+  --display:"Archivo",Arial,sans-serif;
   --body:"Archivo",system-ui,sans-serif;
   --mono:"JetBrains Mono",ui-monospace,monospace;
+  color-scheme:light;
 }
-[data-theme="light"]{
-  --bg:#F0EEE9;
-  --bg-2:#F7F5F0;
-  --surface:#FCFAF6;
-  --ink:#161513;
-  --muted:#5E5A54;
-  --faint:#6E6960;
-  --line:#D8D2C6;
-  --line-soft:#E4DED2;
-  --acid:#4F6B00;
-  --ember:#B23A2A;
-  --blue:#1F5F8B;
-  --code:#F7F5F0;
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#111113;--bg-2:#151517;--surface:#19191C;--ink:#ECEBE6;--muted:#A5A3AB;--faint:#9A98A0;
+    --line:#34333A;--line-soft:#232327;--acid:#5CC0F0;--ember:#FF5A4E;--blue:#5CC0F0;--code:#151517;color-scheme:dark;
+  }
+}
+[data-theme="dark"]{
+  --bg:#111113;--bg-2:#151517;--surface:#19191C;--ink:#ECEBE6;--muted:#A5A3AB;--faint:#9A98A0;
+  --line:#34333A;--line-soft:#232327;--acid:#5CC0F0;--ember:#FF5A4E;--blue:#5CC0F0;--code:#151517;color-scheme:dark;
 }
 *{box-sizing:border-box}
 html{background:var(--bg);color:var(--ink);scroll-behavior:smooth}
 body{margin:0;font:400 1rem/1.65 var(--body);background:var(--bg);-webkit-font-smoothing:antialiased}
-::selection{background:var(--acid);color:#0B0B0C}
+::selection{background:var(--acid);color:var(--bg)}
 a{color:inherit;text-decoration:none}
 a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--acid);outline-offset:3px}
 img{max-width:100%}
-.skip{position:fixed;left:1rem;top:1rem;z-index:200;background:var(--acid);color:#0B0B0C;padding:.7rem 1rem;transform:translateY(-200%);transition:transform .2s}
+.skip{position:fixed;left:1rem;top:1rem;z-index:200;background:var(--acid);color:var(--bg);padding:.7rem 1rem;transform:translateY(-200%);transition:transform .2s}
 .skip:focus{transform:none}
 .progress{position:fixed;top:0;left:0;height:2px;background:var(--ember);width:0;z-index:100;transition:width .1s linear}
 .topbar{position:fixed;inset:0 0 auto;height:var(--top);display:flex;align-items:center;gap:1rem;padding:0 var(--pad);background:color-mix(in oklab,var(--bg) 94%,transparent);border-bottom:1px solid var(--line);z-index:90}
@@ -118,9 +93,9 @@ img{max-width:100%}
 .doc-wrap{display:grid;grid-template-columns:minmax(0,760px) 220px;gap:clamp(2rem,5vw,5rem);justify-content:center;padding:clamp(2rem,5vw,4.5rem) var(--pad) 6rem;min-width:0}
 .doc{min-width:0}
 .breadcrumb{font:400 11px/1.4 var(--mono);color:var(--faint);letter-spacing:.06em;margin-bottom:1.2rem}
-.doc h1{font:400 clamp(2.6rem,5.2vw,4.6rem)/.98 var(--display);letter-spacing:-.035em;margin:.2em 0 .6em;text-wrap:balance}
+.doc h1{font:800 clamp(2.4rem,4.8vw,4.4rem)/.92 var(--display);font-stretch:122%;letter-spacing:-.035em;margin:.2em 0 .6em;text-wrap:balance}
 .doc h1+p,.doc .doc-lede{font-size:clamp(1.05rem,1.4vw,1.2rem);color:var(--muted);max-width:47ch}
-.doc h2{font:400 clamp(1.6rem,2.6vw,2.2rem)/1.1 var(--display);letter-spacing:-.02em;margin:3em 0 .7em;padding-top:.2em;border-top:1px solid var(--line-soft);scroll-margin-top:calc(var(--top) + 1rem)}
+.doc h2{font:800 clamp(1.5rem,2.4vw,2rem)/1.05 var(--display);font-stretch:115%;letter-spacing:-.02em;margin:3em 0 .7em;padding-top:.2em;border-top:1px solid var(--line-soft);scroll-margin-top:calc(var(--top) + 1rem)}
 .doc h3{font:600 1.08rem/1.3 var(--body);margin:2.2em 0 .6em;scroll-margin-top:calc(var(--top) + 1rem)}
 .doc h4{font:500 1rem/1.4 var(--mono);margin:2em 0 .4em;color:var(--muted)}
 .doc p,.doc li{color:color-mix(in oklab,var(--ink) 86%,var(--muted));max-width:47ch}

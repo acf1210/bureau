@@ -3,40 +3,38 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BUREAU social card</title>
 <style>
-@font-face{font-family:"Bodoni Moda";src:url("assets/fonts/bodoni-moda-normal-latin.woff2") format("woff2");font-weight:400 500;font-style:normal;font-display:block}
-@font-face{font-family:"Archivo";src:url("assets/fonts/archivo-normal-latin.woff2") format("woff2");font-weight:300 600;font-display:block}
+@font-face{font-family:"Archivo";src:url("assets/fonts/archivo-var-latin.woff2") format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:block}
 @font-face{font-family:"JetBrains Mono";src:url("assets/fonts/jetbrains-mono-normal-latin.woff2") format("woff2");font-weight:400 500;font-display:block}
 *{box-sizing:border-box}/* bureau-ignore BS-B02: fixed 1200x630 social card rendered to PNG */
-::selection{background:#FF4A1C;color:#0B0B0C}
-body{margin:0;width:1200px;height:630px;background:#0B0B0C;color:#F1EDE6;font-family:"Archivo",sans-serif;overflow:hidden;position:relative}
-.grid{position:absolute;inset:0;background-image:linear-gradient(#17171B 1px,transparent 1px),linear-gradient(90deg,#17171B 1px,transparent 1px);background-size:40px 40px;opacity:.8}
-.glow{position:absolute;width:700px;height:700px;right:-140px;top:-260px;border-radius:50%;background:radial-gradient(circle,rgba(255,74,28,.42),transparent 62%);filter:blur(10px)}
-.glow2{position:absolute;width:520px;height:520px;left:-160px;bottom:-280px;border-radius:50%;background:radial-gradient(circle,rgba(77,124,254,.34),transparent 62%)}
-.wrap{position:relative;z-index:2;padding:44px 56px;height:100%;display:flex;flex-direction:column}
-.top{display:flex;justify-content:space-between;align-items:center;font:400 11px/1 "JetBrains Mono",monospace;letter-spacing:.18em;text-transform:uppercase;color:#8F8A81}
-.top b{color:#D6FF3E;font-weight:400}.top .dot{width:7px;height:7px;background:#FF4A1C;display:inline-block;margin-right:8px}
-h1{font:400 218px/.72 "Bodoni Moda",Georgia,serif;letter-spacing:-.055em;text-transform:uppercase;margin:52px 0 0}
-h1 em{font-style:italic;color:#FF4A1C}
-.mark{display:flex;justify-content:space-between;align-items:flex-end;margin-top:auto}
-.tag{font:400 30px/1.1 "Bodoni Moda",Georgia,serif;letter-spacing:-.02em;max-width:620px}
-.tag span{display:block;font:400 12px/1.7 "Archivo",sans-serif;color:#A09A90;max-width:430px;margin-top:14px;letter-spacing:0}
-.stats{text-align:right;font:400 10px/1.9 "JetBrains Mono",monospace;color:#8F8A81;text-transform:uppercase;letter-spacing:.12em}
-.stats b{display:block;font:400 30px/1 "Bodoni Moda",Georgia,serif;color:#F1EDE6;letter-spacing:0;text-transform:none;margin-bottom:6px}
-.rule{height:1px;background:#2A2A30;margin:22px 0 18px}
+::selection{background:#C8102E;color:#EDECE7}
+body{margin:0;width:1200px;height:630px;background:#EDECE7;color:#121214;font-family:"Archivo",sans-serif;overflow:hidden;position:relative}
+.wrap{display:grid;grid-template-columns:200px 1fr 330px;gap:28px;padding:44px 52px;height:100%}
+.slug{font:400 15px/1.75 "JetBrains Mono",monospace;color:#57565F;border-top:3px solid #121214;padding-top:12px;align-self:start}
+.slug b{color:#121214;display:block}
+h1{font:800 112px/.9 "Archivo",sans-serif;font-stretch:125%;letter-spacing:-.04em;margin:0;align-self:start}
+.tag{font:400 25px/1.35 "Archivo",sans-serif;margin:30px 0 0;max-width:560px}
+.sheet{background:#F7F6F2;border:1px solid #C9C7BF;padding:18px;align-self:start;position:relative}
+.plates{display:flex;height:12px;width:120px;margin-bottom:16px}.plates i{flex:1;mix-blend-mode:multiply}
+.plates i:nth-child(1){background:#0089C4}.plates i:nth-child(2){background:#C4006A}.plates i:nth-child(3){background:#F3D000}
+.m{display:grid;grid-template-columns:44px 1fr;gap:2px 10px;margin:10px 0;font:400 15px/1.3 "Archivo",sans-serif;color:#57565F}
+.m i{grid-row:span 2;width:40px;height:40px;border:2px solid #C8102E;border-radius:50%;display:grid;place-items:center;font:700 13px "JetBrains Mono",monospace;color:#C8102E;font-style:normal}
+.m b{font:600 16px "JetBrains Mono",monospace;color:#121214}
+.v{font:400 15px "JetBrains Mono",monospace;border-top:1px solid #C9C7BF;margin-top:16px;padding-top:12px}.v b{color:#C8102E}
 </style>
 </head>
 <body>
-<div class="grid"></div><div class="glow"></div><div class="glow2"></div>
 <div class="wrap">
-  <div class="top"><span><i class="dot"></i>Bureau / design operating system</span><span>v7.4.0, MIT licence, <b>github.com/acf1210/bureau</b></span></div>
-  <h1>Bureau</h1>
-  <div class="mark">
-    <div class="tag">The autonomous digital design bureau.<span>Concept, art direction, motion, WebGL, Figma, Playwright evidence, accessibility, performance, and a review circuit that can say no.</span></div>
-    <div class="stats"><b>10 gates · 33 modules</b>One signature move<br>One technological proof<br>Zero fake proof</div>
+  <p class="slug"><b>Job: BUREAU</b><span>v7.5.0, MIT licence</span><br>Claude Code<br>Codex<br>Antigravity<br>Hermes</p>
+  <div><h1>Every page gets a proof.</h1><p class="tag">An agent skill that designs like a studio, and a detector that marks generated pages in red pencil.</p></div>
+  <div class="sheet"><div class="plates"><i></i><i></i><i></i></div>
+    <div class="m"><i>del</i><b>BS-K02</b>Gradient text, P0</div>
+    <div class="m"><i>wf</i><b>BS-T02</b>Default UI font as display</div>
+    <div class="m"><i>qy</i><b>BS-W01</b>Generic marketing lexicon</div>
+    <div class="m"><i>ins</i><b>BS-A03</b>Zoom disabled, P0</div>
+    <p class="v"><b>18 marks</b> on the specimen. 0 on its own landing.</p>
   </div>
-  <div class="rule"></div>
-  <div class="top" style="color:#6F6A63"><span>Claude / Codex / Antigravity / Hermes</span><span style="color:#FF4A1C">Evidence over opinion.</span></div>
 </div>
 </body>
 </html>

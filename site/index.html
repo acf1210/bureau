@@ -3,396 +3,394 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BUREAU — the autonomous digital design bureau</title>
-<meta name="description" content="An open-source agent skill for web design: concept, art direction, motion, WebGL, Figma, Playwright evidence, accessibility, performance, and a ten-gate review circuit.">
+<title>BUREAU — every page gets a proof</title>
+<meta name="description" content="An open-source agent skill that gives a coding model a design bureau's workflow, and a review that can say no. Watch its detector proof a generic generated page, live.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="BUREAU — the autonomous digital design bureau">
-<meta property="og:description" content="Concept before pixels. One signature move. One technological proof. A review circuit that can say no.">
+<meta property="og:title" content="BUREAU — every page gets a proof">
+<meta property="og:description" content="Concept before pixels, one signature move, and a review circuit whose detector marks a generated page in red pencil.">
 <meta property="og:image" content="https://acf1210.github.io/bureau/assets/img/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#0B0B0C">
+<meta name="theme-color" content="#EDECE7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111113" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-<link rel="preload" href="assets/fonts/bodoni-moda-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/archivo-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/docs.css">
+<link rel="preload" href="assets/fonts/archivo-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script>document.documentElement.classList.add("js");</script>
 <style>
-  :root{--hero-pad:clamp(1.25rem,4vw,4.5rem);--max:1480px}
+  /* Lineage: Jan Tschichold (asymmetric, functional hierarchy) × Bradbury Thompson (overprinted process colour) × Bruno Munari (reading made playful). See DESIGN.md and .bureau/comps/blend.md. */
+  @font-face{font-family:"Archivo";src:url("assets/fonts/archivo-var-latin.woff2") format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+  @font-face{font-family:"Archivo";src:url("assets/fonts/archivo-var-latin-ext.woff2") format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:swap;unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF}
+  @font-face{font-family:"JetBrains Mono";src:url("assets/fonts/jetbrains-mono-normal-latin.woff2") format("woff2");font-weight:400 700;font-display:swap}
+  /* Metric-matched fallback so the expanded display face does not reflow the hero when it arrives. */
+  @font-face{font-family:"Archivo Wide Fallback";src:local("Arial Black"),local("Arial"),local("Liberation Sans");size-adjust:118%;ascent-override:82%;descent-override:20%}
+  :root{
+    --paper:#EDECE7;--sheet:#F7F6F2;--ink:#121214;--muted:#57565F;--rule:#C9C7BF;--pencil:#C8102E;
+    --cyan:#0089C4;--magenta:#C4006A;--yellow:#F3D000;--blend:multiply;
+    --display:"Archivo","Archivo Wide Fallback",Arial,sans-serif;
+    --text:"Archivo",Arial,sans-serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+    --pad:clamp(16px,4vw,56px);--gut:clamp(16px,2vw,28px);--max:1520px;
+    --reg:cubic-bezier(.22,.9,.18,1);--lead:cubic-bezier(.3,.7,.2,1);--turn:cubic-bezier(.65,0,.35,1);
+    color-scheme:light dark;
+  }
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#111113;--sheet:#19191C;--ink:#ECEBE6;--muted:#A5A3AB;--rule:#34333A;--pencil:#FF5A4E;--blend:screen}}
+  :root[data-theme="dark"]{--paper:#111113;--sheet:#19191C;--ink:#ECEBE6;--muted:#A5A3AB;--rule:#34333A;--pencil:#FF5A4E;--blend:screen}
   *,*::before,*::after{box-sizing:border-box}
-  body{background:var(--bg);overflow-x:clip}
-  html{scrollbar-color:var(--line) var(--bg)}
-  @supports selector(::-webkit-scrollbar){
-    html::-webkit-scrollbar{width:10px;height:10px}
-    html::-webkit-scrollbar-track{background:var(--bg)}
-    html::-webkit-scrollbar-thumb{background:var(--line);border:2px solid var(--bg)}
-  }
-  ::selection{background:var(--acid);color:var(--bg)}
-  .lp{position:relative;z-index:1;font-variant-numeric:tabular-nums;caret-color:var(--acid)}
-  .lp a{text-decoration:none;text-underline-offset:.22em}
-  .lp .wrap{width:min(100%,var(--max));margin-inline:auto;padding-inline:var(--hero-pad)}
-  #progress{position:fixed;top:0;left:0;height:2px;width:100%;transform:scaleX(0);transform-origin:0 50%;background:var(--ember);z-index:120}
-  .skip-link{position:absolute;z-index:150;left:1rem;top:-6rem;padding:.8rem 1rem;background:var(--ink);color:var(--bg)}
+  html{background:var(--paper);color:var(--ink);scrollbar-color:var(--rule) var(--paper);-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--paper);font:400 1.0625rem/1.55 var(--text);font-variant-numeric:tabular-nums;caret-color:var(--pencil);overflow-x:clip}
+  ::selection{background:var(--pencil);color:var(--paper)}
+  a{color:inherit;text-underline-offset:.22em;text-decoration-thickness:1px}
+  :focus-visible{outline:3px solid var(--pencil);outline-offset:3px}
+  code,kbd,.mono{font-family:var(--mono);font-size:.9em}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .skip-link{position:absolute;left:var(--pad);top:-5rem;z-index:50;background:var(--ink);color:var(--paper);padding:.7rem 1rem;text-decoration:none;font-weight:600}
   .skip-link:focus{top:1rem}
-  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
-  .site-head{position:absolute;inset:0 0 auto;z-index:30;display:flex;align-items:center;gap:1.4rem;padding:1.2rem var(--hero-pad)}
-  .site-head .brand{font:500 14px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;display:inline-flex;align-items:center;min-height:44px}
-  .site-head .brand b{color:var(--ember);font-weight:500}
-  .site-head .brand i{font-style:normal;color:var(--faint)}
-  .site-nav{display:flex;gap:1.5rem;margin-left:auto;font:400 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-  .site-nav a{display:inline-flex;align-items:center;min-height:44px;padding-block:.5rem;border-bottom:1px solid transparent;transition:color .2s,border-color .2s}
-  .site-nav a:hover,.site-nav a:focus-visible{color:var(--ink);border-color:var(--acid)}
-  .langs{display:flex;gap:.35rem;font:400 12px/1 var(--mono);color:var(--faint)}
-  .langs a{border:1px solid var(--line);padding:.4rem .55rem;min-height:44px;display:inline-flex;align-items:center}
-  .langs a[aria-current="true"]{border-color:var(--acid);color:var(--acid)}
-  .head-cta{display:inline-flex;align-items:center;min-height:44px;padding:.5rem .8rem;border:1px solid var(--line);font:400 12px/1 var(--mono);color:var(--ink)}
-  .head-cta:hover{border-color:var(--acid);color:var(--acid)}
-  .hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;overflow:clip;isolation:isolate;border-bottom:1px solid var(--line)}
-  .hero__fallback{position:absolute;inset:0;z-index:-3;background:radial-gradient(60% 60% at 72% 32%,rgba(255,74,28,.20),transparent 62%),radial-gradient(45% 50% at 24% 72%,rgba(77,124,254,.18),transparent 60%),#0B0B0C}
-  #gl{position:absolute;inset:0;width:100%;height:100%;z-index:-2}
-  .hero__scrim{position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(11,11,12,.55),rgba(11,11,12,.08) 40%,rgba(11,11,12,.96));pointer-events:none}
-  .hero__inner{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:clamp(2rem,5vw,6rem);align-items:end;padding-top:8rem;padding-bottom:clamp(1.5rem,4vw,3rem)}
-  .kicker{display:flex;align-items:center;gap:.7rem;font:400 11px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 1.2rem}
-  .kicker i{width:7px;height:7px;background:var(--acid);display:inline-block;border-radius:50%}
-  .hero__inner > div:first-child{container-type:inline-size}
-  .hero h1{font:400 min(22cqw,304px)/.86 var(--display);letter-spacing:-.05em;margin:0;text-transform:uppercase;text-wrap:nowrap}
-  .hero h1 span{display:block;transition:transform 1.1s cubic-bezier(.16,1,.3,1),opacity .9s}
-  .js .hero h1 span{transform:translateY(.35em);opacity:0}
-  .ready .hero h1 span{transform:none;opacity:1}
-  .hero__tagline{font:400 clamp(1.5rem,3vw,2.5rem)/1.05 var(--display);letter-spacing:-.02em;margin:.7rem 0 1rem;max-width:18ch}
-  .hero__lede{max-width:48ch;color:var(--muted);font-size:clamp(1rem,1.2vw,1.12rem);margin:0 0 1.7rem}
-  .hero__actions{display:flex;flex-wrap:wrap;gap:.7rem;align-items:center}
-  .btn{display:inline-flex;align-items:center;gap:.6rem;min-height:46px;padding:.85rem 1.05rem;border:1px solid var(--ink);background:var(--ink);color:#0B0B0C;font:500 12px/1 var(--mono);letter-spacing:.04em;cursor:pointer;transition:background .2s,color .2s,border-color .2s,transform .2s}
-  .hero__actions .btn--primary{min-height:58px;padding:1rem 1.5rem;font-size:15px;font-weight:600;gap:1.5rem}
-  .hero__actions .btn--primary span{font-size:20px;line-height:1}
-  .btn:hover{background:var(--acid);border-color:var(--acid);transform:translateY(-2px)}
-  .btn--ghost{background:transparent;color:var(--ink);border-color:var(--line)}
-  .btn--ghost:hover{background:transparent;color:var(--acid);border-color:var(--acid)}
-  .hero__card{border:1px solid var(--line);background:rgba(11,11,12,.55);padding:1.2rem;backdrop-filter:none}
-  .hero__card p{margin:0;color:var(--muted);font-size:12.5px;line-height:1.6}
-  .hero__card .label{font:400 10px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:.8rem}
-  .hero__card dl{display:grid;grid-template-columns:1fr auto;gap:.35rem 1rem;margin:0 0 1rem;padding:0}
-  .hero__card dt{font:400 10.5px/1.4 var(--mono);color:var(--faint);text-transform:uppercase;letter-spacing:.06em}
-  .hero__card dd{margin:0;font:400 20px/1 var(--display);text-align:right}
-  .hero__card .rule{height:1px;background:var(--line);margin:1rem 0}
-  .hero__card a{display:inline-flex;align-items:center;min-height:32px;color:var(--acid);font:400 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;border-bottom:1px solid var(--acid)}
-  .hero__foot{display:flex;justify-content:space-between;gap:1.5rem;align-items:flex-end;padding-top:1rem;padding-bottom:1.4rem;border-top:1px solid var(--line);font:400 11px/1.6 var(--mono);color:var(--faint)}
-  .hero__foot p{margin:0;max-width:44ch;text-wrap:pretty}
-  .hero__foot b{color:var(--ink);font-weight:400}
-  .scroll-cue{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-width:44px;min-height:44px;writing-mode:vertical-rl;font:400 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
-  .section{padding-block:clamp(4.5rem,10vw,9rem);border-top:1px solid var(--line)}
-  .section--first{border-top:0}
-  .section-head{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:2rem;align-items:end;margin-bottom:clamp(2.5rem,5vw,5rem)}
-  .section-head h2{grid-column:1/8;font:400 clamp(2.4rem,5.4vw,5.6rem)/.92 var(--display);letter-spacing:-.04em;margin:0;text-wrap:balance}
-  .section-head p{grid-column:9/13;margin:0;color:var(--muted);max-width:36ch}
-  .label{font:400 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
-  .film__copy .label{font-size:12px;line-height:1.4}
-  .standalone{display:inline-flex;align-items:center;min-height:44px;padding-block:.4rem}
-  .problem{display:grid;grid-template-columns:repeat(12,1fr);gap:2rem}
-  .problem__copy{grid-column:1/6}
-  .problem__copy p{color:var(--muted);max-width:38ch;margin:0 0 1rem}
-  .problem__copy strong{color:var(--ink);font-weight:500}
-  .problem__list{grid-column:7/13;border-top:1px solid var(--line)}
-  .tell{display:grid;grid-template-columns:5.4rem minmax(0,1fr);gap:.8rem;padding:1rem 0;border-bottom:1px solid var(--line);align-items:baseline}
-  .tell > *{min-width:0}
-  .tell del,.tell .fix{overflow-wrap:anywhere}
-  .tell .id{font:400 10px/1.4 var(--mono);color:var(--ember);letter-spacing:.04em}
-  .tell del{color:var(--faint);text-decoration-color:var(--ember);font-size:.98rem}
-  .tell .fix{display:block;color:var(--muted);font-size:12.5px;margin-top:.2rem}
-  .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:.9rem var(--hero-pad);background:var(--bg-2)}
-  .marquee__track{display:flex;flex-wrap:wrap;gap:.45rem 2.5rem;font:400 11px/1.5 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
-  .marquee__track b{color:var(--acid);font-weight:400}
-  .circuit{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(1.5rem,4vw,4rem);align-items:start}
-  .circuit__fig{grid-column:1/9;margin:0;border:1px solid var(--line);background:var(--bg-2)}
-  .circuit__fig img{display:block;width:100%;height:auto}
-  .figcap{padding:.6rem .8rem;border-top:1px solid var(--line);font:400 11px/1 var(--mono);color:var(--faint)}
-  .circuit__side{grid-column:9/13;position:sticky;top:2rem}
-  .circuit__side h3{font:400 1.6rem/1.15 var(--display);margin:.4rem 0 .8rem}
-  .circuit__side p{color:var(--muted);font-size:.85rem;margin:0 0 1rem}
-  .weights{display:grid;gap:.4rem;margin:1.2rem 0 1.4rem}
-  .weight{display:grid;grid-template-columns:4.2rem 1fr 2rem;gap:.6rem;align-items:center;font:400 10.5px/1 var(--mono);color:var(--faint)}
-  .weight i{height:3px;background:var(--line);display:block;position:relative}
-  .weight i b{position:absolute;inset:0 auto 0 0;background:var(--acid);display:block}
-  .weight em{font-style:normal;color:var(--ink);text-align:right}
-  .cap-list{border-top:1px solid var(--line)}
-  .cap{display:grid;grid-template-columns:3.5rem 1.2fr 1.6fr;gap:1rem;align-items:baseline;padding:1.25rem 0;border-bottom:1px solid var(--line)}
-  .cap__n{font:400 10px/1.4 var(--mono);color:var(--ember)}
-  .cap__title{font:400 clamp(1.25rem,2vw,1.9rem)/1.05 var(--display);letter-spacing:-.015em}
-  .cap__desc{color:var(--muted);font-size:13px;max-width:52ch}
-  .film{position:relative;overflow:clip;border-top:1px solid var(--line);min-height:min(78svh,760px);display:flex;align-items:flex-end}
-  .film video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.75) contrast(1.1);z-index:0}
-  .film__scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,11,12,.1),rgba(11,11,12,.9));z-index:1}
-  .film__copy{position:relative;z-index:2;width:100%;padding-bottom:clamp(2rem,5vw,4rem);display:flex;justify-content:space-between;align-items:end;gap:2rem}
-  .film__copy h2{font:400 clamp(2rem,4.6vw,4.8rem)/.95 var(--display);letter-spacing:-.035em;margin:.4rem 0 0;max-width:15ch}
-  .film__copy p{max-width:32ch;color:var(--muted);font-size:12.5px;line-height:1.5;margin:0}
-  .pause{position:absolute;right:var(--hero-pad);top:1.2rem;z-index:3;min-height:36px;padding:.5rem .6rem;border:1px solid var(--line);background:rgba(11,11,12,.65);color:var(--ink);font:400 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
-  .pause:hover{border-color:var(--acid);color:var(--acid)}
-  .demos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.25rem}
-  .demo{display:flex;flex-direction:column;border:1px solid var(--line);background:var(--bg-2);min-width:0;position:relative;text-decoration:none}
-  .demo--lead{grid-column:span 2;grid-row:span 2}
-  .demo__media{position:relative;overflow:clip;aspect-ratio:16/10;background:var(--surface)}
-  .demo__media > picture:first-child img{width:100%;height:100%;object-fit:cover;object-position:left top;display:block;transition:transform .7s cubic-bezier(.16,1,.3,1)}
-  .demo:hover .demo__media > picture:first-child img{transform:scale(1.03)}
-  .demo--lead .demo__media{aspect-ratio:auto;flex:1;min-height:320px}
-  .demo--wide{grid-column:span 2}
-  .demo__phone{position:absolute;right:5%;bottom:-14%;width:22%;border:3px solid var(--bg);border-radius:14px;overflow:hidden;box-shadow:0 18px 40px -20px rgba(0,0,0,.6);transition:transform .7s cubic-bezier(.16,1,.3,1)}
-  .demo--lead .demo__phone{width:17%}
-  .demo:hover .demo__phone{transform:translateY(-6%)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 var(--pad)}
+  .grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gut)}
+
+  /* Header: the masthead of a proof, not a navigation bar. */
+  .site-head{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem 1.6rem;padding:1rem var(--pad);border-bottom:1px solid var(--rule);max-width:var(--max);margin:0 auto}
+  .brand{font:800 1.35rem/1 var(--display);font-stretch:125%;letter-spacing:-.03em;text-decoration:none;margin-right:auto;padding:.5rem 0}
+  .site-nav{display:flex;flex-wrap:wrap;gap:.2rem 1.3rem}
+  .site-nav a,.langs a{text-decoration:none;font-size:.9375rem;padding:.6rem 0;display:inline-block;color:var(--muted)}
+  .langs a{min-width:28px;text-align:center;padding:.6rem .2rem}
+  .site-nav a:hover,.langs a:hover{color:var(--ink);text-decoration:underline}
+  .langs{display:flex;gap:.9rem;font-family:var(--mono);font-size:.8125rem}
+  .head-cta{font-weight:600;font-size:.9375rem;text-decoration:none;border:1px solid var(--ink);padding:.6rem .9rem}
+  .head-cta:hover{background:var(--ink);color:var(--paper)}
+
+  /* Hero: slug rail, headline and the proof sheet, set off the page axis. */
+  .hero{padding-top:clamp(2.5rem,6vh,5rem);padding-bottom:4rem;row-gap:2.4rem}
+  .slug{grid-column:1 / span 2;font:400 .8125rem/1.7 var(--mono);color:var(--muted);border-top:2px solid var(--ink);padding-top:.7rem;align-self:start}
+  .slug b{color:var(--ink);font-weight:600}
+  .slug span,.slug b{display:block}
+  h1{grid-column:3 / -1;font:800 clamp(3rem,7.4vw,8.4rem)/.86 var(--display);font-stretch:125%;letter-spacing:-.035em;margin:0}
+  .hero-copy{grid-column:3 / span 3;align-self:start}
+  h1 span{display:block}
+  .lede{font-size:clamp(1.05rem,1.25vw,1.2rem);max-width:34rem;margin:0 0 2rem}
+  .actions{display:flex;flex-wrap:wrap;gap:.7rem;margin-bottom:2.4rem}
+  .btn{display:inline-flex;align-items:center;min-height:48px;padding:0 1.25rem;font:600 1rem var(--text);text-decoration:none;background:var(--ink);color:var(--paper);border:1px solid var(--ink);cursor:pointer}
+  .btn:hover{background:var(--paper);color:var(--ink)}
+  .btn.line{background:transparent;color:var(--ink)}
+  .btn.line:hover{background:var(--ink);color:var(--paper)}
+  .facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem 1.6rem;margin:0;border-top:1px solid var(--rule);padding-top:1rem;max-width:30rem}
+  .facts div{display:flex;flex-direction:column}
+  .facts dt{order:2;font-size:.875rem;color:var(--muted)}
+  .facts dd{order:1;margin:0;font:800 2.2rem/1 var(--display);font-stretch:112%}
+
+  .proof{grid-column:6 / -1;align-self:start;position:relative;margin:0}
+  .sheet{position:relative;background:var(--sheet);border:1px solid var(--rule)}
+  .sheet-head{display:flex;justify-content:space-between;gap:1rem;align-items:center;padding:.6rem .9rem;border-bottom:1px solid var(--rule);font:400 .8125rem var(--mono);color:var(--muted)}
+  .plates{display:flex;height:10px;position:relative;width:96px}
+  .plates i{flex:1;mix-blend-mode:var(--blend)}
+  .plates i:nth-child(1){background:var(--cyan)}.plates i:nth-child(2){background:var(--magenta)}.plates i:nth-child(3){background:var(--yellow)}
+  .stage{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,16rem);align-items:start}
+  .frame{position:relative;overflow:hidden;border-right:1px solid var(--rule);background:var(--paper);container-type:inline-size}
+  /* Without JavaScript, browsers with typed arithmetic scale the specimen to the column; the script does it everywhere else. */
+  @supports (scale:calc(100cqw / 1200px)){.frame iframe{scale:calc(100cqw / 1200px)}.js .frame iframe{scale:none}}
+  .frame iframe{position:absolute;left:0;top:0;width:1200px;height:1140px;border:0;transform-origin:0 0;pointer-events:none}
+  .frame .spacer{display:block;width:100%;aspect-ratio:1200 / 1140}
+  .reg{position:absolute;inset:0;pointer-events:none;z-index:2}
+  .reg i{position:absolute;inset:0;mix-blend-mode:var(--blend);opacity:0}
+  .reg i:nth-child(1){background:var(--cyan)}.reg i:nth-child(2){background:var(--magenta)}.reg i:nth-child(3){background:var(--yellow)}
+  .leaders{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:3;overflow:visible}
+  .leaders rect{fill:none;stroke:var(--pencil);stroke-width:1.25;opacity:.85}
+  .leaders .pin{fill:var(--pencil);stroke:none;opacity:1}
+  .leaders text{font:700 10px var(--mono);fill:var(--sheet)}
+  .leaders g.hot rect:not(.pin){stroke-width:3;opacity:1}
+  .marks{counter-reset:mark}
+  .marks li{counter-increment:mark;position:relative}
+  .marks li::before{content:counter(mark);position:absolute;left:.15rem;top:.35rem;font:700 .625rem var(--mono);color:var(--pencil)}
+  .marks li.hot{background:var(--paper)}
+  .marks{list-style:none;margin:0;padding:.4rem 0;font-size:.8125rem;line-height:1.3}
+  .marks li{display:grid;grid-template-columns:2.1rem minmax(0,1fr);gap:0 .5rem;padding:.3rem .8rem}
+  .marks .sym{grid-row:span 2;align-self:start;display:grid;place-items:center;width:1.9rem;height:1.9rem;border:1.5px solid var(--pencil);border-radius:50%;color:var(--pencil);font:700 .6875rem var(--mono)}
+  .marks .id{font:600 .8125rem var(--mono)}
+  .marks .id small{font-weight:400;color:var(--muted);margin-left:.35rem}
+  .marks .t{color:var(--muted)}
+  .sheet-foot{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;justify-content:space-between;padding:.7rem .9rem;border-top:1px solid var(--rule)}
+  .flip{display:inline-flex;border:1px solid var(--ink)}
+  .flip button{font:600 .9375rem var(--text);min-height:44px;padding:0 1rem;background:transparent;color:var(--ink);border:0;cursor:pointer}
+  .flip button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+  .self{font:600 .9375rem var(--text);min-height:44px;padding:0 1rem;background:transparent;color:var(--ink);border:1px solid var(--ink);cursor:pointer}
+  .self:hover{background:var(--ink);color:var(--paper)}
+  .verdict{font:400 .875rem var(--mono);margin:0;color:var(--ink);padding:.7rem .9rem;border-top:1px solid var(--rule);min-height:2.9rem}
+  .verdict b{color:var(--pencil)}
+  .caption{font-size:.875rem;color:var(--muted);margin:.8rem 0 0;max-width:46rem}
+  .marks.live li{visibility:hidden}
+  .marks.live li.on{visibility:visible}
+  .no-js-only{display:block}
+  .js .no-js-only{display:none}
+  .js-only{display:none}
+  .js .js-only{display:revert}
+
+  /* Sections: a document, read top to bottom. */
+  section{scroll-margin-top:1rem}
+  .sec{padding-top:clamp(5rem,10vh,8rem);padding-bottom:1rem}
+  .sec-head{grid-column:3 / -1;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:var(--gut);align-items:end;border-top:2px solid var(--ink);padding-top:1.2rem;margin-bottom:2.6rem}
+  .sec-label{grid-column:1 / span 2;font:400 .8125rem/1.7 var(--mono);color:var(--muted);padding-top:1.45rem}
+  h2{font:800 clamp(2.2rem,4.6vw,4.6rem)/.9 var(--display);font-stretch:118%;letter-spacing:-.03em;margin:0}
+  .sec-head p{margin:0;color:var(--muted);max-width:36rem}
+  .body{grid-column:3 / -1}
+
+  .argument{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gut)}
+  .argument p{margin:0;max-width:30rem}
+  .argument b{display:block;font:700 1.15rem/1.25 var(--text);margin-bottom:.4rem}
+
+  .ledger{display:grid;grid-template-columns:4rem minmax(0,13rem) minmax(0,1fr) 3rem;column-gap:var(--gut);border-top:1px solid var(--ink)}
+  .ledger > *{padding:.75rem 0;border-bottom:1px solid var(--rule);display:flex;align-items:center}
+  .ledger .g{font:600 .9375rem var(--mono)}
+  .ledger .w{justify-content:flex-end;font:800 1.3rem var(--display);font-stretch:110%}
+  .bar{position:relative;height:18px;width:100%}
+  .bar i{position:absolute;left:0;top:0;bottom:0;width:calc(var(--v) / 15 * 100%);mix-blend-mode:var(--blend);transform-origin:left}
+  .bar i:nth-child(1){background:var(--cyan)}
+  .bar i:nth-child(2){background:var(--magenta);left:4px;top:3px;bottom:-3px}
+  .bar i:nth-child(3){background:var(--yellow);left:8px;top:6px;bottom:-6px}
+  .js .ledger:not(.in) .bar i{transform:scaleX(0)}
+  .ledger.in .bar i{transition:transform .7s var(--reg);transition-delay:calc(var(--n) * 50ms)}
+  .thresholds{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--gut);margin-top:1.8rem}
+  .thresholds div{border-top:1px solid var(--ink);padding-top:.6rem}
+  .thresholds b{display:block;font:800 1.9rem/1 var(--display);font-stretch:110%}
+  .thresholds span{font-size:.9375rem;color:var(--muted)}
+  .rules{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gut);margin-top:2.4rem}
+  .rules p{margin:0;font-size:.9375rem}
+  .rules b{display:block;margin-bottom:.3rem}
+
+  .cmds{width:100%;border-collapse:collapse}
+  .cmds th,.cmds td{text-align:left;padding:.8rem 1rem .8rem 0;border-bottom:1px solid var(--rule);vertical-align:baseline}
+  .cmds th{font:400 .8125rem var(--mono);color:var(--muted);border-bottom-color:var(--ink)}
+  .cmds td:first-child{font:600 1rem var(--mono);white-space:nowrap}
+  .cmds td:last-child{color:var(--muted)}
+
+  /* ShowCase gallery (generated by scripts/gallery.mjs). */
+  .demos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--gut)}
+  .demo{display:flex;flex-direction:column;text-decoration:none;border-top:2px solid var(--ink);padding-top:.8rem;min-width:0}
+  .demo--lead{grid-column:1 / -1}
+  .demo__media{position:relative;overflow:hidden;background:var(--sheet);border:1px solid var(--rule);aspect-ratio:16 / 10}
+  .demo--lead .demo__media{aspect-ratio:21 / 9}
+  .demo__media > picture:first-child img{width:100%;height:100%;object-fit:cover;object-position:left top;display:block}
+  .demo__phone{position:absolute;right:4%;bottom:-8%;width:18%;border:2px solid var(--ink);overflow:hidden;background:var(--paper)}
   .demo__phone img{display:block;width:100%;height:auto}
-  .demo__body{padding:1.1rem 1.2rem 1.2rem;display:flex;gap:1rem;align-items:flex-start;justify-content:space-between}
-  .demo__body h3{font:400 1.4rem/1.05 var(--display);margin:0 0 .35rem}
-  .demo__body p{color:var(--muted);font-size:13px;margin:0;max-width:44ch}
-  .demo__body p b{color:var(--ink);font-weight:500}
-  .demo__tag{font:400 12px/1 var(--mono);color:var(--muted);border:1px solid var(--line);padding:.35rem .45rem;white-space:nowrap}
-  .install{display:grid;grid-template-columns:repeat(12,1fr);gap:2rem}
-  .install__copy{grid-column:1/5}
-  .install__copy p{color:var(--muted);max-width:32ch}
-  .install__panel{grid-column:5/13}
-  .tabs{display:flex;flex-wrap:wrap;gap:.35rem;border-bottom:1px solid var(--line);margin-bottom:1rem}
-  .tab{background:transparent;border:0;border-bottom:1px solid transparent;color:var(--faint);font:400 12px/1 var(--mono);letter-spacing:.06em;padding:.7rem .5rem;cursor:pointer;min-height:40px}
-  .tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--ember)}
-  .tab:hover{color:var(--ink)}
-  .panel[hidden]{display:none}
-  .cmd{position:relative;background:var(--code);border:1px solid var(--line);padding:1rem 1.1rem;overflow:auto}
-  .cmd:focus-visible{outline:2px solid var(--acid);outline-offset:2px}
-  .cmd code{font:400 12px/1.7 var(--mono);color:var(--ink);white-space:pre}
-  .cmd .copy{position:absolute;right:.5rem;top:.5rem;background:var(--surface);border:1px solid var(--line);color:var(--muted);font:400 12px/1 var(--mono);padding:.35rem .45rem;cursor:pointer}
-  .cmd .copy:hover{border-color:var(--acid);color:var(--acid)}
-  @media (max-width:640px){
-    .cmd{display:flex;flex-direction:column;gap:.55rem;padding:.7rem .8rem}
-    .cmd .copy{position:static;order:-1;align-self:flex-end}
-    .cmd code{white-space:pre-wrap;overflow-wrap:anywhere}
-  }
-  .install__note{font:400 11px/1.6 var(--mono);color:var(--faint);margin:.8rem 0 0}
-  .docs-list{display:grid;gap:0;border-top:1px solid var(--line)}
-  .doc-link{display:grid;grid-template-columns:7rem 1fr auto;gap:1rem;align-items:baseline;padding:1.2rem 0;border-bottom:1px solid var(--line)}
-  .doc-link span{font:400 10px/1 var(--mono);color:var(--faint);letter-spacing:.12em}
-  .doc-link strong{font:400 clamp(1.2rem,2vw,1.8rem)/1.1 var(--display);font-weight:400}
-  .doc-link em{font-style:normal;font:400 11px/1 var(--mono);color:var(--acid)}
-  .doc-link:hover strong{color:var(--acid)}
-  .site-foot{border-top:1px solid var(--line);padding:2rem 0 2.5rem;display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem;font:400 11px/1.7 var(--mono);color:var(--faint)}
+  .demo__body{display:flex;justify-content:space-between;gap:1rem;padding:.9rem 0 0}
+  .demo__body h3{font:800 1.5rem/1 var(--display);font-stretch:112%;margin:0 0 .3rem}
+  .demo__body p{margin:0;font-size:.9375rem;color:var(--muted);max-width:40rem}
+  .demo__body p b{color:var(--ink);font-weight:600}
+  .demo__tag{font:400 .8125rem var(--mono);color:var(--muted);white-space:nowrap}
+  .demo:hover h3{text-decoration:underline;text-decoration-thickness:2px}
+
+  .install{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:var(--gut)}
+  .install p{margin:0 0 1rem;max-width:32rem}
+  .tabs{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--ink)}
+  .tab{font:600 .9375rem var(--text);min-height:44px;padding:0 1rem;background:transparent;color:var(--muted);border:0;border-bottom:3px solid transparent;cursor:pointer;margin-bottom:-1px}
+  .tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--ink)}
+  .cmd{position:relative;background:var(--sheet);border:1px solid var(--rule);border-top:0;padding:1.2rem 1.2rem 1.2rem;overflow-x:auto}
+  .cmd code{display:block;white-space:pre;font-size:.9375rem;line-height:1.7}
+  .copy{float:right;margin:0 0 .6rem 1rem;font:600 .875rem var(--text);min-height:40px;padding:0 .9rem;background:var(--ink);color:var(--paper);border:0;cursor:pointer}
+  .note{font-size:.9375rem;color:var(--muted)}
+  .js .no-js-tabs{display:none}
+
+  .docs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gut)}
+  .doc-link{display:flex;flex-direction:column;gap:.3rem;text-decoration:none;border-top:2px solid var(--ink);padding:1rem 0}
+  .doc-link span{font:400 .8125rem var(--mono);color:var(--muted)}
+  .doc-link strong{font:800 2rem/1 var(--display);font-stretch:118%}
+  .doc-link em{font-style:normal;color:var(--muted)}
+  .doc-link:hover strong{text-decoration:underline;text-decoration-thickness:2px}
+
+  .site-foot{margin-top:clamp(5rem,10vh,8rem);border-top:1px solid var(--rule);padding-top:2rem;padding-bottom:3rem;row-gap:1.4rem;font-size:.9375rem;color:var(--muted)}
   .site-foot p{margin:0}
-  .site-foot a{display:inline-block;padding-block:.3rem;border-bottom:1px solid var(--line)}
-  .site-foot a:hover{color:var(--acid);border-color:var(--acid)}
-  .site-foot .right{text-align:right}
-  .no-io .reveal{opacity:1;transform:none}
-  .js .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
-  .js .reveal.in{opacity:1;transform:none}
-  @media (max-width:720px){
-    .demo--lead .demo__media{min-height:0;aspect-ratio:16/10}
-    .doc-link{grid-template-columns:minmax(0,1fr);gap:.2rem}
-    .circuit__side{grid-column:1/-1;position:static}
-    .weight{grid-template-columns:3rem minmax(0,1fr) 2rem}
-    .circuit{grid-template-columns:minmax(0,1fr);gap:1rem}
-    .circuit > *{grid-column:1/-1;min-width:0}
-  }
-  @media (max-width:900px){.circuit__fig{grid-column:1/-1;border:0;background:transparent}.circuit__fig img{display:none}.figcap{border-top:0;padding-inline:0}}
-  @media print{.js .reveal,.js .hero h1 span{opacity:1;transform:none}.skip-link,.pause,#gl{display:none}}
-  @media (max-height:680px){
-    .hero__inner{padding-top:5.5rem}
-    .hero__tagline{font-size:1.35rem}
-    .hero__lede{font-size:.95rem;margin-bottom:1.1rem}
-  }
+  .site-foot .f1{grid-column:1 / span 4}.site-foot .f2{grid-column:5 / span 4}.site-foot .f3{grid-column:9 / -1}
+  .site-foot b{color:var(--ink)}
+
   @media (max-width:1100px){
-    .hero{min-height:min(100svh,860px)}
-    .site-head{flex-wrap:wrap;gap:.5rem}
-    .site-nav{display:flex;flex-wrap:wrap;order:3;width:100%;overflow:visible;gap:.25rem 1rem;margin:0;white-space:normal}
-    .site-nav a{flex:none;min-height:44px;display:inline-flex;align-items:center}
-    .langs{display:flex;order:4;margin-left:0}
-    .head-cta{order:5}
-    .hero__inner{grid-template-columns:1fr;gap:2rem;padding-top:13.5rem}
-    .hero__card{max-width:420px}
-    .problem__copy,.problem__list{grid-column:1/13}
-    .circuit__fig{grid-column:1/13}
-    .circuit__side{grid-column:1/13;position:static}
-    .install__copy,.install__panel{grid-column:1/13}
-    .demos{grid-template-columns:repeat(2,minmax(0,1fr))}
-    .demo--wide{grid-column:1/-1}
-    .demo--lead{grid-column:1/-1;grid-row:auto}
+    .slug{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:.2rem 1.4rem;border-top-width:1px}
+    h1{grid-column:1 / -1}
+    .hero-copy{grid-column:1 / -1;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:0 var(--gut);align-items:start}
+    .hero-copy .facts{grid-column:2;grid-row:1 / span 2}
+    .proof{grid-column:1 / -1}
+    .sec-label{grid-column:1 / -1;padding-top:0}
+    .sec-head,.body{grid-column:1 / -1}
+    .argument{grid-template-columns:minmax(0,1fr)}
+    .install{grid-template-columns:minmax(0,1fr)}
   }
   @media (max-width:720px){
-    .section-head,.problem,.install{grid-template-columns:minmax(0,1fr)}
-    .section-head h2,.section-head p,.problem__copy,.problem__list,.install__copy,.install__panel{grid-column:1/-1}
+    /* On a phone the sheet keeps the specimen and numbers; the marks become a list under it. */
+    .stage{grid-template-columns:minmax(0,1fr)}
+    .hero-copy{grid-template-columns:minmax(0,1fr)}
+    .hero-copy .facts{grid-column:auto;grid-row:auto}
+    .frame{border-right:0;border-bottom:1px solid var(--rule)}
+    .marks{columns:1}
+    .sec-head{grid-template-columns:minmax(0,1fr);gap:1rem}
+    .ledger{grid-template-columns:3rem minmax(0,1fr) 2.4rem}
+    .ledger .n{display:none}
+    .thresholds,.rules,.docs{grid-template-columns:repeat(2,minmax(0,1fr))}
     .demos{grid-template-columns:minmax(0,1fr)}
-    .demo__tag{display:none}
+    .demo--lead .demo__media{aspect-ratio:16 / 10}
+    .cmds td:last-child,.cmds th:last-child{display:none}
+    .site-foot .f1,.site-foot .f2,.site-foot .f3{grid-column:1 / -1}
     .head-cta{display:none}
-    .hero__inner{padding-top:17rem}
-    .cap{grid-template-columns:2.6rem 1fr;row-gap:.3rem}
-    .cap__desc{grid-column:2/3}
-    .film__copy{flex-direction:column;align-items:flex-start;gap:.6rem}
-    .site-foot{grid-template-columns:1fr}
-    .site-foot .right{text-align:left}
-    .hero__foot{flex-direction:column;align-items:flex-start}
-    .hero__card{display:none}
+    .site-head{gap:0 1rem}
+    .site-nav{gap:0 .9rem}
+    .site-nav a{font-size:.875rem;padding:.45rem 0}
+  }
+  @media (max-width:420px){
+    .thresholds,.rules,.docs,.facts{grid-template-columns:minmax(0,1fr)}
   }
   @media (prefers-reduced-motion:reduce){
-    html{scroll-behavior:auto}
-    *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
-    .hero h1 span,.reveal,.js .reveal{opacity:1;transform:none}
+    .ledger.in .bar i{transition:none}
+    .js .ledger:not(.in) .bar i{transform:none}
   }
 </style>
-<noscript><style>.panel[hidden]{display:block}.tabs{display:none}.cmd{padding-right:1rem}.cmd .copy,.pause{display:none}</style></noscript>
-<script>if ("IntersectionObserver" in window) { document.documentElement.classList.add("js"); } else { document.documentElement.classList.add("no-io"); }</script>
 </head>
 <body class="lp">
 <a class="skip-link" href="#top">Skip to main content</a>
-<div id="progress"></div>
 <header class="site-head">
-  <a class="brand" href="#top">Bureau<b>/</b><i>design os</i></a>
+  <a class="brand" href="#top">BUREAU</a>
   <nav class="site-nav" aria-label="Primary">
-    <a href="#problem">Manifesto</a>
+    <a href="#proof">Proof</a>
+    <a href="#problem">Argument</a>
     <a href="#circuit">Circuit</a>
-    <a href="#capabilities">Capabilities</a>
+    <a href="#commands">Commands</a>
     <a href="#showcase">ShowCase</a>
     <a href="#install">Install</a>
     <a href="#docs">Docs</a>
   </nav>
   <nav class="langs" aria-label="Language">
-    <a href="pt-BR/index.html">PT</a>
-    <a href="en/index.html">EN</a>
-    <a href="es/index.html">ES</a>
+    <a href="pt-BR/index.html" hreflang="pt-BR">PT</a>
+    <a href="en/index.html" hreflang="en">EN</a>
+    <a href="es/index.html" hreflang="es">ES</a>
   </nav>
   <a class="head-cta" href="https://github.com/acf1210/bureau" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
 </header>
 
 <main id="top" tabindex="-1">
-  <section class="hero">
-    <div class="hero__fallback" aria-hidden="true"></div>
-    <canvas id="gl" aria-hidden="true"></canvas>
-    <div class="hero__scrim" aria-hidden="true"></div>
+  <section class="hero wrap grid" id="proof" aria-labelledby="h-hero">
+    <p class="slug"><b>Job: BUREAU</b><span>v{{VERSION}}, MIT</span><span>Proof of {{DATE}}</span><span>Agent skill for</span><span>Claude Code, Codex, Antigravity, Hermes</span></p>
+    <h1 id="h-hero"><span>Every page</span><span>gets a proof.</span></h1>
+    <div class="hero-copy">
+      <p class="lede">BUREAU gives a coding model the workflow of a design bureau: concept, art direction, type, motion, accessibility, and a review that can say no. Beside this, its detector marks a generic generated page in red pencil, using the same rules the command line runs.</p>
+      <div class="actions"><a class="btn" href="#install">Install the skill</a><a class="btn line" href="en/review-circuit.html">Read the circuit</a></div>
+      <dl class="facts">
+        <div><dt>pattern rules in the detector</dt><dd>32</dd></div>
+        <div><dt>project checks beside them</dt><dd>21</dd></div>
+        <div><dt>gates before a Tribunal</dt><dd>10</dd></div>
+        <div><dt>hosts, one skill folder</dt><dd>4</dd></div>
+      </dl>
+    </div>
 
-    <div class="hero__inner wrap">
-      <div>
-        <p class="kicker"><i aria-hidden="true"></i> Open-source agent skill, v{{VERSION}}, MIT licence</p>
-        <h1><span>Bureau</span></h1>
-        <p class="hero__tagline">The autonomous digital design bureau.</p>
-        <p class="hero__lede">Turn a brief into a distinctive website: develop the concept, build the experience, and review the result with evidence. Works with Claude Code, Codex, Antigravity and Hermes.</p>
-        <div class="hero__actions">
-          <a class="btn btn--primary" href="#install">Install BUREAU <span aria-hidden="true">↓</span></a>
-          <a class="btn btn--ghost" href="#showcase">Explore the showcase <span aria-hidden="true">↓</span></a>
+    <figure class="proof" aria-labelledby="proof-title">
+      <div class="sheet">
+        <div class="sheet-head"><span id="proof-title">Galley: a generic generated hero</span><span class="plates" aria-hidden="true"><i></i><i></i><i></i></span></div>
+        <div class="stage">
+          <div class="frame" id="frame">
+            <span class="spacer" aria-hidden="true"></span>
+            <iframe id="specimen" src="assets/specimen/generic.html" title="Specimen: a generic generated hero, the page being proofed" loading="eager" tabindex="-1" inert></iframe>
+            <div class="reg" aria-hidden="true"><i></i><i></i><i></i></div>
+          </div>
+          <ol class="marks" id="marks" aria-label="Proof marks on the specimen">
+            <!-- proof:start -->
+            <li data-rule="BS-A03" data-sym="ins"><span class="sym" aria-hidden="true">ins</span><span class="id">BS-A03<small>P0, line 6</small></span><span class="t">Zoom&#32;disabled</span></li>
+            <li data-rule="BS-K02" data-sym="del"><span class="sym" aria-hidden="true">del</span><span class="id">BS-K02<small>P0, line 13</small></span><span class="t">Gradient&#32;text</span></li>
+            <li data-rule="BS-W02" data-sym="qy"><span class="sym" aria-hidden="true">qy</span><span class="id">BS-W02<small>P0, line 37</small></span><span class="t">Lorem&#32;ipsum&#32;in&#32;shipped&#32;source</span></li>
+            <li data-rule="BS-K03" data-sym="del"><span class="sym" aria-hidden="true">del</span><span class="id">BS-K03<small>P1, line 9</small></span><span class="t">Pure&#32;black&#32;or&#32;pure&#32;white&#32;ground</span></li>
+            <li data-rule="BS-B01" data-sym="fix"><span class="sym" aria-hidden="true">fix</span><span class="id">BS-B01<small>P1, line 9</small></span><span class="t">Native&#32;cursor&#32;hidden</span></li>
+            <li data-rule="BS-K01" data-sym="del"><span class="sym" aria-hidden="true">del</span><span class="id">BS-K01<small>P1, line 11</small></span><span class="t">Default&#32;purple/indigo&#32;gradient</span></li>
+            <li data-rule="BS-T02" data-sym="wf"><span class="sym" aria-hidden="true">wf</span><span class="id">BS-T02<small>P1, line 12</small></span><span class="t">Default&#32;UI&#32;font&#32;used&#32;for&#32;display</span></li>
+            <li data-rule="BS-M02" data-sym="mo"><span class="sym" aria-hidden="true">mo</span><span class="id">BS-M02<small>P1, line 15</small></span><span class="t">transition&#58;&#32;all</span></li>
+            <li data-rule="BS-W01" data-sym="qy"><span class="sym" aria-hidden="true">qy</span><span class="id">BS-W01<small>P1, line 31</small></span><span class="t">Generic&#32;marketing&#32;lexicon</span></li>
+            <li data-rule="BS-W03" data-sym="qy"><span class="sym" aria-hidden="true">qy</span><span class="id">BS-W03<small>P1, line 34</small></span><span class="t">Unsourced&#32;credibility&#32;metric</span></li>
+            <li data-rule="BS-A09" data-sym="ins"><span class="sym" aria-hidden="true">ins</span><span class="id">BS-A09<small>P1, line 38</small></span><span class="t">Positive&#32;tabindex</span></li>
+            <li data-rule="BS-B04" data-sym="fix"><span class="sym" aria-hidden="true">fix</span><span class="id">BS-B04<small>P1, line 38</small></span><span class="t">div/span&#32;as&#32;a&#32;button</span></li>
+            <li data-rule="BS-K04" data-sym="del"><span class="sym" aria-hidden="true">del</span><span class="id">BS-K04<small>P2, line 10</small></span><span class="t">Glassmorphism&#32;by&#32;default</span></li>
+            <li data-rule="BS-M03" data-sym="mo"><span class="sym" aria-hidden="true">mo</span><span class="id">BS-M03<small>P2, line 18</small></span><span class="t">Hover&#32;scale&#32;on&#32;every&#32;card</span></li>
+            <li data-rule="BS-W13" data-sym="qy"><span class="sym" aria-hidden="true">qy</span><span class="id">BS-W13<small>P2, line 28</small></span><span class="t">Template&#32;punctuation</span></li>
+            <li data-rule="BS-W06" data-sym="qy"><span class="sym" aria-hidden="true">qy</span><span class="id">BS-W06<small>P2, line 30</small></span><span class="t">Announcement&#32;cliché</span></li>
+            <li data-rule="BS-I01" data-sym="del"><span class="sym" aria-hidden="true">del</span><span class="id">BS-I01<small>P2, line 30</small></span><span class="t">Emoji&#32;used&#32;as&#32;UI&#32;icon</span></li>
+            <li data-rule="BS-C05" data-sym="rs"><span class="sym" aria-hidden="true">rs</span><span class="id">BS-C05<small>P2, line 36</small></span><span class="t">Bento&#32;grid&#32;by&#32;default</span></li>
+            <!-- proof:end -->
+          </ol>
+          <svg class="leaders" id="leaders" aria-hidden="true"></svg>
         </div>
-      </div>
-      <aside class="hero__card" aria-label="BUREAU at a glance">
-        <p class="label">The operating system</p>
-        <dl>
-          <dt>Review gates</dt><dd>10</dd>
-          <dt>Depth modules</dt><dd>33</dd>
-          <dt>Live templates</dt><dd>13</dd>
-          <dt>Languages</dt><dd>3</dd>
-        </dl>
-        <div class="rule"></div>
-        <p>One idea, one signature move, one technological proof. Evidence over opinion, every time.</p>
-        <div class="rule"></div>
-        <a href="#circuit">See the circuit →</a>
-      </aside>
-    </div>
-
-    <div class="hero__foot wrap">
-      <p><b>Built for work that cannot look generic.</b><br>No fake metrics. No template reflex. No average.</p>
-      <a class="scroll-cue" href="#problem" aria-label="Scroll to manifesto">Scroll <span aria-hidden="true">↘</span></a>
-    </div>
-  </section>
-
-  <div class="marquee">
-    <div class="marquee__track">
-      <span><b>Concept before pixels</b></span><span>One signature move</span><span>One technological proof</span><span>Truth as material</span><span>Evidence or it did not happen</span><span>Access is craft</span><span>Performance is aesthetics</span>
-    </div>
-  </div>
-
-  <section class="section section--first wrap" id="problem">
-    <div class="section-head">
-      <h2 class="reveal">The average is the enemy.</h2>
-      <p class="reveal">Models are trained on the internet’s mean. Without direction, that mean becomes the design. BUREAU replaces the reflex with a decision.</p>
-    </div>
-    <div class="problem">
-      <div class="problem__copy reveal">
-        <p><strong>Slop is not “made by AI”.</strong> It is the same hero, the same gradient, the same three cards, the same vague promise — reproduced without a point of view.</p>
-        <p>The fix is not more decoration. It is a specific subject, a real constraint, a named signature, and a review that refuses to average a hard failure away.</p>
-        <p><a class="standalone" href="en/antislop.html" style="border-bottom:1px solid var(--line)">Read the anti-slop taxonomy ↗</a></p>
-      </div>
-      <ul class="problem__list reveal" style="list-style:none;margin:0;padding:0">
-        <li class="tell"><span class="id">BS-K01</span><span><del>Purple-to-blue gradient as the brand</del><span class="fix">→ Anchor the palette in a material, a place, a memory.</span></span></li>
-        <li class="tell"><span class="id">BS-C01</span><span><del>Centered pill + H1 + subtitle + two buttons</del><span class="fix">→ Commit to object, stage, split argument, index or live proof.</span></span></li>
-        <li class="tell"><span class="id">BS-M01</span><span><del>Fade-up on every section</del><span class="fix">→ One entrance sequence, then quiet.</span></span></li>
-        <li class="tell"><span class="id">BS-W03</span><span><del>Unsourced uptime and customer counts.</del><span class="fix">→ Source and date, or remove the claim.</span></span></li>
-        <li class="tell"><span class="id">BS-I04</span><span><del>A fake dashboard with the same bar chart</del><span class="fix">→ Build the real view, or a diagram that explains.</span></span></li>
-        <li class="tell"><span class="id">BS-T01</span><span><del>The default AI font pairing as the entire identity</del><span class="fix">→ Give display type its own voice.</span></span></li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="section wrap" id="circuit">
-    <div class="section-head">
-      <h2 class="reveal">Ten gates. One Tribunal.</h2>
-      <p class="reveal">Every gate has a persona, a weight, hard failures and required evidence. A 95 average with one P0 is still a Fail.</p>
-    </div>
-    <div class="circuit">
-      <figure class="circuit__fig reveal">
-        <img src="assets/diagrams/circuit.svg" alt="Diagram of the BUREAU review circuit: Gate Zero, nine weighted gates, hard failures, verdict ladder and the Tribunal." width="1600" height="1100" loading="lazy">
-        <figcaption class="figcap"><a class="standalone" href="assets/diagrams/circuit.svg" target="_blank" rel="noopener noreferrer">Open the circuit at full size ↗</a></figcaption>
-      </figure>
-      <aside class="circuit__side reveal">
-        <p class="label">Weighted attention</p>
-        <h3>Concept, direction and type carry 41 points.</h3>
-        <p>Direction and concept carry the most weight, because a technically clean page with no idea is still a failure.</p>
-        <div class="weights">
-          <div class="weight"><span>G0</span><i aria-hidden="true"><b style="width:5%"></b></i><em>5</em></div>
-          <div class="weight"><span>G1</span><i aria-hidden="true"><b style="width:14%"></b></i><em>14</em></div>
-          <div class="weight"><span>G2</span><i aria-hidden="true"><b style="width:15%"></b></i><em>15</em></div>
-          <div class="weight"><span>G3</span><i aria-hidden="true"><b style="width:12%"></b></i><em>12</em></div>
-          <div class="weight"><span>G4</span><i aria-hidden="true"><b style="width:12%"></b></i><em>12</em></div>
-          <div class="weight"><span>G5</span><i aria-hidden="true"><b style="width:12%"></b></i><em>12</em></div>
-          <div class="weight"><span>G6</span><i aria-hidden="true"><b style="width:10%"></b></i><em>10</em></div>
-          <div class="weight"><span>G7</span><i aria-hidden="true"><b style="width:9%"></b></i><em>9</em></div>
-          <div class="weight"><span>G8</span><i aria-hidden="true"><b style="width:8%"></b></i><em>8</em></div>
-          <div class="weight"><span>G9</span><i aria-hidden="true"><b style="width:3%"></b></i><em>3</em></div>
+        <div class="sheet-foot js-only">
+          <div class="flip" role="group" aria-label="Show the proof">
+            <button type="button" id="show-marked" aria-pressed="true">Marked</button>
+            <button type="button" id="show-reviewed" aria-pressed="false">Reviewed</button>
+          </div>
+          <button class="self" type="button" id="self">Proof this page</button>
         </div>
-        <p><a class="standalone" href="en/review-circuit.html" style="border-bottom:1px solid var(--line)">Read the rubric ↗</a></p>
-      </aside>
-    </div>
-  </section>
-
-  <section class="section wrap" id="capabilities">
-    <div class="section-head">
-      <h2 class="reveal">A bureau, not a prompt pack.</h2>
-      <p class="reveal">Twelve capabilities that normally require a creative director, an art director, a motion designer, a creative technologist and an editor.</p>
-    </div>
-    <div class="cap-list">
-      <div class="cap reveal"><span class="cap__n">01</span><span class="cap__title">Creative direction</span><span class="cap__desc">Three genuinely distinct directions, a weighted decision, a signature move and a technological proof.</span></div>
-      <div class="cap reveal"><span class="cap__n">02</span><span class="cap__title">Art direction</span><span class="cap__desc">Ground, voice, light, material, palette, image grade and forbidden moves — written before components.</span></div>
-      <div class="cap reveal"><span class="cap__n">03</span><span class="cap__title">Design system</span><span class="cap__desc">OKLCH tokens, fluid type, spacing, radius, motion grammar, contrast checks and Tailwind export.</span></div>
-      <div class="cap reveal"><span class="cap__n">04</span><span class="cap__title">Motion &amp; WebGL</span><span class="cap__desc">Choreography, scroll narratives, shaders, Three.js/R3F, particles, video, parallax and reduced-motion design.</span></div>
-      <div class="cap reveal"><span class="cap__n">05</span><span class="cap__title">Figma → code</span><span class="cap__desc">MCP or exported variables, comps, handoff, token sync and side-by-side fidelity checks at the same viewport.</span></div>
-      <div class="cap reveal"><span class="cap__n">06</span><span class="cap__title">Playwright evidence</span><span class="cap__desc">Four viewports, contrast, overflow, console, requests, LCP, CLS, long tasks, reduced motion and screenshots.</span></div>
-      <div class="cap reveal"><span class="cap__n">07</span><span class="cap__title">Accessibility</span><span class="cap__desc">WCAG 2.2 AA as a hard floor: keyboard, focus, semantics, targets, captions, zoom and cognitive clarity.</span></div>
-      <div class="cap reveal"><span class="cap__n">08</span><span class="cap__title">Performance</span><span class="cap__desc">Budgets for LCP, INP, CLS, JS, fonts and hero media, enforced in the review instead of promised in a deck.</span></div>
-      <div class="cap reveal"><span class="cap__n">09</span><span class="cap__title">Anti-AI-slop</span><span class="cap__desc">A deterministic detector over 32 rules plus a 106-signal taxonomy, P0 rules, copy replacements and a Gate 8 veto.</span></div>
-      <div class="cap reveal"><span class="cap__n">10</span><span class="cap__title">Copy &amp; truth</span><span class="cap__desc">Voice axes, headline structures, microcopy, a claims ledger, SEO, hreflang and PT/EN/ES content rules.</span></div>
-      <div class="cap reveal"><span class="cap__n">11</span><span class="cap__title">Ship &amp; evolve</span><span class="cap__desc">OG, metadata, sitemap, consent, analytics, monitoring, rollback, post-launch iteration and graceful retirement.</span></div>
-      <div class="cap reveal"><span class="cap__n">12</span><span class="cap__title">Four hosts</span><span class="cap__desc">One payload for Claude Code, Codex, Antigravity and Hermes, with installers, rules, commands and a doctor.</span></div>
-    </div>
-  </section>
-
-  <section class="film">
-    <video muted loop playsinline preload="none" poster="assets/video/ambient-poster.jpg" aria-hidden="true" tabindex="-1" id="film">
-      <source src="assets/video/ambient.mp4" type="video/mp4">
-    </video>
-    <div class="film__scrim" aria-hidden="true"></div>
-    <button class="pause" id="pause" type="button">Pause film</button>
-    <div class="film__copy wrap">
-      <div>
-        <p class="label">Ambient film / moving image</p>
-        <h2>A page is an argument, not a container.</h2>
+        <p class="verdict" id="verdict" aria-live="polite"><span class="no-js-only">18 marks, 3 of them P0: the specimen fails. Listed from the detector's output at build time.</span></p>
       </div>
-      <p>Ambient loop generated for this repository. Muted, inline and pausable. The same discipline applies to a product film, a shader or a scroll scene.</p>
+      <figcaption class="caption">The specimen is a deliberately generic page written for this proof, not anyone's site. The marks are the detector's real findings on its source, drawn at the elements they name; the 21 project checks run in the command line, not here.</figcaption>
+    </figure>
+  </section>
+
+  <section class="sec wrap grid" id="problem" aria-labelledby="h-problem">
+    <p class="sec-label">Argument</p>
+    <div class="sec-head"><h2 id="h-problem">A model draws the average. An editor marks it.</h2><p>Asked for a page with no direction, a model returns the centre of everything it has seen. That is not a prompt problem; it is a missing idea, a missing point of view and a missing review.</p></div>
+    <div class="body argument">
+      <p><b>Concept before pixels.</b>Three directions that truly differ, each a blend of three designers on three axes, built from a survey of five verified references. No code before an idea, an emotional target and a world.</p>
+      <p><b>Craft with limits you can check.</b>Type, colour, composition and motion each have a reference and a budget; scripts measure what can be measured, from contrast and overflow to fingerprint divergence.</p>
+      <p><b>A review that can refuse.</b>Ten gates in order, evidence on every line, a ten-minute jury and a Tribunal in a fresh context. Invented proof, fake sends and hidden content fail whatever the score.</p>
     </div>
   </section>
 
-  <section class="section wrap" id="showcase">
-    <div class="section-head">
-      <h2 class="reveal">Four models. Design first.</h2>
-      <p class="reveal">Four fictional studios, each built from a blend of three designers and given a phone composition of its own: a mountain observatory, a perfume house, an ocean institute and a type foundry. Explore the design decisions and interactions in each example. <a class="standalone" href="showcase/index.html" style="border-bottom:1px solid var(--line)">Open the ShowCase ↗</a></p>
+  <section class="sec wrap grid" id="circuit" aria-labelledby="h-circuit">
+    <p class="sec-label">Circuit</p>
+    <div class="sec-head"><h2 id="h-circuit">Ten gates. One Tribunal.</h2><p>Each gate scores 0 to 5 against its weight; any gate under 3.5, any P0 or any missing evidence fails the release. Changing a source file makes every later gate stale.</p></div>
+    <div class="body">
+      <div class="ledger" id="ledger" role="table" aria-label="Gate weights">
+        <div class="g" role="cell">G0</div><div class="n" role="cell">Intake</div><div role="cell"><span class="bar" style="--v:5;--n:0" aria-hidden="true"><i></i><i></i><i></i></span></div><div class="w" role="cell">5</div>
+        <div class="g" role="cell">G1</div><div class="n" role="cell">Concept</div><div role="cell"><span class="bar" style="--v:14;--n:1" aria-hidden="true"><i></i><i></i><i></i></span></div><div class="w" role="cell">14</div>
+        <div class="g" role="cell">G2</div><div class="n" role="cell">Direction</div><div role="cell"><span class="bar" style="--v:15;--n:2" aria-hidden="true"><i></i><i></i><i></i></span></div><div class="w" role="cell">15</div>
+        <div class="g" role="cell">G3</div><div class="n" role="cell">Type and colour</div><div role="cell"><span class="bar" style="--v:12;--n:3" aria-hidden="true"><i></i><i></i><i></i></span></div><div class="w" role="cell">12</div>
+        <div class="g" role="cell">G4</div><div class="n" role="cell">Composition</div><div role="cell"><span class="bar" style="--v:12;--n:4" aria-hidden="true"><i></i><i></i><i></i></span></div><div class="w" role="cell">12</div>
+        <div class="g" role="cell">G5</div><div class="n" role="cell">Motion</div><div role="cell"><span class="bar" style="--v:12;--n:5" aria-hidden="true"><i></i><i></i><i></i></span></div><div class="w" role="cell">12</div>
+        <div class="g" role="cell">G6</div><div class="n" role="cell">Engineering</div><div role="cell"><span class="bar" style="--v:10;--n:6" aria-hidden="true"><i></i><i></i><i></i></span></div><div class="w" role="cell">10</div>
+        <div class="g" role="cell">G7</div><div class="n" role="cell">Access</div><div role="cell"><span class="bar" style="--v:9;--n:7" aria-hidden="true"><i></i><i></i><i></i></span></div><div class="w" role="cell">9</div>
+        <div class="g" role="cell">G8</div><div class="n" role="cell">Truth</div><div role="cell"><span class="bar" style="--v:8;--n:8" aria-hidden="true"><i></i><i></i><i></i></span></div><div class="w" role="cell">8</div>
+        <div class="g" role="cell">G9</div><div class="n" role="cell">Launch</div><div role="cell"><span class="bar" style="--v:3;--n:9" aria-hidden="true"><i></i><i></i><i></i></span></div><div class="w" role="cell">3</div>
+      </div>
+      <div class="thresholds">
+        <div><b>90+</b><span>Award Track</span></div>
+        <div><b>82–89</b><span>Pass</span></div>
+        <div><b>72–81</b><span>Conditional</span></div>
+        <div><b>&lt; 72</b><span>Fail</span></div>
+      </div>
+      <div class="rules">
+        <p><b>Judge before you measure.</b>The design review is written before anyone reads the detector's output.</p>
+        <p><b>The builder is the weakest reviewer.</b>The Tribunal reads the work in a fresh context, or the run is declared degraded and cannot reach Award Track.</p>
+        <p><b>Ten minutes for the jury.</b>Ten to fifteen independent reviewers vote on every gate and every Law of UX; the best round inside the time box stands.</p>
+      </div>
     </div>
+  </section>
+
+  <section class="sec wrap grid" id="commands" aria-labelledby="h-commands">
+    <p class="sec-label">Commands</p>
+    <div class="sec-head"><h2 id="h-commands">Call it by what you need.</h2><p>Type <code>/bureau</code> and a command, or ask in plain language; the router picks the command and loads only the references it needs.</p></div>
+    <div class="body">
+      <table class="cmds">
+        <thead><tr><th scope="col">Command</th><th scope="col">What it does</th><th scope="col">Leaves on disk</th></tr></thead>
+        <tbody>
+          <tr><td>/bureau init</td><td>Writes the brief: audience, offer, sourced proof, non-goals.</td><td><code>BUREAU.md</code>, <code>config.json</code></td></tr>
+          <tr><td>/bureau concept</td><td>Five-source survey, three directions, a blend for each, three comps.</td><td><code>survey.json</code>, <code>decision.md</code></td></tr>
+          <tr><td>/bureau direction</td><td>Normative tokens, type specimen, colour in context.</td><td><code>DESIGN.md</code></td></tr>
+          <tr><td>/bureau build</td><td>The real page, then seven refinement passes.</td><td><code>refinement.md</code></td></tr>
+          <tr><td>/bureau motion</td><td>Five awarded motion references, then the grammar.</td><td><code>MOTION.md</code></td></tr>
+          <tr><td>/bureau qa</td><td>Screenshots, contrast, overflow, fold and performance at five widths.</td><td><code>.bureau/qa/</code></td></tr>
+          <tr><td>/bureau slop</td><td>The detector you are watching, with fixes.</td><td><code>audit.json</code></td></tr>
+          <tr><td>/bureau review</td><td>Ten gates, Delivery Gate, jury, Tribunal.</td><td><code>scorecard.html</code></td></tr>
+          <tr><td>/bureau figma</td><td>Variables and frames to code, or an honest fallback.</td><td><code>tokens</code></td></tr>
+          <tr><td>/bureau ship</td><td>Copy and claims check, metadata, launch list.</td><td><code>launch-checklist.md</code></td></tr>
+          <tr><td>/bureau auto</td><td>All of it, stopping at three human checkpoints.</td><td>everything above</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="sec wrap grid" id="showcase" aria-labelledby="h-showcase">
+    <p class="sec-label">ShowCase</p>
+    <div class="sec-head"><h2 id="h-showcase">Four studios that do not exist.</h2><p>Each was built with the skill from a blend of three designers and given a phone composition of its own. <a href="showcase/index.html">Open the ShowCase ↗</a></p></div>
+    <div class="body">
     <div class="demos">
       <!-- gallery:start -->
       <a class="demo demo--lead" href="showcase/observatory/index.html" aria-label="Cerro Lumen: Mountain observatory. Gerstner × Moholy-Nagy × Eames. Scroll from the dome to the galaxy, one power of ten at a time.">
@@ -437,232 +435,217 @@
       </a>
       <!-- gallery:end -->
     </div>
+    </div>
   </section>
 
-  <section class="section wrap" id="install">
-    <div class="section-head">
-      <h2 class="reveal">Install once. Use everywhere.</h2>
-      <p class="reveal">The same skill folder works across four hosts. Preview with a dry run, then restart the agent and call <code>/bureau</code>.</p>
-    </div>
-    <div class="install">
-      <div class="install__copy reveal">
-        <p>Requires Node 20+. Playwright is optional and degrades to manual screenshots. Figma MCP is optional and degrades to exported variables.</p>
-        <p><a class="standalone" href="en/install.html" style="border-bottom:1px solid var(--line)">Installation guide ↗</a></p>
-        <p class="install__note">Windows: use <code>install.ps1</code>. Uninstall removes only folders with the BUREAU marker.</p>
+  <section class="sec wrap grid" id="install" aria-labelledby="h-install">
+    <p class="sec-label">Install</p>
+    <div class="sec-head"><h2 id="h-install">One folder, four hosts.</h2><p>Preview with a dry run, restart the agent, then call <code>/bureau</code>. Node 20 or later; Playwright and Figma are optional and degrade honestly.</p></div>
+    <div class="body install">
+      <div>
+        <p>The installer copies the skill folder into the host's skills directory and marks it, so uninstalling removes only what it placed.</p>
+        <p class="note">Windows: <code>installers/install.ps1</code>. <a href="en/install.html">Installation guide</a>.</p>
       </div>
-      <div class="install__panel reveal">
-        <div class="tabs" role="tablist" aria-label="Install target">
+      <div>
+        <div class="tabs js-only" role="tablist" aria-label="Install target">
           <button class="tab" role="tab" id="tab-claude" aria-controls="panel-claude" aria-selected="true">Claude Code</button>
           <button class="tab" role="tab" id="tab-codex" aria-controls="panel-codex" aria-selected="false" tabindex="-1">Codex</button>
           <button class="tab" role="tab" id="tab-antigravity" aria-controls="panel-antigravity" aria-selected="false" tabindex="-1">Antigravity</button>
           <button class="tab" role="tab" id="tab-hermes" aria-controls="panel-hermes" aria-selected="false" tabindex="-1">Hermes</button>
         </div>
-        <div class="panel" role="tabpanel" id="panel-claude" aria-labelledby="tab-claude">
-          <div class="cmd" role="group" aria-label="Claude Code install command"><button class="copy" type="button" aria-label="Copy the Claude Code install command">copy</button><code>git clone https://github.com/acf1210/bureau.git
+        <div class="panel" role="tabpanel" id="panel-claude" aria-labelledby="tab-claude"><div class="cmd" role="group" aria-label="Claude Code install command"><button class="copy js-only" type="button" aria-label="Copy the Claude Code install command">Copy</button><code>git clone https://github.com/acf1210/bureau.git
 cd bureau
-bash installers/install.sh --agent claude --scope user</code></div>
-        </div>
-        <div class="panel" role="tabpanel" id="panel-codex" aria-labelledby="tab-codex" hidden>
-          <div class="cmd" role="group" aria-label="Codex install command"><button class="copy" type="button" aria-label="Copy the Codex install command">copy</button><code>git clone https://github.com/acf1210/bureau.git
+bash installers/install.sh --agent claude --scope user</code></div></div>
+        <div class="panel" role="tabpanel" id="panel-codex" aria-labelledby="tab-codex" data-tab-hidden><div class="cmd" role="group" aria-label="Codex install command"><button class="copy js-only" type="button" aria-label="Copy the Codex install command">Copy</button><code>git clone https://github.com/acf1210/bureau.git
 cd bureau
-bash installers/install.sh --agent codex --scope user</code></div>
-        </div>
-        <div class="panel" role="tabpanel" id="panel-antigravity" aria-labelledby="tab-antigravity" hidden>
-          <div class="cmd" role="group" aria-label="Antigravity install command"><button class="copy" type="button" aria-label="Copy the Antigravity install command">copy</button><code>git clone https://github.com/acf1210/bureau.git
+bash installers/install.sh --agent codex --scope user</code></div></div>
+        <div class="panel" role="tabpanel" id="panel-antigravity" aria-labelledby="tab-antigravity" data-tab-hidden><div class="cmd" role="group" aria-label="Antigravity install command"><button class="copy js-only" type="button" aria-label="Copy the Antigravity install command">Copy</button><code>git clone https://github.com/acf1210/bureau.git
 cd bureau
-bash installers/install.sh --agent antigravity --scope user</code></div>
-        </div>
-        <div class="panel" role="tabpanel" id="panel-hermes" aria-labelledby="tab-hermes" hidden>
-          <div class="cmd" role="group" aria-label="Hermes install command"><button class="copy" type="button" aria-label="Copy the Hermes install command">copy</button><code>git clone https://github.com/acf1210/bureau.git
+bash installers/install.sh --agent antigravity --scope user</code></div></div>
+        <div class="panel" role="tabpanel" id="panel-hermes" aria-labelledby="tab-hermes" data-tab-hidden><div class="cmd" role="group" aria-label="Hermes install command"><button class="copy js-only" type="button" aria-label="Copy the Hermes install command">Copy</button><code>git clone https://github.com/acf1210/bureau.git
 cd bureau
-bash installers/install.sh --agent hermes --scope user</code></div>
-        </div>
+bash installers/install.sh --agent hermes --scope user</code></div></div>
         <p class="sr-only" role="status" aria-live="polite" id="copy-status"></p>
-        <p class="install__note">Or install everywhere: <code>bash installers/install.sh --agent all --scope user --dry-run</code></p>
+        <p class="note">Every host at once: <code>bash installers/install.sh --agent all --scope user --dry-run</code></p>
       </div>
     </div>
   </section>
 
-  <section class="section wrap" id="docs">
-    <div class="section-head">
-      <h2 class="reveal">Read it in your language.</h2>
-      <p class="reveal">Nine pages per locale: overview, quickstart, architecture, workflow, circuit, commands, anti-slop, visual language and install.</p>
-    </div>
-    <div class="docs-list">
-      <a class="doc-link reveal" href="pt-BR/index.html"><span>PT-BR</span><strong>Português</strong><em>Ler ↗</em></a>
-      <a class="doc-link reveal" href="en/index.html"><span>EN-US</span><strong>English</strong><em>Read ↗</em></a>
-      <a class="doc-link reveal" href="es/index.html"><span>ES-ES</span><strong>Español</strong><em>Leer ↗</em></a>
+  <section class="sec wrap grid" id="docs" aria-labelledby="h-docs">
+    <p class="sec-label">Docs</p>
+    <div class="sec-head"><h2 id="h-docs">Read it in your language.</h2><p>Nine pages per locale, identical in structure: overview, quickstart, architecture, workflow, circuit, commands, anti-slop, visual language, install.</p></div>
+    <div class="body docs">
+      <a class="doc-link" href="pt-BR/index.html" hreflang="pt-BR"><span>PT-BR</span><strong>Português</strong><em>Ler ↗</em></a>
+      <a class="doc-link" href="en/index.html" hreflang="en"><span>EN-US</span><strong>English</strong><em>Read ↗</em></a>
+      <a class="doc-link" href="es/index.html" hreflang="es"><span>ES-ES</span><strong>Español</strong><em>Leer ↗</em></a>
     </div>
   </section>
 </main>
 
-<footer class="site-foot wrap">
-    <p><b style="color:var(--ink);font-weight:500">BUREAU</b><br>Autonomous digital design bureau.<br>v{{VERSION}}, MIT licence, {{DATE}}</p>
-    <p>Concept, direction, motion, WebGL, video, Figma, Playwright, access, performance and anti-slop review.<br><a href="https://github.com/acf1210/bureau" target="_blank" rel="noopener noreferrer">GitHub ↗</a><br><a href="en/install.html">Install</a><br><a href="en/review-circuit.html">Circuit</a></p>
-    <p class="right">Inspired by Impeccable, Colorfigures, Font Awesome and the galleries in the reference library.<br>PANTONE® is a trademark of Pantone LLC. BUREAU is not affiliated.</p>
-  </footer>
+<footer class="site-foot wrap grid">
+  <p class="f1"><b>BUREAU</b><br>An agent skill that designs like a studio.<br>v{{VERSION}}, MIT licence, {{DATE}}.</p>
+  <p class="f2"><a href="https://github.com/acf1210/bureau" target="_blank" rel="noopener noreferrer">GitHub ↗</a><br><a href="en/install.html">Install</a><br><a href="en/review-circuit.html">Circuit</a></p>
+  <p class="f3">Set in Archivo and JetBrains Mono (SIL Open Font License). No analytics, no tracking, no account. PANTONE® is a trademark of Pantone LLC; BUREAU is not affiliated.</p>
+</footer>
 
 <script>
 (() => {
-  const root = document.documentElement;
-  const body = document.body;
-  const reduce = matchMedia("(prefers-reduced-motion: reduce)");
-  requestAnimationFrame(() => body.classList.add("ready"));
-
-  const progress = document.getElementById("progress");
-  const onScroll = () => {
-    const max = document.documentElement.scrollHeight - innerHeight;
-    progress.style.transform = `scaleX(${max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0})`;
-  };
-  addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
-
-  if ("IntersectionObserver" in window) {
-    const io = new IntersectionObserver((entries) => {
-      for (const e of entries) {
-        if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
-      }
-    }, { threshold: .15, rootMargin: "0px 0px -6% 0px" });
-    document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
-  }
-
-  // Shader
-  const canvas = document.getElementById("gl");
-  const gl = canvas.getContext("webgl", { antialias: false, alpha: true, powerPreference: "high-performance" });
-  const vert = "attribute vec2 p; void main(){ gl_Position = vec4(p,0.,1.); }";
-  const frag = `
-    precision highp float;
-    uniform vec2 u_res; uniform float u_time; uniform vec2 u_mouse;
-    float hash(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }
-    float noise(vec2 p){ vec2 i=floor(p),f=fract(p); vec2 u=f*f*(3.-2.*f);
-      return mix(mix(hash(i),hash(i+vec2(1,0)),u.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),u.x),u.y); }
-    float fbm(vec2 p){ float v=0.,a=.5; for(int i=0;i<4;i++){ v+=a*noise(p); p*=2.02; a*=.5; } return v; }
-    void main(){
-      vec2 uv=gl_FragCoord.xy/u_res;
-      vec2 p=(gl_FragCoord.xy-.5*u_res)/u_res.y;
-      float t=u_time*.045;
-      vec2 m=(u_mouse-.5)*vec2(1.1,.8);
-      float n=fbm(p*1.9+vec2(t,-t*.7)+m*.5);
-      float band=sin((p.y*3.1+n*2.3+t*1.8)*3.14159);
-      float ribbon=smoothstep(.62,.99,abs(band));
-      float d=length(p-m);
-      float glow=.12/(d+.25);
-      vec3 ink=vec3(.031,.035,.039);
-      vec3 ember=vec3(1.,.29,.16);
-      vec3 cobalt=vec3(.30,.49,1.);
-      vec3 col=ink;
-      col+=mix(ember,cobalt,uv.x)*ribbon*(.07+.20*n);
-      col+=mix(ember,cobalt,uv.x)*glow*.06;
-      col+=vec3(.93,.95,.88)*pow(n,4.)*.035;
-      col*=1.-smoothstep(.55,1.25,length(p*vec2(.85,1.)))*.55;
-      gl_FragColor=vec4(col,1.);
-    }`;
-  let program=null,buf=null,uRes,uTime,uMouse,raf=0,visible=true,start=performance.now();
-  let mx=.5,my=.5,tmx=.5,tmy=.5;
-  const compile=(type,src)=>{const s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw new Error(gl.getShaderInfoLog(s));return s;};
-  const init=()=>{
-    if(!gl)return false;
-    try{
-      const vs=compile(gl.VERTEX_SHADER,vert),fs=compile(gl.FRAGMENT_SHADER,frag);
-      program=gl.createProgram();gl.attachShader(program,vs);gl.attachShader(program,fs);gl.linkProgram(program);
-      if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw new Error(gl.getProgramInfoLog(program));
-      gl.useProgram(program);
-      buf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buf);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
-      const loc=gl.getAttribLocation(program,"p");gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
-      uRes=gl.getUniformLocation(program,"u_res");uTime=gl.getUniformLocation(program,"u_time");uMouse=gl.getUniformLocation(program,"u_mouse");
-      return true;
-    }catch(e){canvas.style.display="none";return false;}
-  };
-  const resize=()=>{const dpr=Math.min(devicePixelRatio||1,1.5);canvas.width=Math.max(1,Math.floor(canvas.clientWidth*dpr));canvas.height=Math.max(1,Math.floor(canvas.clientHeight*dpr));if(gl)gl.viewport(0,0,canvas.width,canvas.height);};
-  const draw=(now)=>{
-    if(!program)return;
-    mx+=(tmx-mx)*.045;my+=(tmy-my)*.045;
-    gl.uniform2f(uRes,canvas.width,canvas.height);gl.uniform1f(uTime,(now-start)/1000);gl.uniform2f(uMouse,mx,my);gl.drawArrays(gl.TRIANGLES,0,3);
-  };
-  const loop=(now)=>{raf=0;if(!visible||document.hidden||reduce.matches)return;draw(now);raf=requestAnimationFrame(loop);};
-  const kick=()=>{if(!raf&&!reduce.matches&&visible&&!document.hidden)raf=requestAnimationFrame(loop);};
-  if(init()){
-    resize();if(reduce.matches)draw(performance.now());else kick();
-    new ResizeObserver(()=>{resize();if(reduce.matches)draw(performance.now());}).observe(canvas);
-    if("IntersectionObserver" in window) new IntersectionObserver(([e])=>{visible=e.isIntersecting;if(visible){if(reduce.matches)draw(performance.now());else kick();}},{threshold:.01}).observe(canvas);
-  }else canvas.style.display="none";
-  canvas.addEventListener("webglcontextlost",(e)=>{e.preventDefault();canvas.style.display="none";});
-  addEventListener("pointermove",(e)=>{if(e.pointerType==="touch")return;tmx=e.clientX/innerWidth;tmy=1-e.clientY/innerHeight;},{passive:true});
-
-  // Film pause
-  const film=document.getElementById("film");
-  const pause=document.getElementById("pause");
-  let manuallyPaused=false;
-  const setPauseLabel=()=>{
-    if(!film||!pause)return;
-    pause.textContent=film.paused?"Play film":"Pause film";
-  };
-  const syncFilm=()=>{
-    if(!film)return;
-    if(reduce.matches){film.pause();film.removeAttribute("autoplay");}
-    setPauseLabel();
-  };
-  film?.addEventListener("play",setPauseLabel);
-  film?.addEventListener("pause",setPauseLabel);
-  syncFilm();
-  if(film && "IntersectionObserver" in window){
-    new IntersectionObserver(([e])=>{
-      if(e.isIntersecting){ if(!reduce.matches && film.paused && !manuallyPaused) film.play().catch(()=>{}); }
-      else if(!film.paused){ film.pause(); }
-    },{threshold:.2}).observe(film);
-  }
-  pause?.addEventListener("click",()=>{
-    if(film.paused){manuallyPaused=false;film.play().catch(()=>{});}
-    else{manuallyPaused=true;film.pause();}
-  });
-  reduce.addEventListener?.("change",()=>{syncFilm();if(reduce.matches){if(raf)cancelAnimationFrame(raf);raf=0;if(visible&&!document.hidden)draw(performance.now());}else kick();});
-
-  // Tabs
-  const tabs=[...document.querySelectorAll(".tab")];
-  const select=(tab)=>{
-    for(const t of tabs){
-      const on=t===tab;
-      t.setAttribute("aria-selected",String(on));
-      t.tabIndex=on?0:-1;
-      const panel=document.getElementById(t.getAttribute("aria-controls"));
-      if(panel)panel.hidden=!on;
+  // Tabs and copy buttons: the install panel. Without JavaScript all four commands are listed.
+  const tabs = [...document.querySelectorAll(".tab")];
+  document.querySelectorAll("[data-tab-hidden]").forEach((p) => { p.hidden = true; });
+  const select = (tab, focus = true) => {
+    for (const t of tabs) {
+      const on = t === tab;
+      t.setAttribute("aria-selected", String(on));
+      t.tabIndex = on ? 0 : -1;
+      const panel = document.getElementById(t.getAttribute("aria-controls"));
+      if (panel) panel.hidden = !on;
     }
-    tab.focus();
+    if (focus) tab.focus();
   };
-  tabs.forEach((tab,i)=>{
-    tab.addEventListener("click",()=>select(tab));
-    tab.addEventListener("keydown",(e)=>{
-      if(e.key==="ArrowRight"||e.key==="ArrowLeft"){
-        e.preventDefault();
-        const dir=e.key==="ArrowRight"?1:-1;
-        select(tabs[(i+dir+tabs.length)%tabs.length]);
-      }
-      if(e.key==="Home"||e.key==="End"){
-        e.preventDefault();
-        select(e.key==="Home"?tabs[0]:tabs[tabs.length-1]);
-      }
+  tabs.forEach((tab, i) => {
+    tab.addEventListener("click", () => select(tab));
+    tab.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight" || e.key === "ArrowLeft") { e.preventDefault(); select(tabs[(i + (e.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length]); }
+      if (e.key === "Home" || e.key === "End") { e.preventDefault(); select(e.key === "Home" ? tabs[0] : tabs[tabs.length - 1]); }
     });
   });
-
-  // Copy buttons
   const copyStatus = document.getElementById("copy-status");
-  for(const btn of document.querySelectorAll(".cmd .copy")){
-    const name = btn.getAttribute("aria-label") || "the install command";
-    btn.addEventListener("click",async()=>{
-      const code=btn.parentElement.querySelector("code").textContent;
-      try{await navigator.clipboard.writeText(code);btn.textContent="copied";btn.setAttribute("aria-label",name.replace(/^Copy/,"Copied")+" to the clipboard");if(copyStatus)copyStatus.textContent=name.replace(/^Copy/,"Copied")+" to the clipboard.";setTimeout(()=>{btn.textContent="copy";btn.setAttribute("aria-label",name);if(copyStatus)copyStatus.textContent="";},1400);}
-      catch{const range=document.createRange();range.selectNodeContents(btn.parentElement.querySelector("code"));const selection=window.getSelection();selection.removeAllRanges();selection.addRange(range);btn.textContent="selected — copy manually";btn.setAttribute("aria-label",name+" could not be copied; the command is selected for manual copying");if(copyStatus)copyStatus.textContent="Clipboard blocked; the command is selected so you can copy it manually.";}
+  for (const btn of document.querySelectorAll(".cmd .copy")) {
+    const name = btn.getAttribute("aria-label");
+    btn.addEventListener("click", async () => {
+      const code = btn.parentElement.querySelector("code");
+      try {
+        await navigator.clipboard.writeText(code.textContent);
+        btn.textContent = "Copied"; btn.setAttribute("aria-label", name.replace(/^Copy/, "Copied"));
+        copyStatus.textContent = name.replace(/^Copy/, "Copied") + " to the clipboard.";
+        setTimeout(() => { btn.textContent = "Copy"; btn.setAttribute("aria-label", name); copyStatus.textContent = ""; }, 1600);
+      } catch {
+        const range = document.createRange(); range.selectNodeContents(code);
+        const sel = getSelection(); sel.removeAllRanges(); sel.addRange(range);
+        btn.textContent = "Selected"; copyStatus.textContent = "Clipboard blocked; the command is selected so you can copy it.";
+      }
     });
   }
-  for(const box of document.querySelectorAll(".cmd")){
-    if(box.scrollWidth>box.clientWidth+1){box.tabIndex=0;box.setAttribute("aria-label",(box.getAttribute("aria-label")||"Install command")+", scrollable");}
-  }
+  for (const box of document.querySelectorAll(".cmd")) if (box.scrollWidth > box.clientWidth + 1) { box.tabIndex = 0; box.setAttribute("aria-label", box.getAttribute("aria-label") + ", scrollable"); }
 
-  document.addEventListener("visibilitychange",()=>{
-    if(document.hidden){if(raf)cancelAnimationFrame(raf);raf=0;}
-    else kick();
-  });
+  // The gate ledger inks once when it enters.
+  const ledger = document.getElementById("ledger");
+  if ("IntersectionObserver" in window) new IntersectionObserver(([e], o) => { if (e.isIntersecting) { ledger.classList.add("in"); o.disconnect(); } }, { threshold: .3 }).observe(ledger);
+  else ledger.classList.add("in");
 })();
+</script>
+<script type="module">
+// The proof: the detector's own rules file, applied in the browser to fetched source.
+import { rules } from "./assets/rules.js";
+import { proof } from "./assets/proof-engine.js";
+
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const SYM = { color: "del", imagery: "del", type: "wf", content: "qy", motion: "mo", access: "ins", behavior: "fix", engineering: "eng", composition: "rs" };
+const frame = document.getElementById("frame"), iframe = document.getElementById("specimen");
+const list = document.getElementById("marks"), svg = document.getElementById("leaders"), verdict = document.getElementById("verdict");
+const reg = [...frame.querySelectorAll(".reg i")];
+const marked = document.getElementById("show-marked"), reviewed = document.getElementById("show-reviewed"), self = document.getElementById("self");
+const NS = "http://www.w3.org/2000/svg";
+const sleep = (ms) => new Promise((r) => setTimeout(r, reduce ? 0 : ms));
+let run = 0;
+
+const fit = () => { const s = frame.clientWidth / 1200; iframe.style.transform = `scale(${s})`; return s; };
+addEventListener("resize", () => { fit(); place(); });
+
+// The three plates come into register over the sheet (Thompson's overprint), then lift away.
+const register = async (out) => {
+  const offs = [[-14, -8], [10, 6], [-6, 12]];
+  reg.forEach((p, i) => {
+    p.style.transition = reduce ? "none" : "transform .9s cubic-bezier(.22,.9,.18,1), opacity .9s cubic-bezier(.22,.9,.18,1)";
+    p.style.transform = out ? `translate(${offs[i][0]}px,${offs[i][1]}px)` : "none";
+    p.style.opacity = out ? ".55" : "0";
+  });
+  await sleep(900);
+};
+
+const label = (m) => `<span class="sym" aria-hidden="true">${SYM[m.category] || "qy"}</span><span class="id">${m.id}<small>${m.severity.toUpperCase()}, line ${m.line}</small></span><span class="t">${m.title}</span>`;
+let current = [];
+// Each mark is numbered at the element it names, like a footnote; hovering or focusing a mark lifts its box.
+const place = () => {
+  svg.innerHTML = "";
+  const doc = iframe.contentDocument; if (!doc) return;
+  const s = fit();
+  current.forEach((m, i) => {
+    const li = list.children[i]; if (!li || !li.classList.contains("on")) return;
+    const el = doc.querySelector(`[data-mark~="${m.id}"]`); if (!el) return;
+    const r = el.getBoundingClientRect();
+    const inset = (i % 3) * 3;
+    const x = r.left * s + inset, y = r.top * s + inset, w = Math.max(8, r.width * s - inset * 2), h = Math.max(8, r.height * s - inset * 2);
+    const g = document.createElementNS(NS, "g");
+    g.dataset.i = i;
+    if (li.classList.contains("hot")) g.classList.add("hot");
+    const box = document.createElementNS(NS, "rect");
+    Object.entries({ x, y, width: w, height: h }).forEach(([k, v]) => box.setAttribute(k, v));
+    const tag = document.createElementNS(NS, "rect"), n = document.createElementNS(NS, "text");
+    const tx = x + w - 18 - (i % 4) * 20, ty = y - 8;
+    Object.entries({ x: tx, y: ty, width: 18, height: 14, class: "pin" }).forEach(([k, v]) => tag.setAttribute(k, v));
+    n.setAttribute("x", tx + 9); n.setAttribute("y", ty + 11); n.setAttribute("text-anchor", "middle"); n.textContent = i + 1;
+    g.append(box, tag, n);
+    svg.append(g);
+  });
+};
+const hot = (i, on) => { list.children[i]?.classList.toggle("hot", on); svg.querySelector(`g[data-i="${i}"]`)?.classList.toggle("hot", on); };
+list.addEventListener("pointerover", (e) => { const li = e.target.closest("li"); if (li) hot([...list.children].indexOf(li), true); });
+list.addEventListener("pointerout", (e) => { const li = e.target.closest("li"); if (li) hot([...list.children].indexOf(li), false); });
+
+const loadSpecimen = (src) => new Promise((resolve) => {
+  if (iframe.getAttribute("src") === src && iframe.contentDocument?.readyState === "complete" && iframe.contentDocument.body?.children.length) return resolve();
+  iframe.addEventListener("load", () => resolve(), { once: true });
+  iframe.src = src;
+});
+
+const proofOf = async (src, title, my) => {
+  const text = await (await fetch(src, { cache: "no-store" })).text();
+  if (my !== run) return null;
+  return proof(text, rules);
+};
+
+const stamp = async (src, title) => {
+  const my = ++run;
+  document.getElementById("proof-title").textContent = title;
+  verdict.textContent = "Proofing…";
+  await register(true);
+  await loadSpecimen(src);
+  let marks = await proofOf(src, title, my);
+  if (!marks || my !== run) return;
+  // An editor reads top to bottom: marks are applied in the order their elements appear.
+  const doc = iframe.contentDocument;
+  const top = (m) => doc?.querySelector(`[data-mark~="${m.id}"]`)?.getBoundingClientRect().top ?? 1e6;
+  marks = marks.map((m) => ({ ...m, y: top(m) })).sort((a, b) => a.y - b.y);
+  current = marks;
+  list.classList.add("live");
+  list.innerHTML = marks.map((m) => `<li data-rule="${m.id}">${label(m)}</li>`).join("");
+  svg.innerHTML = "";
+  await register(false);
+  for (const li of list.children) { if (my !== run) return; li.classList.add("on"); place(); await sleep(180); }
+  const p0 = marks.filter((m) => m.severity === "p0").length;
+  verdict.innerHTML = marks.length
+    ? `<b>${marks.length} marks</b>, ${p0} of them P0: ${p0 ? "the specimen fails" : "the specimen goes back for changes"}. ${rules.length} rules applied.`
+    : `<b>0 marks</b> from ${rules.length} rules: the reviewed proof is clean.`;
+};
+
+const press = (btn) => { [marked, reviewed].forEach((b) => b.setAttribute("aria-pressed", String(b === btn))); };
+marked.addEventListener("click", () => { press(marked); stamp("assets/specimen/generic.html", "Galley: a generic generated hero"); });
+reviewed.addEventListener("click", () => { press(reviewed); stamp("assets/specimen/reviewed.html", "Galley: the same hero after review"); });
+
+// The landing proofs itself with the same code; the count is printed, whatever it is.
+self.addEventListener("click", async () => {
+  const marks = proof(await (await fetch(location.pathname, { cache: "no-store" })).text(), rules);
+  verdict.innerHTML = marks.length
+    ? `This page: <b>${marks.length} marks</b> (${marks.map((m) => m.id).join(", ")}). They are listed in the audit log.`
+    : `This page: <b>0 marks</b> from the same ${rules.length} rules.`;
+});
+
+const start = () => stamp("assets/specimen/generic.html", "Galley: a generic generated hero");
+if ("IntersectionObserver" in window) new IntersectionObserver(([e], o) => { if (e.isIntersecting) { o.disconnect(); start(); } }, { threshold: .25 }).observe(frame);
+else start();
+fit();
 </script>
 </body>
 </html>

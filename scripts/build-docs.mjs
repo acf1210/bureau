@@ -263,8 +263,7 @@ function pageHtml({ lang, slug, title, description, html, toc, prev, next }) {
 <meta name="description" content="${escapeHtml(description)}">
 <link rel="canonical" href="${canonical}">
 <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
-<link rel="preload" href="../assets/fonts/bodoni-moda-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="../assets/fonts/archivo-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/archivo-var-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../assets/docs.css">
 <script>try{const t=localStorage.getItem("bureau-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 </head>
@@ -325,8 +324,7 @@ function showcasePage() {
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>BUREAU ShowCase</title>
 <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
-<link rel="preload" href="../assets/fonts/bodoni-moda-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="../assets/fonts/archivo-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/archivo-var-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../assets/docs.css">
 <style>
 body{background:var(--bg);color:var(--ink);font-family:var(--body);margin:0;padding:clamp(1.5rem,5vw,5rem)}
@@ -356,6 +354,8 @@ function main() {
 
   copyDir(path.join(ROOT, "site", "assets"), path.join(DIST, "assets"));
   copyDir(path.join(ROOT, "docs", "assets"), path.join(DIST, "assets"));
+  // The landing's proof imports the detector's own rules file, so the page runs exactly what the CLI runs.
+  fs.copyFileSync(path.join(ROOT, "skill", "scripts", "lib", "rules.mjs"), path.join(DIST, "assets", "rules.js"));
 
   const landingHtml = landing();
   if (landingHtml) fs.writeFileSync(path.join(DIST, "index.html"), landingHtml);
