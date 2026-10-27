@@ -410,6 +410,14 @@ async function autoScroll(page) {
     await sleep(250);
     scrollTo(0, 0);
     await sleep(250);
+    // Capture the at-rest state: reveal classes and lazy images are presentation
+    // state, and a full-page still must not show a pre-reveal frame.
+    document.querySelectorAll(".reveal").forEach((el) => el.classList.add("in"));
+    document.body.classList.add("ready");
+    // Lazy images above or below the viewport may never load; wait at most 3 s for the rest.
+    const pending = [...document.images].filter((img) => !img.complete).map((img) => new Promise((r) => { img.addEventListener("load", r, { once: true }); img.addEventListener("error", r, { once: true }); }));
+    await Promise.race([Promise.all(pending), new Promise((r) => setTimeout(r, 3000))]);
+    await new Promise((r) => setTimeout(r, 150));
   }).catch(() => {});
 }
 
@@ -440,7 +448,7 @@ function renderMarkdown(report) {
   lines.push(`# BUREAU visual audit`);
   lines.push("");
   lines.push(`- **Target:** ${report.target}`);
-  lines.push(`- **Generated:** ${report.generatedAt}`);
+  lines.push(`- **Generated:** ${report.meta.generatedAt}`);
   lines.push(`- **Score:** ${report.summary.score}/100${report.summary.hardFail ? " · **HARD FAIL**" : ""}`);
   lines.push(`- **Issues:** P0 ${report.summary.by.p0} · P1 ${report.summary.by.p1} · P2 ${report.summary.by.p2}`);
   lines.push("");
@@ -581,10 +589,26 @@ Or set BUREAU_CHROMIUM=/path/to/chrome`);
         await autoScroll(page);
         const full = path.join(outDir, "screenshots", `${safeName(vp.name)}-full.png`);
         try {
-          await page.screenshot({ path: full, fullPage: true, animations: "disabled" });
+          await Promise.race([
+            page.screenshot({ path: full, fullPage: true, animations: "disabled" }),
+            new Promise((_, reject) => setTimeout(() => reject(new Error("full-page capture exceeded 20 s")), 20000))
+          ]);
           screenshots.push(path.relative(process.cwd(), full));
         } catch (err) {
-          allIssues.push({ id: "VA-FULLSHOT", severity: "p2", title: "Full-page screenshot failed", detail: String(err.message).slice(0, 200), viewport: vp.name, evidence: path.relative(process.cwd(), fold) });
+          // A very tall page can exhaust the renderer during a full-page capture.
+          // Fall back to three viewport frames so the evidence is never blank.
+          const detail = [];
+          for (const pct of [25, 50, 75]) {
+            const shot = path.join(outDir, "screenshots", `${safeName(vp.name)}-scroll-${pct}.png`);
+            try {
+              await page.evaluate((p) => scrollTo(0, document.documentElement.scrollHeight * (p / 100)), pct);
+              await page.waitForTimeout(250);
+              await page.screenshot({ path: shot, animations: "disabled" });
+              screenshots.push(path.relative(process.cwd(), shot));
+            } catch (inner) { detail.push(String(inner.message).slice(0, 80)); }
+          }
+          await page.evaluate(() => scrollTo(0, 0)).catch(() => {});
+          allIssues.push({ id: "VA-FULLSHOT", severity: "p2", title: "Full-page screenshot fell back to scroll frames", detail: `${String(err.message).slice(0, 160)}${detail.length ? " | " + detail.join("; ") : ""}`, viewport: vp.name, evidence: path.relative(process.cwd(), fold) });
         }
       }
 

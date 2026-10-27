@@ -128,7 +128,7 @@ export const rules = [
     pattern: /[✨🚀🔥💡🎯⚡✅💎🌟]/u
   },
   {
-    id: "BS-M01",
+    id: "BS-M02",
     severity: "p1",
     category: "motion",
     title: "transition: all",

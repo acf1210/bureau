@@ -39,9 +39,9 @@ Each score needs an observation, evidence path and smallest actionable improveme
 
 ## 4. Compare versions and interpret the target
 
-For each brief, compute candidate total minus baseline total, then report the mean paired change, each paired result, number of briefs, number of reviewers and exclusions. Calculate relative improvement as `(candidate mean − baseline mean) / baseline mean × 100`; it is undefined when the baseline is zero. A relative gain of 50% requires `candidate mean ≥ 1.5 × baseline mean` and cannot be reached on a 0–100 scale when the baseline exceeds 66.67. Do not silently substitute percentage points or a reduction of the remaining gap.
+For each brief, compute candidate total minus baseline total, then report the mean paired change, each paired result, number of briefs, number of reviewers and exclusions. Calculate relative improvement as `(candidate mean − baseline mean) / baseline mean × 100`; it is undefined when the baseline is zero. Report percentage points separately.
 
-Before the experiment, specify the sample and analysis. For a small or convenience sample, describe it as exploratory; do not generalize to all projects. When feasible, report uncertainty using a paired bootstrap over briefs and explain its limitations. Do not claim a 50% improvement unless the documented results support it; if reviewers, briefs, access or evidence are missing, the result is pending or inconclusive.
+Before the experiment, specify the sample and analysis. For a small or convenience sample, describe it as exploratory; do not generalize to all projects. When feasible, report uncertainty using a paired bootstrap over briefs and explain its limitations. If reviewers, briefs, access or evidence are missing, the result is pending or inconclusive. The separate jury controls closure; see `29-jury-and-ux.md`.
 
 ## 5. Deliverable
 

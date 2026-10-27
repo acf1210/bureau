@@ -1,5 +1,7 @@
 # The review circuit
 
+Finalization also requires the 10–15-member independent jury and complete Laws of UX review described in `skill/references/29-jury-and-ux.md`. All members vote on all gates and principles; unresolved findings require correction and a complete new review. If independent reviewers are unavailable, the verdict remains pending.
+
 Ten independent gates and a Tribunal. The goal is not a pretty score; it is to stop the bureau from approving work it has fallen for.
 
 ![Review circuit](../assets/diagrams/circuit.svg)

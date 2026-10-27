@@ -2,7 +2,7 @@
 
 **El bureau de diseño digital autónomo.** Una skill de agente que le da a un modelo de lenguaje el trabajo de un estudio entero: dirección creativa, dirección de arte, tipografía, motion, creative technology, accesibilidad, rendimiento y una revisión adversarial que dice *no*.
 
-[![Versión](https://img.shields.io/badge/version-3.0.0-F2C230?style=flat-square&labelColor=121212)](VERSION)
+[![Versión](https://img.shields.io/badge/version-4.0.0-F2C230?style=flat-square&labelColor=121212)](VERSION)
 [![Licencia](https://img.shields.io/badge/license-MIT-E2507F?style=flat-square&labelColor=121212)](LICENSE)
 [![Plantillas](https://img.shields.io/badge/templates-13-1E4FD6?style=flat-square&labelColor=121212)](#galería)
 [![Hosts](https://img.shields.io/badge/hosts-Claude%20%7C%20Codex%20%7C%20Antigravity%20%7C%20Hermes-EDEBE4?style=flat-square&labelColor=121212)](#instalación)
@@ -73,7 +73,7 @@ Trece plantillas, trece mundos, ninguno parecido a otro: el par más cercano com
 | [Hardware Store](https://acf1210.github.io/bureau/demos/hardware-store/index.html) | Tienda de producto | Rams × Sottsass × Castiglioni | Configura la lámpara y mírala desarmada, con precio |
 <!-- gallery:end -->
 
-Todas son autocontenidas (HTML, CSS y JS en un archivo), pasan los audits estático y visual sin P0 ni P1 de 320 a 1920 px y usan fallbacks de fuente con métricas igualadas para que el layout no se desplace. Personas, marcas, precios y datos son ficticios y están rotulados.
+Todas son autocontenidas (HTML, CSS y JS en un archivo), pasan el audit estático sin P0 ni P1 y usan fallbacks de fuente con métricas igualadas para que el layout no se desplace. Dos de ellas, Immersive Experience y Product Surface, conservan informes de auditoría visual en `.bureau/qa/`; el resto no tiene evidencia visual versionada. Personas, marcas, precios y datos son ficticios y están rotulados.
 
 ---
 
@@ -85,7 +85,7 @@ Todas son autocontenidas (HTML, CSS y JS en un archivo), pasan los audits estát
 2. **Concepto.** Tres direcciones, cada una una mezcla de tres linajes. La elegida va a `blend.md`.
 3. **Dirección.** `DESIGN.md` con tokens normativos, dials ENERGY / RHYTHM / MOTION y el mundo visual.
 4. **Build y refinamiento.** Siete pasadas, de la estructura al detalle, cada una con evidencia.
-5. **QA y revisión.** Audit estático, audit visual en seis anchos, diez puertas, Delivery Gate y Tribunal.
+5. **QA y revisión.** Audit estático, audit visual en cinco anchos, diez puertas, Delivery Gate y Tribunal.
 
 [Flujo de trabajo completo →](docs/es/workflow.md)
 
@@ -215,12 +215,12 @@ El scaffold crea `BUREAU.md`, `DESIGN.md` (con linaje y dials), `MOTION.md`, `.b
 | Capa | Contenido |
 |---|---|
 | **Skill** | `SKILL.md` con doctrina, contrato de autonomía, router, reglas duras y protocolo de herramientas |
-| **Profundidad** | 25 referencias, de concepto y dirección de arte a linaje y mezcla y pasadas de refinamiento |
+| **Profundidad** | 30 referencias, de concepto y dirección de arte a linaje y mezcla y pasadas de refinamiento |
 | **Scripts** | audit anti-slop, audit visual Playwright, divergencia, circuito de revisión con estado, tokens, sync Figma, doctor, scaffold |
 | **Plantillas** | 13 mundos con escritorio y móvil diseñados, cada uno con `LINEAGE.md` |
 | **Assets** | tokens DTCG, snippets de motion, media generada, diagramas SVG |
 | **Docs** | 9 páginas × 3 idiomas (PT-BR, EN, ES) |
-| **Pruebas** | 25 pruebas `node --test`, con fixtures en los dos sentidos para cada regla |
+| **Pruebas** | 33 pruebas `node --test`, con fixtures en los dos sentidos para cada regla |
 | **Installers** | Claude Code, Codex, Antigravity, Hermes; bash y PowerShell |
 
 ---
@@ -230,7 +230,7 @@ El scaffold crea `BUREAU.md`, `DESIGN.md` (con linaje y dials), `MOTION.md`, `.b
 ```
 skill/                  la skill instalable
   SKILL.md              router + doctrina + contrato
-  references/           25 módulos
+  references/           30 módulos
   scripts/              audit, visual-audit, divergence, review, tokens, figma-sync, doctor, scaffold
   assets/templates/     13 plantillas + catalog.json
 installers/             Claude, Codex, Antigravity, Hermes + bash/PowerShell

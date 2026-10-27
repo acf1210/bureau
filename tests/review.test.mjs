@@ -5,6 +5,8 @@ import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { sourceHash } from "../skill/scripts/lib/gates.mjs";
+import { UX_LAWS } from "../skill/scripts/lib/jury.mjs";
 
 const root = path.resolve(import.meta.dirname, "..");
 const scaffold = path.join(root, "skill", "scripts", "new-project.mjs");
@@ -72,6 +74,21 @@ test("review circuit gates in order and returns an award scorecard", () => {
   const deliveryFile = path.join(project, ".bureau", "review", "delivery.md");
   fs.writeFileSync(deliveryFile, fs.readFileSync(deliveryFile, "utf8").replace(/- \[ \] (DG-\w+)(.*) — evidence:/g, "- [PASS] $1$2 — evidence: .bureau/qa/report.json, 0 issues"));
   r = run(review, ["--final", "--tribunal", ".bureau/review/tribunal.json"], project);
+  assert.equal(r.status, 1, "final must refuse a missing jury");
+  const vote = () => ({ result: "pass", reason: "Reviewed in this test fixture", evidence: ".bureau/qa/report.json" });
+  const jury = { sourceHash: sourceHash(project).hash, issues: [], members: Array.from({ length: 10 }, (_, i) => ({
+    id: `fixture-${i}`, specialty: `specialty-${i}`, independent: "test fixture",
+    categories: Object.fromEntries(Object.keys(gates).map((id) => [id, vote()])),
+    laws: Object.fromEntries(UX_LAWS.map((id) => [id, vote()]))
+  })) };
+  fs.writeFileSync(path.join(project, ".bureau", "review", "jury.json"), JSON.stringify(jury));
+  jury.members[0].laws[UX_LAWS[0]].result = "fail";
+  fs.writeFileSync(path.join(project, ".bureau", "review", "jury.json"), JSON.stringify(jury));
+  r = run(review, ["--final", "--tribunal", ".bureau/review/tribunal.json"], project);
+  assert.equal(r.status, 1, "one dissent blocks finalization");
+  jury.members[0].laws[UX_LAWS[0]].result = "pass";
+  fs.writeFileSync(path.join(project, ".bureau", "review", "jury.json"), JSON.stringify(jury));
+  r = run(review, ["--final", "--tribunal", ".bureau/review/tribunal.json"], project);
   assert.equal(r.status, 0, r.stdout + r.stderr);
   assert.match(r.stdout, /AWARD/);
   const scorecard = JSON.parse(fs.readFileSync(path.join(project, ".bureau", "review", "scorecard.json"), "utf8"));
@@ -111,5 +128,20 @@ test("refuses out-of-order gates", () => {
   }));
   const r = run(review, ["--gate", "g1-concept", "--scores", ".bureau/review/g1.json"], project);
   assert.equal(r.status, 3);
+  fs.rmSync(dir, { recursive: true, force: true });
+});
+
+test("jury initialization creates only pending votes and never overwrites a record", () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "bureau-jury-"));
+  const result = run(review, ["--jury-init"], dir);
+  assert.equal(result.status, 0, result.stderr);
+  const file = path.join(dir, ".bureau", "review", "jury.json");
+  const draft = JSON.parse(fs.readFileSync(file, "utf8"));
+  assert.equal(draft.members.length, 10);
+  assert.equal(draft.members[0].id, "");
+  assert.equal(Object.keys(draft.members[0].laws).length, UX_LAWS.length);
+  assert.ok(Object.values(draft.members[0].laws).every((vote) => vote.result === "pending"));
+  assert.equal(run(review, ["--jury-init"], dir).status, 2);
+  assert.deepEqual(JSON.parse(fs.readFileSync(file, "utf8")), draft);
   fs.rmSync(dir, { recursive: true, force: true });
 });

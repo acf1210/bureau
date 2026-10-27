@@ -2,7 +2,7 @@
 
 **The autonomous digital design bureau.** An agent skill that gives a language model the work of a whole studio: creative direction, art direction, typography, motion, creative technology, accessibility, performance, and an adversarial review that says *no*.
 
-[![Version](https://img.shields.io/badge/version-3.0.0-F2C230?style=flat-square&labelColor=121212)](VERSION)
+[![Version](https://img.shields.io/badge/version-4.0.0-F2C230?style=flat-square&labelColor=121212)](VERSION)
 [![License](https://img.shields.io/badge/license-MIT-E2507F?style=flat-square&labelColor=121212)](LICENSE)
 [![Templates](https://img.shields.io/badge/templates-13-1E4FD6?style=flat-square&labelColor=121212)](#gallery)
 [![Hosts](https://img.shields.io/badge/hosts-Claude%20%7C%20Codex%20%7C%20Antigravity%20%7C%20Hermes-EDEBE4?style=flat-square&labelColor=121212)](#install)
@@ -73,7 +73,7 @@ Thirteen templates, thirteen worlds, none like another: the closest pair shares 
 | [Hardware Store](https://acf1210.github.io/bureau/demos/hardware-store/index.html) | Product shop | Rams × Sottsass × Castiglioni | Configure the lamp, then see it apart, priced |
 <!-- gallery:end -->
 
-All are self-contained (HTML, CSS and JS in one file), pass the static and visual audits with no P0 or P1 from 320 to 1920 px, and use metric-matched font fallbacks so the layout never shifts. People, brands, prices and data are fictional and labelled.
+All are self-contained (HTML, CSS and JS in one file), pass the static audit with no P0 or P1, and use metric-matched font fallbacks so the layout never shifts. Two of them, Immersive Experience and Product Surface, keep visual-audit reports in `.bureau/qa/`; the rest carry no versioned visual evidence. People, brands, prices and data are fictional and labelled.
 
 ---
 
@@ -85,7 +85,7 @@ All are self-contained (HTML, CSS and JS in one file), pass the static and visua
 2. **Concept.** Three directions, each a blend of three lineages. The chosen one goes into `blend.md`.
 3. **Direction.** `DESIGN.md` with normative tokens, ENERGY / RHYTHM / MOTION dials and the visual world.
 4. **Build and refinement.** Seven passes, from structure to detail, each with evidence.
-5. **QA and review.** Static audit, visual audit at six widths, ten gates, the Delivery Gate and the Tribunal.
+5. **QA and review.** Static audit, visual audit at five widths, ten gates, the Delivery Gate and the Tribunal.
 
 [Full workflow →](docs/en/workflow.md)
 
@@ -215,12 +215,12 @@ The scaffold writes `BUREAU.md`, `DESIGN.md` (with lineage and dials), `MOTION.m
 | Layer | Contents |
 |---|---|
 | **Skill** | `SKILL.md` with doctrine, autonomy contract, router, hard rules and tool protocol |
-| **Depth** | 25 references, from concept and art direction to lineage and blend and refinement passes |
+| **Depth** | 30 references, from concept and art direction to lineage and blend and refinement passes |
 | **Scripts** | anti-slop audit, Playwright visual audit, divergence, stateful review circuit, tokens, Figma sync, doctor, scaffold |
 | **Templates** | 13 worlds with designed desktop and mobile, each with a `LINEAGE.md` |
 | **Assets** | DTCG tokens, motion snippets, generated media, SVG diagrams |
 | **Docs** | 9 pages × 3 languages (PT-BR, EN, ES) |
-| **Tests** | 25 `node --test` tests, with fixtures in both directions for every rule |
+| **Tests** | 33 `node --test` tests, with fixtures in both directions for every rule |
 | **Installers** | Claude Code, Codex, Antigravity, Hermes; bash and PowerShell |
 
 ---
@@ -230,7 +230,7 @@ The scaffold writes `BUREAU.md`, `DESIGN.md` (with lineage and dials), `MOTION.m
 ```
 skill/                  the installable skill
   SKILL.md              router + doctrine + contract
-  references/           25 modules
+  references/           30 modules
   scripts/              audit, visual-audit, divergence, review, tokens, figma-sync, doctor, scaffold
   assets/templates/     13 templates + catalog.json
 installers/             Claude, Codex, Antigravity, Hermes + bash/PowerShell

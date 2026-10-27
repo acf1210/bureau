@@ -2,7 +2,7 @@
 
 **O bureau de design digital autônomo.** Uma skill de agente que dá a um modelo de linguagem o trabalho de um estúdio inteiro: direção de criação, direção de arte, tipografia, motion, creative technology, acessibilidade, performance e uma revisão adversarial que diz *não*.
 
-[![Versão](https://img.shields.io/badge/version-3.0.0-F2C230?style=flat-square&labelColor=121212)](VERSION)
+[![Versão](https://img.shields.io/badge/version-4.0.0-F2C230?style=flat-square&labelColor=121212)](VERSION)
 [![Licença](https://img.shields.io/badge/license-MIT-E2507F?style=flat-square&labelColor=121212)](LICENSE)
 [![Templates](https://img.shields.io/badge/templates-13-1E4FD6?style=flat-square&labelColor=121212)](#galeria)
 [![Hosts](https://img.shields.io/badge/hosts-Claude%20%7C%20Codex%20%7C%20Antigravity%20%7C%20Hermes-EDEBE4?style=flat-square&labelColor=121212)](#instalação)
@@ -73,7 +73,7 @@ Treze templates, treze mundos, nenhum parecido com outro: o par mais próximo co
 | [Hardware Store](https://acf1210.github.io/bureau/demos/hardware-store/index.html) | Loja de produto | Rams × Sottsass × Castiglioni | Configure a luminária e veja as peças, com preço |
 <!-- gallery:end -->
 
-Todos são autocontidos (HTML, CSS e JS num arquivo), passam no audit estático e visual sem P0 nem P1 em 320 a 1920 px, e usam fallbacks de fonte com métrica casada para não deslocar o layout. Pessoas, marcas, preços e dados são fictícios e rotulados.
+Todos são autocontidos (HTML, CSS e JS num arquivo), passam no audit estático sem P0 nem P1, e usam fallbacks de fonte com métrica casada para não deslocar o layout. Dois deles, Immersive Experience e Product Surface, mantêm relatórios de auditoria visual salvos em `.bureau/qa/`; os demais não têm evidência visual versionada. Pessoas, marcas, preços e dados são fictícios e rotulados.
 
 ---
 
@@ -85,7 +85,7 @@ Todos são autocontidos (HTML, CSS e JS num arquivo), passam no audit estático 
 2. **Conceito.** Três direções, cada uma com uma mescla de três linhagens. A escolhida vai para `blend.md`.
 3. **Direção.** `DESIGN.md` com tokens normativos, dials ENERGY / RHYTHM / MOTION e o mundo visual.
 4. **Build e refinamento.** Sete passes, da estrutura ao detalhe, cada um com evidência.
-5. **QA e revisão.** Audit estático, audit visual em seis larguras, dez portões, Delivery Gate e Tribunal.
+5. **QA e revisão.** Audit estático, audit visual em cinco larguras, dez portões, Delivery Gate e Tribunal.
 
 [Fluxo de trabalho completo →](docs/pt-BR/workflow.md)
 
@@ -215,12 +215,12 @@ O scaffold cria `BUREAU.md`, `DESIGN.md` (com linhagem e dials), `MOTION.md`, `.
 | Camada | Conteúdo |
 |---|---|
 | **Skill** | `SKILL.md` com doutrina, contrato de autonomia, roteador, regras duras e protocolo de ferramentas |
-| **Profundidade** | 25 referências, de conceito e direção de arte a linhagem e mescla e passes de refinamento |
+| **Profundidade** | 30 referências, de conceito e direção de arte a linhagem e mescla e passes de refinamento |
 | **Scripts** | audit anti-slop, audit visual Playwright, divergência, circuito de revisão com estado, tokens, sync Figma, doctor, scaffold |
 | **Templates** | 13 mundos com desktop e mobile desenhados, cada um com `LINEAGE.md` |
 | **Assets** | tokens DTCG, snippets de motion, mídia gerada, diagramas SVG |
 | **Docs** | 9 páginas × 3 idiomas (PT-BR, EN, ES) |
-| **Testes** | 25 testes `node --test`, com fixtures nos dois sentidos para cada regra |
+| **Testes** | 33 testes `node --test`, com fixtures nos dois sentidos para cada regra |
 | **Installers** | Claude Code, Codex, Antigravity, Hermes; bash e PowerShell |
 
 ---
@@ -230,7 +230,7 @@ O scaffold cria `BUREAU.md`, `DESIGN.md` (com linhagem e dials), `MOTION.md`, `.
 ```
 skill/                  a skill instalável
   SKILL.md              roteador + doutrina + contrato
-  references/           25 módulos
+  references/           30 módulos
   scripts/              audit, visual-audit, divergence, review, tokens, figma-sync, doctor, scaffold
   assets/templates/     13 templates + catalog.json
 installers/             Claude, Codex, Antigravity, Hermes + bash/PowerShell

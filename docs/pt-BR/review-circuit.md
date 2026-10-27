@@ -1,5 +1,7 @@
 # O circuito de revisão
 
+A finalização também exige o júri independente de 10–15 membros e a revisão completa das Laws of UX descritos em `skill/references/29-jury-and-ux.md`. Todos votam em todos os portões e princípios; achados não resolvidos exigem correção e uma nova revisão completa. Sem avaliadores independentes, o veredito permanece pendente.
+
 Dez portões independentes e um Tribunal. O objetivo não é produzir uma nota bonita; é impedir que o bureau aprove um trabalho por apego.
 
 ![Circuito de revisão](../assets/diagrams/circuit.svg)

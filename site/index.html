@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>BUREAU — the autonomous digital design bureau</title>
-<meta name="description" content="An open-source agent skill for award-grade web design: concept, art direction, motion, WebGL, Figma, Playwright evidence, accessibility, performance, and a ten-gate review circuit.">
+<meta name="description" content="An open-source agent skill for web design: concept, art direction, motion, WebGL, Figma, Playwright evidence, accessibility, performance, and a ten-gate review circuit.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="BUREAU — the autonomous digital design bureau">
 <meta property="og:description" content="Concept before pixels. One signature move. One technological proof. A review circuit that can say no.">
@@ -19,22 +19,33 @@
 <link rel="stylesheet" href="assets/docs.css">
 <style>
   :root{--hero-pad:clamp(1.25rem,4vw,4.5rem);--max:1480px}
+  *,*::before,*::after{box-sizing:border-box}
   body{background:var(--bg);overflow-x:clip}
-  .lp{position:relative;z-index:1}
-  .lp a{text-decoration:none}
+  html{scrollbar-color:var(--line) var(--bg)}
+  @supports selector(::-webkit-scrollbar){
+    html::-webkit-scrollbar{width:10px;height:10px}
+    html::-webkit-scrollbar-track{background:var(--bg)}
+    html::-webkit-scrollbar-thumb{background:var(--line);border:2px solid var(--bg)}
+  }
+  ::selection{background:var(--acid);color:var(--bg)}
+  .lp{position:relative;z-index:1;font-variant-numeric:tabular-nums;caret-color:var(--acid)}
+  .lp a{text-decoration:none;text-underline-offset:.22em}
   .lp .wrap{width:min(100%,var(--max));margin-inline:auto;padding-inline:var(--hero-pad)}
-  #progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--ember);z-index:120}
+  #progress{position:fixed;top:0;left:0;height:2px;width:100%;transform:scaleX(0);transform-origin:0 50%;background:var(--ember);z-index:120}
+  .skip-link{position:absolute;z-index:150;left:1rem;top:-6rem;padding:.8rem 1rem;background:var(--ink);color:var(--bg)}
+  .skip-link:focus{top:1rem}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
   .site-head{position:absolute;inset:0 0 auto;z-index:30;display:flex;align-items:center;gap:1.4rem;padding:1.2rem var(--hero-pad)}
   .site-head .brand{font:500 14px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;display:inline-flex;align-items:center;min-height:44px}
   .site-head .brand b{color:var(--ember);font-weight:500}
   .site-head .brand i{font-style:normal;color:var(--faint)}
   .site-nav{display:flex;gap:1.5rem;margin-left:auto;font:400 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-  .site-nav a{padding-block:.5rem;border-bottom:1px solid transparent;transition:color .2s,border-color .2s}
+  .site-nav a{display:inline-flex;align-items:center;min-height:44px;padding-block:.5rem;border-bottom:1px solid transparent;transition:color .2s,border-color .2s}
   .site-nav a:hover,.site-nav a:focus-visible{color:var(--ink);border-color:var(--acid)}
-  .langs{display:flex;gap:.35rem;font:400 10px/1 var(--mono);color:var(--faint)}
-  .langs a{border:1px solid var(--line);padding:.4rem .45rem;min-height:30px;display:inline-flex;align-items:center}
+  .langs{display:flex;gap:.35rem;font:400 12px/1 var(--mono);color:var(--faint)}
+  .langs a{border:1px solid var(--line);padding:.4rem .55rem;min-height:44px;display:inline-flex;align-items:center}
   .langs a[aria-current="true"]{border-color:var(--acid);color:var(--acid)}
-  .head-cta{display:inline-flex;align-items:center;min-height:36px;padding:.5rem .7rem;border:1px solid var(--line);font:400 11px/1 var(--mono);color:var(--ink)}
+  .head-cta{display:inline-flex;align-items:center;min-height:44px;padding:.5rem .8rem;border:1px solid var(--line);font:400 12px/1 var(--mono);color:var(--ink)}
   .head-cta:hover{border-color:var(--acid);color:var(--acid)}
   .hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;overflow:clip;isolation:isolate;border-bottom:1px solid var(--line)}
   .hero__fallback{position:absolute;inset:0;z-index:-3;background:radial-gradient(60% 60% at 72% 32%,rgba(255,74,28,.20),transparent 62%),radial-gradient(45% 50% at 24% 72%,rgba(77,124,254,.18),transparent 60%),#0B0B0C}
@@ -43,11 +54,12 @@
   .hero__inner{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:clamp(2rem,5vw,6rem);align-items:end;padding-top:8rem;padding-bottom:clamp(1.5rem,4vw,3rem)}
   .kicker{display:flex;align-items:center;gap:.7rem;font:400 11px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 1.2rem}
   .kicker i{width:7px;height:7px;background:var(--acid);display:inline-block;border-radius:50%}
-  .hero h1{font:400 clamp(6rem,20vw,19rem)/.72 var(--display);letter-spacing:-.065em;margin:0;text-transform:uppercase}
-  .hero h1 span{display:block;transform:translateY(.35em);opacity:0;transition:transform 1.1s cubic-bezier(.16,1,.3,1),opacity .9s}
+  .hero__inner > div:first-child{container-type:inline-size}
+  .hero h1{font:400 min(22cqw,304px)/.86 var(--display);letter-spacing:-.05em;margin:0;text-transform:uppercase;text-wrap:nowrap}
+  .hero h1 span{display:block;transition:transform 1.1s cubic-bezier(.16,1,.3,1),opacity .9s}
+  .js .hero h1 span{transform:translateY(.35em);opacity:0}
   .ready .hero h1 span{transform:none;opacity:1}
-  .hero h1 em{font-style:italic;color:var(--ember)}
-  .hero__tagline{font:400 clamp(1.5rem,3vw,2.5rem)/1.05 var(--display);letter-spacing:-.02em;margin:.2rem 0 .9rem;max-width:18ch}
+  .hero__tagline{font:400 clamp(1.5rem,3vw,2.5rem)/1.05 var(--display);letter-spacing:-.02em;margin:.7rem 0 1rem;max-width:18ch}
   .hero__lede{max-width:48ch;color:var(--muted);font-size:clamp(1rem,1.2vw,1.12rem);margin:0 0 1.7rem}
   .hero__actions{display:flex;flex-wrap:wrap;gap:.7rem;align-items:center}
   .btn{display:inline-flex;align-items:center;gap:.6rem;min-height:46px;padding:.85rem 1.05rem;border:1px solid var(--ink);background:var(--ink);color:#0B0B0C;font:500 12px/1 var(--mono);letter-spacing:.04em;cursor:pointer;transition:background .2s,color .2s,border-color .2s,transform .2s}
@@ -63,7 +75,7 @@
   .hero__card .rule{height:1px;background:var(--line);margin:1rem 0}
   .hero__card a{display:inline-flex;align-items:center;min-height:32px;color:var(--acid);font:400 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;border-bottom:1px solid var(--acid)}
   .hero__foot{display:flex;justify-content:space-between;gap:1.5rem;align-items:flex-end;padding-top:1rem;padding-bottom:1.4rem;border-top:1px solid var(--line);font:400 11px/1.6 var(--mono);color:var(--faint)}
-  .hero__foot p{margin:0;max-width:44ch}
+  .hero__foot p{margin:0;max-width:44ch;text-wrap:pretty}
   .hero__foot b{color:var(--ink);font-weight:400}
   .scroll-cue{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-width:44px;min-height:44px;writing-mode:vertical-rl;font:400 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
   .section{padding-block:clamp(4.5rem,10vw,9rem);border-top:1px solid var(--line)}
@@ -72,47 +84,46 @@
   .section-head h2{grid-column:1/8;font:400 clamp(2.4rem,5.4vw,5.6rem)/.92 var(--display);letter-spacing:-.04em;margin:0;text-wrap:balance}
   .section-head p{grid-column:9/13;margin:0;color:var(--muted);max-width:36ch}
   .label{font:400 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+  .film__copy .label{font-size:12px;line-height:1.4}
+  .standalone{display:inline-flex;align-items:center;min-height:44px;padding-block:.4rem}
   .problem{display:grid;grid-template-columns:repeat(12,1fr);gap:2rem}
   .problem__copy{grid-column:1/6}
   .problem__copy p{color:var(--muted);max-width:38ch;margin:0 0 1rem}
   .problem__copy strong{color:var(--ink);font-weight:500}
   .problem__list{grid-column:7/13;border-top:1px solid var(--line)}
-  .tell{display:grid;grid-template-columns:5.4rem 1fr;gap:.8rem;padding:1rem 0;border-bottom:1px solid var(--line);align-items:baseline}
+  .tell{display:grid;grid-template-columns:5.4rem minmax(0,1fr);gap:.8rem;padding:1rem 0;border-bottom:1px solid var(--line);align-items:baseline}
+  .tell > *{min-width:0}
+  .tell del,.tell .fix{overflow-wrap:anywhere}
   .tell .id{font:400 10px/1.4 var(--mono);color:var(--ember);letter-spacing:.04em}
   .tell del{color:var(--faint);text-decoration-color:var(--ember);font-size:.98rem}
   .tell .fix{display:block;color:var(--muted);font-size:12.5px;margin-top:.2rem}
-  .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:clip;contain:paint;padding:.8rem 0;background:var(--bg-2)}
-  .marquee:hover .marquee__track,.marquee:focus-within .marquee__track{animation-play-state:paused}
-  /* bureau-ignore BS-M04: pauses on hover/focus; reduced-motion fallback */
-  .marquee__track{display:flex;gap:2.5rem;width:max-content;animation:slide 32s linear infinite;font:400 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+  .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:.9rem var(--hero-pad);background:var(--bg-2)}
+  .marquee__track{display:flex;flex-wrap:wrap;gap:.45rem 2.5rem;font:400 11px/1.5 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
   .marquee__track b{color:var(--acid);font-weight:400}
-  @keyframes slide{to{transform:translateX(-50%)}}
   .circuit{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(1.5rem,4vw,4rem);align-items:start}
   .circuit__fig{grid-column:1/9;margin:0;border:1px solid var(--line);background:var(--bg-2)}
   .circuit__fig img{display:block;width:100%;height:auto}
+  .figcap{padding:.6rem .8rem;border-top:1px solid var(--line);font:400 11px/1 var(--mono);color:var(--faint)}
   .circuit__side{grid-column:9/13;position:sticky;top:2rem}
   .circuit__side h3{font:400 1.6rem/1.15 var(--display);margin:.4rem 0 .8rem}
-  .circuit__side p{color:var(--muted);font-size:.95rem;margin:0 0 1rem}
+  .circuit__side p{color:var(--muted);font-size:.85rem;margin:0 0 1rem}
   .weights{display:grid;gap:.4rem;margin:1.2rem 0 1.4rem}
   .weight{display:grid;grid-template-columns:4.2rem 1fr 2rem;gap:.6rem;align-items:center;font:400 10.5px/1 var(--mono);color:var(--faint)}
   .weight i{height:3px;background:var(--line);display:block;position:relative}
   .weight i b{position:absolute;inset:0 auto 0 0;background:var(--acid);display:block}
   .weight em{font-style:normal;color:var(--ink);text-align:right}
   .cap-list{border-top:1px solid var(--line)}
-  .cap{display:grid;grid-template-columns:3.5rem 1.2fr 1.6fr 2.5rem;gap:1rem;align-items:baseline;padding:1.25rem 0;border-bottom:1px solid var(--line);transition:background .2s,padding .2s}
-  .cap:hover{background:var(--bg-2);padding-inline:.6rem}
+  .cap{display:grid;grid-template-columns:3.5rem 1.2fr 1.6fr;gap:1rem;align-items:baseline;padding:1.25rem 0;border-bottom:1px solid var(--line)}
   .cap__n{font:400 10px/1.4 var(--mono);color:var(--ember)}
   .cap__title{font:400 clamp(1.25rem,2vw,1.9rem)/1.05 var(--display);letter-spacing:-.015em}
   .cap__desc{color:var(--muted);font-size:13px;max-width:52ch}
-  .cap__arrow{font:400 16px/1 var(--mono);color:var(--faint);text-align:right}
-  .cap:hover .cap__arrow{color:var(--acid)}
   .film{position:relative;overflow:clip;border-top:1px solid var(--line);min-height:min(78svh,760px);display:flex;align-items:flex-end}
   .film video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.75) contrast(1.1);z-index:0}
   .film__scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,11,12,.1),rgba(11,11,12,.9));z-index:1}
   .film__copy{position:relative;z-index:2;width:100%;padding-bottom:clamp(2rem,5vw,4rem);display:flex;justify-content:space-between;align-items:end;gap:2rem}
   .film__copy h2{font:400 clamp(2rem,4.6vw,4.8rem)/.95 var(--display);letter-spacing:-.035em;margin:.4rem 0 0;max-width:15ch}
-  .film__copy p{max-width:32ch;color:var(--muted);font-size:12.5px;margin:0}
-  .pause{position:absolute;right:var(--hero-pad);top:1.2rem;z-index:3;min-height:36px;padding:.5rem .6rem;border:1px solid var(--line);background:rgba(11,11,12,.65);color:var(--ink);font:400 10px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+  .film__copy p{max-width:32ch;color:var(--muted);font-size:12.5px;line-height:1.5;margin:0}
+  .pause{position:absolute;right:var(--hero-pad);top:1.2rem;z-index:3;min-height:36px;padding:.5rem .6rem;border:1px solid var(--line);background:rgba(11,11,12,.65);color:var(--ink);font:400 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
   .pause:hover{border-color:var(--acid);color:var(--acid)}
   .demos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.25rem}
   .demo{display:flex;flex-direction:column;border:1px solid var(--line);background:var(--bg-2);min-width:0;position:relative;text-decoration:none}
@@ -137,14 +148,20 @@
   .install__copy p{color:var(--muted);max-width:32ch}
   .install__panel{grid-column:5/13}
   .tabs{display:flex;flex-wrap:wrap;gap:.35rem;border-bottom:1px solid var(--line);margin-bottom:1rem}
-  .tab{background:transparent;border:0;border-bottom:1px solid transparent;color:var(--faint);font:400 11px/1 var(--mono);letter-spacing:.06em;padding:.7rem .5rem;cursor:pointer;min-height:40px}
+  .tab{background:transparent;border:0;border-bottom:1px solid transparent;color:var(--faint);font:400 12px/1 var(--mono);letter-spacing:.06em;padding:.7rem .5rem;cursor:pointer;min-height:40px}
   .tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--ember)}
   .tab:hover{color:var(--ink)}
   .panel[hidden]{display:none}
   .cmd{position:relative;background:var(--code);border:1px solid var(--line);padding:1rem 1.1rem;overflow:auto}
+  .cmd:focus-visible{outline:2px solid var(--acid);outline-offset:2px}
   .cmd code{font:400 12px/1.7 var(--mono);color:var(--ink);white-space:pre}
-  .cmd .copy{position:absolute;right:.5rem;top:.5rem;background:var(--surface);border:1px solid var(--line);color:var(--muted);font:400 9.5px/1 var(--mono);padding:.35rem .45rem;cursor:pointer}
+  .cmd .copy{position:absolute;right:.5rem;top:.5rem;background:var(--surface);border:1px solid var(--line);color:var(--muted);font:400 12px/1 var(--mono);padding:.35rem .45rem;cursor:pointer}
   .cmd .copy:hover{border-color:var(--acid);color:var(--acid)}
+  @media (max-width:640px){
+    .cmd{display:flex;flex-direction:column;gap:.55rem;padding:.7rem .8rem}
+    .cmd .copy{position:static;order:-1;align-self:flex-end}
+    .cmd code{white-space:pre-wrap;overflow-wrap:anywhere}
+  }
   .install__note{font:400 11px/1.6 var(--mono);color:var(--faint);margin:.8rem 0 0}
   .docs-list{display:grid;gap:0;border-top:1px solid var(--line)}
   .doc-link{display:grid;grid-template-columns:7rem 1fr auto;gap:1rem;align-items:baseline;padding:1.2rem 0;border-bottom:1px solid var(--line)}
@@ -154,14 +171,35 @@
   .doc-link:hover strong{color:var(--acid)}
   .site-foot{border-top:1px solid var(--line);padding:2rem 0 2.5rem;display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem;font:400 11px/1.7 var(--mono);color:var(--faint)}
   .site-foot p{margin:0}
-  .site-foot a{border-bottom:1px solid var(--line)}
+  .site-foot a{display:inline-block;padding-block:.3rem;border-bottom:1px solid var(--line)}
   .site-foot a:hover{color:var(--acid);border-color:var(--acid)}
   .site-foot .right{text-align:right}
+  .no-io .reveal{opacity:1;transform:none}
   .js .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
   .js .reveal.in{opacity:1;transform:none}
+  @media (max-width:720px){
+    .demo--lead .demo__media{min-height:0;aspect-ratio:16/10}
+    .doc-link{grid-template-columns:minmax(0,1fr);gap:.2rem}
+    .circuit__side{grid-column:1/-1;position:static}
+    .weight{grid-template-columns:3rem minmax(0,1fr) 2rem}
+    .circuit{grid-template-columns:minmax(0,1fr);gap:1rem}
+    .circuit > *{grid-column:1/-1;min-width:0}
+  }
+  @media (max-width:900px){.circuit__fig{grid-column:1/-1;border:0;background:transparent}.circuit__fig img{display:none}.figcap{border-top:0;padding-inline:0}}
+  @media print{.js .reveal,.js .hero h1 span{opacity:1;transform:none}.skip-link,.pause,#gl{display:none}}
+  @media (max-height:680px){
+    .hero__inner{padding-top:5.5rem}
+    .hero__tagline{font-size:1.35rem}
+    .hero__lede{font-size:.95rem;margin-bottom:1.1rem}
+  }
   @media (max-width:1100px){
-    .site-nav{display:none}
-    .hero__inner{grid-template-columns:1fr;gap:2rem}
+    .hero{min-height:min(100svh,860px)}
+    .site-head{flex-wrap:wrap;gap:.5rem}
+    .site-nav{display:flex;flex-wrap:wrap;order:3;width:100%;overflow:visible;gap:.25rem 1rem;margin:0;white-space:normal}
+    .site-nav a{flex:none;min-height:44px;display:inline-flex;align-items:center}
+    .langs{display:flex;order:4;margin-left:0}
+    .head-cta{order:5}
+    .hero__inner{grid-template-columns:1fr;gap:2rem;padding-top:13.5rem}
     .hero__card{max-width:420px}
     .problem__copy,.problem__list{grid-column:1/13}
     .circuit__fig{grid-column:1/13}
@@ -173,14 +211,14 @@
     .demo--lead{grid-column:1/-1;grid-row:auto}
   }
   @media (max-width:720px){
+    .section-head,.problem,.install{grid-template-columns:minmax(0,1fr)}
+    .section-head h2,.section-head p,.problem__copy,.problem__list,.install__copy,.install__panel{grid-column:1/-1}
     .demos{grid-template-columns:minmax(0,1fr)}
     .demo__tag{display:none}
-    .langs,.head-cta{display:none}
-    .hero h1{font-size:clamp(5rem,23vw,8rem)}
-    .hero__inner{padding-top:6.5rem}
-    .section-head h2,.section-head p{grid-column:1/13}
-    .cap{grid-template-columns:2.6rem 1fr 2rem;row-gap:.3rem}
-    .cap__desc{grid-column:2/4}
+    .head-cta{display:none}
+    .hero__inner{padding-top:17rem}
+    .cap{grid-template-columns:2.6rem 1fr;row-gap:.3rem}
+    .cap__desc{grid-column:2/3}
     .film__copy{flex-direction:column;align-items:flex-start;gap:.6rem}
     .site-foot{grid-template-columns:1fr}
     .site-foot .right{text-align:left}
@@ -193,8 +231,11 @@
     .hero h1 span,.reveal,.js .reveal{opacity:1;transform:none}
   }
 </style>
+<noscript><style>.panel[hidden]{display:block}.tabs{display:none}.cmd{padding-right:1rem}.cmd .copy,.pause{display:none}</style></noscript>
+<script>if ("IntersectionObserver" in window) { document.documentElement.classList.add("js"); } else { document.documentElement.classList.add("no-io"); }</script>
 </head>
 <body class="lp">
+<a class="skip-link" href="#top">Skip to main content</a>
 <div id="progress"></div>
 <header class="site-head">
   <a class="brand" href="#top">Bureau<b>/</b><i>design os</i></a>
@@ -206,15 +247,15 @@
     <a href="#install">Install</a>
     <a href="#docs">Docs</a>
   </nav>
-  <div class="langs" aria-label="Language">
+  <nav class="langs" aria-label="Language">
     <a href="pt-BR/index.html">PT</a>
     <a href="en/index.html">EN</a>
     <a href="es/index.html">ES</a>
-  </div>
+  </nav>
   <a class="head-cta" href="https://github.com/acf1210/bureau" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
 </header>
 
-<main id="top">
+<main id="top" tabindex="-1">
   <section class="hero">
     <div class="hero__fallback" aria-hidden="true"></div>
     <canvas id="gl" aria-hidden="true"></canvas>
@@ -228,15 +269,15 @@
         <p class="hero__lede">Concept, art direction, motion, WebGL, Figma, Playwright evidence, accessibility, performance, and a review circuit that can say no. Installs into Claude, Codex, Antigravity and Hermes.</p>
         <div class="hero__actions">
           <a class="btn" href="#install">Install the skill <span aria-hidden="true">↓</span></a>
-          <a class="btn btn--ghost" href="pt-BR/index.html">Read the docs <span aria-hidden="true">↗</span></a>
+          <a class="btn btn--ghost" href="en/index.html">Read the docs <span aria-hidden="true">↗</span></a>
         </div>
       </div>
       <aside class="hero__card" aria-label="BUREAU at a glance">
         <p class="label">The operating system</p>
         <dl>
           <dt>Review gates</dt><dd>10</dd>
-          <dt>Depth modules</dt><dd>23</dd>
-          <dt>Live templates</dt><dd>3</dd>
+          <dt>Depth modules</dt><dd>30</dd>
+          <dt>Live templates</dt><dd>13</dd>
           <dt>Languages</dt><dd>3</dd>
         </dl>
         <div class="rule"></div>
@@ -252,9 +293,8 @@
     </div>
   </section>
 
-  <div class="marquee" aria-hidden="true">
+  <div class="marquee">
     <div class="marquee__track">
-      <span><b>Concept before pixels</b></span><span>One signature move</span><span>One technological proof</span><span>Truth as material</span><span>Evidence or it did not happen</span><span>Access is craft</span><span>Performance is aesthetics</span>
       <span><b>Concept before pixels</b></span><span>One signature move</span><span>One technological proof</span><span>Truth as material</span><span>Evidence or it did not happen</span><span>Access is craft</span><span>Performance is aesthetics</span>
     </div>
   </div>
@@ -262,13 +302,13 @@
   <section class="section section--first wrap" id="problem">
     <div class="section-head">
       <h2 class="reveal">The average is the enemy.</h2>
-      <p class="reveal">Models are trained on the internet's mean. Without direction, that mean becomes the design. BUREAU replaces the reflex with a decision.</p>
+      <p class="reveal">Models are trained on the internet’s mean. Without direction, that mean becomes the design. BUREAU replaces the reflex with a decision.</p>
     </div>
     <div class="problem">
       <div class="problem__copy reveal">
-        <p><strong>Slop is not "made by AI".</strong> It is the same hero, the same gradient, the same three cards, the same vague promise — reproduced without a point of view.</p>
+        <p><strong>Slop is not “made by AI”.</strong> It is the same hero, the same gradient, the same three cards, the same vague promise — reproduced without a point of view.</p>
         <p>The fix is not more decoration. It is a specific subject, a real constraint, a named signature, and a review that refuses to average a hard failure away.</p>
-        <p><a href="pt-BR/antislop.html" style="border-bottom:1px solid var(--line)">Read the anti-slop taxonomy ↗</a></p>
+        <p><a class="standalone" href="en/antislop.html" style="border-bottom:1px solid var(--line)">Read the anti-slop taxonomy ↗</a></p>
       </div>
       <ul class="problem__list reveal" style="list-style:none;margin:0;padding:0">
         <li class="tell"><span class="id">BS-K01</span><span><del>Purple-to-blue gradient as the brand</del><span class="fix">→ Anchor the palette in a material, a place, a memory.</span></span></li>
@@ -289,24 +329,25 @@
     <div class="circuit">
       <figure class="circuit__fig reveal">
         <img src="assets/diagrams/circuit.svg" alt="Diagram of the BUREAU review circuit: Gate Zero, nine weighted gates, hard failures, verdict ladder and the Tribunal." width="1600" height="1100" loading="lazy">
+        <figcaption class="figcap"><a class="standalone" href="assets/diagrams/circuit.svg" target="_blank" rel="noopener noreferrer">Open the circuit at full size ↗</a></figcaption>
       </figure>
       <aside class="circuit__side reveal">
         <p class="label">Weighted attention</p>
-        <h3>Design is 41 points. Evidence is the rest.</h3>
+        <h3>Concept, direction and type carry 41 points.</h3>
         <p>Direction and concept carry the most weight, because a technically clean page with no idea is still a failure.</p>
-        <div class="weights" aria-hidden="true">
-          <div class="weight"><span>G0</span><i><b style="width:5%"></b></i><em>5</em></div>
-          <div class="weight"><span>G1</span><i><b style="width:14%"></b></i><em>14</em></div>
-          <div class="weight"><span>G2</span><i><b style="width:15%"></b></i><em>15</em></div>
-          <div class="weight"><span>G3</span><i><b style="width:12%"></b></i><em>12</em></div>
-          <div class="weight"><span>G4</span><i><b style="width:12%"></b></i><em>12</em></div>
-          <div class="weight"><span>G5</span><i><b style="width:12%"></b></i><em>12</em></div>
-          <div class="weight"><span>G6</span><i><b style="width:10%"></b></i><em>10</em></div>
-          <div class="weight"><span>G7</span><i><b style="width:9%"></b></i><em>9</em></div>
-          <div class="weight"><span>G8</span><i><b style="width:8%"></b></i><em>8</em></div>
-          <div class="weight"><span>G9</span><i><b style="width:3%"></b></i><em>3</em></div>
+        <div class="weights">
+          <div class="weight"><span>G0</span><i aria-hidden="true"><b style="width:5%"></b></i><em>5</em></div>
+          <div class="weight"><span>G1</span><i aria-hidden="true"><b style="width:14%"></b></i><em>14</em></div>
+          <div class="weight"><span>G2</span><i aria-hidden="true"><b style="width:15%"></b></i><em>15</em></div>
+          <div class="weight"><span>G3</span><i aria-hidden="true"><b style="width:12%"></b></i><em>12</em></div>
+          <div class="weight"><span>G4</span><i aria-hidden="true"><b style="width:12%"></b></i><em>12</em></div>
+          <div class="weight"><span>G5</span><i aria-hidden="true"><b style="width:12%"></b></i><em>12</em></div>
+          <div class="weight"><span>G6</span><i aria-hidden="true"><b style="width:10%"></b></i><em>10</em></div>
+          <div class="weight"><span>G7</span><i aria-hidden="true"><b style="width:9%"></b></i><em>9</em></div>
+          <div class="weight"><span>G8</span><i aria-hidden="true"><b style="width:8%"></b></i><em>8</em></div>
+          <div class="weight"><span>G9</span><i aria-hidden="true"><b style="width:3%"></b></i><em>3</em></div>
         </div>
-        <p><a href="pt-BR/review-circuit.html" style="border-bottom:1px solid var(--line)">Read the rubric ↗</a></p>
+        <p><a class="standalone" href="en/review-circuit.html" style="border-bottom:1px solid var(--line)">Read the rubric ↗</a></p>
       </aside>
     </div>
   </section>
@@ -317,30 +358,30 @@
       <p class="reveal">Twelve capabilities that normally require a creative director, an art director, a motion designer, a creative technologist and an editor.</p>
     </div>
     <div class="cap-list">
-      <div class="cap reveal"><span class="cap__n">01</span><span class="cap__title">Creative direction</span><span class="cap__desc">Three genuinely distinct directions, a weighted decision, a signature move and a technological proof.</span><span class="cap__arrow">↘</span></div>
-      <div class="cap reveal"><span class="cap__n">02</span><span class="cap__title">Art direction</span><span class="cap__desc">Ground, voice, light, material, palette, image grade and forbidden moves — written before components.</span><span class="cap__arrow">↘</span></div>
-      <div class="cap reveal"><span class="cap__n">03</span><span class="cap__title">Design system</span><span class="cap__desc">OKLCH tokens, fluid type, spacing, radius, motion grammar, contrast checks and Tailwind export.</span><span class="cap__arrow">↘</span></div>
-      <div class="cap reveal"><span class="cap__n">04</span><span class="cap__title">Motion &amp; WebGL</span><span class="cap__desc">Choreography, scroll narratives, shaders, Three.js/R3F, particles, video, parallax and reduced-motion design.</span><span class="cap__arrow">↘</span></div>
-      <div class="cap reveal"><span class="cap__n">05</span><span class="cap__title">Figma → code</span><span class="cap__desc">MCP or exported variables, comps, handoff, token sync and side-by-side fidelity checks at the same viewport.</span><span class="cap__arrow">↘</span></div>
-      <div class="cap reveal"><span class="cap__n">06</span><span class="cap__title">Playwright evidence</span><span class="cap__desc">Four viewports, contrast, overflow, console, requests, LCP, CLS, long tasks, reduced motion and screenshots.</span><span class="cap__arrow">↘</span></div>
-      <div class="cap reveal"><span class="cap__n">07</span><span class="cap__title">Accessibility</span><span class="cap__desc">WCAG 2.2 AA as a hard floor: keyboard, focus, semantics, targets, captions, zoom and cognitive clarity.</span><span class="cap__arrow">↘</span></div>
-      <div class="cap reveal"><span class="cap__n">08</span><span class="cap__title">Performance</span><span class="cap__desc">Budgets for LCP, INP, CLS, JS, fonts and hero media, enforced in the review instead of promised in a deck.</span><span class="cap__arrow">↘</span></div>
-      <div class="cap reveal"><span class="cap__n">09</span><span class="cap__title">Anti-AI-slop</span><span class="cap__desc">A deterministic detector plus a 40-signal taxonomy, P0 rules, copy replacements and a Gate 8 veto.</span><span class="cap__arrow">↘</span></div>
-      <div class="cap reveal"><span class="cap__n">10</span><span class="cap__title">Copy &amp; truth</span><span class="cap__desc">Voice axes, headline structures, microcopy, a claims ledger, SEO, hreflang and PT/EN/ES content rules.</span><span class="cap__arrow">↘</span></div>
-      <div class="cap reveal"><span class="cap__n">11</span><span class="cap__title">Ship &amp; evolve</span><span class="cap__desc">OG, metadata, sitemap, consent, analytics, monitoring, rollback, post-launch iteration and graceful retirement.</span><span class="cap__arrow">↘</span></div>
-      <div class="cap reveal"><span class="cap__n">12</span><span class="cap__title">Four hosts</span><span class="cap__desc">One payload for Claude Code, Codex, Antigravity and Hermes, with installers, rules, commands and a doctor.</span><span class="cap__arrow">↘</span></div>
+      <div class="cap reveal"><span class="cap__n">01</span><span class="cap__title">Creative direction</span><span class="cap__desc">Three genuinely distinct directions, a weighted decision, a signature move and a technological proof.</span></div>
+      <div class="cap reveal"><span class="cap__n">02</span><span class="cap__title">Art direction</span><span class="cap__desc">Ground, voice, light, material, palette, image grade and forbidden moves — written before components.</span></div>
+      <div class="cap reveal"><span class="cap__n">03</span><span class="cap__title">Design system</span><span class="cap__desc">OKLCH tokens, fluid type, spacing, radius, motion grammar, contrast checks and Tailwind export.</span></div>
+      <div class="cap reveal"><span class="cap__n">04</span><span class="cap__title">Motion &amp; WebGL</span><span class="cap__desc">Choreography, scroll narratives, shaders, Three.js/R3F, particles, video, parallax and reduced-motion design.</span></div>
+      <div class="cap reveal"><span class="cap__n">05</span><span class="cap__title">Figma → code</span><span class="cap__desc">MCP or exported variables, comps, handoff, token sync and side-by-side fidelity checks at the same viewport.</span></div>
+      <div class="cap reveal"><span class="cap__n">06</span><span class="cap__title">Playwright evidence</span><span class="cap__desc">Four viewports, contrast, overflow, console, requests, LCP, CLS, long tasks, reduced motion and screenshots.</span></div>
+      <div class="cap reveal"><span class="cap__n">07</span><span class="cap__title">Accessibility</span><span class="cap__desc">WCAG 2.2 AA as a hard floor: keyboard, focus, semantics, targets, captions, zoom and cognitive clarity.</span></div>
+      <div class="cap reveal"><span class="cap__n">08</span><span class="cap__title">Performance</span><span class="cap__desc">Budgets for LCP, INP, CLS, JS, fonts and hero media, enforced in the review instead of promised in a deck.</span></div>
+      <div class="cap reveal"><span class="cap__n">09</span><span class="cap__title">Anti-AI-slop</span><span class="cap__desc">A deterministic detector over 32 rules plus a 106-signal taxonomy, P0 rules, copy replacements and a Gate 8 veto.</span></div>
+      <div class="cap reveal"><span class="cap__n">10</span><span class="cap__title">Copy &amp; truth</span><span class="cap__desc">Voice axes, headline structures, microcopy, a claims ledger, SEO, hreflang and PT/EN/ES content rules.</span></div>
+      <div class="cap reveal"><span class="cap__n">11</span><span class="cap__title">Ship &amp; evolve</span><span class="cap__desc">OG, metadata, sitemap, consent, analytics, monitoring, rollback, post-launch iteration and graceful retirement.</span></div>
+      <div class="cap reveal"><span class="cap__n">12</span><span class="cap__title">Four hosts</span><span class="cap__desc">One payload for Claude Code, Codex, Antigravity and Hermes, with installers, rules, commands and a doctor.</span></div>
     </div>
   </section>
 
   <section class="film">
-    <video autoplay muted loop playsinline poster="assets/video/ambient-poster.jpg" aria-hidden="true" tabindex="-1" id="film">
+    <video muted loop playsinline preload="none" poster="assets/video/ambient-poster.jpg" aria-hidden="true" tabindex="-1" id="film">
       <source src="assets/video/ambient.mp4" type="video/mp4">
     </video>
     <div class="film__scrim" aria-hidden="true"></div>
-    <button class="pause" id="pause" type="button" aria-pressed="false">Pause film</button>
+    <button class="pause" id="pause" type="button">Pause film</button>
     <div class="film__copy wrap">
       <div>
-        <p class="label">Technological proof / moving image</p>
+        <p class="label">Ambient film / moving image</p>
         <h2>A page is an argument, not a container.</h2>
       </div>
       <p>Ambient loop generated for this repository. Muted, inline and pausable. The same discipline applies to a product film, a shader or a scroll scene.</p>
@@ -350,11 +391,11 @@
   <section class="section wrap" id="demos">
     <div class="section-head">
       <h2 class="reveal">Thirteen worlds. Thirteen lineages.</h2>
-      <p class="reveal">Each template blends three designers on three axes, has a mobile composition of its own, and shares no fingerprint with the others. Study the blend, then write your own.</p>
+      <p class="reveal">Each template blends three designers on three axes and has a mobile composition of its own; the landing shares at most 0.08 of its fingerprint with any of them. Study the blend, then <a class="standalone" href="demos/index.html" style="border-bottom:1px solid var(--line)">open the demo index ↗</a> or write your own.</p>
     </div>
     <div class="demos">
       <!-- gallery:start -->
-      <a class="demo demo--lead" href="demos/kinetic-editorial/index.html">
+      <a class="demo demo--lead" href="demos/kinetic-editorial/index.html" aria-label="Kinetic Editorial: Night journal. Tschichold × Lubalin × Bass. An index filed by the live Lisbon hour.">
         <div class="demo__media">
           <picture><source type="image/avif" srcset="assets/img/demos/kinetic-editorial-desktop.avif"><img src="assets/img/demos/kinetic-editorial-desktop.webp" alt="Kinetic Editorial: An italic Bodoni headline on a blue-black ground, with the issue contents in a margin column." width="1200" height="750" loading="lazy"></picture>
           <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/kinetic-editorial-mobile.avif"><img src="assets/img/demos/kinetic-editorial-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
@@ -364,7 +405,7 @@
           <span class="demo__tag">Night journal</span>
         </div>
       </a>
-      <a class="demo" href="demos/product-surface/index.html">
+      <a class="demo" href="demos/product-surface/index.html" aria-label="Product Surface: Planning desk. Tufte × Vignelli × Aicher. Raise the waterline; the order of failure follows.">
         <div class="demo__media">
           <picture><source type="image/avif" srcset="assets/img/demos/product-surface-desktop.avif"><img src="assets/img/demos/product-surface-desktop.webp" alt="Product Surface: A coastal planning desk in IBM Plex with a waterline slider and a direct-labelled chart." width="1200" height="750" loading="lazy"></picture>
           <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/product-surface-mobile.avif"><img src="assets/img/demos/product-surface-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
@@ -374,7 +415,7 @@
           <span class="demo__tag">Planning desk</span>
         </div>
       </a>
-      <a class="demo" href="demos/immersive-experience/index.html">
+      <a class="demo" href="demos/immersive-experience/index.html" aria-label="Immersive Experience: Light installation. Moholy-Nagy × Cooper × Eames. Shift the light; shader, title and focus follow.">
         <div class="demo__media">
           <picture><source type="image/avif" srcset="assets/img/demos/immersive-experience-desktop.avif"><img src="assets/img/demos/immersive-experience-desktop.webp" alt="Immersive Experience: WebGL beams of ember light behind the word HALFLIGHT set on two planes." width="1200" height="750" loading="lazy"></picture>
           <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/immersive-experience-mobile.avif"><img src="assets/img/demos/immersive-experience-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
@@ -384,7 +425,7 @@
           <span class="demo__tag">Light installation</span>
         </div>
       </a>
-      <a class="demo" href="demos/legal-practice/index.html">
+      <a class="demo" href="demos/legal-practice/index.html" aria-label="Legal Practice: Arbitration chambers. Sutnar × Rand × Ruder. Every clause in two registers: legal and plain.">
         <div class="demo__media">
           <picture><source type="image/avif" srcset="assets/img/demos/legal-practice-desktop.avif"><img src="assets/img/demos/legal-practice-desktop.webp" alt="Legal Practice: A serif headline beside an engagement letter with a Legal and Plain switch." width="1200" height="750" loading="lazy"></picture>
           <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/legal-practice-mobile.avif"><img src="assets/img/demos/legal-practice-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
@@ -394,7 +435,7 @@
           <span class="demo__tag">Arbitration chambers</span>
         </div>
       </a>
-      <a class="demo" href="demos/architecture-studio/index.html">
+      <a class="demo" href="demos/architecture-studio/index.html" aria-label="Architecture Studio: Architecture studio. Ando × Mies × Scarpa. A slit of daylight that opens as you scroll.">
         <div class="demo__media">
           <picture><source type="image/avif" srcset="assets/img/demos/architecture-studio-desktop.avif"><img src="assets/img/demos/architecture-studio-desktop.webp" alt="Architecture Studio: Condensed uppercase type on a dark concrete wall split by a vertical slit of light." width="1200" height="750" loading="lazy"></picture>
           <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/architecture-studio-mobile.avif"><img src="assets/img/demos/architecture-studio-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
@@ -404,7 +445,7 @@
           <span class="demo__tag">Architecture studio</span>
         </div>
       </a>
-      <a class="demo" href="demos/restaurant-table/index.html">
+      <a class="demo" href="demos/restaurant-table/index.html" aria-label="Restaurant Table: Tasting counter. Barragán × Wyman × J. Albers. Choose your seats on the counter arc.">
         <div class="demo__media">
           <picture><source type="image/avif" srcset="assets/img/demos/restaurant-table-desktop.avif"><img src="assets/img/demos/restaurant-table-desktop.webp" alt="Restaurant Table: Rosa, ochre and lavender colour planes with a ringed wordmark and a serif headline." width="1200" height="750" loading="lazy"></picture>
           <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/restaurant-table-mobile.avif"><img src="assets/img/demos/restaurant-table-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
@@ -414,7 +455,7 @@
           <span class="demo__tag">Tasting counter</span>
         </div>
       </a>
-      <a class="demo" href="demos/private-bank/index.html">
+      <a class="demo" href="demos/private-bank/index.html" aria-label="Private Bank: Family office. Müller-Brockmann × Crouwel × Tufte. Compounding with your numbers, formula shown.">
         <div class="demo__media">
           <picture><source type="image/avif" srcset="assets/img/demos/private-bank-desktop.avif"><img src="assets/img/demos/private-bank-desktop.webp" alt="Private Bank: A modular grid with a large monospaced future value, sliders and stepped bars." width="1200" height="750" loading="lazy"></picture>
           <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/private-bank-mobile.avif"><img src="assets/img/demos/private-bank-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
@@ -424,7 +465,7 @@
           <span class="demo__tag">Family office</span>
         </div>
       </a>
-      <a class="demo" href="demos/clinic-care/index.html">
+      <a class="demo" href="demos/clinic-care/index.html" aria-label="Clinic Care: Respiratory clinic. Hara × Kare × Tanaka. A breathing guide that starts only when pressed.">
         <div class="demo__media">
           <picture><source type="image/avif" srcset="assets/img/demos/clinic-care-desktop.avif"><img src="assets/img/demos/clinic-care-desktop.webp" alt="Clinic Care: A calm serif headline in wide white space beside flat green lungs and a small sun." width="1200" height="750" loading="lazy"></picture>
           <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/clinic-care-mobile.avif"><img src="assets/img/demos/clinic-care-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
@@ -434,7 +475,7 @@
           <span class="demo__tag">Respiratory clinic</span>
         </div>
       </a>
-      <a class="demo" href="demos/developer-api/index.html">
+      <a class="demo" href="demos/developer-api/index.html" aria-label="Developer API: Geocoding API. Gerstner × Weingart × Greiman. A playground that really matches typos.">
         <div class="demo__media">
           <picture><source type="image/avif" srcset="assets/img/demos/developer-api-desktop.avif"><img src="assets/img/demos/developer-api-desktop.webp" alt="Developer API: A light console with a search query, a JSON response and a colour swatch derived from longitude." width="1200" height="750" loading="lazy"></picture>
           <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/developer-api-mobile.avif"><img src="assets/img/demos/developer-api-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
@@ -444,7 +485,7 @@
           <span class="demo__tag">Geocoding API</span>
         </div>
       </a>
-      <a class="demo" href="demos/fashion-atelier/index.html">
+      <a class="demo" href="demos/fashion-atelier/index.html" aria-label="Fashion Atelier: Tailoring atelier. Brodovitch × A. Albers × B. Thompson. A pattern drafted from your measurements.">
         <div class="demo__media">
           <picture><source type="image/avif" srcset="assets/img/demos/fashion-atelier-desktop.avif"><img src="assets/img/demos/fashion-atelier-desktop.webp" alt="Fashion Atelier: A high-contrast serif headline beside three overprinted cloth colours and a cropped giant wordmark." width="1200" height="750" loading="lazy"></picture>
           <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/fashion-atelier-mobile.avif"><img src="assets/img/demos/fashion-atelier-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
@@ -454,7 +495,7 @@
           <span class="demo__tag">Tailoring atelier</span>
         </div>
       </a>
-      <a class="demo" href="demos/record-label/index.html">
+      <a class="demo" href="demos/record-label/index.html" aria-label="Record Label: Record label. Reid Miles × Saville × Brody. Type-only sleeves that play a synthesised sketch.">
         <div class="demo__media">
           <picture><source type="image/avif" srcset="assets/img/demos/record-label-desktop.avif"><img src="assets/img/demos/record-label-desktop.webp" alt="Record Label: Condensed blue numerals and a wide black headline beside a yellow and blue type-only record sleeve." width="1200" height="750" loading="lazy"></picture>
           <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/record-label-mobile.avif"><img src="assets/img/demos/record-label-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
@@ -464,7 +505,7 @@
           <span class="demo__tag">Record label</span>
         </div>
       </a>
-      <a class="demo" href="demos/museum-archive/index.html">
+      <a class="demo" href="demos/museum-archive/index.html" aria-label="Museum Archive: Photographic archive. Bo Bardi × Lustig × Munari. Glass easels with the record on the back.">
         <div class="demo__media">
           <picture><source type="image/avif" srcset="assets/img/demos/museum-archive-desktop.avif"><img src="assets/img/demos/museum-archive-desktop.webp" alt="Museum Archive: A bold grotesque headline between two red beams, over a room of glass easels with abstract signs." width="1200" height="750" loading="lazy"></picture>
           <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/museum-archive-mobile.avif"><img src="assets/img/demos/museum-archive-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
@@ -474,7 +515,7 @@
           <span class="demo__tag">Photographic archive</span>
         </div>
       </a>
-      <a class="demo demo--close" href="demos/hardware-store/index.html">
+      <a class="demo demo--close" href="demos/hardware-store/index.html" aria-label="Hardware Store: Product shop. Rams × Sottsass × Castiglioni. Configure the lamp, then see it apart, priced.">
         <div class="demo__media">
           <picture><source type="image/avif" srcset="assets/img/demos/hardware-store-desktop.avif"><img src="assets/img/demos/hardware-store-desktop.webp" alt="Hardware Store: A grey lamp configurator with colour options and an illustrated desk lamp with a yellow shade." width="1200" height="750" loading="lazy"></picture>
           <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/hardware-store-mobile.avif"><img src="assets/img/demos/hardware-store-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
@@ -496,7 +537,7 @@
     <div class="install">
       <div class="install__copy reveal">
         <p>Requires Node 20+. Playwright is optional and degrades to manual screenshots. Figma MCP is optional and degrades to exported variables.</p>
-        <p><a href="pt-BR/install.html" style="border-bottom:1px solid var(--line)">Installation guide ↗</a></p>
+        <p><a class="standalone" href="en/install.html" style="border-bottom:1px solid var(--line)">Installation guide ↗</a></p>
         <p class="install__note">Windows: use <code>install.ps1</code>. Uninstall removes only folders with the BUREAU marker.</p>
       </div>
       <div class="install__panel reveal">
@@ -507,25 +548,26 @@
           <button class="tab" role="tab" id="tab-hermes" aria-controls="panel-hermes" aria-selected="false" tabindex="-1">Hermes</button>
         </div>
         <div class="panel" role="tabpanel" id="panel-claude" aria-labelledby="tab-claude">
-          <div class="cmd"><button class="copy" type="button">copy</button><code>git clone https://github.com/acf1210/bureau.git
+          <div class="cmd" role="group" aria-label="Claude Code install command"><button class="copy" type="button" aria-label="Copy the Claude Code install command">copy</button><code>git clone https://github.com/acf1210/bureau.git
 cd bureau
 bash installers/install.sh --agent claude --scope user</code></div>
         </div>
         <div class="panel" role="tabpanel" id="panel-codex" aria-labelledby="tab-codex" hidden>
-          <div class="cmd"><button class="copy" type="button">copy</button><code>git clone https://github.com/acf1210/bureau.git
+          <div class="cmd" role="group" aria-label="Codex install command"><button class="copy" type="button" aria-label="Copy the Codex install command">copy</button><code>git clone https://github.com/acf1210/bureau.git
 cd bureau
 bash installers/install.sh --agent codex --scope user</code></div>
         </div>
         <div class="panel" role="tabpanel" id="panel-antigravity" aria-labelledby="tab-antigravity" hidden>
-          <div class="cmd"><button class="copy" type="button">copy</button><code>git clone https://github.com/acf1210/bureau.git
+          <div class="cmd" role="group" aria-label="Antigravity install command"><button class="copy" type="button" aria-label="Copy the Antigravity install command">copy</button><code>git clone https://github.com/acf1210/bureau.git
 cd bureau
 bash installers/install.sh --agent antigravity --scope user</code></div>
         </div>
         <div class="panel" role="tabpanel" id="panel-hermes" aria-labelledby="tab-hermes" hidden>
-          <div class="cmd"><button class="copy" type="button">copy</button><code>git clone https://github.com/acf1210/bureau.git
+          <div class="cmd" role="group" aria-label="Hermes install command"><button class="copy" type="button" aria-label="Copy the Hermes install command">copy</button><code>git clone https://github.com/acf1210/bureau.git
 cd bureau
 bash installers/install.sh --agent hermes --scope user</code></div>
         </div>
+        <p class="sr-only" role="status" aria-live="polite" id="copy-status"></p>
         <p class="install__note">Or install everywhere: <code>bash installers/install.sh --agent all --scope user --dry-run</code></p>
       </div>
     </div>
@@ -542,16 +584,15 @@ bash installers/install.sh --agent hermes --scope user</code></div>
       <a class="doc-link reveal" href="es/index.html"><span>ES-ES</span><strong>Español</strong><em>Leer ↗</em></a>
     </div>
   </section>
-
-  <footer class="site-foot wrap">
-    <p><b style="color:var(--ink);font-weight:500">BUREAU</b><br>Autonomous digital design bureau.<br>v{{VERSION}}, MIT licence, {{DATE}}</p>
-    <p>Concept, direction, motion, WebGL, video, Figma, Playwright, access, performance and anti-slop review.<br><a href="https://github.com/acf1210/bureau" target="_blank" rel="noopener noreferrer">GitHub ↗</a><br><a href="pt-BR/install.html">Install</a><br><a href="pt-BR/review-circuit.html">Circuit</a></p>
-    <p class="right">Inspired by Impeccable, Colorfigures, Font Awesome and the galleries in the reference library.<br>PANTONE® is a trademark of Pantone LLC. BUREAU is not affiliated.</p>
-  </footer>
 </main>
 
+<footer class="site-foot wrap">
+    <p><b style="color:var(--ink);font-weight:500">BUREAU</b><br>Autonomous digital design bureau.<br>v{{VERSION}}, MIT licence, {{DATE}}</p>
+    <p>Concept, direction, motion, WebGL, video, Figma, Playwright, access, performance and anti-slop review.<br><a href="https://github.com/acf1210/bureau" target="_blank" rel="noopener noreferrer">GitHub ↗</a><br><a href="en/install.html">Install</a><br><a href="en/review-circuit.html">Circuit</a></p>
+    <p class="right">Inspired by Impeccable, Colorfigures, Font Awesome and the galleries in the reference library.<br>PANTONE® is a trademark of Pantone LLC. BUREAU is not affiliated.</p>
+  </footer>
+
 <script>
-document.documentElement.classList.add("js");
 (() => {
   const root = document.documentElement;
   const body = document.body;
@@ -561,17 +602,19 @@ document.documentElement.classList.add("js");
   const progress = document.getElementById("progress");
   const onScroll = () => {
     const max = document.documentElement.scrollHeight - innerHeight;
-    progress.style.width = max > 0 ? Math.min(100, Math.max(0, (scrollY / max) * 100)) + "%" : "0%";
+    progress.style.transform = `scaleX(${max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0})`;
   };
   addEventListener("scroll", onScroll, { passive: true });
   onScroll();
 
-  const io = new IntersectionObserver((entries) => {
-    for (const e of entries) {
-      if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
-    }
-  }, { threshold: .15, rootMargin: "0px 0px -6% 0px" });
-  document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+      }
+    }, { threshold: .15, rootMargin: "0px 0px -6% 0px" });
+    document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+  }
 
   // Shader
   const canvas = document.getElementById("gl");
@@ -626,22 +669,23 @@ document.documentElement.classList.add("js");
     mx+=(tmx-mx)*.045;my+=(tmy-my)*.045;
     gl.uniform2f(uRes,canvas.width,canvas.height);gl.uniform1f(uTime,(now-start)/1000);gl.uniform2f(uMouse,mx,my);gl.drawArrays(gl.TRIANGLES,0,3);
   };
-  const loop=(now)=>{raf=0;if(!visible||document.hidden)return;draw(now);raf=requestAnimationFrame(loop);};
+  const loop=(now)=>{raf=0;if(!visible||document.hidden||reduce.matches)return;draw(now);raf=requestAnimationFrame(loop);};
   const kick=()=>{if(!raf&&!reduce.matches&&visible&&!document.hidden)raf=requestAnimationFrame(loop);};
   if(init()){
     resize();if(reduce.matches)draw(performance.now());else kick();
     new ResizeObserver(()=>{resize();if(reduce.matches)draw(performance.now());}).observe(canvas);
-    new IntersectionObserver(([e])=>{visible=e.isIntersecting;if(visible){if(reduce.matches)draw(performance.now());else kick();}},{threshold:.01}).observe(canvas);
+    if("IntersectionObserver" in window) new IntersectionObserver(([e])=>{visible=e.isIntersecting;if(visible){if(reduce.matches)draw(performance.now());else kick();}},{threshold:.01}).observe(canvas);
   }else canvas.style.display="none";
+  canvas.addEventListener("webglcontextlost",(e)=>{e.preventDefault();canvas.style.display="none";});
   addEventListener("pointermove",(e)=>{if(e.pointerType==="touch")return;tmx=e.clientX/innerWidth;tmy=1-e.clientY/innerHeight;},{passive:true});
 
   // Film pause
   const film=document.getElementById("film");
   const pause=document.getElementById("pause");
+  let manuallyPaused=false;
   const setPauseLabel=()=>{
     if(!film||!pause)return;
     pause.textContent=film.paused?"Play film":"Pause film";
-    pause.setAttribute("aria-pressed",String(film.paused));
   };
   const syncFilm=()=>{
     if(!film)return;
@@ -651,16 +695,17 @@ document.documentElement.classList.add("js");
   film?.addEventListener("play",setPauseLabel);
   film?.addEventListener("pause",setPauseLabel);
   syncFilm();
-  if(film){
+  if(film && "IntersectionObserver" in window){
     new IntersectionObserver(([e])=>{
-      if(e.isIntersecting && !reduce.matches && film.paused) film.play().catch(()=>{});
+      if(e.isIntersecting){ if(!reduce.matches && film.paused && !manuallyPaused) film.play().catch(()=>{}); }
+      else if(!film.paused){ film.pause(); }
     },{threshold:.2}).observe(film);
   }
   pause?.addEventListener("click",()=>{
-    if(film.paused){film.play().catch(()=>{});pause.textContent="Pause film";pause.setAttribute("aria-pressed","false");}
-    else{film.pause();pause.textContent="Play film";pause.setAttribute("aria-pressed","true");}
+    if(film.paused){manuallyPaused=false;film.play().catch(()=>{});}
+    else{manuallyPaused=true;film.pause();}
   });
-  reduce.addEventListener?.("change",syncFilm);
+  reduce.addEventListener?.("change",()=>{syncFilm();if(reduce.matches){if(raf)cancelAnimationFrame(raf);raf=0;if(visible&&!document.hidden)draw(performance.now());}else kick();});
 
   // Tabs
   const tabs=[...document.querySelectorAll(".tab")];
@@ -682,16 +727,25 @@ document.documentElement.classList.add("js");
         const dir=e.key==="ArrowRight"?1:-1;
         select(tabs[(i+dir+tabs.length)%tabs.length]);
       }
+      if(e.key==="Home"||e.key==="End"){
+        e.preventDefault();
+        select(e.key==="Home"?tabs[0]:tabs[tabs.length-1]);
+      }
     });
   });
 
   // Copy buttons
+  const copyStatus = document.getElementById("copy-status");
   for(const btn of document.querySelectorAll(".cmd .copy")){
+    const name = btn.getAttribute("aria-label") || "the install command";
     btn.addEventListener("click",async()=>{
       const code=btn.parentElement.querySelector("code").textContent;
-      try{await navigator.clipboard.writeText(code);btn.textContent="copied";setTimeout(()=>btn.textContent="copy",1400);}
-      catch{btn.textContent="select";}
+      try{await navigator.clipboard.writeText(code);btn.textContent="copied";btn.setAttribute("aria-label",name.replace(/^Copy/,"Copied")+" to the clipboard");if(copyStatus)copyStatus.textContent=name.replace(/^Copy/,"Copied")+" to the clipboard.";setTimeout(()=>{btn.textContent="copy";btn.setAttribute("aria-label",name);if(copyStatus)copyStatus.textContent="";},1400);}
+      catch{const range=document.createRange();range.selectNodeContents(btn.parentElement.querySelector("code"));const selection=window.getSelection();selection.removeAllRanges();selection.addRange(range);btn.textContent="selected — copy manually";btn.setAttribute("aria-label",name+" could not be copied; the command is selected for manual copying");if(copyStatus)copyStatus.textContent="Clipboard blocked; the command is selected so you can copy it manually.";}
     });
+  }
+  for(const box of document.querySelectorAll(".cmd")){
+    if(box.scrollWidth>box.clientWidth+1){box.tabIndex=0;box.setAttribute("aria-label",(box.getAttribute("aria-label")||"Install command")+", scrollable");}
   }
 
   document.addEventListener("visibilitychange",()=>{

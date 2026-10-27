@@ -24,7 +24,7 @@ const readme = (lang) => {
   return `<table>\n${rows.join("\n")}\n</table>\n\n${table}`;
 };
 
-const site = () => catalog.map((t, i) => `      <a class="demo${i === 0 ? " demo--lead" : i === catalog.length - 1 ? " demo--close" : ""}" href="demos/${t.id}/index.html">
+const site = () => catalog.map((t, i) => `      <a class="demo${i === 0 ? " demo--lead" : i === catalog.length - 1 ? " demo--close" : ""}" href="demos/${t.id}/index.html" aria-label="${t.title}: ${t.theme.en}. ${t.lineage}. ${t.move.en}.">
         <div class="demo__media">
           <picture><source type="image/avif" srcset="assets/img/demos/${t.id}-desktop.avif"><img src="assets/img/demos/${t.id}-desktop.webp" alt="${t.title}: ${t.alt}." width="1200" height="750" loading="lazy"></picture>
           <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/${t.id}-mobile.avif"><img src="assets/img/demos/${t.id}-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
