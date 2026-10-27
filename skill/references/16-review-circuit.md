@@ -6,6 +6,20 @@ The circuit exists to stop the bureau from shipping work it has talked itself in
 
 Gate 5 also requires five documented awarded motion references and a project-specific synthesis, checked as described in `31-motion-production.md`. The script validates the record, not the truth of the cited awards or observations.
 
+## Design generation: UI, UX and innovation
+
+The [CSS Design Awards FAQ](https://www.cssdesignawards.com/sites/guidance/43364/) describes UI as interface aesthetics and effects, UX as experience and functionality, and innovation as new design and development ideas. The checks below are BUREAU's interpretation for making projects, not official CSSDA subcriteria or an award prediction.
+
+For each concept, record the following in `.bureau/comps/decision.md`; revisit the chosen concept against the working build and attach actual evidence to the relevant gate:
+
+| Dimension | Generation decisions | Evidence and review |
+|---|---|---|
+| UI | Define hierarchy, typography, composition, color and consistent component states around the brief. | Review real-content screenshots at desktop and mobile; check legibility, contrast and states in G2–G4 and G7. |
+| UX | Map the primary task, navigation, feedback, error recovery and keyboard path; account for touch and reduced motion. | Exercise the task and states in the built interface; record findings and accessibility evidence in G4, G6 and G7. Do not claim user validation without user tests. |
+| Innovation | Specify one distinctive design or technical idea, the user or communication purpose it serves, its cost and a usable fallback. | Show the idea in the build, test its fallback and performance in G1, G5 and G6; remove it if it obstructs the task. Novelty alone is not proof of quality. |
+
+Record risks, unresolved findings and the smallest correction, then rerun the affected gates and independent jury review under the existing circuit. These dimensions do not change gate weights, jury voting, score thresholds or hard failures. Do not present BUREAU's judgment as a CSSDA score, nomination or award.
+
 ```text
 G0 Intake ──► G1 Concept ──► G2 Direction ──► G3 Type & Color
                                                    │
