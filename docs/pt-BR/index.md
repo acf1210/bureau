@@ -40,7 +40,7 @@ BUREAU ataca as três:
 | **Figma** | MCP, variáveis, comps, handoff, comparação lado a lado |
 | **Playwright** | screenshots multi-viewport, contraste, overflow, console, performance |
 | **Acessibilidade** | WCAG 2.2 AA, teclado, foco, movimento, mídia, zoom |
-| **Anti-AI-slop** | detector determinístico, taxonomia de 40+ sinais, correções |
+| **Anti-AI-slop** | detector determinístico, taxonomia de 106 sinais, correções |
 | **Copy e verdade** | voz, headlines, microcopy, claims com fonte, SEO, i18n |
 | **Ship** | OG, analytics, consentimento, monitoramento, rollback |
 
@@ -109,7 +109,7 @@ node skill/scripts/review.mjs --status
 ```
 skill/                 a skill instalável
   SKILL.md             roteador e doutrina
-  references/          23 módulos de profundidade
+  references/          30 módulos de profundidade
   scripts/             audit, visual-audit, review, tokens, figma-sync, doctor, scaffold
   assets/              templates, tokens, snippets, mídia, diagramas
 installers/            Claude, Codex, Antigravity, Hermes + bash/PowerShell

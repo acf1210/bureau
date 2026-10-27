@@ -15,7 +15,7 @@ When the objective is to improve design quality using Awwwards as a reference, e
 
 Predefine scoring anchors and pass/fail rules before reviewing. Use the same briefs, model, inputs, time, tools and reviewers for baseline and candidate; randomize order and blind reviewers to version when possible. Record each dimension, reviewer, score, evidence, disagreement and limitations. BUREAU hard failures and accessibility requirements remain independent vetoes; do not average them away.
 
-For a relative 50% quality-score increase, require `new quality ≥ 1.5 × baseline quality`, calculated from the mean of matched briefs. Report both scores, absolute point change, relative change, per-brief results and uncertainty. On a 0–10 scale, this target is impossible if baseline exceeds 6.67; if baseline is zero, relative change is undefined. Do not replace this target with a 50% reduction in the remaining gap to 10 without explicitly agreeing to that different metric. A small sample or unavailable independent review must be reported as inconclusive. Never report the goal as achieved before collecting the paired results.
+Quality comparisons are optional research, not the release decision. The jury and its evidence determine closure as specified in `29-jury-and-ux.md`. Report scores, per-brief results and uncertainty only when actual paired evaluations exist.
 
 ## Define the comparison before running it
 
@@ -26,7 +26,7 @@ For a relative 50% quality-score increase, require `new quality ≥ 1.5 × basel
 
 ## Optional: report the client approval rate honestly
 
-For each version, approval rate = approved briefs / eligible briefs. The relative change is `(new rate - baseline rate) / baseline rate`; report percentage points separately. A 50% relative increase means the new rate is at least 1.5 times the baseline, not 50 percentage points higher. If baseline is zero, relative change is undefined. If baseline is above two thirds, a 50% relative increase is mathematically impossible.
+For each version, approval rate = approved briefs / eligible briefs. The relative change is `(new rate - baseline rate) / baseline rate`; report percentage points separately. If baseline is zero, relative change is undefined.
 
 Report paired outcomes (both pass, old only, new only, neither), counts, rates and uncertainty. Small samples may be inconclusive even when the point estimate reaches the target. Do not treat generated demos, audit scores, simulated briefs or screenshots as evidence of customer approval. Do not cherry-pick successful runs or claim the target was met without the underlying evaluations.
 

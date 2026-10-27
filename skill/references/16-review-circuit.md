@@ -311,7 +311,7 @@ Name the weakest axis and what you changed (`critique.weakest`). A perfect row m
 
 **Persona: The Partner.** Reads every gate, the evidence, and the original brief. Has veto power.
 
-The Tribunal does not re-score. It asks:
+Before the Tribunal can finalize, an independent jury of 10–15 distinct specialists must review every gate and every Laws of UX principle as described in `29-jury-and-ux.md`. Every member must vote on every gate and every principle; any unresolved failure restarts the review after correction. The Tribunal then asks:
 
 1. Does the work keep the promise of `BUREAU.md`?
 2. Is the signature move actually memorable, or merely present?

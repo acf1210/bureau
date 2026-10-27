@@ -1,6 +1,6 @@
 # Arquitetura
 
-BUREAU é um sistema de **divulgação progressiva**: um roteador curto, 23 módulos de profundidade e um conjunto de scripts que transformam opinião em evidência.
+BUREAU é um sistema de **divulgação progressiva**: um roteador curto, 30 módulos de profundidade e um conjunto de scripts que transformam opinião em evidência.
 
 ![Arquitetura do BUREAU](../assets/diagrams/architecture.svg)
 
@@ -120,7 +120,7 @@ As referências são independentes. Nenhuma depende de o agente ter lido as outr
 
 Para adicionar um domínio:
 
-1. crie `references/23-seu-dominio.md`;
+1. crie `references/30-seu-dominio.md`;
 2. adicione a linha na tabela §9 do `SKILL.md`;
 3. se houver regra mecânica, adicione em `scripts/lib/rules.mjs` com ID `BS-*`;
 4. se houver portão novo, ajuste `scripts/lib/gates.mjs` e redistribua os pesos para 100;

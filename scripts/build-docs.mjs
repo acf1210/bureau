@@ -277,7 +277,7 @@ function pageHtml({ lang, slug, title, description, html, toc, prev, next }) {
   <div class="topbar__spacer"></div>
   <div class="search">
     <input id="search-input" type="search" placeholder="${escapeHtml(meta.search)}" aria-label="${escapeHtml(meta.search)}" autocomplete="off">
-    <div class="search__results" id="search-results" role="listbox"></div>
+    <div class="search__results" id="search-results" role="list" aria-live="polite"></div>
   </div>
   <a class="button-ghost" href="https://github.com/acf1210/bureau" target="_blank" rel="noopener noreferrer" aria-label="GitHub repository">GitHub ↗</a>
   <button class="button-ghost" id="theme" type="button" aria-label="Toggle theme">◐</button>
@@ -288,7 +288,7 @@ function pageHtml({ lang, slug, title, description, html, toc, prev, next }) {
     <main class="doc" id="main">
       <p class="breadcrumb">BUREAU / ${escapeHtml(meta.docs)} / ${escapeHtml(title)}</p>
       <h1>${escapeHtml(title)}</h1>
-      ${description ? `<p>${escapeHtml(description)}</p>` : ""}
+      ${description ? `<p class="doc-lede">${escapeHtml(description)}</p>` : ""}
       ${html}
       <footer class="doc-footer">
         <div>${prev ? `<a href="${prev.slug}.html">← ${escapeHtml(meta.prev)}: ${escapeHtml(prev.title)}</a>` : ""}</div>
@@ -313,14 +313,11 @@ function landing() {
 }
 
 function demosPage() {
-  const cards = [
-    ["kinetic-editorial", "Kinetic Editorial", "Dark editorial, Bodoni display, scroll narrative, generated film loop."],
-    ["product-surface", "Product Surface", "Warm technical product, live scenario model, precise motion."],
-    ["immersive-experience", "Immersive Experience", "Raw WebGL shader, pointer/scroll response, reduced-motion frame."]
-  ].map(([slug, title, desc]) => `<a class="demo" href="${slug}/index.html">
+  const catalog = JSON.parse(fs.readFileSync(path.join(ROOT, "skill", "assets", "templates", "catalog.json"), "utf8"));
+  const cards = catalog.map((t) => `<a class="demo" href="${t.id}/index.html">
     <span class="demo__tag">DEMO</span>
-    <h2>${title}</h2>
-    <p>${desc}</p>
+    <h2>${t.title}</h2>
+    <p>${t.theme.en} · ${t.lineage}. ${t.move.en}.</p>
     <span class="demo__link">Open ↗</span>
   </a>`).join("");
   return `<!doctype html>
@@ -338,7 +335,7 @@ p{color:var(--muted);max-width:60ch}.grid{max-width:1100px;margin:0 auto;display
 .demo h2{font-family:var(--display);font-weight:400;font-size:1.8rem;margin:0}.demo p{font-size:14px;margin:0}.demo__link{margin-top:auto;font:12px var(--mono);color:var(--acid)}
 a{color:inherit;text-decoration:none}footer{max-width:1100px;margin:3rem auto 0;font:12px var(--mono);color:var(--faint)}
 </style></head>
-<body><header><p style="font:11px var(--mono);color:var(--ember);letter-spacing:.1em">BUREAU / DEMOS</p><h1>Three worlds, one method.</h1><p>Each template is self-contained. Open, inspect, break, rebuild.</p></header>
+<body><header><p style="font:11px var(--mono);color:var(--ember);letter-spacing:.1em">BUREAU / DEMOS</p><h1>${catalog.length} worlds, one method.</h1><p>Each template is self-contained: one HTML file, its own lineage, its own mobile composition. Open, inspect, break, rebuild.</p></header>
 <div class="grid">${cards}</div>
 <footer><a href="../index.html">← Back to BUREAU</a></footer></body></html>`;
 }
@@ -373,6 +370,13 @@ function main() {
   const sitemap = [];
   const search = {};
 
+  // Landing and the demo index are part of the public site, not only the docs.
+  sitemap.push(`${BASE}`);
+  sitemap.push(`${BASE}demos/index.html`);
+  for (const name of fs.readdirSync(templates)) {
+    if (fs.statSync(path.join(templates, name)).isDirectory()) sitemap.push(`${BASE}demos/${name}/index.html`);
+  }
+
   for (const lang of Object.keys(LANGS)) {
     const outDir = path.join(DIST, lang);
     ensureDir(outDir);
@@ -391,6 +395,19 @@ function main() {
       const prev = idx > 0 ? { slug: ORDER[idx - 1], title: LANGS[lang].titles[ORDER[idx - 1]] } : null;
       const next = idx >= 0 && idx < ORDER.length - 1 ? { slug: ORDER[idx + 1], title: LANGS[lang].titles[ORDER[idx + 1]] } : null;
       parsed.html = addImageDimensions(parsed.html, lang);
+      // The frontmatter description is rendered as the lede; drop the leading
+      // paragraph when the markdown repeats it verbatim.
+      const tokenize = (value) => new Set(value.toLowerCase().replace(/<[^>]+>/g, " ").replace(/[^a-z0-9\u00c0-\u024f ]/g, " ").split(/\s+/).filter(Boolean));
+      const ledeTokens = tokenize(description || "");
+      if (ledeTokens.size) {
+        parsed.html = parsed.html.replace(/^\s*<p>([\s\S]*?)<\/p>/, (match, inner) => {
+          const bodyTokens = tokenize(inner);
+          if (!bodyTokens.size) return match;
+          let shared = 0;
+          for (const token of bodyTokens) if (ledeTokens.has(token)) shared++;
+          return shared / bodyTokens.size >= 0.6 ? "" : match;
+        });
+      }
       const html = pageHtml({ lang, slug, title, description, html: parsed.html, toc: parsed.toc, prev, next });
       fs.writeFileSync(path.join(outDir, `${slug}.html`), html);
       search[lang].push(...searchIndex(md, title, `${slug}.html`, description));

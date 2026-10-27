@@ -90,7 +90,7 @@ Restart Hermes. If your build uses a flat `~/.hermes/skills/`, copy the folder t
 <skills-root>/bureau/
   SKILL.md
   manifest.json
-  references/        23 modules
+  references/        30 modules
   scripts/           audit, visual-audit, review, tokens, figma-sync, doctor, scaffold
   assets/            templates, tokens, snippets, media, diagrams
   .bureau-installed  version/source marker

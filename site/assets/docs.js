@@ -5,9 +5,11 @@
 
   const theme = document.getElementById("theme");
   if (theme) {
+    theme.setAttribute("aria-pressed", String(root.dataset.theme === "light"));
     theme.addEventListener("click", () => {
       const next = root.dataset.theme === "light" ? "dark" : "light";
       root.dataset.theme = next;
+      theme.setAttribute("aria-pressed", String(next === "light"));
       localStorage.setItem("bureau-theme", next);
     });
   }
@@ -15,7 +17,12 @@
   const sidebar = document.getElementById("sidebar");
   const menu = document.getElementById("menu");
   if (menu && sidebar) {
-    menu.addEventListener("click", () => sidebar.classList.toggle("open"));
+    menu.setAttribute("aria-expanded", "false");
+    menu.setAttribute("aria-controls", "sidebar");
+    menu.addEventListener("click", () => {
+      const open = sidebar.classList.toggle("open");
+      menu.setAttribute("aria-expanded", String(open));
+    });
     document.addEventListener("click", (e) => {
       if (window.innerWidth > 860) return;
       if (sidebar.classList.contains("open") && !sidebar.contains(e.target) && !menu.contains(e.target)) sidebar.classList.remove("open");
@@ -57,17 +64,16 @@
   const input = document.getElementById("search-input");
   const results = document.getElementById("search-results");
   let index = null;
-  let loading = false;
-  const load = async () => {
-    if (index || loading) return;
-    loading = true;
-    try {
-      const res = await fetch("search.json");
-      index = await res.json();
-    } catch {
-      index = [];
+  let pending = null;
+  const load = () => {
+    if (index) return Promise.resolve(index);
+    if (!pending) {
+      pending = fetch("search.json")
+        .then((res) => res.json())
+        .catch(() => [])
+        .then((items) => (index = items));
     }
-    loading = false;
+    return pending;
   };
   const render = (items) => {
     if (!results) return;
@@ -81,7 +87,10 @@
       const a = document.createElement("a");
       a.href = item.u;
       a.innerHTML = `<strong>${item.t}</strong><small>${item.h ? item.h + " · " : ""}${item.u}</small>`;
-      results.appendChild(a);
+      const li = document.createElement("div");
+      li.setAttribute("role", "listitem");
+      li.appendChild(a);
+      results.appendChild(li);
     }
     results.classList.add("on");
   };

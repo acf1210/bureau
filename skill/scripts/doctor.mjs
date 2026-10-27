@@ -119,7 +119,7 @@ async function main() {
 
 function readVersion() {
   try { return fs.readFileSync(path.join(SKILL_ROOT, "..", "VERSION"), "utf8").trim(); }
-  catch { return "3.0.0"; }
+  catch { return "4.0.0"; }
 }
 
 main().catch((err) => { console.error(err); process.exit(1); });

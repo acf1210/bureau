@@ -11,6 +11,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
+import { validateJury, UX_LAWS } from "./lib/jury.mjs";
 import {
   gates, gateById, GATE_ORDER, VERDICTS,
   checkEvidence, normalizeScores, validateEvidenceFiles,
@@ -21,7 +22,7 @@ import {
 const STATE_VERSION = 1;
 
 function parseArgs(argv) {
-  const opts = { root: process.cwd(), json: false, gate: null, scores: null, final: false, tribunal: null, status: false, reset: false, yes: false, report: false, deliveryInit: false };
+  const opts = { root: process.cwd(), json: false, gate: null, scores: null, final: false, tribunal: null, status: false, reset: false, yes: false, report: false, deliveryInit: false, juryInit: false };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === "--root") opts.root = path.resolve(argv[++i]);
@@ -34,6 +35,7 @@ function parseArgs(argv) {
     else if (a === "--yes") opts.yes = true;
     else if (a === "--report") opts.report = true;
     else if (a === "--delivery-init") opts.deliveryInit = true;
+    else if (a === "--jury-init") opts.juryInit = true;
     else if (a === "--json") opts.json = true;
     else if (a === "--help" || a === "-h") {
       console.log(`BUREAU review circuit
@@ -42,6 +44,7 @@ Usage:
   node scripts/review.mjs --status
   node scripts/review.mjs --gate <id> --scores <file>
   node scripts/review.mjs --delivery-init
+  node scripts/review.mjs --jury-init
   node scripts/review.mjs --final [--tribunal <file>]
   node scripts/review.mjs --report
   node scripts/review.mjs --reset --yes
@@ -420,6 +423,15 @@ function finalCommand(root, state, tribunalFile, asJson) {
     process.exit(1);
   }
 
+  const jury = readJson(path.join(root, ".bureau", "review", "jury.json"));
+  const juryErrors = validateJury(jury, GATE_ORDER, sourceHash(root).hash, (p) => {
+    try { return fs.statSync(path.resolve(root, p)).isFile(); } catch { return false; }
+  });
+  if (juryErrors.length) {
+    console.error("Cannot finalize: jury incomplete or stale.\n- " + juryErrors.join("\n- "));
+    process.exit(1);
+  }
+
   let tribunal = null;
   if (tribunalFile) {
     tribunal = readJson(tribunalFile);
@@ -501,7 +513,7 @@ function main() {
     console.log("Circuit state reset.");
     return;
   }
-  if (opts.status || (!opts.gate && !opts.final && !opts.report && !opts.deliveryInit)) {
+  if (opts.status || (!opts.gate && !opts.final && !opts.report && !opts.deliveryInit && !opts.juryInit)) {
     printStatus(root, state, opts.json);
     return;
   }
@@ -515,6 +527,15 @@ function main() {
     fs.mkdirSync(path.dirname(file), { recursive: true });
     fs.writeFileSync(file, deliveryTemplate() + "\n");
     console.log(`Delivery Gate written: ${file}`);
+    return;
+  }
+  if (opts.juryInit) {
+    const file = path.join(root, ".bureau", "review", "jury.json");
+    const votes = (keys) => Object.fromEntries(keys.map((key) => [key, { result: "pending", reason: "", evidence: "" }]));
+    const draft = { sourceHash: sourceHash(root).hash, issues: [], members: Array.from({ length: 10 }, () => ({ id: "", specialty: "", independent: "", categories: votes(GATE_ORDER), laws: votes(UX_LAWS) })) };
+    try { fs.writeFileSync(file, JSON.stringify(draft, null, 2) + "\n", { flag: "wx" }); }
+    catch (error) { if (error.code === "EEXIST") { console.error(`${file} exists; preserve it or move it before initializing.`); process.exit(2); } throw error; }
+    console.log(`Jury draft written: ${file}. All votes are pending; no reviewers are assigned.`);
     return;
   }
   if (opts.final) {

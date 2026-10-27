@@ -3,7 +3,7 @@ name: bureau
 description: Autonomous digital design bureau for award-grade websites and product surfaces. Use when designing, redesigning, prototyping, or reviewing any web experience that must feel crafted and technologically ambitious — landing pages, portfolios, product marketing, editorial sites, immersive experiences, design systems, Figma-to-code, motion/WebGL/video, Playwright QA, accessibility, performance, and anti-AI-slop review. Triggers include "design a site", "make it premium", "Awwwards-level", "redesign this", "build a landing page", "review my UI", "anti-slop", "Figma to code", "add motion", "make it futuristic".
 license: MIT
 metadata:
-  version: "3.0.0"
+  version: "4.0.0"
   homepage: "https://github.com/acf1210/bureau"
 ---
 
@@ -148,7 +148,7 @@ node scripts/review.mjs --delivery-init
 node scripts/review.mjs --final --tribunal .bureau/review/tribunal.json
 ```
 
-Three rules hold the circuit honest: **judge before you measure** (write the design review before reading detector output); **the builder is the weakest reviewer** (the Tribunal runs in a fresh context, or the run is declared degraded and cannot reach Award Track); **checked rules hold, prose rules drift** (every mechanical rule has a failing and a passing fixture). Gate 1 requires a six-axis pre-build critique; Gate 7 requires Nielsen's ten heuristics; the final requires a clean Delivery Gate with evidence on every line.
+Three rules hold the circuit honest: **judge before you measure** (write the design review before reading detector output); **the builder is the weakest reviewer** (the Tribunal runs in a fresh context, or the run is declared degraded and cannot reach Award Track); **checked rules hold, prose rules drift** (every mechanical rule has a failing and a passing fixture). Gate 1 requires a six-axis pre-build critique; Gate 7 requires Nielsen's ten heuristics; the final requires a clean Delivery Gate and the independent 10–15-member jury record in `references/29-jury-and-ux.md`. Do not invent reviewers or votes when independent reviewers are unavailable.
 
 **Pass thresholds:** `≥ 90` Award Track · `82–89` Pass · `72–81` Conditional · `< 72` Fail. Any gate `< 3.5/5`, any P0 issue, or any missing evidence is a hard failure. The Tribunal may veto a numerically passing release for taste reasons, but must write the reason and the smallest fix.
 
@@ -329,6 +329,7 @@ Load only what the task needs. Paths are relative to this file.
 | Outcome evaluation on real briefs | `references/26-outcome-evaluation.md` |
 | Design intelligence and qualification | `references/27-design-intelligence.md` |
 | Independent design-quality assessment | `references/28-independent-design-assessment.md` |
+| Independent jury and Laws of UX | `references/29-jury-and-ux.md` |
 | Launch, analytics, evolution | `references/21-ship-and-evolve.md` |
 | Install, update, troubleshoot | `references/22-installers.md` |
 

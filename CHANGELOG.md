@@ -4,6 +4,33 @@ All notable changes to BUREAU are recorded here. The format follows Keep a Chang
 
 ## [Unreleased]
 
+## [4.0.0] — 2026-10-26
+
+### Breaking
+
+- Final review requires a 10–15-member jury record with unanimous gate votes and a complete Laws of UX assessment tied to the current source hash. Existing reviews must add `.bureau/review/jury.json` before finalization.
+
+### Added
+
+- `review.mjs --jury-init` creates an unfilled jury record without overwriting an existing one.
+
+### Fixed
+
+- `visual-audit --full` waits at most 3 s for images before the full-page capture; lazy images that never enter the viewport had made it hang indefinitely.
+- Landing content remains visible without JavaScript; keyboard navigation, copy failure, mobile layout and motion preferences are handled explicitly.
+- Visual audit reports include their generation timestamp; documentation and landing counts reflect the current reference and template inventory.
+- The demo index is generated from the template catalogue, lists all thirteen templates, is linked from the landing and appears in the sitemap with every demo page; it had shipped with three hardcoded entries and no inbound link.
+- The install command wraps instead of clipping at 320 px, the copy control reports success through a polite live region and names its target, gallery links carry a separated accessible name, and section weights are no longer hidden from assistive technology.
+- The film no longer autoplays: markup carries no `autoplay` and no motion runs without JavaScript or under reduced motion.
+- The landing's own copy drops the "award-grade" claim and the unsupported "shares no fingerprint" line; the READMEs' visual-audit claim now names the two templates with saved reports.
+- `DESIGN.md` and `MOTION.md` describe what ships: the display clamp, the deprecated `aria-pressed`, the progress rule's transform, the metric fallbacks, the small-text tier and the no-JS panels.
+- Documentation prose is set to 60 characters and the frontmatter lede is no longer repeated as the first paragraph.
+- Without JavaScript all four install commands are now reachable and the inert tab strip and copy controls are hidden; the `js` class is set in the head and only where `IntersectionObserver` exists, so the wordmark is no longer painted, hidden and re-entered.
+- The footer is a `contentinfo` landmark outside `main`, the skip link moves focus into `main`, and the host tab strip supports Home/End.
+- Copy controls keep their accessible name in sync with their state, and the film pauses when it leaves the viewport.
+- The wordmark fits a 320 px viewport under the WCAG text-spacing override, and the circuit figure links to its full-size SVG.
+- The manifesto uses typographic quotes; the READMEs no longer claim 25 references or 25 tests (30 and 33).
+
 ## [3.0.0] — 2026-10-26
 
 ### Added
@@ -100,7 +127,8 @@ The review circuit asks for more evidence. Projects reviewed under 1.0.0 need th
 - `visual-audit` uses hash-level screenshot comparison, not pixel diff.
 - The three templates use fictional demo content, clearly labeled where it could be mistaken for proof.
 
-[Unreleased]: https://github.com/acf1210/bureau/compare/v3.0.0...HEAD
+[Unreleased]: https://github.com/acf1210/bureau/compare/v4.0.0...HEAD
+[4.0.0]: https://github.com/acf1210/bureau/compare/v3.0.0...v4.0.0
 [3.0.0]: https://github.com/acf1210/bureau/compare/v2.0.0...v3.0.0
 [2.0.0]: https://github.com/acf1210/bureau/compare/v1.0.0...v2.0.0
 [1.0.0]: https://github.com/acf1210/bureau/releases/tag/v1.0.0
