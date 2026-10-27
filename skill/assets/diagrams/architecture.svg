@@ -40,7 +40,7 @@
 <text x="86" y="64" class="sub">BUREAU / SYSTEM MAP · 01</text>
 <text x="64" y="106" class="title">Architecture of an autonomous design bureau</text>
 <text x="64" y="136" class="ts">One router. Twenty-three depth modules. Seven scripts. A project state that survives the session.</text>
-<text x="1536" y="64" class="sub" text-anchor="end">v5.2.1 / MIT</text>
+<text x="1536" y="64" class="sub" text-anchor="end">v6.0.0 / MIT</text>
 <text x="1536" y="86" class="m" text-anchor="end">progressive disclosure · no telemetry</text>
 
 <!-- HOSTS -->

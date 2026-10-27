@@ -32,22 +32,6 @@
     "alt": "A serif headline in a narrow column beside a field of gold, violet and green ink threads moving through water"
   },
   {
-    "id": "pyrotechnics",
-    "title": "Pólvora",
-    "theme": {
-      "en": "Pyrotechnic studio",
-      "pt-BR": "Estúdio de pirotecnia",
-      "es": "Estudio de pirotecnia"
-    },
-    "lineage": "Müller-Brockmann × Lubalin × Bass",
-    "move": {
-      "en": "Rendered films, a finale scrubbed by the scroll and a score that fires on the beat",
-      "pt-BR": "Filmes renderizados, um finale guiado pelo scroll e uma partitura que dispara na batida",
-      "es": "Películas renderizadas, un final guiado por el scroll y una partitura que dispara al compás"
-    },
-    "alt": "A giant tight wordmark PÓLVORA over a rendered film of fireworks breaking above a city and its river"
-  },
-  {
     "id": "ocean",
     "title": "Maré",
     "theme": {
