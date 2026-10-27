@@ -3,7 +3,7 @@ name: bureau
 description: Design bureau for award-grade websites and product surfaces. Use to design, redesign, prototype or review a web experience: landing pages, portfolios, product marketing, editorial and immersive sites, design systems, Figma-to-code, motion/WebGL/video, Playwright QA, accessibility, performance, anti-AI-slop review. Triggers: "design a site", "make it premium", "Awwwards-level", "redesign this", "landing page", "review my UI", "anti-slop", "Figma to code", "add motion".
 license: MIT
 metadata:
-  version: "7.9.6"
+  version: "7.10.0"
   homepage: "https://github.com/acf1210/bureau"
 ---
 
@@ -74,6 +74,8 @@ Run `/bureau <command>` when invoked; otherwise infer from the table. Load only 
 | Motion, parallax, video, 3D | `motion` | `31-motion-production`, `07-motion-choreography`, `08-webgl-shaders`, `09-video-parallax` |
 | Imagery, texture, icons | `build` | `10-imagery-art` |
 | Stock photo or video sources, licences | `concept` → `build` → `ship` | `36-stock-media` |
+| Logo files, brand marks, placeholders, logo permission | `build` → `ship` | `37-logo-sources` |
+| Open font sources, foundries, font licences | `direction` → `build` → `ship` | `38-open-fonts` |
 | Collaborative design, technical illustration | `concept` → `build` | `25-collaborative-studio` |
 | Figma → code, variables | `figma` | `14-figma-workflow` |
 | Screenshots, responsive, a11y, speed | `qa` | `15-playwright-qa`, `12-accessibility`, `13-performance` |
@@ -148,7 +150,8 @@ P1 needs a written, page-specific waiver; P2 is answered, never ignored. A clean
 - **Images and video:** art-direct lens, light, material, palette, composition and exclusions; avoid the AI look. Video: short muted loops, poster, H.264/HEVC/AV1 + WebM, static fallback (`10`, `09`). Stock sources, licence records and their status: `36`.
 - **Colour libraries:** Poline, ColorBox, Chroma.js, Leonardo and Color Thief before the build; Color.js, Leonardo and `tokens.mjs --check` after it; none ships unless the page computes colour at runtime (`34`).
 - **Build libraries:** one per layer (styling, components, behaviour); headless primitives first; the kit's default face is removed before the first comp (`35`).
-- **Fonts and icons:** licensed, ship only what is used; Font Awesome is a fallback, not a concept (`04`).
+- **Fonts and icons:** licensed, ship only what is used; Font Awesome is a fallback, not a concept (`04`). Open font platforms, foundries and FontBakery: `38`.
+- **Logos:** third-party marks from one source per row (Simple Icons, Devicon, gilbarbara, SVGL); a file licence is not a trademark licence; customer logos only with permission (`37`).
 
 ## 9. Deliver
 

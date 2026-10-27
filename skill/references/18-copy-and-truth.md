@@ -124,7 +124,7 @@ Rules:
 - No source → no claim.
 - Date every metric.
 - Define the denominator ("4,000 teams" = paying accounts? active? ever?).
-- Logos need permission.
+- Logos need permission. Sources and the file-licence vs trademark distinction: `37-logo-sources.md`.
 - Testimonials need a real person, real words, consent.
 - Awards need the exact award and year.
 - "AI" claims need a mechanism ("a retrieval model cites the paragraph"), not a vibe.
