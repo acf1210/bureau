@@ -2,14 +2,14 @@
 
 **El bureau de diseño digital autónomo.** Una skill de agente que le da a un modelo de lenguaje el trabajo de un estudio entero: dirección creativa, dirección de arte, tipografía, motion, creative technology, accesibilidad, rendimiento y una revisión adversarial que dice *no*.
 
-[![Versión](https://img.shields.io/badge/version-5.1.1-F2C230?style=flat-square&labelColor=121212)](VERSION)
+[![Versión](https://img.shields.io/badge/version-5.2.0-F2C230?style=flat-square&labelColor=121212)](VERSION)
 [![Licencia](https://img.shields.io/badge/license-MIT-E2507F?style=flat-square&labelColor=121212)](LICENSE)
 [![ShowCase](https://img.shields.io/badge/showcase-5-1E4FD6?style=flat-square&labelColor=121212)](#showcase)
 [![Hosts](https://img.shields.io/badge/hosts-Claude%20%7C%20Codex%20%7C%20Antigravity%20%7C%20Hermes-EDEBE4?style=flat-square&labelColor=121212)](#instalación)
 
 [Português](README.md) · [English](README.en.md) · [Español](README.es.md) · [Documentación](https://acf1210.github.io/bureau/es/index.html) · [ShowCase en vivo](https://acf1210.github.io/bureau/showcase/index.html)
 
-![Las composiciones móviles de los cinco modelos del ShowCase de BUREAU: un observatorio bajo un cielo en WebGL, una perfumería con hilos de tinta en el agua, una vasija de cerámica renderizada en el torno, un instituto oceanográfico con contornos que irradian del nombre y una fundición tipográfica de ejes variables](site/assets/img/readme-banner.webp)
+![Las composiciones móviles de los cinco modelos del ShowCase de BUREAU: un observatorio bajo un cielo en WebGL, una perfumería con hilos de tinta en el agua, un espectáculo de fuegos renderizado en vídeo sobre una ciudad y su río, un instituto oceanográfico con contornos que irradian del nombre y una fundición tipográfica de ejes variables](site/assets/img/readme-banner.webp)
 
 ---
 
@@ -27,7 +27,7 @@ Los modelos aprenden el promedio de internet. Sin dirección entregan el mismo h
 
 ## ShowCase
 
-Cinco modelos web, cinco estudios ficticios, cada uno con una composición móvil propia: un observatorio de montaña, una perfumería, un taller de cerámica, un instituto oceanográfico y una fundición tipográfica. Aquí el diseño manda en cada decisión y el rendimiento va al final: shaders WebGL, campos de partículas, tipografía variable y renderizado en vivo usados sin economía. Cada modelo tiene un `LINEAGE.md` con su mezcla de tres diseñadores.
+Cinco modelos web, cinco estudios ficticios, cada uno con una composición móvil propia: un observatorio de montaña, una perfumería, un estudio de pirotecnia, un instituto oceanográfico y una fundición tipográfica. Aquí el diseño manda en cada decisión y el rendimiento va al final: shaders WebGL, campos de partículas, tipografía variable y renderizado en vivo usados sin economía. Cada modelo tiene un `LINEAGE.md` con su mezcla de tres diseñadores.
 
 <!-- gallery:start -->
 <table>
@@ -46,11 +46,11 @@ Cinco modelos web, cinco estudios ficticios, cada uno con una composición móvi
 <td colspan="2"><b>Maison Orvé</b> · Perfumería · <sub>Ruder × Greiman × Munari</sub><br>Compón salida, corazón y fondo y míralos moverse en el agua. <a href="https://acf1210.github.io/bureau/showcase/perfumery/index.html">Abrir ↗</a></td>
 </tr>
 <tr>
-<td width="72%" valign="top"><a href="https://acf1210.github.io/bureau/showcase/ceramics/index.html"><img src="site/assets/img/showcase/ceramics-desktop.webp" alt="Torno: A celadon-glazed jar rendered in WebGL on terracotta and dark planes beside form chips and sliders" width="100%"></a></td>
-<td width="28%" valign="top"><a href="https://acf1210.github.io/bureau/showcase/ceramics/index.html"><img src="site/assets/img/showcase/ceramics-mobile.webp" alt="Torno, móvil" width="100%"></a></td>
+<td width="72%" valign="top"><a href="https://acf1210.github.io/bureau/showcase/pyrotechnics/index.html"><img src="site/assets/img/showcase/pyrotechnics-desktop.webp" alt="Pólvora: A giant tight wordmark PÓLVORA over a rendered film of fireworks breaking above a city and its river" width="100%"></a></td>
+<td width="28%" valign="top"><a href="https://acf1210.github.io/bureau/showcase/pyrotechnics/index.html"><img src="site/assets/img/showcase/pyrotechnics-mobile.webp" alt="Pólvora, móvil" width="100%"></a></td>
 </tr>
 <tr>
-<td colspan="2"><b>Torno</b> · Taller de cerámica · <sub>Tanaka × Scarpa × Bass</sub><br>Levanta una pieza en el torno y mira cuánto contiene antes de hacerla. <a href="https://acf1210.github.io/bureau/showcase/ceramics/index.html">Abrir ↗</a></td>
+<td colspan="2"><b>Pólvora</b> · Estudio de pirotecnia · <sub>Müller-Brockmann × Lubalin × Bass</sub><br>Películas renderizadas, un final guiado por el scroll y una partitura que dispara al compás. <a href="https://acf1210.github.io/bureau/showcase/pyrotechnics/index.html">Abrir ↗</a></td>
 </tr>
 <tr>
 <td width="72%" valign="top"><a href="https://acf1210.github.io/bureau/showcase/ocean/index.html"><img src="site/assets/img/showcase/ocean-desktop.webp" alt="Maré: A giant condensed wordmark wrapped in cyan and orange contour lines on a deep blue ground" width="100%"></a></td>
@@ -69,7 +69,7 @@ Cinco modelos web, cinco estudios ficticios, cada uno con una composición móvi
 </table>
 <!-- gallery:end -->
 
-Todos son autocontenidos (HTML, CSS y JS en un archivo) y pasan el audit estático y el audit visual de 320 a 1440 px sin P0 ni P1. El piso sigue valiendo: contraste real, recorrido por teclado, movimiento reducido diseñado como imagen fija, todo el texto legible sin JavaScript y ningún botón que finja enviar. Estudios, personas y precios son ficticios y están rotulados. Las 13 plantillas de scaffold siguen en la skill (`new-project.mjs --list`).
+Cada modelo es una página con su propio CSS y JS; Pólvora incluye además su motor, `pyro.js`, y las películas que renderizó cuadro a cuadro (`scripts/render-showcase-video.mjs`). Todos pasan el audit estático y el audit visual de 320 a 1440 px sin P0 ni P1. El piso sigue valiendo: contraste real, recorrido por teclado, movimiento reducido diseñado como imagen fija, todo el texto legible sin JavaScript y ningún botón que finja enviar. Estudios, personas y precios son ficticios y están rotulados. Las 13 plantillas de scaffold siguen en la skill (`new-project.mjs --list`).
 
 ---
 
