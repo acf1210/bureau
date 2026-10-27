@@ -10,7 +10,7 @@ node "$BUREAU_DIR/scripts/survey.mjs" --init --need <need> --probe
 
 `--need` orders the queue: sources that fit the brief come first, then every other source, so a failed source always has a successor. Needs: `general`, `landing`, `saas`, `interactive`, `product`, `editorial`, `minimal`, `dark`, `experimental`, `portfolio`. `--probe` checks each queued source's `robots.txt` in order, skips one that is unreachable or redirects to another host, and stops once seven reachable sources are queued; it reads no project content. Without `--probe` nothing is fetched.
 
-The queue is pre-filled with skips that do not depend on the network: Canvas is unidentified, and Goodbrief generates fictional briefs, which show no shipped work. Two names are probable matches only: "Pintura / Hover Statues" is read as Hover States (hoverstat.es), and UX Archive (uxarchive.com) returned a Cloudflare error page on 2026-10-27. Confirm a probable identity before you verify it.
+The queue is pre-filled with skips that do not depend on the network: Canvas is unidentified, and Goodbrief generates fictional briefs, which show no shipped work. "Pintura / Hover Statues" is Hover States (hoverstat.es), as confirmed by the requester. UX Archive (uxarchive.com) is a probable match only and returned a Cloudflare error page on 2026-10-27; confirm a probable identity before you verify it.
 
 ## 2. Verify in order; on failure, move on
 
