@@ -109,7 +109,7 @@ node skill/scripts/review.mjs --status
 ```
 skill/                 la skill instalable
   SKILL.md             enrutador y doctrina
-  references/          31 módulos de profundidad
+  references/          32 módulos de profundidad
   scripts/             audit, visual-audit, review, tokens, figma-sync, doctor, scaffold
   assets/              plantillas, tokens, snippets, medios, diagramas
 installers/            Claude, Codex, Antigravity, Hermes + bash/PowerShell

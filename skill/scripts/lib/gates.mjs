@@ -128,6 +128,7 @@ export const gates = [
     question: "Is motion choreographed, purposeful, and performant?",
     evidence: [
       { label: "Motion grammar", path: "MOTION.md" },
+      { label: "Five awarded motion references", path: ".bureau/research/motion.json" },
       { label: "Motion evidence", path: ".bureau/evidence/*motion*" },
       { label: "Reduced-motion shot", path: ".bureau/qa/screenshots/*reduced*" }
     ],

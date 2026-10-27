@@ -100,6 +100,8 @@ A 95 average with one accessibility P0 is a **Fail**. That is the point.
 
 ### G5 — Motion
 
+Five distinct awarded motion references and their synthesis are required in `.bureau/research/motion.json`; see `skill/references/31-motion-production.md`.
+
 **Criteria:** one entrance, one scroll narrative, one interaction signature; consistent character; reduced motion designed; 60 fps; no scroll hijack.
 
 **Hard fails:** reduced motion ignored; scroll hijack; autoplay audio; P0 performance; flashing > 3 Hz.

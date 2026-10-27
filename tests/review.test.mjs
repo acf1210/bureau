@@ -41,6 +41,19 @@ function writeSurvey(project) {
   } }));
 }
 
+function writeMotionResearch(project) {
+  const references = Array.from({ length: 5 }, (_, i) => ({
+    project: `Fixture project ${i}`, projectUrl: `https://example.org/project-${i}`,
+    award: "Fixture award, test only", awardUrl: `https://example.org/award-${i}`, accessedAt: "2026-10-27",
+    viewportAndState: "Desktop view while scrolling", observation: "Elements move in sequence as the view changes",
+    principle: "Keep the sequence legible while it changes", avoid: "Do not copy the identity or assets", evidence: ".bureau/qa/report.json"
+  }));
+  fs.writeFileSync(path.join(project, ".bureau", "research", "motion.json"), JSON.stringify({ references, synthesis: {
+    sharedPattern: "Motion connects each section to the next", departure: "Change the sequence to fit the brief",
+    briefConnection: "The motion supports the reader's task", fallback: "The entire sequence has a static alternative"
+  } }));
+}
+
 function run(script, args, cwd) {
   return spawnSync(process.execPath, [script, ...args], { cwd, encoding: "utf8" });
 }
@@ -75,6 +88,11 @@ test("review circuit gates in order and returns an award scorecard", () => {
     fs.writeFileSync(path.join(project, ".bureau", "review", `${gate}.json`), JSON.stringify({
       gate, score: 4.5, notes: "Reviewed against evidence at the same viewport.", issues: [], evidence, ...(extra[gate] || {})
     }));
+    if (gate === "g5-motion") {
+      r = run(review, ["--gate", gate, "--scores", `.bureau/review/${gate}.json`], project);
+      assert.equal(r.status, 4, "Gate 5 refuses missing awarded motion research");
+      writeMotionResearch(project);
+    }
     r = run(review, ["--gate", gate, "--scores", `.bureau/review/${gate}.json`], project);
     assert.equal(r.status, 0, `${gate}: ${r.stdout}\n${r.stderr}`);
   }
@@ -129,6 +147,13 @@ test("review circuit gates in order and returns an award scorecard", () => {
   assert.equal(scorecard.verdict.verdict, "award");
   assert.equal(scorecard.total, 90);
   assert.ok(fs.existsSync(path.join(project, ".bureau", "review", "scorecard.html")));
+  const motionFile = path.join(project, ".bureau", "research", "motion.json");
+  const motion = JSON.parse(fs.readFileSync(motionFile, "utf8"));
+  motion.references[1].projectUrl = motion.references[0].projectUrl;
+  fs.writeFileSync(motionFile, JSON.stringify(motion));
+  r = run(review, ["--final", "--tribunal", ".bureau/review/tribunal.json"], project);
+  assert.equal(r.status, 3, "final refuses a motion study invalidated after Gate 5");
+  assert.match(r.stderr, /awarded motion research incomplete/);
   fs.rmSync(dir, { recursive: true, force: true });
 });
 

@@ -118,6 +118,8 @@ Um site de campanha cabe em 5–7 dias. Um produto com CMS e múltiplas superfí
 
 ## E. Motion (G5)
 
+Documente cinco referências premiadas de motion distintas com `node skill/scripts/motion-research.mjs --init` e `node skill/scripts/motion-research.mjs --check`. Use `node skill/scripts/motion-research.mjs --plan` para gerar um plano de produção inicial. Registre fontes dos prêmios e evidências locais de observação; `skill/references/31-motion-production.md` explica o processo e as ferramentas opcionais. G5 exige o registro completo.
+
 **Faça:**
 
 - Escreva `MOTION.md` antes do efeito.

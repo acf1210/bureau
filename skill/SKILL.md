@@ -3,7 +3,7 @@ name: bureau
 description: Autonomous digital design bureau for award-grade websites and product surfaces. Use when designing, redesigning, prototyping, or reviewing any web experience that must feel crafted and technologically ambitious — landing pages, portfolios, product marketing, editorial sites, immersive experiences, design systems, Figma-to-code, motion/WebGL/video, Playwright QA, accessibility, performance, and anti-AI-slop review. Triggers include "design a site", "make it premium", "Awwwards-level", "redesign this", "build a landing page", "review my UI", "anti-slop", "Figma to code", "add motion", "make it futuristic".
 license: MIT
 metadata:
-  version: "6.0.1"
+  version: "7.0.0"
   homepage: "https://github.com/acf1210/bureau"
 ---
 
@@ -101,7 +101,7 @@ If the user invokes `/bureau <command>` (or the host exposes commands), execute 
 | Compare outcomes across skill versions | `review` | `references/26-outcome-evaluation.md` |
 | Independent design-quality assessment | `review` | `references/28-independent-design-assessment.md` |
 | Design research, project qualification, candidate assessment | `init` → `concept` | `references/27-design-intelligence.md` |
-| Add motion / parallax / video / 3D | `motion` | `references/07-motion-choreography.md`, `08-webgl-shaders.md`, `09-video-parallax.md` |
+| Add motion / parallax / video / 3D | `motion` | `references/31-motion-production.md`, `07-motion-choreography.md`, `08-webgl-shaders.md`, `09-video-parallax.md` |
 | Figma → code, sync variables | `figma` | `references/14-figma-workflow.md` |
 | Test, screenshots, responsive, a11y | `qa` | `references/15-playwright-qa.md` |
 | Full review, score, "is it good?" | `review` | `references/16-review-circuit.md` |
@@ -207,7 +207,7 @@ Run the seven passes in `references/24-refinement-passes.md`, in order: structur
 
 ### Phase E — Motion (G5)
 
-1. Write `MOTION.md` before adding effects: primitives, durations, easing, triggers, reduced-motion behavior.
+1. Document at least five distinct awarded motion references and a project-specific synthesis with `scripts/motion-research.mjs` as specified in `references/31-motion-production.md`; verify the award and observations independently. Write `MOTION.md` before adding effects: primitives, durations, easing, triggers, reduced-motion behavior.
 2. Choreograph one entrance sequence, one scroll narrative, and one interaction signature. Everything else stays quiet.
 3. Verify 60fps on a mid-tier device profile; animate `transform` and `opacity`; avoid layout thrash.
 4. Respect `prefers-reduced-motion` with a designed alternative, not a broken page.
@@ -334,6 +334,7 @@ Load only what the task needs. Paths are relative to this file.
 | Independent design-quality assessment | `references/28-independent-design-assessment.md` |
 | Independent jury and Laws of UX | `references/29-jury-and-ux.md` |
 | Five-source reference survey: pattern and departure | `references/30-reference-survey.md` |
+| Awarded motion research and production tools | `references/31-motion-production.md` |
 | Launch, analytics, evolution | `references/21-ship-and-evolve.md` |
 | Install, update, troubleshoot | `references/22-installers.md` |
 
