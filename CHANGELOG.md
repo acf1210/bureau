@@ -4,6 +4,14 @@ All notable changes to BUREAU are recorded here. The format follows Keep a Chang
 
 ## [Unreleased]
 
+## [7.9.2] — 2026-10-27
+
+### Changed
+
+- New landing hero concept, the line guide: the review circuit drawn as a transit diagram after Harry Beck (1933) and Massimo Vignelli (1972). Ten gates are stations with their real weights on three lines (Concept, Craft, Truth); the Tribunal is an interchange with a dashed spur back for changes. A car rides the line once on entry; reduced motion shows the finished ride; below 720 px the stations become a vertical list, also the accessible text.
+- The live proof sheet moves from the hero to its own "Proof" section right after it.
+- The landing is light in every colour scheme; only the masthead and footer stay black. `DESIGN.md` updated.
+
 ## [7.9.1] — 2026-10-27
 
 ### Changed
@@ -288,7 +296,8 @@ The review circuit asks for more evidence. Projects reviewed under 1.0.0 need th
 - `visual-audit` uses hash-level screenshot comparison, not pixel diff.
 - The three templates use fictional demo content, clearly labeled where it could be mistaken for proof.
 
-[Unreleased]: https://github.com/acf1210/bureau/compare/v7.9.1...HEAD
+[Unreleased]: https://github.com/acf1210/bureau/compare/v7.9.2...HEAD
+[7.9.2]: https://github.com/acf1210/bureau/compare/v7.9.1...v7.9.2
 [7.9.1]: https://github.com/acf1210/bureau/compare/v7.9.0...v7.9.1
 [7.9.0]: https://github.com/acf1210/bureau/compare/v7.8.0...v7.9.0
 [7.8.0]: https://github.com/acf1210/bureau/compare/v7.7.0...v7.8.0
