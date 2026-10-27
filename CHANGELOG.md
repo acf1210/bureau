@@ -4,6 +4,12 @@ All notable changes to BUREAU are recorded here. The format follows Keep a Chang
 
 ## [Unreleased]
 
+## [7.9.6] — 2026-10-27
+
+### Changed
+
+- The BUREAU logo returns to its original form on the landing and docs top bars: one word in the bar's ink, no process colours. The `--bar-c`, `--bar-m` and `--bar-y` tokens from 7.9.4 are removed.
+
 ## [7.9.5] — 2026-10-27
 
 ### Changed
@@ -316,7 +322,8 @@ The review circuit asks for more evidence. Projects reviewed under 1.0.0 need th
 - `visual-audit` uses hash-level screenshot comparison, not pixel diff.
 - The three templates use fictional demo content, clearly labeled where it could be mistaken for proof.
 
-[Unreleased]: https://github.com/acf1210/bureau/compare/v7.9.5...HEAD
+[Unreleased]: https://github.com/acf1210/bureau/compare/v7.9.6...HEAD
+[7.9.6]: https://github.com/acf1210/bureau/compare/v7.9.5...v7.9.6
 [7.9.5]: https://github.com/acf1210/bureau/compare/v7.9.4...v7.9.5
 [7.9.4]: https://github.com/acf1210/bureau/compare/v7.9.3...v7.9.4
 [7.9.3]: https://github.com/acf1210/bureau/compare/v7.9.2...v7.9.3

@@ -30,8 +30,6 @@
     --wash:#EDF3F6;--wash-c:#E3EFF6;--wash-m:#F7E8EF;--wash-y:#FAF3D6;
     /* The page is light in every scheme; only the masthead and the colophon are black. */
     --bar:#0F0F11;--bar-ink:#F3F2EE;--bar-muted:#ABAAB2;--bar-rule:#2A2A2F;--bar-focus:#FF5A4E;
-    /* Pantone Process Cyan, Magenta and Yellow as screen approximations, lifted for the black bar: the three plates of the logo's B. */
-    --bar-c:#1FA3DD;--bar-m:#E8408F;--bar-y:#F3D000;
     --display:"Archivo","Archivo Fallback",Arial,sans-serif;
     --text:"Archivo",Arial,sans-serif;
     --mono:"JetBrains Mono",ui-monospace,monospace;
@@ -57,12 +55,6 @@
   .site-head{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem 1.6rem;padding:.8rem var(--pad);max-width:var(--max);margin:0 auto;background:var(--bar);color:var(--bar-ink)}
   .site-head :focus-visible,.site-foot :focus-visible{outline-color:var(--bar-focus)}
   .brand{font:600 1.2rem/1 var(--display);font-stretch:112%;letter-spacing:.06em;text-decoration:none;margin-right:auto;padding:.5rem 0}
-  .brand i{font-style:normal}
-  /* The B carries the three process plates as stacked bands: cyan, magenta, yellow, each a clipped copy of the letter (no gradient text). */
-  .brand .pb{position:relative;display:inline-block;color:var(--bar-c)}
-  .brand .pb::before,.brand .pb::after{content:"B";position:absolute;left:0;top:0}
-  .brand .pb::before{color:var(--bar-m);clip-path:inset(36% 0 0 0)}
-  .brand .pb::after{color:var(--bar-y);clip-path:inset(64% 0 0 0)}
   .site-nav{display:flex;flex-wrap:wrap;gap:.2rem 1.4rem}
   .site-nav a,.langs a{text-decoration:none;font-size:.9375rem;padding:.6rem 0;display:inline-block;color:var(--bar-muted)}
   .langs a{min-width:28px;text-align:center;padding:.6rem .2rem}
@@ -293,7 +285,7 @@
 <body class="lp">
 <a class="skip-link" href="#top">Skip to main content</a>
 <header class="site-head bleed">
-  <a class="brand" href="#top" aria-label="BUREAU"><i class="pb">B</i>UREAU</a>
+  <a class="brand" href="#top">BUREAU</a>
   <nav class="site-nav" aria-label="Primary">
     <a href="#proof">Proof</a>
     <a href="#problem">Argument</a>
