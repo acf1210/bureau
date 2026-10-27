@@ -1,5 +1,7 @@
 # Visual language
 
+For a practical vocabulary of visual styles and their trade-offs, use `skill/references/32-visual-style-vocabulary.md`. Select a lens from the brief and test it with real content; a style label does not establish usability or conversion.
+
 BUREAU has no fixed style. It has a **method** for building a style that belongs to the subject.
 
 ## 1. Pantone as an anchor, not a palette

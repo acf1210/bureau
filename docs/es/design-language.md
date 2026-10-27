@@ -1,5 +1,7 @@
 # Lenguaje visual
 
+Para un vocabulario práctico de estilos visuales y sus trade-offs, usa `skill/references/32-visual-style-vocabulary.md`. Elige una lente a partir del brief y prueba con contenido real; una etiqueta de estilo no demuestra usabilidad ni conversión.
+
 BUREAU no tiene un estilo fijo. Tiene un **método** para construir un estilo que pertenezca al asunto.
 
 ## 1. Pantone como ancla, no como paleta
