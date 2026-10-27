@@ -4,6 +4,16 @@ All notable changes to BUREAU are recorded here. The format follows Keep a Chang
 
 ## [Unreleased]
 
+## [7.5.0] — 2026-10-27
+
+### Changed
+
+- **The site, rebuilt with the skill's own pipeline.** A five-source survey (Grids S03, rind, The Grid, OKAY DEV, Monocle; verified with captures), five awarded motion references (FORMAT, Heron AI, A24, Signal-A, OFFF Forum), three directions with blends and comps, and a decision for **Proof** (Tschichold × Bradbury Thompson × Munari).
+- **The landing proofs a page live.** A deliberately generic generated hero sits on a proof sheet; `site/assets/proof-engine.js` applies the detector's own `rules.mjs` (copied into the build as `assets/rules.js`) to its source and numbers each finding at the element it names: 18 marks, 3 of them P0. A toggle shows the reviewed specimen (0 marks), and **Proof this page** runs the same rules on the landing (0 marks). Without JavaScript the list is printed from `scripts/proof.mjs`, which `tests/proof.test.mjs` keeps in step.
+- New identity across the landing, the documentation and the social card: proof paper and plate themes, one pencil red, overprinted cyan, magenta and yellow planes; Archivo variable (width 62–125 %) and JetBrains Mono. The WebGL ribbon, the ambient film and Bodoni Moda are retired from the site.
+- The documentation follows the system theme by default; the theme button flips what is showing.
+- Review record (local, `.bureau/`): ten gates passed in order at 81.3/100 (Conditional band), Delivery Gate clean, Tribunal declared degraded; the independent jury was not convened, so the verdict is pending.
+
 ## [7.4.0] — 2026-10-27
 
 ### Changed
@@ -236,7 +246,8 @@ The review circuit asks for more evidence. Projects reviewed under 1.0.0 need th
 - `visual-audit` uses hash-level screenshot comparison, not pixel diff.
 - The three templates use fictional demo content, clearly labeled where it could be mistaken for proof.
 
-[Unreleased]: https://github.com/acf1210/bureau/compare/v7.4.0...HEAD
+[Unreleased]: https://github.com/acf1210/bureau/compare/v7.5.0...HEAD
+[7.5.0]: https://github.com/acf1210/bureau/compare/v7.4.0...v7.5.0
 [7.4.0]: https://github.com/acf1210/bureau/compare/v7.3.0...v7.4.0
 [7.3.0]: https://github.com/acf1210/bureau/compare/v7.2.0...v7.3.0
 [7.2.0]: https://github.com/acf1210/bureau/compare/v7.1.0...v7.2.0

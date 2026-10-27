@@ -60,6 +60,17 @@ isreadyforlaunch.com, inspora.design.
 These are linked as references, not affiliated with BUREAU. Verify licenses before
 reusing any asset, font, or layout.
 
+## The site
+
+- **Archivo** (Omnibus-Type) and **JetBrains Mono** (JetBrains), both under the SIL Open
+  Font License 1.1, are self-hosted in `site/assets/fonts` with their licence texts.
+- The landing's proof marks follow the manner of proof-correction marks (ISO 5776);
+  the symbols are drawn for this site and the standard's text is not reproduced.
+- The references surveyed for the 7.5.0 rebuild (Grids S03 by Obys, rind, The Grid,
+  OKAY DEV, Monocle) and the motion references (FORMAT, Heron AI, A24 by Ravi
+  Klaassens, Signal-A, OFFF Forum) informed principles only; no face, palette,
+  layout, code or copy is taken from them.
+
 ## Trademarks
 
 PANTONE® and the Pantone color names are trademarks of Pantone LLC. BUREAU is not

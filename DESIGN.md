@@ -1,95 +1,58 @@
-# DESIGN — BUREAU site
+# DESIGN — the BUREAU site (Proof)
 
-> Visual contract for the landing and documentation. Tokens are normative; a deviation is a finding unless recorded under Decisions. Numbers here are the ones implemented in `site/assets/docs.css` and `site/index.html`.
+> Visual contract for `site/index.html`, `site/assets/docs.css` and `site/og.html`. Tokens are normative. Rebuilt 2026-10-27 for 7.5.0; lineage and decision in `.bureau/comps/blend.md` and `decision.md`.
 
-## World
+## Concept
 
-A dark reading room with an instrument panel. Paper-coloured ink on a near-black ground, one acid green for action, one ember for display accent, one cobalt for data. Type is the architecture: a neoclassical display face at building scale against a mono telemetry voice. Light is produced, not photographed — the hero ribbon is a fragment shader, and it is the only place the page admits to being a screen.
+**Every page gets a proof.** The site is a print bureau's proofing table: a generic generated page arrives as a galley, the detector marks it in red pencil with the real rules, and the reviewed proof comes back clean. The landing then proofs itself.
 
-## Lineage
+- **Signature move:** the live proof sheet (marks drawn at the elements the findings name; marked ↔ reviewed; proof this page).
+- **Technological proof:** `proof-engine.mjs` runs `rules.mjs` (the CLI's file) on fetched source in the browser; the no-JS list is generated from the same code at build time.
+- **Lineage:** Tschichold (composition) × Bradbury Thompson (overprinted colour) × Munari (playful reading).
+- **Dials:** ENERGY 2 · RHYTHM 3 · MOTION 2.
 
-Recorded in `.bureau/comps/blend.md`. Three sources, one axis each:
+## Colour (light is the default; dark is "plate")
 
-- **Dominant, 55% — Massimo Vignelli.** Axis: structure. A fixed grid, few sizes, rules instead of cards, no decorative containers.
-- **Counter, 30% — Giambattista Bodoni.** Axis: type voice. Extreme thick–thin contrast, hairline serifs, uppercase display, italic as emphasis.
-- **Accent, 15% — light-and-code installation practice (Moholy-Nagy's light-space work; Reas and Fry's Processing).** Axis: material. A live field of light and a mono readout that states measurements.
+| Token | Light | Dark | Role | Contrast on ground |
+|---|---|---|---|---|
+| `--paper` | `#EDECE7` | `#111113` | ground | — |
+| `--sheet` | `#F7F6F2` | `#19191C` | proof sheet, panels | — |
+| `--ink` | `#121214` | `#ECEBE6` | text | 15.8 / 15.8 |
+| `--muted` | `#57565F` | `#A5A3AB` | secondary text | 6.1 / 7.6 |
+| `--rule` | `#C9C7BF` | `#34333A` | hairlines | non-text |
+| `--pencil` | `#C8102E` | `#FF5A4E` | proof marks, the one accent | 5.0 / 6.1 |
+| `--cyan` `--magenta` `--yellow` | `#0089C4` `#C4006A` `#F3D000` | same | overprint planes only, `mix-blend-mode: multiply` (light) / `screen` (dark); never text | — |
 
-The attribution test fails to name one source: the grid is Vignelli's, the voice is Bodoni's, the light is neither. That combination is the point.
-
-## Dials
-
-| Dial | Level | What it means here |
-|---|---|---|
-| **ENERGY** | 2 | Assertive, not maximal. One acid accent, one ember, one cobalt. No second accent system, no gradient brand. |
-| **RHYTHM** | 3 | Varied section shapes: full-bleed hero, asymmetric 12-column heads, a two-column problem spread, a dark film band, a 13-item gallery, a ledger, a footer contact sheet. |
-| **MOTION** | 2 | One entrance sequence, scroll-linked progress, section reveals, one continuous shader, one pausable film. No scroll hijacking, no scene per section. |
-
-A page that claims these dials and ships uniform sections, or a scroll scene at MOTION 2, fails its own contract.
-
-## Colour
-
-Dark is the landing theme. The documentation pages carry a theme toggle that switches to the light palette and stores the choice in `localStorage`; no page ships light by default.
-
-| Token | Dark | Light | Role |
-|---|---|---|---|
-| `--bg` | `#0B0B0C` | `#F0EEE9` | Ground |
-| `--bg-2` | `#101012` | `#F7F5F0` | Raised ground |
-| `--surface` | `#151518` | `#FCFAF6` | Panels and ledger |
-| `--ink` | `#F1EDE6` | `#161513` | Primary text |
-| `--muted` | `#A09A90` | `#5E5A54` | Secondary text |
-| `--faint` | `#8A857C` | `#6E6960` | Labels, captions |
-| `--line` | `#2A2A30` | `#D8D2C6` | Rules and borders |
-| `--line-soft` | `#1D1D22` | `#E4DED2` | Internal dividers |
-| `--acid` | `#D6FF3E` | `#4F6B00` | Action, current state |
-| `--ember` | `#FF4A1C` | `#B23A2A` | Display accent, marker and progress rule |
-| `--blue` | `#4D7CFE` | `#1F5F8B` | Reserved for data visualisation; on the landing it appears only inside the shader |
-| `--code` | `#111114` | `#F7F5F0` | Code ground |
-
-Rules: the accent appears at most three times above the fold (kicker dot, primary action, one link). Ember never colours body text. No gradient is used as a brand surface; the only gradient is the hero scrim and the shader output. Every measured token pair is in `.bureau/evidence/contrast.md`; the minimum is 4.5:1.
+Red is the editor's pencil and nothing else: no red buttons, no red headings.
 
 ## Type
 
-| Role | Family | Weight | Size and setting |
-|---|---|---|---|
-| Display | Bodoni Moda | 400 | `min(22cqw, 304px)`, line-height 0.86, tracking -0.05em, uppercase; 61.6 px at 320, 205 px at 1440 |
-| Section head | Bodoni Moda | 400 | `clamp(2.4rem, 5.4vw, 5.6rem)`, line-height 0.92, tracking -0.04em |
-| Lead | Bodoni Moda | 400 | `clamp(1.5rem, 3vw, 2.5rem)`, line-height 1.05 |
-| Body | Archivo | 300–600 | 16–19 px, line-height 1.55–1.7, measure 44–60 characters |
-| Supporting | Archivo | 400 | 12.5–14 px for captions, card notes, gallery descriptions and footer text; never for prose paragraphs |
-| Label / mono | JetBrains Mono | 400–500 | 10–14 px, tracking 0.05–0.18em, uppercase for labels |
-| Command | JetBrains Mono | 400 | 12–13 px on `--code` |
+- **Archivo** variable, self-hosted (`archivo-var-latin*.woff2`, wght 100–900, wdth 62–125%, OFL).
+  - Display: wght 800, wdth 125%, tracking −0.035em, line-height .86; sizes `clamp(3.2rem, 9.4vw, 9.6rem)` (h1), `clamp(2.2rem, 5vw, 4.6rem)` (h2).
+  - Body: wght 400, wdth 100%, 17–19 px, line-height 1.55, measure ≤ 62ch.
+  - Labels: wght 600, wdth 87%, 13–14 px uppercase only for the slug rail.
+- **JetBrains Mono** (OFL): rule IDs, line numbers, commands, the slug.
+- Two families. Bodoni Moda is retired from the site.
 
-Three families, each with one job. Accented Latin (ã, ç, é, ñ, á) is covered by the latin-ext subsets. The landing preloads the normal display and text faces and swaps them in; the thirteen templates declare metric-matched fallback faces inline with `size-adjust`, `ascent-override` and `descent-override`.
+## Space and grid
 
-## Space and structure
+- 12 columns, gutter `clamp(16px, 2vw, 28px)`, page padding `clamp(16px, 4vw, 56px)`, max 1520 px.
+- The slug rail takes columns 1–2 at ≥ 1100 px; content never centres on the page axis.
+- Section rhythm: 8–12 rem between sections; hairline `--rule` rules, not boxes.
+- Radii: 0. Shadows: none, except the proof sheet's 1 px edge and a paper lift `0 1px 0 var(--rule)`.
 
-- Page maximum 1480 px; inline padding `clamp(1.25rem, 4vw, 4.5rem)`; section rhythm `clamp(4.5rem, 10vw, 9rem)`.
-- Twelve-column grid for editorial sections, 2 rem gutters. Hero is two columns, `1fr 320px`, collapsing to one.
-- Rules are 1 px `--line` and carry structure; cards are used only where an object needs a boundary (hero ledger, template plates, ledger rows).
-- Radii: 0 except the kicker dot, the language pill and the 3 px-bordered phone frames in the gallery (14 px). No soft cards.
-- Mobile is composed, not stacked: the header wraps, the nav becomes a wrapped row of full-height links, the hero card is removed, the gallery becomes a single column with captions under the plate, and the 1600 px circuit diagram is replaced by its weight table and a full-size link rather than shrunk to unreadable labels.
+## Components
 
-## States
+- **Proof sheet:** `--sheet` panel, 1 px edge, a 3-plate overprint strip at its head, the specimen iframe scaled to fit, a margin column of marks; leader lines in `--pencil`, 1.5 px.
+- **Mark:** circled symbol (del, wf, qy, ins, mo, eng) + rule ID in mono + title; severity as P0/P1/P2 text, not colour.
+- **Gate ledger:** ten rows, bar length = weight (out of 15), overprint fill; the totals row states the pass thresholds.
+- **Buttons:** ink on paper, 48 px tall, square; secondary = 1 px ink outline. Focus: 3 px `--pencil` outline, 3 px offset.
 
-- Hover: colour shifts to `--ink` or `--acid` and a 1 px underline appears; no scale on text.
-- Focus-visible: 2 px `--acid` outline with offset; never removed.
-- Active/current: `aria-current="true"` carries the acid border in the tabs; the landing language switch links to the three documentation roots, so it marks no current page.
-- Disabled/empty: none shipped. No form on the landing.
-- No-JS: all content visible; the `.js` class gates the entrance, a `noscript` block shows all four install panels and hides the inert tab strip, and the film does not autoplay.
-- Reduced motion: transitions reduced to 0.01 ms, reveals at rest, shader drawn once, film never started.
-- WebGL failure: `#gl` hidden, the static `--bg`-based gradient fallback remains, no console error escapes.
+## Responsive
 
-## Forbidden
+- < 1100 px: the slug rail becomes a top strip; the proof sheet goes full width under the headline; marks list below the sheet with numbered leaders.
+- < 640 px: the specimen scales to the column; marks show as a numbered list (numbers placed on the sheet); the ledger keeps bars, labels wrap.
 
-- Purple-to-blue gradient as brand; gradient text on a headline; centred pill + H1 + subtitle + two buttons.
-- More than one signature move; a second accent system; decorative blur or glass used as a surface.
-- Emoji as UI; stock photography presented as product; fake dashboards, fake logos, fake metrics.
-- Scroll hijacking; autoplaying audio; motion that continues under reduced motion.
-- Type below 10 px for any label; body below 16 px; measure beyond 70 characters.
+## Browser surfaces
 
-## Decisions
-
-- **Bodoni at 19 rem on the landing** is a deliberate risk: it is the subject, not decoration. At 320 px it reduces to 6 rem and the wordmark remains one word per line at most.
-- **The page ships without analytics.** Recorded in `BUREAU.md`; the cost is an unmeasured conversion, accepted for privacy.
-- **Two P2s are accepted:** the 900 px window at 1440 px carries 204 words and the 1920 window carries 177 (VA-BUDGET). Both sit in the gate ledger, where the argument requires the numbers; splitting it would break the comparison. Recorded here rather than waived blindly.
-- **Accepted P2s from the jury rounds:** the header is absolute, so there is no persistent navigation on a document of roughly 10,700 px; the gallery is one 3,069 px block with singleton chips; the thirteen demo pages link back only through the browser; the landing language switch opens the documentation roots while the docs switch keeps the current page; the 1600 px circuit diagram is shown whole as a thumbnail with its weights restated in text and a full-size link, rather than scaled to unreadable labels; the film band is an ambient wash rather than a subject; no motion recording or frame-rate measurement ships, so choreography is evidenced by draw counts and source; INP is unmeasured; the scroll layer is one 24 px fade-up applied per block, which the taxonomy names as a tell when it substitutes for an idea — here the hero entrance and the shader carry the identity and the reveal is a single quiet layer, recorded rather than waived silently.
+`::selection` pencil on paper; `caret-color` pencil; `scrollbar-color` rule on paper; `text-underline-offset: .22em`; tabular figures for numbers.

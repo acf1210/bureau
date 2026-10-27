@@ -3,11 +3,13 @@
   const stored = localStorage.getItem("bureau-theme");
   if (stored) root.dataset.theme = stored;
 
+  // With no stored choice the page follows the system; the button flips whatever is showing.
+  const effective = () => root.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
   const theme = document.getElementById("theme");
   if (theme) {
-    theme.setAttribute("aria-pressed", String(root.dataset.theme === "light"));
+    theme.setAttribute("aria-pressed", String(effective() === "light"));
     theme.addEventListener("click", () => {
-      const next = root.dataset.theme === "light" ? "dark" : "light";
+      const next = effective() === "light" ? "dark" : "light";
       root.dataset.theme = next;
       theme.setAttribute("aria-pressed", String(next === "light"));
       localStorage.setItem("bureau-theme", next);
