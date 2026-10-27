@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cerro Lumen — An observatory at 2,840 m</title>
+<meta name="description" content="A mountain observatory that opens its dome to visitors on moonless nights. Scroll from the dome to the galaxy, one power of ten at a time. Showcase model; the observatory is fictional.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%2306080F'/%3E%3Cpath d='M12 44a20 20 0 0 1 40 0z' fill='%23ECE6D6'/%3E%3Crect x='30' y='22' width='4' height='14' fill='%2306080F'/%3E%3Ccircle cx='48' cy='14' r='3' fill='%23F0A04B'/%3E%3C/svg%3E">
+<script>document.documentElement.classList.add("js");</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Sora:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  /* Lineage: Karl Gerstner (one programme, every section) × László Moholy-Nagy (the shader is the only light) × Charles and Ray Eames (a constant-factor zoom). See LINEAGE.md. */
+  :root{
+    --night:#06080F;
+    --night-2:#0D1220;
+    --veil:rgba(6,8,15,.74);
+    --star:#ECE6D6;
+    --star-dim:#A9A79F;
+    --sodium:#F0A04B;
+    --teal:#5CC2B5;
+    --rule:rgba(236,230,214,.16);
+    --mono:"Major Mono Display",ui-monospace,monospace;
+    --sans:"Sora",system-ui,sans-serif;
+    --ease:cubic-bezier(.16,.84,.24,1);
+    --rail:7.5rem;
+  }
+  *{box-sizing:border-box}
+  html{background:var(--night);color:var(--star);scroll-behavior:smooth}
+  body{margin:0;font:300 1.0625rem/1.6 var(--sans);caret-color:var(--sodium);-webkit-font-smoothing:antialiased}
+  ::selection{background:var(--sodium);color:var(--night)}
+  a{color:inherit;text-underline-offset:.22em}
+  :focus-visible{outline:2px solid var(--sodium);outline-offset:4px}
+  html{scrollbar-color:var(--star-dim) var(--night)}
+  .skip{position:absolute;left:1rem;top:-4rem;background:var(--sodium);color:var(--night);padding:.6rem 1rem;z-index:20;font-weight:600}
+  .skip:focus{top:1rem}
+  #sky{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0}
+  .sky-fallback{position:fixed;inset:0;z-index:0;background:radial-gradient(120% 80% at 70% 20%,#1A2338 0%,var(--night) 60%)}
+
+  header{position:fixed;top:0;left:0;right:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:1.1rem clamp(1rem,3vw,2.5rem);background:linear-gradient(var(--night),rgba(6,8,15,0))}
+  .mark{display:flex;gap:.7rem;align-items:center;text-decoration:none;font:400 1.15rem var(--mono);letter-spacing:.02em}
+  .mark svg{width:28px;height:28px}
+  nav ul{display:flex;gap:clamp(.9rem,2.2vw,2rem);list-style:none;margin:0;padding:0}
+  nav a{text-decoration:none;font-size:.9375rem;color:var(--star-dim);padding:.5rem 0;display:inline-block}
+  nav a:hover{color:var(--star)}
+  nav .book{color:var(--night);background:var(--sodium);padding:.55rem 1rem;border-radius:2px;font-weight:600}
+  nav .book:hover{color:var(--night);background:var(--star)}
+
+  /* The scale rail: one ruler for the whole page, read by every section. */
+  .rail{position:fixed;left:clamp(1rem,3vw,2.5rem);top:50%;transform:translateY(-50%);z-index:5;width:var(--rail);font-family:var(--mono)}
+  .rail ol{list-style:none;margin:0;padding:0 0 0 1rem;border-left:1px solid var(--rule);display:grid;gap:1.9rem}
+  .rail li{font:400 .875rem var(--sans);color:var(--star-dim);position:relative;transition:color .5s var(--ease)}
+  .rail sup,.readout sup{font-size:.6em;line-height:0}
+  .rail{transition:opacity .5s var(--ease)}
+  .rail.away{opacity:0;pointer-events:none}
+  /* Major Mono draws its capitals as heavy alternates; the voice is the lowercase set. */
+  h1,.mark,.exp,.readout,.tonight h2,.visit h2,.instrument .big,.night .d,.facts dd{text-transform:lowercase}
+  header{transition:background .4s var(--ease)}
+  header.solid{background:var(--night)}
+  .rail li::before{content:"";position:absolute;left:-1rem;top:.62em;width:.6rem;height:1px;background:var(--rule)}
+  .rail li.on{color:var(--sodium)}
+  .rail li.on::before{background:var(--sodium);width:1rem}
+  .readout{margin-top:2.2rem;font-size:2.6rem;line-height:1;color:var(--star)}
+  .readout small{display:block;font:300 .8125rem/1.4 var(--sans);color:var(--star-dim);margin-top:.6rem;max-width:8rem}
+
+  main{position:relative;z-index:2}
+  .stage{min-height:100vh;display:grid;align-items:center;padding:7rem clamp(1rem,4vw,3rem) 4rem calc(var(--rail) + clamp(3rem,8vw,8rem))}
+  .hero{min-height:100vh;align-items:end;padding-bottom:12vh}
+  h1{font:400 clamp(2.8rem,7.4vw,7.2rem)/.98 var(--mono);margin:0;max-width:11ch;letter-spacing:-.01em}
+  .lede{max-width:34rem;font-size:clamp(1.05rem,1.4vw,1.25rem);color:var(--star);margin:2rem 0 0}
+  .cta{display:flex;gap:1.2rem;align-items:center;margin-top:2.4rem;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:.6rem;background:var(--sodium);color:var(--night);text-decoration:none;padding:.95rem 1.4rem;font-weight:600;border:0;font-family:var(--sans);font-size:1rem;cursor:pointer;border-radius:2px;transition:background .3s var(--ease)}
+  .btn:hover{background:var(--star)}
+  .quiet{color:var(--star-dim);font-size:.9375rem}
+
+  /* Gerstner: every power of ten is the same programme — exponent, object, distance, light time, one sentence. */
+  .power{display:grid;grid-template-columns:minmax(0,auto) minmax(0,1fr);gap:clamp(1.5rem,4vw,4rem);align-items:end;max-width:72rem}
+  .exp{font:400 clamp(5rem,15vw,15rem)/.8 var(--mono);color:var(--star);letter-spacing:-.04em}
+  .exp sup{font-size:.42em;vertical-align:top;position:relative;top:.1em;color:var(--sodium)}
+  .card{background:var(--veil);padding:1.6rem 1.8rem;max-width:30rem;border-top:1px solid var(--rule)}
+  .card h2{font:600 1.5rem/1.2 var(--sans);margin:0 0 .8rem}
+  .card p{margin:0 0 1.2rem;color:var(--star)}
+  .facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin:0;font-variant-numeric:tabular-nums}
+  .facts dt{font-size:.8125rem;color:var(--star-dim)}
+  .facts dd{margin:.2rem 0 0;font:400 1.1rem var(--mono)}
+
+  .js .lift{opacity:0;transform:translateY(2.2rem);transition:opacity 1.1s var(--ease),transform 1.1s var(--ease)}
+  .js .lift.in{opacity:1;transform:none}
+
+  /* Tonight: computed in the visitor's browser from the date, not fetched. */
+  .tonight{background:var(--night-2);position:relative;z-index:2;padding:7rem clamp(1rem,4vw,3rem) 6rem calc(var(--rail) + clamp(3rem,8vw,8rem))}
+  .tonight h2,.visit h2{font:400 clamp(2rem,4.4vw,3.8rem)/1.05 var(--mono);margin:0 0 2.6rem;max-width:16ch}
+  .instruments{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--rule);max-width:72rem}
+  .instrument{background:var(--night-2);padding:1.8rem}
+  .instrument h3{font:600 .9375rem var(--sans);margin:0 0 1.2rem;color:var(--star-dim)}
+  .instrument .big{font:400 2.6rem/1 var(--mono);font-variant-numeric:tabular-nums}
+  .instrument p{color:var(--star-dim);font-size:.9375rem;margin:1rem 0 0}
+  #moon-glyph{width:96px;height:96px;display:block;margin-bottom:1rem}
+
+  .visit{position:relative;z-index:2;background:var(--star);color:var(--night);padding:7rem clamp(1rem,4vw,3rem) 6rem calc(var(--rail) + clamp(3rem,8vw,8rem))}
+  .visit ::selection{background:var(--night);color:var(--star)}
+  .visit .quiet{color:#4B4A45}
+  .nights{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:.6rem;max-width:72rem;border:0;padding:0;margin:0 0 2.4rem}
+  .nights legend{font-weight:600;margin-bottom:1rem;font-size:1rem}
+  .night{position:relative}
+  .night input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+  .night label{display:grid;gap:.5rem;justify-items:center;padding:1rem .4rem;border:1px solid rgba(6,8,15,.22);cursor:pointer;transition:background .3s var(--ease),color .3s var(--ease);text-align:center;min-height:9rem}
+  .night svg{width:44px;height:44px}
+  .night .d{font:400 1rem var(--mono)}
+  .night .s{font-size:.8125rem;color:#4B4A45}
+  .night input:checked + label{background:var(--night);color:var(--star)}
+  .night input:checked + label .s{color:var(--star-dim)}
+  .night input:focus-visible + label{outline:2px solid var(--night);outline-offset:3px}
+  .party{display:flex;gap:1.2rem;align-items:center;flex-wrap:wrap;margin-bottom:2.4rem}
+  .stepper{display:inline-flex;border:1px solid var(--night)}
+  .stepper button{width:3rem;height:3rem;border:0;background:transparent;font:400 1.4rem var(--mono);cursor:pointer;color:var(--night)}
+  .stepper button:hover{background:var(--night);color:var(--star)}
+  .stepper output{width:3.4rem;display:grid;place-items:center;font:400 1.3rem var(--mono);border-inline:1px solid var(--night)}
+  .summary{max-width:40rem;font-size:1.15rem;margin:0 0 1rem}
+  .visit .btn{background:var(--night);color:var(--star)}
+  .visit .btn:hover{background:var(--sodium);color:var(--night)}
+  #booking-status{min-height:1.6em;margin:1rem 0 0;font-weight:600}
+
+  footer{position:relative;z-index:2;background:var(--night);display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;padding:2.4rem clamp(1rem,4vw,3rem) 2.4rem calc(var(--rail) + clamp(3rem,8vw,8rem));color:var(--star-dim);font-size:.9375rem}
+
+  @media (max-width:860px){
+    :root{--rail:0rem}
+    nav li:not(:last-child){display:none}
+    /* On a phone the rail turns into a strip under the header: the exponent stays in view. */
+    .rail{top:auto;bottom:0;left:0;right:0;transform:none;width:auto;display:flex;align-items:center;gap:1rem;padding:.7rem 1rem;background:linear-gradient(rgba(6,8,15,0),var(--night) 40%)}
+    .rail ol{display:flex;gap:.9rem;border-left:0;padding:0;overflow:hidden}
+    .rail li{font-size:.8125rem}
+    .rail li::before{display:none}
+    .rail li:not(.on){display:none}
+    .readout{margin:0 0 0 auto;font-size:1.6rem}
+    .readout small{display:none}
+    .stage,.tonight,.visit,footer{padding-left:1rem;padding-right:1rem}
+    .stage{padding-top:6rem;padding-bottom:6rem}
+    .hero{padding-bottom:9rem}
+    .power{grid-template-columns:minmax(0,1fr);gap:1rem}
+    .exp{font-size:clamp(4.6rem,26vw,8rem)}
+    .card{padding:1.3rem 1.2rem}
+    .instruments{grid-template-columns:minmax(0,1fr)}
+    .nights{grid-template-columns:repeat(4,minmax(0,1fr))}
+    .night label{min-height:7.6rem}
+  }
+  @media (max-width:380px){
+    .nights{grid-template-columns:repeat(3,minmax(0,1fr))}
+    h1{font-size:2.5rem}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .js .lift{opacity:1;transform:none;transition:none}
+    .rail li{transition:none}
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="sky-fallback" aria-hidden="true"></div>
+<canvas id="sky" aria-hidden="true"></canvas>
+
+<header>
+  <a class="mark" href="#main" aria-label="Cerro Lumen, top of page">
+    <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M8 46a24 24 0 0 1 48 0z" fill="#ECE6D6"/><rect x="30" y="20" width="4" height="16" fill="#06080F"/><circle cx="50" cy="12" r="3" fill="#F0A04B"/></svg>
+    cerro lumen
+  </a>
+  <nav aria-label="Main">
+    <ul>
+      <li><a href="#p1">Scale</a></li>
+      <li><a href="#tonight">Tonight</a></li>
+      <li><a class="book" href="#visit">Book a night</a></li>
+    </ul>
+  </nav>
+</header>
+
+<aside class="rail" aria-label="Scale of the current section">
+  <ol>
+    <li data-for="hero">10<sup>0</sup> m, you</li>
+    <li data-for="p1">10<sup>1</sup> m, dome</li>
+    <li data-for="p2">10<sup>5</sup> m, valley</li>
+    <li data-for="p3">10<sup>8</sup> m, moon</li>
+    <li data-for="p4">10<sup>12</sup> m, saturn</li>
+    <li data-for="p5">10<sup>21</sup> m, galaxy</li>
+  </ol>
+  <p class="readout" aria-live="off"><span id="readout">10<sup>0</sup></span><small>metres across the frame</small></p>
+</aside>
+
+<main id="main" tabindex="-1">
+  <section class="stage hero" id="hero" data-zoom="0">
+    <div>
+      <h1>The dark is kept here.</h1>
+      <p class="lede">Cerro Lumen sits at 2,840 m, fifty kilometres from the nearest streetlight. On moonless nights we open the dome to twelve visitors and point a 4.1 m mirror wherever they ask.</p>
+      <div class="cta">
+        <a class="btn" href="#visit">Book a night</a>
+        <span class="quiet">Scroll to travel one power of ten at a time.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="stage" id="p1" data-zoom="1" aria-labelledby="h-p1">
+    <div class="power lift">
+      <p class="exp" aria-hidden="true">10<sup>1</sup></p>
+      <div class="card">
+        <h2 id="h-p1">The dome</h2>
+        <p>Thirty-one metres of aluminium that turns in four minutes. Inside, the floor is kept at the night's own temperature so the air above the mirror stays still.</p>
+        <dl class="facts"><div><dt>Across</dt><dd>31 m</dd></div><div><dt>Light crosses it in</dt><dd data-light="31">—</dd></div></dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="stage" id="p2" data-zoom="2" aria-labelledby="h-p2">
+    <div class="power lift">
+      <p class="exp" aria-hidden="true">10<sup>5</sup></p>
+      <div class="card">
+        <h2 id="h-p2">The valley</h2>
+        <p>A dark-sky reserve one hundred kilometres wide. The villages below agreed to amber, shielded lamps; from the summit their light is a faint ochre line on the horizon.</p>
+        <dl class="facts"><div><dt>Across</dt><dd>100 km</dd></div><div><dt>Light crosses it in</dt><dd data-light="100000">—</dd></div></dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="stage" id="p3" data-zoom="3" aria-labelledby="h-p3">
+    <div class="power lift">
+      <p class="exp" aria-hidden="true">10<sup>8</sup></p>
+      <div class="card">
+        <h2 id="h-p3">The Moon</h2>
+        <p>The one thing we hide from. A full Moon brightens the sky forty times, so visitor nights follow its phase: we book the dark half of every month.</p>
+        <dl class="facts"><div><dt>Distance</dt><dd>384,400 km</dd></div><div><dt>Its light reaches us in</dt><dd data-light="384400000">—</dd></div></dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="stage" id="p4" data-zoom="4" aria-labelledby="h-p4">
+    <div class="power lift">
+      <p class="exp" aria-hidden="true">10<sup>12</sup></p>
+      <div class="card">
+        <h2 id="h-p4">Saturn</h2>
+        <p>The visitor favourite. Through the eyepiece the rings are sharp enough to show the gap a moon swept clean, and the light you see left the planet over an hour ago.</p>
+        <dl class="facts"><div><dt>Distance</dt><dd>1.43 billion km</dd></div><div><dt>Its light reaches us in</dt><dd data-light="1430000000000">—</dd></div></dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="stage" id="p5" data-zoom="5" aria-labelledby="h-p5">
+    <div class="power lift">
+      <p class="exp" aria-hidden="true">10<sup>21</sup></p>
+      <div class="card">
+        <h2 id="h-p5">The galaxy</h2>
+        <p>From the southern Andes the centre of the Milky Way passes straight overhead in winter. It casts a shadow on white paper. Bring some.</p>
+        <dl class="facts"><div><dt>Across</dt><dd>100,000 ly</dd></div><div><dt>Light crosses it in</dt><dd>100,000 years</dd></div></dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="tonight" id="tonight" aria-labelledby="h-tonight">
+    <h2 id="h-tonight">Tonight, from the summit.</h2>
+    <div class="instruments">
+      <div class="instrument">
+        <h3>Moon</h3>
+        <svg id="moon-glyph" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="44" fill="#1A2030"/><path id="moon-lit" fill="#ECE6D6" d=""/></svg>
+        <p class="big" id="moon-pct">—</p>
+        <p id="moon-note">Computed from today's date in your browser.</p>
+      </div>
+      <div class="instrument">
+        <h3>Sidereal time at the summit</h3>
+        <p class="big" id="lst">—</p>
+        <p>The sky's own clock, at longitude 70.7° W. It runs four minutes a day faster than yours.</p>
+      </div>
+      <div class="instrument">
+        <h3>Next dark night</h3>
+        <p class="big" id="next-dark">—</p>
+        <p>The first evening with less than a quarter of the Moon lit.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="visit" id="visit" aria-labelledby="h-visit">
+    <h2 id="h-visit">Choose a night.</h2>
+    <fieldset class="nights" id="nights">
+      <legend>The next seven evenings, with the Moon as it will be</legend>
+    </fieldset>
+    <div class="party">
+      <span id="party-label">Visitors</span>
+      <div class="stepper" role="group" aria-labelledby="party-label">
+        <button type="button" id="less" aria-label="One visitor fewer">−</button>
+        <output id="party" aria-live="polite">2</output>
+        <button type="button" id="more" aria-label="One visitor more">+</button>
+      </div>
+      <span class="quiet">Twelve places a night.</span>
+    </div>
+    <p class="summary" id="summary">Pick an evening to see what the sky will hold.</p>
+    <button class="btn" type="button" id="hold">Hold these places</button>
+    <p id="booking-status" role="status"></p>
+  </section>
+</main>
+
+<footer>
+  <span>Cerro Lumen Observatory · Showcase model, the observatory is fictional</span>
+  <span>Sky drawn live by WebGL; the sky speeds up 600× so you can see it turn.</span>
+</footer>
+
+<script>
+(() => {
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+  const C = 299792458;
+
+  // Light-travel times, written from the distances so the copy cannot drift from the numbers.
+  const fmt = (s) => s < 1e-3 ? `${(s * 1e9).toFixed(0)} ns` : s < 1 ? `${(s * 1e3).toFixed(2)} ms` : s < 120 ? `${s.toFixed(2)} s` : `${(s / 60).toFixed(0)} min`;
+  document.querySelectorAll("[data-light]").forEach((el) => { el.textContent = fmt(Number(el.dataset.light) / C); });
+
+  // Sections light the rail and set the shader's target zoom.
+  const sections = [...document.querySelectorAll("[data-zoom]")];
+  const items = [...document.querySelectorAll(".rail li")];
+  const readout = document.getElementById("readout");
+  const exps = ["0", "1", "5", "8", "12", "21"];
+  let target = 0;
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) e.target.querySelector(".lift")?.classList.add("in");
+      if (!e.isIntersecting || e.intersectionRatio < .45) continue;
+      const z = Number(e.target.dataset.zoom);
+      target = z;
+      items.forEach((li, i) => li.classList.toggle("on", i === z));
+      readout.innerHTML = `10<sup>${exps[z]}</sup>`;
+    }
+  }, { threshold: [0, .45, .7] });
+  sections.forEach((s) => io.observe(s));
+  items[0].classList.add("on");
+  // The rail belongs to the zoom; it steps aside for the instruments and the booking sheet.
+  const rail = document.querySelector(".rail");
+  const head = document.querySelector("header");
+  const after = document.getElementById("tonight");
+  const place = () => { rail.classList.toggle("away", after.getBoundingClientRect().top < innerHeight * .6); head.classList.toggle("solid", scrollY > after.offsetTop - 80); };
+  addEventListener("scroll", place, { passive: true }); place();
+
+  // Moon phase from the synodic month, epoch 2000-01-06 18:14 UTC (a new Moon).
+  const SYN = 29.530588853;
+  const phaseAt = (d) => { const days = (d - Date.UTC(2000, 0, 6, 18, 14)) / 864e5; return ((days % SYN) + SYN) % SYN / SYN; };
+  const litAt = (p) => (1 - Math.cos(2 * Math.PI * p)) / 2;
+  const moonPath = (p, r = 44, cx = 50, cy = 50) => {
+    const lit = litAt(p), waxing = p < .5, k = Math.abs(1 - 2 * lit) * r;
+    const sweepOuter = waxing ? 1 : 0;
+    const sweepInner = (lit > .5) === waxing ? 1 : 0;
+    return `M${cx} ${cy - r} A${r} ${r} 0 0 ${sweepOuter} ${cx} ${cy + r} A${k} ${r} 0 0 ${sweepInner} ${cx} ${cy - r}Z`;
+  };
+  const now = new Date();
+  const p = phaseAt(now);
+  document.getElementById("moon-lit").setAttribute("d", moonPath(p));
+  document.getElementById("moon-pct").textContent = `${Math.round(litAt(p) * 100)}% lit`;
+  document.getElementById("moon-note").textContent = p < .5 ? "Waxing: the evenings get brighter this week." : "Waning: the evenings get darker this week.";
+
+  let dark = null;
+  for (let i = 0; i < 31 && !dark; i++) { const d = new Date(now); d.setDate(d.getDate() + i); d.setHours(21, 0, 0, 0); if (litAt(phaseAt(d)) < .25) dark = d; }
+  document.getElementById("next-dark").textContent = dark ? dark.toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" }) : "—";
+
+  // Local sidereal time at 70.7° W.
+  const lstEl = document.getElementById("lst");
+  const tickLst = () => {
+    const jd = Date.now() / 864e5 + 2440587.5, T = jd - 2451545.0;
+    let gmst = (18.697374558 + 24.06570982441908 * T) % 24;
+    let lst = ((gmst - 70.7 / 15) % 24 + 24) % 24;
+    const h = Math.floor(lst), m = Math.floor((lst - h) * 60), s = Math.floor(((lst - h) * 60 - m) * 60);
+    lstEl.textContent = `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+  };
+  tickLst(); setInterval(tickLst, 1000);
+
+  // Seven evenings, each drawn as its Moon (Lustig: an abstract sign stands for the night).
+  const nights = document.getElementById("nights");
+  const party = document.getElementById("party");
+  const summary = document.getElementById("summary");
+  const status = document.getElementById("booking-status");
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(now); d.setDate(d.getDate() + i); d.setHours(21, 0, 0, 0);
+    const ph = phaseAt(d), lit = Math.round(litAt(ph) * 100);
+    const id = `n${i}`, label = d.toLocaleDateString("en-GB", { weekday: "short", day: "numeric" });
+    const wrap = document.createElement("div");
+    wrap.className = "night";
+    wrap.innerHTML = `<input type="radio" name="night" id="${id}" value="${i}"${lit > 75 ? " disabled" : ""}><label for="${id}"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="44" fill="currentColor" opacity=".16"/><path fill="currentColor" d="${moonPath(ph)}"/></svg><span class="d">${label}</span><span class="s">${lit > 75 ? "Moon too bright" : `${lit}% Moon`}</span></label>`;
+    wrap.querySelector("input").dataset.lit = lit;
+    wrap.querySelector("input").dataset.label = d.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" });
+    nights.append(wrap);
+  }
+  const update = () => {
+    const pick = nights.querySelector("input:checked");
+    status.textContent = "";
+    if (!pick) return;
+    const lit = Number(pick.dataset.lit), n = Number(party.value);
+    const sky = lit < 10 ? "a truly dark sky: the Milky Way will cast shadows" : lit < 40 ? "a dark sky after the Moon sets" : "a bright Moon early; we will start with Saturn";
+    summary.textContent = `${pick.dataset.label}, ${n} ${n === 1 ? "visitor" : "visitors"}: ${sky}.`;
+  };
+  nights.addEventListener("change", update);
+  const step = (d) => { party.value = Math.min(12, Math.max(1, Number(party.value) + d)); party.textContent = party.value; update(); };
+  party.value = 2;
+  document.getElementById("less").addEventListener("click", () => step(-1));
+  document.getElementById("more").addEventListener("click", () => step(1));
+  document.getElementById("hold").addEventListener("click", () => {
+    status.textContent = nights.querySelector("input:checked") ? "This is a showcase model: nothing was booked and nothing left this page." : "Choose an evening first.";
+  });
+
+  // The sky. One fragment shader: a rotating southern star field, a nebula, and a spiral that resolves as you zoom out.
+  const canvas = document.getElementById("sky");
+  const gl = canvas.getContext("webgl", { antialias: false, premultipliedAlpha: false });
+  if (!gl) return;
+  const vs = `attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}`;
+  const fs = `precision highp float;
+uniform vec2 r;uniform float t;uniform float z;
+float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+float n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h(i),h(i+vec2(1,0)),f.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x),f.y);}
+float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<6;i++){v+=a*n(p);p=p*2.03+vec2(1.7,9.2);a*=.5;}return v;}
+mat2 rot(float a){float c=cos(a),s=sin(a);return mat2(c,-s,s,c);}
+vec3 stars(vec2 uv,float scale){vec3 c=vec3(0.);for(int l=0;l<3;l++){float s=scale*(1.+float(l)*1.7);vec2 g=uv*s,id=floor(g),f=fract(g)-.5;float rnd=h(id+float(l)*17.);if(rnd>.92){vec2 o=vec2(h(id+3.1),h(id+7.7))-.5;float d=length(f-o*.6);float b=pow(rnd-.92,1.)*12.5;float tw=.75+.25*sin(t*3.+rnd*40.);vec3 tint=mix(vec3(1.,.82,.6),vec3(.72,.85,1.),h(id+1.3));c+=tint*b*tw*smoothstep(.06,0.,d)*(1.-float(l)*.25);}}return c;}
+void main(){
+  vec2 uv=(gl_FragCoord.xy-.5*r)/r.y;
+  float zz=clamp(z/5.,0.,1.);
+  vec2 q=rot(t*.02)*uv;
+  float scale=mix(26.,9.,zz);
+  vec3 col=vec3(.012,.016,.035);
+  float neb=fbm(q*mix(1.6,3.2,zz)+vec2(t*.004,0.));
+  float neb2=fbm(q*3.1-vec2(4.,t*.003));
+  col+=vec3(.05,.12,.13)*smoothstep(.45,.95,neb)*1.6;
+  col+=vec3(.16,.08,.03)*smoothstep(.55,1.,neb2)*1.2;
+  // The galaxy: a two-armed log spiral that appears as the zoom reaches the last power.
+  vec2 g=rot(-t*.03)*uv*mix(3.,1.15,zz);
+  float rr=length(g),a=atan(g.y,g.x);
+  float arms=.5+.5*cos(2.*a-4.2*log(rr+.001)+t*.05);
+  float disc=exp(-rr*2.6)*(.35+1.1*pow(arms,3.))*(.6+.6*fbm(g*6.));
+  float core=exp(-rr*12.);
+  float gal=smoothstep(.55,1.,zz);
+  col+=gal*(vec3(.95,.78,.55)*disc*1.15+vec3(1.,.9,.75)*core*1.4);
+  col+=stars(q,scale)*(1.-gal*.55);
+  // Horizon: the mountain is only there at human scale.
+  float ridge=-.36+.06*fbm(vec2(uv.x*2.2,1.))+.02*sin(uv.x*9.);
+  float land=smoothstep(ridge+.004,ridge-.004,uv.y)*(1.-smoothstep(0.,.25,zz));
+  col=mix(col,vec3(.012,.012,.02),land);
+  col+=vec3(.55,.32,.12)*.12*exp(-abs(uv.y-ridge)*40.)*(1.-smoothstep(0.,.25,zz));
+  col*=1.-.35*dot(uv,uv);
+  gl_FragColor=vec4(pow(col,vec3(.9)),1.);
+}`;
+  const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
+  const prog = gl.createProgram();
+  gl.attachShader(prog, sh(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog);
+  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return;
+  gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+  const loc = gl.getAttribLocation(prog, "p");
+  gl.enableVertexAttribArray(loc);
+  gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+  const uR = gl.getUniformLocation(prog, "r"), uT = gl.getUniformLocation(prog, "t"), uZ = gl.getUniformLocation(prog, "z");
+  const size = () => { const d = Math.min(devicePixelRatio || 1, 2); canvas.width = innerWidth * d; canvas.height = innerHeight * d; gl.viewport(0, 0, canvas.width, canvas.height); };
+  size(); addEventListener("resize", size);
+  let zoom = 0, start = performance.now(), raf = 0, visible = true;
+  const draw = (now) => {
+    zoom += (target - zoom) * (reduce.matches ? 1 : .035);
+    gl.uniform2f(uR, canvas.width, canvas.height);
+    gl.uniform1f(uT, reduce.matches ? 40 : (now - start) / 1000);
+    gl.uniform1f(uZ, zoom);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+    raf = !reduce.matches && visible ? requestAnimationFrame(draw) : 0;
+  };
+  // Under reduced motion the sky is drawn once per section change, never animated.
+  setInterval(() => { if (reduce.matches && Math.abs(target - zoom) > .001) draw(performance.now()); }, 250);
+  document.addEventListener("visibilitychange", () => { visible = !document.hidden; if (visible && !raf && !reduce.matches) raf = requestAnimationFrame(draw); });
+  reduce.addEventListener("change", () => { if (!reduce.matches && !raf) raf = requestAnimationFrame(draw); else draw(performance.now()); });
+  canvas.addEventListener("webglcontextlost", (e) => { e.preventDefault(); cancelAnimationFrame(raf); raf = 0; });
+  raf = requestAnimationFrame(draw);
+})();
+</script>
+</body>
+</html>

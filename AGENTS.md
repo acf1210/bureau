@@ -58,7 +58,7 @@ Semver: changed circuit, script or file contract → major; new capability → m
 
 ```bash
 npm test
-node skill/scripts/audit.mjs skill/assets/templates site/index.html --fail-on p1
+node skill/scripts/audit.mjs skill/assets/templates showcase site/index.html --fail-on p1
 node skill/scripts/visual-audit.mjs http://localhost:4173 --out .bureau/qa --fail-on p0
 npm run docs:build
 ```

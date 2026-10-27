@@ -129,11 +129,10 @@
   .demo{display:flex;flex-direction:column;border:1px solid var(--line);background:var(--bg-2);min-width:0;position:relative;text-decoration:none}
   .demo--lead{grid-column:span 2;grid-row:span 2}
   .demo__media{position:relative;overflow:clip;aspect-ratio:16/10;background:var(--surface)}
-  .demo__media > picture:first-child img{width:100%;height:100%;object-fit:cover;object-position:top;display:block;transition:transform .7s cubic-bezier(.16,1,.3,1)}
+  .demo__media > picture:first-child img{width:100%;height:100%;object-fit:cover;object-position:left top;display:block;transition:transform .7s cubic-bezier(.16,1,.3,1)}
   .demo:hover .demo__media > picture:first-child img{transform:scale(1.03)}
   .demo--lead .demo__media{aspect-ratio:auto;flex:1;min-height:320px}
-  .demo--close{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr)}
-  .demo--close .demo__body{flex-direction:column;justify-content:center;padding:2rem}
+  .demo--wide{grid-column:span 2}
   .demo__phone{position:absolute;right:5%;bottom:-14%;width:22%;border:3px solid var(--bg);border-radius:14px;overflow:hidden;box-shadow:0 18px 40px -20px rgba(0,0,0,.6);transition:transform .7s cubic-bezier(.16,1,.3,1)}
   .demo--lead .demo__phone{width:17%}
   .demo:hover .demo__phone{transform:translateY(-6%)}
@@ -206,8 +205,7 @@
     .circuit__side{grid-column:1/13;position:static}
     .install__copy,.install__panel{grid-column:1/13}
     .demos{grid-template-columns:repeat(2,minmax(0,1fr))}
-    .demo--close{grid-column:auto;display:flex}
-    .demo--close .demo__body{padding:1.1rem 1.2rem 1.2rem}
+    .demo--wide{grid-column:1/-1}
     .demo--lead{grid-column:1/-1;grid-row:auto}
   }
   @media (max-width:720px){
@@ -243,7 +241,7 @@
     <a href="#problem">Manifesto</a>
     <a href="#circuit">Circuit</a>
     <a href="#capabilities">Capabilities</a>
-    <a href="#demos">Demos</a>
+    <a href="#showcase">ShowCase</a>
     <a href="#install">Install</a>
     <a href="#docs">Docs</a>
   </nav>
@@ -388,141 +386,61 @@
     </div>
   </section>
 
-  <section class="section wrap" id="demos">
+  <section class="section wrap" id="showcase">
     <div class="section-head">
-      <h2 class="reveal">Thirteen worlds. Thirteen lineages.</h2>
-      <p class="reveal">Each template blends three designers on three axes and has a mobile composition of its own; the landing shares at most 0.08 of its fingerprint with any of them. Study the blend, then <a class="standalone" href="demos/index.html" style="border-bottom:1px solid var(--line)">open the demo index ↗</a> or write your own.</p>
+      <h2 class="reveal">Five models. Design first.</h2>
+      <p class="reveal">Five studios that do not exist, each built from a blend of three designers and given a phone composition of its own: a mountain observatory, a perfume house, a pottery, an ocean institute and a type foundry. Design leads every decision here; performance comes last. <a class="standalone" href="showcase/index.html" style="border-bottom:1px solid var(--line)">Open the ShowCase ↗</a></p>
     </div>
     <div class="demos">
       <!-- gallery:start -->
-      <a class="demo demo--lead" href="demos/kinetic-editorial/index.html" aria-label="Kinetic Editorial: Night journal. Tschichold × Lubalin × Bass. An index filed by the live Lisbon hour.">
+      <a class="demo demo--lead" href="showcase/observatory/index.html" aria-label="Cerro Lumen: Mountain observatory. Gerstner × Moholy-Nagy × Eames. Scroll from the dome to the galaxy, one power of ten at a time.">
         <div class="demo__media">
-          <picture><source type="image/avif" srcset="assets/img/demos/kinetic-editorial-desktop.avif"><img src="assets/img/demos/kinetic-editorial-desktop.webp" alt="Kinetic Editorial: An italic Bodoni headline on a blue-black ground, with the issue contents in a margin column." width="1200" height="750" loading="lazy"></picture>
-          <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/kinetic-editorial-mobile.avif"><img src="assets/img/demos/kinetic-editorial-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
+          <picture><source type="image/avif" srcset="assets/img/showcase/observatory-desktop.avif"><img src="assets/img/showcase/observatory-desktop.webp" alt="Cerro Lumen: A night sky drawn by a shader over a dark ridge, with a lowercase monospaced headline and a scale rail at the left." width="1200" height="750" loading="lazy"></picture>
+          <picture class="demo__phone"><source type="image/avif" srcset="assets/img/showcase/observatory-mobile.avif"><img src="assets/img/showcase/observatory-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
         </div>
         <div class="demo__body">
-          <div><h3>Kinetic Editorial</h3><p><b>Tschichold × Lubalin × Bass.</b> An index filed by the live Lisbon hour.</p></div>
-          <span class="demo__tag">Night journal</span>
+          <div><h3>Cerro Lumen</h3><p><b>Gerstner × Moholy-Nagy × Eames.</b> Scroll from the dome to the galaxy, one power of ten at a time.</p></div>
+          <span class="demo__tag">Mountain observatory</span>
         </div>
       </a>
-      <a class="demo" href="demos/product-surface/index.html" aria-label="Product Surface: Planning desk. Tufte × Vignelli × Aicher. Raise the waterline; the order of failure follows.">
+      <a class="demo" href="showcase/perfumery/index.html" aria-label="Maison Orvé: Perfume house. Ruder × Greiman × Munari. Compose top, heart and base; watch them move through water.">
         <div class="demo__media">
-          <picture><source type="image/avif" srcset="assets/img/demos/product-surface-desktop.avif"><img src="assets/img/demos/product-surface-desktop.webp" alt="Product Surface: A coastal planning desk in IBM Plex with a waterline slider and a direct-labelled chart." width="1200" height="750" loading="lazy"></picture>
-          <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/product-surface-mobile.avif"><img src="assets/img/demos/product-surface-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
+          <picture><source type="image/avif" srcset="assets/img/showcase/perfumery-desktop.avif"><img src="assets/img/showcase/perfumery-desktop.webp" alt="Maison Orvé: A serif headline in a narrow column beside a field of gold, violet and green ink threads moving through water." width="1200" height="750" loading="lazy"></picture>
+          <picture class="demo__phone"><source type="image/avif" srcset="assets/img/showcase/perfumery-mobile.avif"><img src="assets/img/showcase/perfumery-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
         </div>
         <div class="demo__body">
-          <div><h3>Product Surface</h3><p><b>Tufte × Vignelli × Aicher.</b> Raise the waterline; the order of failure follows.</p></div>
-          <span class="demo__tag">Planning desk</span>
+          <div><h3>Maison Orvé</h3><p><b>Ruder × Greiman × Munari.</b> Compose top, heart and base; watch them move through water.</p></div>
+          <span class="demo__tag">Perfume house</span>
         </div>
       </a>
-      <a class="demo" href="demos/immersive-experience/index.html" aria-label="Immersive Experience: Light installation. Moholy-Nagy × Cooper × Eames. Shift the light; shader, title and focus follow.">
+      <a class="demo" href="showcase/ceramics/index.html" aria-label="Torno: Pottery. Tanaka × Scarpa × Bass. Pull a pot on the wheel and see what it holds before it is thrown.">
         <div class="demo__media">
-          <picture><source type="image/avif" srcset="assets/img/demos/immersive-experience-desktop.avif"><img src="assets/img/demos/immersive-experience-desktop.webp" alt="Immersive Experience: WebGL beams of ember light behind the word HALFLIGHT set on two planes." width="1200" height="750" loading="lazy"></picture>
-          <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/immersive-experience-mobile.avif"><img src="assets/img/demos/immersive-experience-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
+          <picture><source type="image/avif" srcset="assets/img/showcase/ceramics-desktop.avif"><img src="assets/img/showcase/ceramics-desktop.webp" alt="Torno: A celadon-glazed jar rendered in WebGL on terracotta and dark planes beside form chips and sliders." width="1200" height="750" loading="lazy"></picture>
+          <picture class="demo__phone"><source type="image/avif" srcset="assets/img/showcase/ceramics-mobile.avif"><img src="assets/img/showcase/ceramics-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
         </div>
         <div class="demo__body">
-          <div><h3>Immersive Experience</h3><p><b>Moholy-Nagy × Cooper × Eames.</b> Shift the light; shader, title and focus follow.</p></div>
-          <span class="demo__tag">Light installation</span>
+          <div><h3>Torno</h3><p><b>Tanaka × Scarpa × Bass.</b> Pull a pot on the wheel and see what it holds before it is thrown.</p></div>
+          <span class="demo__tag">Pottery</span>
         </div>
       </a>
-      <a class="demo" href="demos/legal-practice/index.html" aria-label="Legal Practice: Arbitration chambers. Sutnar × Rand × Ruder. Every clause in two registers: legal and plain.">
+      <a class="demo" href="showcase/ocean/index.html" aria-label="Maré: Ocean institute. Sutnar × Wyman × Kare. Contours radiate from the name; raise the wind and the sea builds.">
         <div class="demo__media">
-          <picture><source type="image/avif" srcset="assets/img/demos/legal-practice-desktop.avif"><img src="assets/img/demos/legal-practice-desktop.webp" alt="Legal Practice: A serif headline beside an engagement letter with a Legal and Plain switch." width="1200" height="750" loading="lazy"></picture>
-          <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/legal-practice-mobile.avif"><img src="assets/img/demos/legal-practice-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
+          <picture><source type="image/avif" srcset="assets/img/showcase/ocean-desktop.avif"><img src="assets/img/showcase/ocean-desktop.webp" alt="Maré: A giant condensed wordmark wrapped in cyan and orange contour lines on a deep blue ground." width="1200" height="750" loading="lazy"></picture>
+          <picture class="demo__phone"><source type="image/avif" srcset="assets/img/showcase/ocean-mobile.avif"><img src="assets/img/showcase/ocean-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
         </div>
         <div class="demo__body">
-          <div><h3>Legal Practice</h3><p><b>Sutnar × Rand × Ruder.</b> Every clause in two registers: legal and plain.</p></div>
-          <span class="demo__tag">Arbitration chambers</span>
+          <div><h3>Maré</h3><p><b>Sutnar × Wyman × Kare.</b> Contours radiate from the name; raise the wind and the sea builds.</p></div>
+          <span class="demo__tag">Ocean institute</span>
         </div>
       </a>
-      <a class="demo" href="demos/architecture-studio/index.html" aria-label="Architecture Studio: Architecture studio. Ando × Mies × Scarpa. A slit of daylight that opens as you scroll.">
+      <a class="demo demo--wide" href="showcase/foundry/index.html" aria-label="Glifo: Type foundry. A. Albers × Scher × Cooper. Pull five axes by hand, weave a field of letters, open one in depth.">
         <div class="demo__media">
-          <picture><source type="image/avif" srcset="assets/img/demos/architecture-studio-desktop.avif"><img src="assets/img/demos/architecture-studio-desktop.webp" alt="Architecture Studio: Condensed uppercase type on a dark concrete wall split by a vertical slit of light." width="1200" height="750" loading="lazy"></picture>
-          <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/architecture-studio-mobile.avif"><img src="assets/img/demos/architecture-studio-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
+          <picture><source type="image/avif" srcset="assets/img/showcase/foundry-desktop.avif"><img src="assets/img/showcase/foundry-desktop.webp" alt="Glifo: A heavy black and red variable-font headline over five axis sliders on proof paper." width="1200" height="750" loading="lazy"></picture>
+          <picture class="demo__phone"><source type="image/avif" srcset="assets/img/showcase/foundry-mobile.avif"><img src="assets/img/showcase/foundry-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
         </div>
         <div class="demo__body">
-          <div><h3>Architecture Studio</h3><p><b>Ando × Mies × Scarpa.</b> A slit of daylight that opens as you scroll.</p></div>
-          <span class="demo__tag">Architecture studio</span>
-        </div>
-      </a>
-      <a class="demo" href="demos/restaurant-table/index.html" aria-label="Restaurant Table: Tasting counter. Barragán × Wyman × J. Albers. Choose your seats on the counter arc.">
-        <div class="demo__media">
-          <picture><source type="image/avif" srcset="assets/img/demos/restaurant-table-desktop.avif"><img src="assets/img/demos/restaurant-table-desktop.webp" alt="Restaurant Table: Rosa, ochre and lavender colour planes with a ringed wordmark and a serif headline." width="1200" height="750" loading="lazy"></picture>
-          <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/restaurant-table-mobile.avif"><img src="assets/img/demos/restaurant-table-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
-        </div>
-        <div class="demo__body">
-          <div><h3>Restaurant Table</h3><p><b>Barragán × Wyman × J. Albers.</b> Choose your seats on the counter arc.</p></div>
-          <span class="demo__tag">Tasting counter</span>
-        </div>
-      </a>
-      <a class="demo" href="demos/private-bank/index.html" aria-label="Private Bank: Family office. Müller-Brockmann × Crouwel × Tufte. Compounding with your numbers, formula shown.">
-        <div class="demo__media">
-          <picture><source type="image/avif" srcset="assets/img/demos/private-bank-desktop.avif"><img src="assets/img/demos/private-bank-desktop.webp" alt="Private Bank: A modular grid with a large monospaced future value, sliders and stepped bars." width="1200" height="750" loading="lazy"></picture>
-          <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/private-bank-mobile.avif"><img src="assets/img/demos/private-bank-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
-        </div>
-        <div class="demo__body">
-          <div><h3>Private Bank</h3><p><b>Müller-Brockmann × Crouwel × Tufte.</b> Compounding with your numbers, formula shown.</p></div>
-          <span class="demo__tag">Family office</span>
-        </div>
-      </a>
-      <a class="demo" href="demos/clinic-care/index.html" aria-label="Clinic Care: Respiratory clinic. Hara × Kare × Tanaka. A breathing guide that starts only when pressed.">
-        <div class="demo__media">
-          <picture><source type="image/avif" srcset="assets/img/demos/clinic-care-desktop.avif"><img src="assets/img/demos/clinic-care-desktop.webp" alt="Clinic Care: A calm serif headline in wide white space beside flat green lungs and a small sun." width="1200" height="750" loading="lazy"></picture>
-          <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/clinic-care-mobile.avif"><img src="assets/img/demos/clinic-care-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
-        </div>
-        <div class="demo__body">
-          <div><h3>Clinic Care</h3><p><b>Hara × Kare × Tanaka.</b> A breathing guide that starts only when pressed.</p></div>
-          <span class="demo__tag">Respiratory clinic</span>
-        </div>
-      </a>
-      <a class="demo" href="demos/developer-api/index.html" aria-label="Developer API: Geocoding API. Gerstner × Weingart × Greiman. A playground that really matches typos.">
-        <div class="demo__media">
-          <picture><source type="image/avif" srcset="assets/img/demos/developer-api-desktop.avif"><img src="assets/img/demos/developer-api-desktop.webp" alt="Developer API: A light console with a search query, a JSON response and a colour swatch derived from longitude." width="1200" height="750" loading="lazy"></picture>
-          <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/developer-api-mobile.avif"><img src="assets/img/demos/developer-api-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
-        </div>
-        <div class="demo__body">
-          <div><h3>Developer API</h3><p><b>Gerstner × Weingart × Greiman.</b> A playground that really matches typos.</p></div>
-          <span class="demo__tag">Geocoding API</span>
-        </div>
-      </a>
-      <a class="demo" href="demos/fashion-atelier/index.html" aria-label="Fashion Atelier: Tailoring atelier. Brodovitch × A. Albers × B. Thompson. A pattern drafted from your measurements.">
-        <div class="demo__media">
-          <picture><source type="image/avif" srcset="assets/img/demos/fashion-atelier-desktop.avif"><img src="assets/img/demos/fashion-atelier-desktop.webp" alt="Fashion Atelier: A high-contrast serif headline beside three overprinted cloth colours and a cropped giant wordmark." width="1200" height="750" loading="lazy"></picture>
-          <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/fashion-atelier-mobile.avif"><img src="assets/img/demos/fashion-atelier-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
-        </div>
-        <div class="demo__body">
-          <div><h3>Fashion Atelier</h3><p><b>Brodovitch × A. Albers × B. Thompson.</b> A pattern drafted from your measurements.</p></div>
-          <span class="demo__tag">Tailoring atelier</span>
-        </div>
-      </a>
-      <a class="demo" href="demos/record-label/index.html" aria-label="Record Label: Record label. Reid Miles × Saville × Brody. Type-only sleeves that play a synthesised sketch.">
-        <div class="demo__media">
-          <picture><source type="image/avif" srcset="assets/img/demos/record-label-desktop.avif"><img src="assets/img/demos/record-label-desktop.webp" alt="Record Label: Condensed blue numerals and a wide black headline beside a yellow and blue type-only record sleeve." width="1200" height="750" loading="lazy"></picture>
-          <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/record-label-mobile.avif"><img src="assets/img/demos/record-label-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
-        </div>
-        <div class="demo__body">
-          <div><h3>Record Label</h3><p><b>Reid Miles × Saville × Brody.</b> Type-only sleeves that play a synthesised sketch.</p></div>
-          <span class="demo__tag">Record label</span>
-        </div>
-      </a>
-      <a class="demo" href="demos/museum-archive/index.html" aria-label="Museum Archive: Photographic archive. Bo Bardi × Lustig × Munari. Glass easels with the record on the back.">
-        <div class="demo__media">
-          <picture><source type="image/avif" srcset="assets/img/demos/museum-archive-desktop.avif"><img src="assets/img/demos/museum-archive-desktop.webp" alt="Museum Archive: A bold grotesque headline between two red beams, over a room of glass easels with abstract signs." width="1200" height="750" loading="lazy"></picture>
-          <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/museum-archive-mobile.avif"><img src="assets/img/demos/museum-archive-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
-        </div>
-        <div class="demo__body">
-          <div><h3>Museum Archive</h3><p><b>Bo Bardi × Lustig × Munari.</b> Glass easels with the record on the back.</p></div>
-          <span class="demo__tag">Photographic archive</span>
-        </div>
-      </a>
-      <a class="demo demo--close" href="demos/hardware-store/index.html" aria-label="Hardware Store: Product shop. Rams × Sottsass × Castiglioni. Configure the lamp, then see it apart, priced.">
-        <div class="demo__media">
-          <picture><source type="image/avif" srcset="assets/img/demos/hardware-store-desktop.avif"><img src="assets/img/demos/hardware-store-desktop.webp" alt="Hardware Store: A grey lamp configurator with colour options and an illustrated desk lamp with a yellow shade." width="1200" height="750" loading="lazy"></picture>
-          <picture class="demo__phone"><source type="image/avif" srcset="assets/img/demos/hardware-store-mobile.avif"><img src="assets/img/demos/hardware-store-mobile.webp" alt="" width="480" height="1039" loading="lazy"></picture>
-        </div>
-        <div class="demo__body">
-          <div><h3>Hardware Store</h3><p><b>Rams × Sottsass × Castiglioni.</b> Configure the lamp, then see it apart, priced.</p></div>
-          <span class="demo__tag">Product shop</span>
+          <div><h3>Glifo</h3><p><b>A. Albers × Scher × Cooper.</b> Pull five axes by hand, weave a field of letters, open one in depth.</p></div>
+          <span class="demo__tag">Type foundry</span>
         </div>
       </a>
       <!-- gallery:end -->

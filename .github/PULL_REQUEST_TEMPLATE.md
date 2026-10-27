@@ -9,7 +9,7 @@
 ## Evidence
 
 - [ ] `npm test`
-- [ ] `node skill/scripts/audit.mjs skill/assets/templates site/index.html --fail-on p1`
+- [ ] `node skill/scripts/audit.mjs skill/assets/templates showcase site/index.html --fail-on p1`
 - [ ] Visual audit (attach screenshots or the report path)
 - [ ] Docs built (`npm run docs:build`)
 

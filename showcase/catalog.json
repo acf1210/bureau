@@ -1,0 +1,82 @@
+[
+  {
+    "id": "observatory",
+    "title": "Cerro Lumen",
+    "theme": {
+      "en": "Mountain observatory",
+      "pt-BR": "Observatório de montanha",
+      "es": "Observatorio de montaña"
+    },
+    "lineage": "Gerstner × Moholy-Nagy × Eames",
+    "move": {
+      "en": "Scroll from the dome to the galaxy, one power of ten at a time",
+      "pt-BR": "Role do domo à galáxia, uma potência de dez por vez",
+      "es": "Desplázate del domo a la galaxia, una potencia de diez cada vez"
+    },
+    "alt": "A night sky drawn by a shader over a dark ridge, with a lowercase monospaced headline and a scale rail at the left"
+  },
+  {
+    "id": "perfumery",
+    "title": "Maison Orvé",
+    "theme": {
+      "en": "Perfume house",
+      "pt-BR": "Perfumaria",
+      "es": "Perfumería"
+    },
+    "lineage": "Ruder × Greiman × Munari",
+    "move": {
+      "en": "Compose top, heart and base; watch them move through water",
+      "pt-BR": "Componha topo, coração e fundo e veja-os mover-se na água",
+      "es": "Compón salida, corazón y fondo y míralos moverse en el agua"
+    },
+    "alt": "A serif headline in a narrow column beside a field of gold, violet and green ink threads moving through water"
+  },
+  {
+    "id": "ceramics",
+    "title": "Torno",
+    "theme": {
+      "en": "Pottery",
+      "pt-BR": "Ateliê de cerâmica",
+      "es": "Taller de cerámica"
+    },
+    "lineage": "Tanaka × Scarpa × Bass",
+    "move": {
+      "en": "Pull a pot on the wheel and see what it holds before it is thrown",
+      "pt-BR": "Puxe um vaso no torno e veja quanto ele comporta antes de ser feito",
+      "es": "Levanta una pieza en el torno y mira cuánto contiene antes de hacerla"
+    },
+    "alt": "A celadon-glazed jar rendered in WebGL on terracotta and dark planes beside form chips and sliders"
+  },
+  {
+    "id": "ocean",
+    "title": "Maré",
+    "theme": {
+      "en": "Ocean institute",
+      "pt-BR": "Instituto oceanográfico",
+      "es": "Instituto oceanográfico"
+    },
+    "lineage": "Sutnar × Wyman × Kare",
+    "move": {
+      "en": "Contours radiate from the name; raise the wind and the sea builds",
+      "pt-BR": "Contornos irradiam do nome; aumente o vento e o mar cresce",
+      "es": "Los contornos irradian del nombre; sube el viento y el mar crece"
+    },
+    "alt": "A giant condensed wordmark wrapped in cyan and orange contour lines on a deep blue ground"
+  },
+  {
+    "id": "foundry",
+    "title": "Glifo",
+    "theme": {
+      "en": "Type foundry",
+      "pt-BR": "Fundição tipográfica",
+      "es": "Fundición tipográfica"
+    },
+    "lineage": "A. Albers × Scher × Cooper",
+    "move": {
+      "en": "Pull five axes by hand, weave a field of letters, open one in depth",
+      "pt-BR": "Puxe cinco eixos com a mão, teça um campo de letras, abra uma em profundidade",
+      "es": "Tira de cinco ejes con la mano, teje un campo de letras, abre una en profundidad"
+    },
+    "alt": "A heavy black and red variable-font headline over five axis sliders on proof paper"
+  }
+]

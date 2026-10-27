@@ -62,15 +62,35 @@ test("scaffold copies the lineage and only the media the template uses", () => {
   fs.rmSync(dir, { recursive: true, force: true });
 });
 
-test("catalog, scaffold, captures and gallery cover every template", () => {
+test("catalog and scaffold cover every template", () => {
   const catalog = JSON.parse(fs.readFileSync(path.join(templatesDir, "catalog.json"), "utf8")).map((t) => t.id).sort();
   const folders = templates.map((t) => path.basename(path.dirname(t))).sort();
   assert.deepEqual(catalog, folders, "catalog.json must list every template folder");
   const list = spawnSync(process.execPath, [scaffold, "--list"], { encoding: "utf8" }).stdout;
+  for (const id of folders) assert.match(list, new RegExp(`^${id}\\b`, "m"), `new-project --list is missing ${id}`);
+});
+
+test("the ShowCase lists five models with lineage, captures and a current gallery", () => {
+  const dir = path.join(root, "showcase");
+  const catalog = JSON.parse(fs.readFileSync(path.join(dir, "catalog.json"), "utf8")).map((t) => t.id).sort();
+  const folders = fs.readdirSync(dir).filter((d) => fs.existsSync(path.join(dir, d, "index.html"))).sort();
+  assert.deepEqual(catalog, folders, "showcase/catalog.json must list every model folder");
+  assert.equal(folders.length, 5);
   for (const id of folders) {
-    assert.match(list, new RegExp(`^${id}\\b`, "m"), `new-project --list is missing ${id}`);
-    for (const kind of ["desktop", "mobile"]) assert.ok(fs.existsSync(path.join(root, "site", "assets", "img", "demos", `${id}-${kind}.webp`)), `missing ${kind} capture for ${id}`);
+    assert.ok(fs.existsSync(path.join(dir, id, "LINEAGE.md")), `missing LINEAGE.md for ${id}`);
+    for (const kind of ["desktop", "mobile"]) assert.ok(fs.existsSync(path.join(root, "site", "assets", "img", "showcase", `${id}-${kind}.webp`)), `missing ${kind} capture for ${id}`);
   }
   const gallery = spawnSync(process.execPath, [path.join(root, "scripts", "gallery.mjs"), "--check"], { encoding: "utf8" });
   assert.equal(gallery.status, 0, gallery.stderr);
+});
+
+test("ShowCase models diverge from each other and from every template", () => {
+  const dir = path.join(root, "showcase");
+  const models = fs.readdirSync(dir).filter((d) => fs.existsSync(path.join(dir, d, "index.html"))).map((d) => path.join(dir, d, "index.html"));
+  const prints = [...models, ...templates].map((file) => fs.readFileSync(file, "utf8"));
+  for (let i = 0; i < models.length; i++) for (let j = i + 1; j < prints.length; j++) {
+    const r = compare(prints[i], prints[j]), score = r.similarity;
+    assert.equal(r.dimensions.favicon.similarity, 0, "each model needs its own favicon");
+    assert.ok(score <= 0.2, `${path.basename(path.dirname(models[i]))} vs ${j < models.length ? path.basename(path.dirname(models[j])) : path.basename(path.dirname(templates[j - models.length]))}: ${score}`);
+  }
 });

@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maison Orvé — Perfumers in Grasse</title>
+<meta name="description" content="A perfume house in Grasse that composes scents in three lines. Choose a top, a heart and a base and watch them move through water. Showcase model; the house is fictional.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23F3EEE4'/%3E%3Cpath d='M32 8c10 14 16 22 16 32a16 16 0 0 1-32 0c0-10 6-18 16-32z' fill='%2356663A'/%3E%3Ccircle cx='32' cy='42' r='6' fill='%23F3EEE4'/%3E%3C/svg%3E">
+<script>document.documentElement.classList.add("js");</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bellefair&family=Mulish:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  /* Lineage: Emil Ruder (white space is a form) × April Greiman (layered hybrid imagery: the water under the type) × Bruno Munari (composing the accord is play). See LINEAGE.md. */
+  :root{
+    --paper:#F3EEE4;
+    --paper-2:#EAE3D5;
+    --ink:#201C17;
+    --muted:#5E574D;
+    --line:rgba(32,28,23,.16);
+    --vetiver:#56663A;
+    --amber:#A9582A;
+    --display:"Bellefair",Georgia,serif;
+    --text:"Mulish",system-ui,sans-serif;
+    --slow:cubic-bezier(.45,0,.2,1);
+  }
+  *{box-sizing:border-box}
+  html{background:var(--paper);color:var(--ink);scrollbar-color:var(--muted) var(--paper)}
+  body{margin:0;font:300 1.0625rem/1.7 var(--text);caret-color:var(--amber)}
+  ::selection{background:var(--vetiver);color:var(--paper)}
+  a{color:inherit;text-underline-offset:.25em;text-decoration-thickness:1px}
+  :focus-visible{outline:1.5px solid var(--ink);outline-offset:4px}
+  .skip{position:absolute;left:1rem;top:-4rem;background:var(--ink);color:var(--paper);padding:.6rem 1rem;z-index:20}
+  .skip:focus{top:1rem}
+
+  header{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;padding:2rem clamp(1.25rem,5vw,5rem) 0}
+  .house{font:400 1.6rem/1 var(--display);text-decoration:none;letter-spacing:.04em}
+  nav ul{list-style:none;display:flex;gap:2.4rem;margin:0;padding:0}
+  nav a{text-decoration:none;font-size:.9375rem;color:var(--muted);padding:.4rem 0;display:inline-block}
+  nav a:hover{color:var(--ink)}
+
+  /* Ruder: the empty field is part of the composition — one narrow column of text, a wide field of water. */
+  .opening{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(2rem,6vw,7rem);padding:clamp(3rem,9vh,7rem) clamp(1.25rem,5vw,5rem) 4rem;align-items:start}
+  h1{font:400 clamp(2.9rem,6vw,6.2rem)/1 var(--display);margin:0 0 2.2rem;letter-spacing:-.005em}
+  .lede{max-width:26rem;margin:0 0 2.6rem;color:var(--muted)}
+  .water{position:sticky;top:2rem;aspect-ratio:4/5;max-height:calc(100vh - 4rem);width:100%;background:var(--paper-2);overflow:hidden}
+  .water canvas{position:absolute;inset:0;width:100%;height:100%}
+  .water figcaption{position:absolute;left:1.2rem;bottom:1rem;right:1.2rem;display:flex;justify-content:space-between;font-size:.8125rem;color:var(--muted);gap:1rem}
+  .strata{position:absolute;inset:0;pointer-events:none}
+  .strata span{position:absolute;right:1.2rem;font:400 .875rem var(--display);color:var(--muted);letter-spacing:.08em}
+
+  .accord{border:0;margin:0 0 2.2rem;padding:0}
+  .accord legend{font:400 1.5rem/1.2 var(--display);margin:0 0 .4rem}
+  .accord .hint{font-size:.875rem;color:var(--muted);margin:0 0 1rem}
+  .notes{display:flex;flex-wrap:wrap;gap:.5rem}
+  .note{position:relative}
+  .note input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
+  .note label{display:inline-flex;align-items:center;gap:.55rem;padding:.6rem .95rem .6rem .7rem;border:1px solid var(--line);border-radius:999px;font-size:.9375rem;cursor:pointer;transition:background .4s var(--slow),border-color .4s var(--slow),color .4s var(--slow);min-height:44px}
+  .note i{width:14px;height:14px;border-radius:50%;background:var(--c);display:block;flex:none}
+  .note input:checked + label{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .note input:focus-visible + label{outline:1.5px solid var(--ink);outline-offset:3px}
+
+  .formula{border-top:1px solid var(--ink);padding-top:1.6rem;margin-top:1rem}
+  .formula h2{font:400 2.1rem/1.1 var(--display);margin:0 0 .4rem}
+  .formula .sub{color:var(--muted);margin:0 0 1.4rem}
+  .bars{display:grid;gap:.9rem;margin:0 0 1.6rem}
+  .bar{display:grid;grid-template-columns:4.5rem minmax(0,1fr) 3rem;gap:1rem;align-items:center;font-size:.9375rem}
+  .bar b{font-weight:600}
+  .track{height:2px;background:var(--line);position:relative}
+  .track span{position:absolute;left:0;top:-1px;height:4px;background:var(--c,var(--ink));width:var(--w,0%);transition:width 1s var(--slow),background .6s var(--slow)}
+  .bar output{text-align:right;font-variant-numeric:tabular-nums}
+  .wear{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin:0}
+  .wear dt{font-size:.8125rem;color:var(--muted)}
+  .wear dd{margin:.2rem 0 0;font:400 1.35rem var(--display)}
+  .sample{margin-top:1.8rem;display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+  .btn{font:600 .9375rem var(--text);background:var(--ink);color:var(--paper);border:0;padding:.95rem 1.5rem;cursor:pointer;border-radius:999px;transition:background .4s var(--slow)}
+  .btn:hover{background:var(--vetiver)}
+  .first{margin:0 0 2.6rem}
+  .first .btn{display:inline-block;text-decoration:none}
+  #sample-status{font-size:.9375rem;color:var(--muted);margin:0;min-height:1.7em}
+
+  .garden{padding:7rem clamp(1.25rem,5vw,5rem);display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(2rem,6vw,7rem);border-top:1px solid var(--line)}
+  .garden h2,.visit h2{font:400 clamp(2.2rem,4vw,3.8rem)/1.05 var(--display);margin:0}
+  .garden p{color:var(--muted);max-width:26rem}
+  table{width:100%;border-collapse:collapse;font-size:1rem}
+  caption{text-align:left;font-size:.875rem;color:var(--muted);padding-bottom:1rem}
+  th,td{text-align:left;padding:1.05rem 0;border-bottom:1px solid var(--line);vertical-align:baseline}
+  th{font-weight:600;font-size:.8125rem;color:var(--muted)}
+  td:first-child{font:400 1.45rem var(--display)}
+  td:last-child,th:last-child{text-align:right}
+  .month{display:inline-flex;gap:3px}
+  .month i{width:7px;height:16px;background:var(--line);display:block}
+  .month i.on{background:var(--vetiver)}
+
+  .visit{padding:7rem clamp(1.25rem,5vw,5rem) 5rem;background:var(--ink);color:var(--paper);display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(2rem,6vw,7rem)}
+  .visit ::selection{background:var(--paper);color:var(--ink)}
+  .visit p{color:#CFC7B9;max-width:30rem;margin:0 0 1.2rem}
+  .visit address{font-style:normal;font:400 1.6rem/1.35 var(--display);color:var(--paper)}
+  footer{background:var(--ink);color:#B3AB9D;padding:0 clamp(1.25rem,5vw,5rem) 2.5rem;font-size:.875rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+
+  .js .rise{opacity:0;transform:translateY(1.6rem);transition:opacity 1.4s var(--slow),transform 1.4s var(--slow)}
+  .js .rise.in{opacity:1;transform:none}
+
+  @media (max-width:900px){
+    header{grid-template-columns:minmax(0,1fr);gap:1rem}
+    nav ul{gap:1.6rem}
+    /* On a phone the water comes first and stays as a band at the top while you compose. */
+    .opening{grid-template-columns:minmax(0,1fr);padding-top:2rem;gap:2rem}
+    .opening .copy{order:2}
+    .water{order:1;position:sticky;top:0;aspect-ratio:auto;height:42vh;max-height:none;z-index:3;margin:0 calc(-1 * clamp(1.25rem,5vw,5rem));width:auto}
+    .garden,.visit{grid-template-columns:minmax(0,1fr);padding-top:5rem;padding-bottom:4rem}
+    .wear{grid-template-columns:repeat(3,minmax(0,1fr))}
+    td:nth-child(2),th:nth-child(2){display:none}
+    .water figcaption span:last-child{display:none}
+  }
+  @media (max-width:360px){
+    .wear{grid-template-columns:minmax(0,1fr)}
+    .bar{grid-template-columns:3.8rem minmax(0,1fr) 2.6rem;gap:.6rem}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .js .rise{opacity:1;transform:none;transition:none}
+    .track span{transition:none}
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+  <a class="house" href="#main">Maison Orvé</a>
+  <nav aria-label="Main">
+    <ul>
+      <li><a href="#compose">Compose</a></li>
+      <li><a href="#garden">The garden</a></li>
+      <li><a href="#visit">Visit</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="main" tabindex="-1">
+  <section class="opening" id="compose" aria-labelledby="h-compose">
+    <div class="copy">
+      <h1 id="h-compose">A scent is written in three lines.</h1>
+      <p class="lede">The top is what you notice, the heart is what you remember, the base is what stays on the scarf. Choose one of each; the water beside you shows how they move.</p>
+      <p class="first"><a class="btn" href="#visit">Book a sitting at the atelier</a></p>
+
+      <fieldset class="accord" data-tier="top">
+        <legend>Top</legend>
+        <p class="hint">Gone within the hour; it rises first.</p>
+        <div class="notes"></div>
+      </fieldset>
+      <fieldset class="accord" data-tier="heart">
+        <legend>Heart</legend>
+        <p class="hint">Opens after ten minutes and holds the day.</p>
+        <div class="notes"></div>
+      </fieldset>
+      <fieldset class="accord" data-tier="base">
+        <legend>Base</legend>
+        <p class="hint">Sinks, settles, and is still there tomorrow.</p>
+        <div class="notes"></div>
+      </fieldset>
+
+      <div class="formula" aria-live="polite">
+        <h2 id="accord-name">Bergamot, Iris, Vetiver</h2>
+        <p class="sub" id="accord-line">A green citrus opening over powdered iris, dried down on smoky roots.</p>
+        <div class="bars">
+          <div class="bar"><b>Top</b><div class="track"><span id="bar-top"></span></div><output id="pct-top">0%</output></div>
+          <div class="bar"><b>Heart</b><div class="track"><span id="bar-heart"></span></div><output id="pct-heart">0%</output></div>
+          <div class="bar"><b>Base</b><div class="track"><span id="bar-base"></span></div><output id="pct-base">0%</output></div>
+        </div>
+        <dl class="wear">
+          <div><dt>On skin</dt><dd id="wear-hours">—</dd></div>
+          <div><dt>Trail</dt><dd id="wear-trail">—</dd></div>
+          <div><dt>Season</dt><dd id="wear-season">—</dd></div>
+        </dl>
+        <div class="sample">
+          <button class="btn" type="button" id="sample">Ask for a 2 ml sample</button>
+          <p id="sample-status" role="status"></p>
+        </div>
+      </div>
+    </div>
+
+    <figure class="water" aria-label="Ink moving through water in the colours of the chosen notes">
+      <canvas id="ink" aria-hidden="true"></canvas>
+      <div class="strata" aria-hidden="true"><span style="top:14%">top</span><span style="top:46%">heart</span><span style="top:80%">base</span></div>
+      <figcaption><span>Drawn live from your three notes</span><span>Move a finger through the water</span></figcaption>
+    </figure>
+  </section>
+
+  <section class="garden" id="garden" aria-labelledby="h-garden">
+    <div class="rise">
+      <h2 id="h-garden">Five things we grow ourselves.</h2>
+      <p>Everything else is bought from growers we visit. These five come from the terraces above the atelier, picked in the month they are best.</p>
+    </div>
+    <table class="rise">
+      <caption>The garden calendar. Each mark is a month, January to December.</caption>
+      <thead><tr><th scope="col">Plant</th><th scope="col">Used for</th><th scope="col">Picked</th></tr></thead>
+      <tbody>
+        <tr><td>Rose centifolia</td><td>An absolute, by solvent</td><td><span class="month" data-on="4" aria-label="May"></span></td></tr>
+        <tr><td>Jasmine grandiflorum</td><td>An absolute, picked at dawn</td><td><span class="month" data-on="7,8,9" aria-label="August to October"></span></td></tr>
+        <tr><td>Tuberose</td><td>Enfleurage, the slow way</td><td><span class="month" data-on="7,8" aria-label="August and September"></span></td></tr>
+        <tr><td>Orange blossom</td><td>Neroli, by steam</td><td><span class="month" data-on="3,4" aria-label="April and May"></span></td></tr>
+        <tr><td>Iris pallida</td><td>Orris butter, after three years</td><td><span class="month" data-on="6" aria-label="July"></span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="visit" id="visit" aria-labelledby="h-visit">
+    <h2 id="h-visit">Come and smell it on paper first.</h2>
+    <div>
+      <p>The atelier is open on Thursday and Friday afternoons. A perfumer sits with you for forty minutes, writes your three lines on blotters, and you leave with the formula card.</p>
+      <address>12 rue de l'Oratoire<br>Grasse, Alpes-Maritimes</address>
+    </div>
+  </section>
+</main>
+<footer>
+  <span>Maison Orvé, Grasse. Showcase model; the house and its garden are fictional.</span>
+  <span>The water is a particle field drawn in your browser.</span>
+</footer>
+
+<script>
+(() => {
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+  const NOTES = {
+    top: [["bergamot", "Bergamot", "#C99522", 1.0, "green citrus"], ["pepper", "Pink pepper", "#B8432F", 1.2, "a spark of pepper"], ["neroli", "Neroli", "#D4A04A", .9, "white orange blossom"], ["salt", "Sea salt", "#4F8799", .8, "a mineral, salted air"], ["fig", "Fig leaf", "#5E6E33", 1.1, "milky green fig"]],
+    heart: [["iris", "Iris", "#6A5E8F", 1.3, "powdered iris"], ["rose", "Rose", "#A8384C", 1.2, "a dark rose"], ["jasmine", "Jasmine", "#C9A456", 1.1, "night jasmine"], ["violet", "Violet leaf", "#3F6B47", 1.0, "cool violet leaf"], ["saffron", "Saffron", "#B86E1F", 1.4, "leathery saffron"]],
+    base: [["vetiver", "Vetiver", "#4A5A2E", 1.4, "smoky roots"], ["oud", "Oud", "#4E2F1D", 1.8, "dark resinous wood"], ["tonka", "Tonka", "#8C5A2E", 1.3, "warm almond tonka"], ["cedar", "Cedar", "#7A5B37", 1.1, "pencil-shaving cedar"], ["amber", "Ambergris", "#9C845A", 1.6, "a salty, skin-like amber"]]
+  };
+  const chosen = { top: "bergamot", heart: "iris", base: "vetiver" };
+  const find = (tier) => NOTES[tier].find((n) => n[0] === chosen[tier]);
+
+  for (const fs of document.querySelectorAll(".accord")) {
+    const tier = fs.dataset.tier;
+    const box = fs.querySelector(".notes");
+    for (const [id, name, color] of NOTES[tier]) {
+      const wrap = document.createElement("div");
+      wrap.className = "note";
+      wrap.innerHTML = `<input type="radio" name="${tier}" id="${tier}-${id}" value="${id}"${chosen[tier] === id ? " checked" : ""}><label for="${tier}-${id}" style="--c:${color}"><i aria-hidden="true"></i>${name}</label>`;
+      box.append(wrap);
+    }
+    fs.addEventListener("change", (e) => { chosen[tier] = e.target.value; compose(tier); });
+  }
+
+  document.querySelectorAll(".month").forEach((m) => {
+    const on = m.dataset.on.split(",").map(Number);
+    m.innerHTML = Array.from({ length: 12 }, (_, i) => `<i${on.includes(i) ? ' class="on"' : ""}></i>`).join("");
+  });
+
+  // The formula: strength of each note sets its share; the base sets how long it lasts.
+  const compose = (tier) => {
+    const t = find("top"), h = find("heart"), b = find("base");
+    const raw = { top: 18 / t[3], heart: 34 * h[3] / 1.2, base: 40 * b[3] / 1.4 };
+    const sum = raw.top + raw.heart + raw.base;
+    for (const k of ["top", "heart", "base"]) {
+      const pct = Math.round(raw[k] / sum * 100);
+      const bar = document.getElementById(`bar-${k}`);
+      bar.style.setProperty("--w", `${pct}%`);
+      bar.style.setProperty("--c", find(k)[2]);
+      document.getElementById(`pct-${k}`).textContent = `${pct}%`;
+    }
+    document.getElementById("accord-name").textContent = `${t[1]}, ${h[1]}, ${b[1]}`;
+    const line = `${t[4][0].toUpperCase() + t[4].slice(1)} opening over ${h[4]}, dried down on ${b[4]}.`;
+    document.getElementById("accord-line").textContent = line;
+    const hours = Math.round(4 + b[3] * 4 + h[3]);
+    document.getElementById("wear-hours").textContent = `${hours} hours`;
+    document.getElementById("wear-trail").textContent = h[3] + b[3] > 2.9 ? "Wide" : h[3] + b[3] > 2.4 ? "Close" : "Skin";
+    document.getElementById("wear-season").textContent = ["salt", "fig", "bergamot"].includes(t[0]) && b[3] < 1.5 ? "Summer" : b[3] > 1.5 ? "Winter" : "Autumn";
+    document.getElementById("sample-status").textContent = "";
+    if (tier) pour(tier);
+  };
+
+  document.getElementById("sample").addEventListener("click", () => {
+    document.getElementById("sample-status").textContent = "Showcase model: no sample is ordered and nothing left this page.";
+  });
+
+  const io = new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting && e.target.classList.add("in")), { threshold: .2 });
+  document.querySelectorAll(".rise").forEach((el) => io.observe(el));
+
+  // Ink in water: particles follow a curl-noise field, each tier released at its own depth.
+  // Top notes rise and fade first; the base sinks and stays (Greiman's layers, drawn under the type).
+  const canvas = document.getElementById("ink");
+  const ctx = canvas.getContext("2d");
+  let W = 0, H = 0, dpr = 1;
+  const size = () => {
+    const r = canvas.getBoundingClientRect();
+    dpr = Math.min(devicePixelRatio || 1, 2);
+    W = r.width; H = r.height;
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.fillStyle = "#EAE3D5"; ctx.fillRect(0, 0, W, H);
+  };
+  const perm = new Uint8Array(512);
+  for (let i = 0; i < 256; i++) perm[i] = i;
+  for (let i = 255; i > 0; i--) { const j = (Math.sin(i * 91.3) * 43758.5453 % 1 + 1) % 1 * (i + 1) | 0; [perm[i], perm[j]] = [perm[j], perm[i]]; }
+  for (let i = 0; i < 256; i++) perm[i + 256] = perm[i];
+  const grad = (h, x, y) => ((h & 1) ? x : -x) + ((h & 2) ? y : -y);
+  const fade = (t) => t * t * t * (t * (t * 6 - 15) + 10);
+  const noise = (x, y) => {
+    const X = Math.floor(x) & 255, Y = Math.floor(y) & 255; x -= Math.floor(x); y -= Math.floor(y);
+    const u = fade(x), v = fade(y), a = perm[X] + Y, b = perm[X + 1] + Y;
+    const l1 = grad(perm[a], x, y) + u * (grad(perm[b], x - 1, y) - grad(perm[a], x, y));
+    const l2 = grad(perm[a + 1], x, y - 1) + u * (grad(perm[b + 1], x - 1, y - 1) - grad(perm[a + 1], x, y - 1));
+    return l1 + v * (l2 - l1);
+  };
+  const curl = (x, y, t) => {
+    const e = .01, s = .0042, X = x * s, Y = y * s;
+    const n1 = noise(X, Y + e + t), n2 = noise(X, Y - e + t);
+    const n3 = noise(X + e, Y + t), n4 = noise(X - e, Y + t);
+    return [(n1 - n2) / (2 * e) * 1.9, -(n3 - n4) / (2 * e) * 1.9];
+  };
+  const DEPTH = { top: .2, heart: .5, base: .8 };
+  const DRIFT = { top: -.22, heart: -.03, base: .12 };
+  const LIFE = { top: 260, heart: 520, base: 900 };
+  let parts = [];
+  const pointer = { x: -1e3, y: -1e3, vx: 0, vy: 0 };
+  const pour = (tier, count = 850, replace = true) => {
+    const [, , color] = find(tier);
+    if (replace) parts = parts.filter((p) => p.tier !== tier || p.age > p.life * .7);
+    const cx = W * (.3 + Math.random() * .4), cy = H * DEPTH[tier];
+    for (let i = 0; i < count; i++) {
+      const a = Math.random() * Math.PI * 2, r = Math.pow(Math.random(), .6) * Math.min(W, H) * .09;
+      parts.push({ x: cx + Math.cos(a) * r, y: cy + Math.sin(a) * r * .6, trail: [], s: .45 + Math.random() * 1.5, color, tier, age: 0, life: LIFE[tier] * (.6 + Math.random() * .8), w: .5 + Math.random() * 1.4 });
+    }
+    if (reduce.matches) still();
+  };
+  let time = 0;
+  // Each frame starts from clean paper and redraws every trail: an 8-bit fade would drift the colours to grey.
+  const TRAIL = 70;
+  const step = (draw = true) => {
+    time += .0016;
+    for (const p of parts) {
+      const [cx, cy] = curl(p.x, p.y, time);
+      // Each particle has its own speed, so the field shears a drop into threads; a little random walk diffuses them.
+      let vx = cx * p.s + (Math.random() - .5) * .7, vy = cy * p.s + DRIFT[p.tier] * p.s + (Math.random() - .5) * .7;
+      const dx = p.x - pointer.x, dy = p.y - pointer.y, d2 = dx * dx + dy * dy;
+      if (d2 < 9000) { const f = 1 - d2 / 9000; vx += pointer.vx * f * .5 - dy * f * .03; vy += pointer.vy * f * .5 + dx * f * .03; }
+      p.x += vx; p.y += vy; p.age++;
+      p.trail.push(p.x, p.y);
+      if (p.trail.length > TRAIL * 2) p.trail.splice(0, 2);
+    }
+    parts = parts.filter((p) => p.age < p.life && p.y > -60 && p.y < H + 60);
+    pointer.vx *= .9; pointer.vy *= .9;
+    if (!draw) return;
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = "#EAE3D5";
+    ctx.fillRect(0, 0, W, H);
+    ctx.lineCap = "round";
+    for (const p of parts) {
+      const k = 1 - p.age / p.life, t = p.trail;
+      if (t.length < 4) continue;
+      ctx.strokeStyle = p.color;
+      ctx.globalAlpha = .14 * Math.min(1, k * 1.8) * Math.min(1, p.age / 30);
+      ctx.lineWidth = p.w;
+      ctx.beginPath(); ctx.moveTo(t[0], t[1]);
+      for (let i = 2; i < t.length; i += 2) ctx.lineTo(t[i], t[i + 1]);
+      ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+  };
+  // Reduced motion: the same field, run to rest off-screen and shown as one still image.
+  const still = () => { for (let i = 0; i < 160; i++) step(i === 159); };
+  let raf = 0;
+  const loop = () => { step(); raf = requestAnimationFrame(loop); };
+  const start = () => { cancelAnimationFrame(raf); raf = 0; if (reduce.matches) still(); else raf = requestAnimationFrame(loop); };
+  const water = canvas.parentElement;
+  water.addEventListener("pointermove", (e) => {
+    const r = canvas.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+    if (pointer.x > -1e3) { pointer.vx = x - pointer.x; pointer.vy = y - pointer.y; }
+    pointer.x = x; pointer.y = y;
+  });
+  water.addEventListener("pointerleave", () => { pointer.x = pointer.y = -1e3; });
+  size();
+  addEventListener("resize", () => { size(); });
+  compose();
+  // The first view is already in motion: the three drops are released and run for a few seconds before the first paint.
+  pour("base"); pour("heart"); pour("top");
+  for (let i = 0; i < 150; i++) step(false);
+  // Keep the water alive: each line breathes out a little more ink every few seconds.
+  setInterval(() => { if (!reduce.matches && !document.hidden) pour(["top", "heart", "base"][Math.random() * 3 | 0], 380, false); }, 4200);
+  document.addEventListener("visibilitychange", () => { if (document.hidden) { cancelAnimationFrame(raf); raf = 0; } else start(); });
+  reduce.addEventListener("change", start);
+  start();
+})();
+</script>
+</body>
+</html>

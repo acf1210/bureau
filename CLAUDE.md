@@ -8,7 +8,7 @@ Run before every PR:
 
 ```bash
 npm test
-node skill/scripts/audit.mjs skill/assets/templates site/index.html --fail-on p1
+node skill/scripts/audit.mjs skill/assets/templates showcase site/index.html --fail-on p1
 npm run docs:build
 ```
 

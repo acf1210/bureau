@@ -312,17 +312,19 @@ function landing() {
     .replaceAll("{{DATE}}", new Date().toISOString().slice(0, 10));
 }
 
-function demosPage() {
-  const catalog = JSON.parse(fs.readFileSync(path.join(ROOT, "skill", "assets", "templates", "catalog.json"), "utf8"));
+function showcasePage() {
+  const catalog = JSON.parse(fs.readFileSync(path.join(ROOT, "showcase", "catalog.json"), "utf8"));
   const cards = catalog.map((t) => `<a class="demo" href="${t.id}/index.html">
-    <span class="demo__tag">DEMO</span>
+    <img src="../assets/img/showcase/${t.id}-desktop.webp" alt="" width="1200" height="750" loading="lazy" style="width:100%;height:auto;display:block;margin-bottom:.6rem">
+    <span class="demo__tag">${t.theme.en.toUpperCase()}</span>
     <h2>${t.title}</h2>
     <p>${t.theme.en} · ${t.lineage}. ${t.move.en}.</p>
     <span class="demo__link">Open ↗</span>
   </a>`).join("");
   return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BUREAU demos</title>
+<title>BUREAU ShowCase</title>
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="../assets/fonts/bodoni-moda-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../assets/fonts/archivo-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../assets/docs.css">
@@ -335,9 +337,9 @@ p{color:var(--muted);max-width:60ch}.grid{max-width:1100px;margin:0 auto;display
 .demo h2{font-family:var(--display);font-weight:400;font-size:1.8rem;margin:0}.demo p{font-size:14px;margin:0}.demo__link{margin-top:auto;font:12px var(--mono);color:var(--acid)}
 a{color:inherit;text-decoration:none}footer{max-width:1100px;margin:3rem auto 0;font:12px var(--mono);color:var(--faint)}
 </style></head>
-<body><header><p style="font:11px var(--mono);color:var(--ember);letter-spacing:.1em">BUREAU / DEMOS</p><h1>${catalog.length} worlds, one method.</h1><p>Each template is self-contained: one HTML file, its own lineage, its own mobile composition. Open, inspect, break, rebuild.</p></header>
+<body><header><p style="font:11px var(--mono);color:var(--ember);letter-spacing:.1em">BUREAU / SHOWCASE</p><h1>Five models, design first.</h1><p>Each model is one self-contained HTML file with its own lineage and its own phone composition. Design leads every decision; performance comes last. The studios are fictional.</p></header>
 <div class="grid">${cards}</div>
-<footer><a href="../index.html">← Back to BUREAU</a></footer></body></html>`;
+<footer><a href="../index.html" style="display:inline-block;padding:.6rem 0">← Back to BUREAU</a></footer></body></html>`;
 }
 
 function notFound(lang = "en") {
@@ -358,24 +360,19 @@ function main() {
   const landingHtml = landing();
   if (landingHtml) fs.writeFileSync(path.join(DIST, "index.html"), landingHtml);
 
-  // Demos
-  const templates = path.join(ROOT, "skill", "assets", "templates");
-  for (const name of fs.readdirSync(templates)) {
-    const src = path.join(templates, name);
-    if (!fs.statSync(src).isDirectory()) continue;
-    copyDir(src, path.join(DIST, "demos", name));
-  }
-  fs.writeFileSync(path.join(DIST, "demos", "index.html"), demosPage());
+  // ShowCase
+  const showcase = path.join(ROOT, "showcase");
+  const models = fs.readdirSync(showcase).filter((name) => fs.statSync(path.join(showcase, name)).isDirectory());
+  for (const name of models) copyDir(path.join(showcase, name), path.join(DIST, "showcase", name));
+  fs.writeFileSync(path.join(DIST, "showcase", "index.html"), showcasePage());
 
   const sitemap = [];
   const search = {};
 
-  // Landing and the demo index are part of the public site, not only the docs.
+  // Landing and the ShowCase are part of the public site, not only the docs.
   sitemap.push(`${BASE}`);
-  sitemap.push(`${BASE}demos/index.html`);
-  for (const name of fs.readdirSync(templates)) {
-    if (fs.statSync(path.join(templates, name)).isDirectory()) sitemap.push(`${BASE}demos/${name}/index.html`);
-  }
+  sitemap.push(`${BASE}showcase/index.html`);
+  for (const name of models) sitemap.push(`${BASE}showcase/${name}/index.html`);
 
   for (const lang of Object.keys(LANGS)) {
     const outDir = path.join(DIST, lang);
@@ -434,7 +431,7 @@ ${sitemap.map((u) => `  <url><loc>${u}</loc></url>`).join("\n")}
 
   const count = sitemap.length;
   console.log(`BUREAU docs built → ${path.relative(process.cwd(), DIST)}`);
-  console.log(`${count} pages · 3 languages · ${fs.readdirSync(path.join(DIST, "demos")).length - 1} demos`);
+  console.log(`${count} pages · 3 languages · ${models.length} showcase models`);
   console.log(`Landing: ${landingHtml ? "yes" : "missing"}`);
 }
 
