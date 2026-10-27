@@ -34,6 +34,6 @@ for (const { id } of catalog) {
 }
 await browser.close();
 
-// README banner: the five phone compositions side by side, so the repository opens on the work itself.
-execFileSync("magick", ["montage", ...catalog.map(({ id }) => path.join(outDir, `${id}-mobile.webp`)), "-tile", "5x1", "-geometry", "360x780+12+0", "-background", "#0B0B0C", path.join(root, "site", "assets", "img", "readme-banner.webp")]);
+// README banner: the phone compositions side by side.
+execFileSync("magick", ["montage", ...catalog.map(({ id }) => path.join(outDir, `${id}-mobile.webp`)), "-tile", `${catalog.length}x1`, "-geometry", "360x780+12+0", "-background", "#0B0B0C", path.join(root, "site", "assets", "img", "readme-banner.webp")]);
 console.log("banner", catalog.length);

@@ -2,14 +2,14 @@
 
 **The autonomous digital design bureau.** An agent skill that gives a language model the work of a whole studio: creative direction, art direction, typography, motion, creative technology, accessibility, performance, and an adversarial review that says *no*.
 
-[![Version](https://img.shields.io/badge/version-5.2.1-F2C230?style=flat-square&labelColor=121212)](VERSION)
+[![Version](https://img.shields.io/badge/version-6.0.0-F2C230?style=flat-square&labelColor=121212)](VERSION)
 [![License](https://img.shields.io/badge/license-MIT-E2507F?style=flat-square&labelColor=121212)](LICENSE)
 [![ShowCase](https://img.shields.io/badge/showcase-5-1E4FD6?style=flat-square&labelColor=121212)](#showcase)
 [![Hosts](https://img.shields.io/badge/hosts-Claude%20%7C%20Codex%20%7C%20Antigravity%20%7C%20Hermes-EDEBE4?style=flat-square&labelColor=121212)](#install)
 
 [Português](README.md) · [English](README.en.md) · [Español](README.es.md) · [Documentation](https://acf1210.github.io/bureau/en/index.html) · [Live ShowCase](https://acf1210.github.io/bureau/showcase/index.html)
 
-![The phone compositions of BUREAU's five ShowCase models: an observatory under a WebGL sky, a perfume house with ink threads in water, a fireworks show rendered to film over a city and its river, an ocean institute with contours radiating from its name, and a variable-font type foundry](site/assets/img/readme-banner.webp)
+![The phone compositions of BUREAU's four ShowCase models: an observatory, a perfume house, an ocean institute and a type foundry](site/assets/img/readme-banner.webp)
 
 ---
 
@@ -27,7 +27,7 @@ Models learn the average of the internet. Without direction they ship the same c
 
 ## ShowCase
 
-Five web models, five fictional studios, each with a phone composition of its own: a mountain observatory, a perfume house, a pyrotechnic studio, an ocean institute and a type foundry. Design leads every decision here and performance comes last: WebGL shaders, particle fields, variable type and live rendering used without economy. Each model has a `LINEAGE.md` with its blend of three designers.
+Four web models, four fictional studios, each with a phone composition of its own: a mountain observatory, a perfume house, an ocean institute and a type foundry. Each model has a `LINEAGE.md` with its blend of three designers.
 
 <!-- gallery:start -->
 <table>
@@ -46,13 +46,6 @@ Five web models, five fictional studios, each with a phone composition of its ow
 <td colspan="2"><b>Maison Orvé</b> · Perfume house · <sub>Ruder × Greiman × Munari</sub><br>Compose top, heart and base; watch them move through water. <a href="https://acf1210.github.io/bureau/showcase/perfumery/index.html">Open ↗</a></td>
 </tr>
 <tr>
-<td width="72%" valign="top"><a href="https://acf1210.github.io/bureau/showcase/pyrotechnics/index.html"><img src="site/assets/img/showcase/pyrotechnics-desktop.webp" alt="Pólvora: A giant tight wordmark PÓLVORA over a rendered film of fireworks breaking above a city and its river" width="100%"></a></td>
-<td width="28%" valign="top"><a href="https://acf1210.github.io/bureau/showcase/pyrotechnics/index.html"><img src="site/assets/img/showcase/pyrotechnics-mobile.webp" alt="Pólvora, mobile" width="100%"></a></td>
-</tr>
-<tr>
-<td colspan="2"><b>Pólvora</b> · Pyrotechnic studio · <sub>Müller-Brockmann × Lubalin × Bass</sub><br>Rendered films, a finale scrubbed by the scroll and a score that fires on the beat. <a href="https://acf1210.github.io/bureau/showcase/pyrotechnics/index.html">Open ↗</a></td>
-</tr>
-<tr>
 <td width="72%" valign="top"><a href="https://acf1210.github.io/bureau/showcase/ocean/index.html"><img src="site/assets/img/showcase/ocean-desktop.webp" alt="Maré: A giant condensed wordmark wrapped in cyan and orange contour lines on a deep blue ground" width="100%"></a></td>
 <td width="28%" valign="top"><a href="https://acf1210.github.io/bureau/showcase/ocean/index.html"><img src="site/assets/img/showcase/ocean-mobile.webp" alt="Maré, mobile" width="100%"></a></td>
 </tr>
@@ -69,7 +62,7 @@ Five web models, five fictional studios, each with a phone composition of its ow
 </table>
 <!-- gallery:end -->
 
-Each model is one page with its own CSS and JS; Pólvora also ships its engine, `pyro.js`, and the films it rendered frame by frame (`scripts/render-showcase-video.mjs`). All pass the static audit and the visual audit from 320 to 1440 px with no P0 or P1. The floor still holds: real contrast, a keyboard path, reduced motion designed as a still, all copy readable without JavaScript, and no button that pretends to send. Studios, people and prices are fictional and labelled. The 13 scaffold templates remain in the skill (`new-project.mjs --list`).
+Each model is one page with its own CSS and JS. The floor still holds: real contrast, a keyboard path, reduced motion designed as a still, all copy readable without JavaScript, and no button that pretends to send. Studios, people and prices are fictional and labelled. The 13 scaffold templates remain in the skill (`new-project.mjs --list`).
 
 ---
 

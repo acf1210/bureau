@@ -337,7 +337,7 @@ p{color:var(--muted);max-width:60ch}.grid{max-width:1100px;margin:0 auto;display
 .demo h2{font-family:var(--display);font-weight:400;font-size:1.8rem;margin:0}.demo p{font-size:14px;margin:0}.demo__link{margin-top:auto;font:12px var(--mono);color:var(--acid)}
 a{color:inherit;text-decoration:none}footer{max-width:1100px;margin:3rem auto 0;font:12px var(--mono);color:var(--faint)}
 </style></head>
-<body><header><p style="font:11px var(--mono);color:var(--ember);letter-spacing:.1em">BUREAU / SHOWCASE</p><h1>Five models, design first.</h1><p>Each model is one page with its own lineage and its own phone composition. Design leads every decision; performance comes last. The studios are fictional.</p></header>
+<body><header><p style="font:11px var(--mono);color:var(--ember);letter-spacing:.1em">BUREAU / SHOWCASE</p><h1>Four models, design first.</h1><p>Each model is one page with its own lineage and its own phone composition. Design leads every decision; performance comes last. The studios are fictional.</p></header>
 <div class="grid">${cards}</div>
 <footer><a href="../index.html" style="display:inline-block;padding:.6rem 0">← Back to BUREAU</a></footer></body></html>`;
 }
@@ -362,7 +362,7 @@ function main() {
 
   // ShowCase
   const showcase = path.join(ROOT, "showcase");
-  const models = fs.readdirSync(showcase).filter((name) => fs.statSync(path.join(showcase, name)).isDirectory());
+  const models = fs.readdirSync(showcase).filter((name) => fs.existsSync(path.join(showcase, name, "index.html")));
   for (const name of models) copyDir(path.join(showcase, name), path.join(DIST, "showcase", name));
   fs.writeFileSync(path.join(DIST, "showcase", "index.html"), showcasePage());
 
