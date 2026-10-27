@@ -1,5 +1,7 @@
 # The review circuit
 
+Each juror also examines ten lenses adapted from the [Agency Design Awards criteria](https://www.agencydesignawards.com/judging-criteria): visual presentation, written presentation, purpose, relevance, creativity, innovation, delivery, experience, society and judges' opinion. Record evidence or a reason a lens does not apply, and route findings into gate votes; see `skill/references/16-review-circuit.md`. This supplemental review is manual and does not create an official award score.
+
 Finalization also requires the 10–15-member independent jury and complete Laws of UX review described in `skill/references/29-jury-and-ux.md`. All members vote on all gates and principles. The jury loop runs at most 10 minutes from `--jury-start`; each `--jury-round` scores the votes and the decision is the best round recorded in that time. Dissent in the best round caps the verdict at conditional. If independent reviewers are unavailable, the verdict remains pending.
 
 Ten independent gates and a Tribunal. The goal is not a pretty score; it is to stop the bureau from approving work it has fallen for.

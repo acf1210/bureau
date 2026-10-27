@@ -3,7 +3,7 @@ name: bureau
 description: Autonomous digital design bureau for award-grade websites and product surfaces. Use when designing, redesigning, prototyping, or reviewing any web experience that must feel crafted and technologically ambitious — landing pages, portfolios, product marketing, editorial sites, immersive experiences, design systems, Figma-to-code, motion/WebGL/video, Playwright QA, accessibility, performance, and anti-AI-slop review. Triggers include "design a site", "make it premium", "Awwwards-level", "redesign this", "build a landing page", "review my UI", "anti-slop", "Figma to code", "add motion", "make it futuristic".
 license: MIT
 metadata:
-  version: "7.2.0"
+  version: "7.3.0"
   homepage: "https://github.com/acf1210/bureau"
 ---
 
@@ -133,6 +133,8 @@ The review is **Gate Zero + Nine Gates + Tribunal**. Weights sum to 100; each ga
 | G9 Launch | The Release Engineer | 3 | Can it ship, be found, measured, and recovered? |
 
 Read `references/16-review-circuit.md` before running a review. The short form:
+
+Each juror also examines the ten Agency Design Awards-inspired lenses in that reference and records evidence or a reason a lens does not apply; findings feed the existing gate votes and correction loop. This supplemental review is not checked by the script.
 
 ```bash
 # 1. Mechanical evidence

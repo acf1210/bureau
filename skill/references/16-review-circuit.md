@@ -20,6 +20,25 @@ For each concept, record the following in `.bureau/comps/decision.md`; revisit t
 
 Record risks, unresolved findings and the smallest correction, then rerun the affected gates and independent jury review under the existing circuit. These dimensions do not change gate weights, jury voting, score thresholds or hard failures. Do not present BUREAU's judgment as a CSSDA score, nomination or award.
 
+## Agency Design Awards: supplemental judging lenses
+
+Use the [World Brand Design Society judging criteria](https://www.agencydesignawards.com/judging-criteria) as the source for these ten lenses. The source introduction says nine areas but lists ten criteria, including judges' opinion. It says some criteria may not apply. BUREAU's prompts and gate mapping below are adaptations, not an official score or prediction of an award.
+
+| Lens | Question and evidence | Circuit |
+|---|---|---|
+| Visual presentation | Do real captures communicate the work and its context clearly? Examine representative screens and states; do not substitute mockups for delivered work. | G2–G4 |
+| Written presentation | Does the case explain brief, insight, process and outcome clearly? Review the brief and case text; label unavailable outcomes. | G0, G8 |
+| Purpose | Are intent, objectives and reasoning clear and supported by the brief? Inspect the brief and decision record. | G0–G1 |
+| Relevance | Does the solution fit its audience, culture, market and brand? Compare the design with the brief and available research. | G1–G2 |
+| Creativity | Is the idea original, purposeful and valuable for this subject? Inspect concept alternatives and the implemented signature. | G1–G2 |
+| Innovation | Does a new idea or method improve functionality, effectiveness or other stated value? Inspect the implemented idea and evidence; distinguish hypotheses from measured outcomes. | G1, G5–G6 |
+| Delivery | Does execution honor the idea across actual artifacts and states? Inspect the working build, responsive captures and checks. | G4–G6, G9 |
+| Experience | Do touchpoints and interactions form a meaningful, coherent experience? Exercise primary tasks and inspect feedback and user-research evidence where available. | G4, G7 |
+| Society | Are relevant human needs, inclusion and environmental or social implications considered? Inspect accessibility evidence and substantiated impact claims; do not assume impact. | G0, G7–G8 |
+| Judges' opinion | Does a reasoned overall judgment identify merit, defects and trade-offs? Record the rationale and any specific veto with its smallest fix. | Tribunal |
+
+Each independent juror examines all ten lenses before voting on the existing gates. In their review notes, record for each lens an observation and evidence path, or an explicit reason when it is not applicable; raise defects in the relevant gate vote and correction loop. Do not invent results or infer measurable commercial, social or environmental impact. These lenses add qualitative scrutiny; they do not add schema fields, automatic validation, scores, weights or award labels. The existing circuit and jury rules remain authoritative.
+
 ```text
 G0 Intake ──► G1 Concept ──► G2 Direction ──► G3 Type & Color
                                                    │
