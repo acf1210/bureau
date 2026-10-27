@@ -4,6 +4,12 @@ All notable changes to BUREAU are recorded here. The format follows Keep a Chang
 
 ## [Unreleased]
 
+## [6.0.1] — 2026-10-27
+
+### Changed
+
+- Make installation and live examples easier to find from the landing and READMEs; correct the showcase count and clarify the showcase description.
+
 ## [6.0.0] — 2026-10-27
 
 ### Removed
@@ -195,7 +201,8 @@ The review circuit asks for more evidence. Projects reviewed under 1.0.0 need th
 - `visual-audit` uses hash-level screenshot comparison, not pixel diff.
 - The three templates use fictional demo content, clearly labeled where it could be mistaken for proof.
 
-[Unreleased]: https://github.com/acf1210/bureau/compare/v6.0.0...HEAD
+[Unreleased]: https://github.com/acf1210/bureau/compare/v6.0.1...HEAD
+[6.0.1]: https://github.com/acf1210/bureau/compare/v6.0.0...v6.0.1
 [6.0.0]: https://github.com/acf1210/bureau/compare/v5.2.1...v6.0.0
 [5.2.1]: https://github.com/acf1210/bureau/compare/v5.2.0...v5.2.1
 [5.2.0]: https://github.com/acf1210/bureau/compare/v5.1.1...v5.2.0

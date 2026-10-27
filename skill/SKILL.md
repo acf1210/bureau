@@ -3,7 +3,7 @@ name: bureau
 description: Autonomous digital design bureau for award-grade websites and product surfaces. Use when designing, redesigning, prototyping, or reviewing any web experience that must feel crafted and technologically ambitious — landing pages, portfolios, product marketing, editorial sites, immersive experiences, design systems, Figma-to-code, motion/WebGL/video, Playwright QA, accessibility, performance, and anti-AI-slop review. Triggers include "design a site", "make it premium", "Awwwards-level", "redesign this", "build a landing page", "review my UI", "anti-slop", "Figma to code", "add motion", "make it futuristic".
 license: MIT
 metadata:
-  version: "6.0.0"
+  version: "6.0.1"
   homepage: "https://github.com/acf1210/bureau"
 ---
 

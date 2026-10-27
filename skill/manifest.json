@@ -1,7 +1,7 @@
 {
   "$schema": "https://agentskills.io/schema/skill.json",
   "name": "bureau",
-  "version": "6.0.0",
+  "version": "6.0.1",
   "description": "Autonomous digital design bureau: concept, art direction, motion, WebGL, video, Figma, Playwright QA, accessibility, performance, anti-AI-slop review.",
   "license": "MIT",
   "homepage": "https://github.com/acf1210/bureau",
