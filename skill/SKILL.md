@@ -3,7 +3,7 @@ name: bureau
 description: Autonomous digital design bureau for award-grade websites and product surfaces. Use when designing, redesigning, prototyping, or reviewing any web experience that must feel crafted and technologically ambitious — landing pages, portfolios, product marketing, editorial sites, immersive experiences, design systems, Figma-to-code, motion/WebGL/video, Playwright QA, accessibility, performance, and anti-AI-slop review. Triggers include "design a site", "make it premium", "Awwwards-level", "redesign this", "build a landing page", "review my UI", "anti-slop", "Figma to code", "add motion", "make it futuristic".
 license: MIT
 metadata:
-  version: "7.1.0"
+  version: "7.2.0"
   homepage: "https://github.com/acf1210/bureau"
 ---
 
@@ -185,6 +185,7 @@ If the user cannot attend a checkpoint, choose the most defensible option, recor
 3. Build three low-cost comps: HTML/CSS sketches, Figma frames, or generated images. No full build yet.
 4. Score the directions against the brief and pick one. Record the decision and the rejected ideas in `.bureau/comps/decision.md`, and the chosen blend in `.bureau/comps/blend.md`.
 5. If the user cannot choose, choose for them and explain the trade-off.
+6. For each direction, document UI, UX and innovation decisions and their evidence plan using the CSS Design Awards-inspired generation criteria in `references/16-review-circuit.md`. Revisit them against the built experience during review.
 
 ### Phase C — Direction (G2, G3, G4)
 

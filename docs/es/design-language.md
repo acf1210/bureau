@@ -1,5 +1,7 @@
 # Lenguaje visual
 
+Para cada concepto, registra decisiones de UI, UX e innovación y un plan de evidencias usando `skill/references/16-review-circuit.md`. Son interpretaciones de BUREAU de las [definiciones de CSS Design Awards](https://www.cssdesignawards.com/sites/guidance/43364/), no subcriterios oficiales ni una predicción de premios.
+
 Para un vocabulario práctico de estilos visuales y sus trade-offs, usa `skill/references/32-visual-style-vocabulary.md`. Elige una lente a partir del brief y prueba con contenido real; una etiqueta de estilo no demuestra usabilidad ni conversión.
 
 BUREAU no tiene un estilo fijo. Tiene un **método** para construir un estilo que pertenezca al asunto.
