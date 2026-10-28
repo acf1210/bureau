@@ -488,6 +488,22 @@
         ],
         "createdAt": "2026-10-27T20:32:44.636237Z",
         "reason": "Claude triage: both clips are the design. .frame must crop the scaled specimen iframe and the registration plates to the sheet; .demo__media crops the phone mockup that sits off the card's lower edge. Nothing interactive (menu, tooltip) lives inside either."
+      },
+      {
+        "rule": "overused-font",
+        "value": "geist mono",
+        "createdAt": "2026-10-28T00:42:50.691Z",
+        "reason": "builder decision recorded in .bureau/models/quarter/DESIGN.md: Geist Mono is only the HUD data face; display and prose are Newsreader"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          ".bureau/models/quarter/index.html",
+          "showcase/fields/index.html"
+        ],
+        "createdAt": "2026-10-28T16:11:42.084Z",
+        "reason": "Claude triage: rendered insets measured in Chromium at 1440x900 \u2014 rail Request item text 15px below its rule, plate text 26-27px inside border and background, request heading 118px below its border; the static detector does not add the child link's own padding"
       }
     ]
   }

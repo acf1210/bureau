@@ -4,6 +4,36 @@ All notable changes to BUREAU are recorded here. The format follows Keep a Chang
 
 ## [Unreleased]
 
+## [7.11.0] — 2026-10-28
+
+### Added
+
+- Fifth ShowCase model, **Quarter** (`showcase/fields`): a fictional field-intelligence studio. One real-time WebGL 2 descent, bound to scroll, from Sentinel-2's 786 km orbit to 70 m over a procedural High Plains county drawn after Finney County, Kansas: the survey lattice draws before the ground fills; 10 m pixels with NDVI; six crop classes labelled in place; a red-edge stress alert; then 50 cm pixels in which a feedyard of 30,979 head resolves and is counted. Rendered for realism (linear light, sun and sky, analytic shadows, aerial perspective, ACES tone mapping, lit cumulus). Every fact is sourced (Sentinel-2, NASA Earth Observatory, USDA NASS CDL, Zheng et al. 2018, ESA locust forecasting, Pléiades, cattle detection studies). Lineage Tufte × Cooper × Aicher; market reference for the concept: Igloo Inc (abeto), Awwwards Site of the Year 2024.
+- Reviewed through the full circuit: five-source survey, five awarded motion references, three directions, ten gates, Delivery Gate, an isolated Tribunal and a ten-member fresh-context jury. Final verdict on the shipped file: **CONDITIONAL**, accepted in writing by the owner. Gates scored 85.4/100 with P0 0 and P1 0. The round-9 jury scored 96.4/100 with 14 dissenting votes. The isolated Tribunal passed four rounds in a row. The open dissent is carried to the next version in the model's `acceptance.md`: the Herd count still sweeping when a rail link lands, three motion seams, Herd sharpness against the 0.5 m label, class fills against legend chips, and a missing Sources heading.
+- Performance and robustness evidence:
+  - Measured on a real GPU (AMD Radeon 680M): 16.7 ms median at every station, 60 Hz vsync-bound.
+  - WebGL context loss and restore measured.
+  - 400% zoom (320 × 256) reflows, with the HUD scrolling away.
+
+### Changed
+
+- Landing, READMEs (PT-BR, EN, ES), docs ShowCase page and the ShowCase test count five models; gallery and captures regenerated.
+- Quarter corrections from jury rounds 5–8:
+  - Reduced motion holds each chapter's own station.
+  - The HUD goes inert under the request section, including without WebGL.
+  - The Pause label carries its state.
+  - HUD focus rings sit inside their plates.
+  - Header and footer landmarks.
+  - Sheets hand over in turn, without a lift jump.
+  - Rail links land where the sheet has settled.
+  - The camera holds each station while its plate is read and frames the subject clear of the plate.
+  - The Crop sensor line lists the four 10 m bands.
+  - The winter wheat class renders at `#D9AE6A` to match its legend.
+  - Cattle have barrel bodies, varied coats and attached shadows.
+  - The adaptive render scale measures only scroll-driven frames and remembers a failed scale.
+  - The phone rail scrolls itself instead of the page.
+- Quarter corrections from the earlier review rounds: a pinned label is now measured and dropped or slid clear rather than overprinting a plate or the HUD between 960 and 1112 px; the NDVI key is pinned to its colour stops (0/33.3/66.7/100%) with the words on their own line; without JavaScript the request section shows one explanation and the end grid falls to one column; the Finney County sentence says "partly fed" like its NASA source; the tablet evidence is captured at dpr 2 after a dpr-1 compositor band was identified and documented in `frame-times.md`.
+
 ## [7.10.0] — 2026-10-27
 
 ### Added
@@ -330,7 +360,8 @@ The review circuit asks for more evidence. Projects reviewed under 1.0.0 need th
 - `visual-audit` uses hash-level screenshot comparison, not pixel diff.
 - The three templates use fictional demo content, clearly labeled where it could be mistaken for proof.
 
-[Unreleased]: https://github.com/acf1210/bureau/compare/v7.10.0...HEAD
+[Unreleased]: https://github.com/acf1210/bureau/compare/v7.11.0...HEAD
+[7.11.0]: https://github.com/acf1210/bureau/compare/v7.10.0...v7.11.0
 [7.10.0]: https://github.com/acf1210/bureau/compare/v7.9.6...v7.10.0
 [7.9.6]: https://github.com/acf1210/bureau/compare/v7.9.5...v7.9.6
 [7.9.5]: https://github.com/acf1210/bureau/compare/v7.9.4...v7.9.5

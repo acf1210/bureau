@@ -2,9 +2,9 @@
 
 **O bureau de design digital autônomo.** Uma skill de agente que dá a um modelo de linguagem o trabalho de um estúdio inteiro: direção de criação, direção de arte, tipografia, motion, creative technology, acessibilidade, performance e uma revisão adversarial que diz *não*.
 
-[![Versão](https://img.shields.io/badge/version-7.10.0-F2C230?style=flat-square&labelColor=121212)](VERSION)
+[![Versão](https://img.shields.io/badge/version-7.11.0-F2C230?style=flat-square&labelColor=121212)](VERSION)
 [![Licença](https://img.shields.io/badge/license-MIT-E2507F?style=flat-square&labelColor=121212)](LICENSE)
-[![ShowCase](https://img.shields.io/badge/showcase-4-1E4FD6?style=flat-square&labelColor=121212)](#showcase)
+[![ShowCase](https://img.shields.io/badge/showcase-5-1E4FD6?style=flat-square&labelColor=121212)](#showcase)
 [![Hosts](https://img.shields.io/badge/hosts-Claude%20%7C%20Codex%20%7C%20Antigravity%20%7C%20Hermes-EDEBE4?style=flat-square&labelColor=121212)](#instalação)
 
 [Português](README.md) · [English](README.en.md) · [Español](README.es.md) · [Documentação](https://acf1210.github.io/bureau/pt-BR/index.html) · [ShowCase ao vivo](https://acf1210.github.io/bureau/showcase/index.html)
@@ -15,7 +15,7 @@
 >
 > [Veja os projetos ao vivo](https://acf1210.github.io/bureau/showcase/index.html) · [Leia o fluxo completo](docs/pt-BR/workflow.md)
 
-![As composições mobile dos quatro modelos do ShowCase do BUREAU: um observatório, uma perfumaria, um instituto oceanográfico e uma fundição tipográfica](site/assets/img/readme-banner.webp)
+![As composições mobile dos cinco modelos do ShowCase do BUREAU: um observatório, uma perfumaria, um instituto oceanográfico, uma fundição tipográfica e um estúdio de inteligência agrícola](site/assets/img/readme-banner.webp)
 
 ---
 
@@ -33,7 +33,7 @@ Modelos aprendem a média da internet. Sem direção, entregam o mesmo hero cent
 
 ## ShowCase
 
-Quatro modelos web, quatro estúdios fictícios, cada um com uma composição mobile própria: um observatório de montanha, uma perfumaria, um instituto oceanográfico e uma fundição tipográfica. Cada modelo tem um `LINEAGE.md` com a sua mescla de três designers.
+Cinco modelos web, cinco estúdios fictícios, cada um com uma composição mobile própria: um observatório de montanha, uma perfumaria, um instituto oceanográfico, uma fundição tipográfica e um estúdio que lê fazendas do espaço. Cada modelo tem um `LINEAGE.md` com a sua mescla de três designers.
 
 <!-- gallery:start -->
 <table>
@@ -64,6 +64,13 @@ Quatro modelos web, quatro estúdios fictícios, cada um com uma composição mo
 </tr>
 <tr>
 <td colspan="2"><b>Glifo</b> · Fundição tipográfica · <sub>A. Albers × Scher × Cooper</sub><br>Puxe cinco eixos com a mão, teça um campo de letras, abra uma em profundidade. <a href="https://acf1210.github.io/bureau/showcase/foundry/index.html">Abrir ↗</a></td>
+</tr>
+<tr>
+<td width="72%" valign="top"><a href="https://acf1210.github.io/bureau/showcase/fields/index.html"><img src="site/assets/img/showcase/fields-desktop.webp" alt="Quarter: A satellite view of the High Plains under a large serif Quarter headline, with an amber station rail and a monospaced altitude readout" width="100%"></a></td>
+<td width="28%" valign="top"><a href="https://acf1210.github.io/bureau/showcase/fields/index.html"><img src="site/assets/img/showcase/fields-mobile.webp" alt="Quarter, mobile" width="100%"></a></td>
+</tr>
+<tr>
+<td colspan="2"><b>Quarter</b> · Inteligência agrícola · <sub>Tufte × Cooper × Aicher</sub><br>Desça da órbita ao rebanho, uma resolução de sensor por vez. <a href="https://acf1210.github.io/bureau/showcase/fields/index.html">Abrir ↗</a></td>
 </tr>
 </table>
 <!-- gallery:end -->

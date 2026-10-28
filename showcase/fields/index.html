@@ -1,0 +1,1190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quarter — Field intelligence from orbit</title>
+<meta name="description" content="Descend from a 786 km orbit to a 70 m view over the High Plains and see what each sensor resolution can read: the survey grid, crop vigour, crop type, red-edge disease stress and a feedyard counted head by head. Showcase model; Quarter is fictional, the facts are sourced.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Quarter — Field intelligence from orbit">
+<meta property="og:description" content="A descent from Sentinel-2's 786 km orbit to a 70 m view over the High Plains, down to the resolution at which a satellite can count cattle. A BUREAU ShowCase model: the studio is fictional, the facts are sourced.">
+<meta property="og:url" content="https://acf1210.github.io/bureau/showcase/fields/">
+<meta property="og:image" content="https://acf1210.github.io/bureau/showcase/fields/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Crop station: centre-pivot fields in six crop colours, labelled with crop class and hectares, over a procedural Finney County grid.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#06090C">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%2306090C'/%3E%3Cpath d='M32 4V60M4 32H60' stroke='%23F2B544' stroke-width='2'/%3E%3Ccircle cx='18' cy='18' r='11' fill='%235DA35E'/%3E%3Ccircle cx='46' cy='18' r='11' fill='%23E9C64B'/%3E%3Ccircle cx='18' cy='46' r='11' fill='%23E9C64B'/%3E%3Ccircle cx='46' cy='46' r='11' fill='%23D9AE6A'/%3E%3C/svg%3E">
+<script>document.documentElement.classList.add("js");</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..500;1,6..72,300..400&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* Lineage: Edward Tufte (label every reading where it lies) × Muriel Cooper (type in space; depth and transparency as navigation) × Otl Aicher (six crop colours and three signs on one grid). See LINEAGE.md. */
+  :root{
+    --ground:#06090C;
+    --surface:#0E1418;
+    --ink:#ECEFE8;
+    --muted:#A7B1A9;
+    --accent:#F2B544;
+    --line:#34413C;
+    --corn:#E9C64B;--wheat:#D9AE6A;--sorghum:#D2693A;--alfalfa:#9A7CC4;--soy:#5DA35E;--grass:#8C9670;
+    --stress:#F0528A;--detect:#5BD3E6;
+    --serif:"Newsreader",Georgia,serif;
+    --mono:"Geist Mono",ui-monospace,monospace;
+    --pad:clamp(16px,3vw,48px);
+    color-scheme:dark;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html{background:var(--ground);color:var(--ink);scrollbar-color:var(--line) var(--ground);-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--ground);font:400 1.125rem/1.55 var(--serif);font-optical-sizing:auto;caret-color:var(--accent)}
+  ::selection{background:var(--accent);color:var(--ground)}
+  a{color:var(--ink);text-decoration-color:var(--accent);text-underline-offset:.2em;text-decoration-thickness:1px}
+  a:hover{color:var(--accent)}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+  /* Inside the HUD the ring sits within each opaque plate, never over the bright render. */
+  .hud :focus-visible{outline-offset:-4px}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .skip{position:absolute;left:var(--pad);top:-5rem;z-index:30;background:var(--accent);color:var(--ground);padding:.7rem 1rem;font:500 .9375rem var(--mono);text-decoration:none}
+  .skip:focus{top:1rem}
+  .mono{font-family:var(--mono);font-size:.8125rem;font-variant-numeric:tabular-nums}
+
+  /* The render and its frame. */
+  #gl{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0;background:var(--ground)}
+  .fallback{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block;background:var(--ground)}
+  .webgl .fallback{display:none}
+  .fallback .sec{fill:none;stroke:var(--line);stroke-width:1}
+  .fallback g{opacity:.24}
+  .hud{position:fixed;inset:0;z-index:5;pointer-events:none;font:400 .8125rem/1.5 var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
+  .hud > *{position:absolute;pointer-events:auto}
+  .mark{left:var(--pad);top:var(--pad);text-decoration:none;color:var(--ink);display:flex;align-items:baseline;gap:.7rem;background:var(--ground);padding:.55rem .8rem .6rem}
+  .mark b{font:300 1.6rem/1 var(--serif);font-variation-settings:"opsz" 72;letter-spacing:-.01em}
+  .mark span{color:var(--muted)}
+  .read{right:var(--pad);top:var(--pad);display:grid;grid-template-columns:auto auto;gap:.1rem 1rem;margin:0;text-align:right;background:var(--ground);padding:.6rem .8rem}
+  .read dt{color:var(--muted)}
+  .read dd{margin:0;color:var(--ink)}
+  .hud > nav{left:var(--pad);top:50%;transform:translateY(-50%)}
+  .rail{display:flex;flex-direction:column;gap:.1rem;margin:0;padding:.4rem .7rem .4rem .5rem;list-style:none;background:var(--ground)}
+  .rail a{display:flex;align-items:center;gap:.6rem;min-height:30px;padding:.2rem .5rem .2rem 0;color:var(--muted);text-decoration:none;font:400 .8125rem var(--mono)}
+  .rail a i{display:inline-block;width:18px;height:1px;background:var(--line)}
+  .rail a:hover{color:var(--ink)}
+  /* The request is a destination, not an altitude: set apart below the seven stations. */
+  .rail li:last-child{margin-top:.45rem;padding-top:.45rem;border-top:1px solid var(--line)}
+  .rail li:last-child a{color:var(--ink)}
+  .rail a[aria-current="step"]{color:var(--accent)}
+  .rail a[aria-current="step"] i{width:34px;background:var(--accent)}
+  .pause{right:var(--pad);top:calc(var(--pad) + 5.4rem);font:500 .8125rem var(--mono);min-height:36px;padding:.4rem .7rem;background:var(--ground);color:var(--ink);border:1px solid #6B7A73;cursor:pointer;display:none}
+  .webgl .pause{display:block}
+  .pause.is-paused{color:var(--accent);border-color:var(--accent)}
+  .note{right:var(--pad);bottom:var(--pad);max-width:22rem;text-align:right;margin:0;background:var(--ground);padding:.4rem .6rem}
+  .labels{position:fixed;inset:0;z-index:4;pointer-events:none;overflow:hidden}
+  html:not(.webgl) .labels{display:none}
+  .labels span{position:absolute;left:0;top:0;font:500 .8125rem/1.3 var(--mono);color:var(--ink);white-space:nowrap;padding:.3rem .55rem;background:rgba(6,9,12,.92);transform:translate(-50%,-100%)}
+  .labels span::after{content:"";position:absolute;left:50%;top:100%;width:1px;height:26px;background:currentColor}
+  .labels span small{display:block;font-size:.8125rem;color:var(--muted);font-weight:400}
+
+  /* Chapters: plates on the left over the render. */
+  main{position:relative;z-index:2}
+  .ch{min-height:140svh;padding:0 var(--pad);display:flex;align-items:center}
+  /* Rail and hash links land at 55% of a chapter, where its sheet has settled and the camera is still on station. */
+  .ch:not(:first-child){scroll-margin-top:-27svh}
+  .ch:first-child{min-height:120svh;align-items:flex-start;padding-top:14svh}
+  .plate{width:min(30rem,34vw);background:var(--surface);border-top:1px solid var(--line);padding:1.6rem 1.6rem 1.4rem;margin-left:calc(var(--pad) + 9.5rem)}
+  .ch:first-child .plate{background:transparent;border:0;padding:0;margin-left:calc(var(--pad) + 9.5rem);width:min(46rem,58vw)}
+  .kicker{font:400 .8125rem var(--mono);color:var(--muted);margin:0 0 .6rem;font-variant-numeric:tabular-nums}
+  h1,h2,.lede{text-wrap:balance}
+  .plate p,.end p{text-wrap:pretty}
+  h1{font:300 clamp(4.5rem,11vw,11rem)/.86 var(--serif);font-variation-settings:"opsz" 72;letter-spacing:-.035em;margin:0 0 1.4rem}
+  h2{font:300 clamp(2.4rem,4.4vw,4.4rem)/.95 var(--serif);font-variation-settings:"opsz" 72;letter-spacing:-.025em;margin:0 0 1rem}
+  .lede{font-size:clamp(1.25rem,1.7vw,1.6rem);line-height:1.4;max-width:34rem;margin:0 0 1rem}
+  .plate p{margin:0 0 .9rem;max-width:52ch}
+  .plate .lede{max-width:34rem;text-wrap:balance}
+  .plate .small{font-size:1rem;color:var(--muted)}
+  .ch:first-child .small span{background:var(--ground);box-decoration-break:clone;-webkit-box-decoration-break:clone;padding:.1em .35em}
+  .ch:first-child .kicker{display:inline-block;background:rgba(6,9,12,.86);padding:0 .3em}
+  .ch:first-child .lede span{background:rgba(6,9,12,.86);box-decoration-break:clone;-webkit-box-decoration-break:clone;padding:0 .3em}
+  .plate em{font-style:italic}
+  .facts{display:grid;grid-template-columns:auto 1fr;gap:.25rem 1rem;margin:1rem 0 .4rem;font:400 .8125rem/1.5 var(--mono);font-variant-numeric:tabular-nums}
+  .facts dt{color:var(--muted)}
+  .facts dd{margin:0;text-wrap:balance}
+  html:not(.js) .read{display:none}
+  .formula{font:400 1rem var(--mono);margin:0 0 .9rem;padding:.6rem .8rem;border-left:1px solid var(--accent);background:var(--ground)}
+  .key{display:flex;flex-wrap:wrap;gap:.3rem 1rem;list-style:none;margin:.8rem 0 0;padding:0;font:400 .8125rem var(--mono)}
+  .key li{display:flex;align-items:center;gap:.4rem}
+  .key i{display:inline-block;width:12px;height:12px}
+  .ramp{height:10px;margin:.4rem 14px .2rem;background:linear-gradient(90deg,#6E5233,#C2AE6A 33%,#6FA352 66%,#1C6337)}
+  .rampkey{position:relative;height:1.15rem;line-height:1.15;margin:0 14px;font:400 .8125rem var(--mono);color:var(--muted)}
+  .rampkey span{position:absolute;top:0;white-space:nowrap;transform:translateX(-50%)}
+  .rampkey span:nth-child(1){left:0}
+  .rampkey span:nth-child(2){left:33.333%}
+  .rampkey span:nth-child(3){left:66.666%}
+  .rampkey span:nth-child(4){left:100%}
+  .rampends{display:flex;justify-content:space-between;margin:.1rem 14px .2rem;font:400 .75rem var(--mono);color:var(--muted)}
+  .count{font:300 clamp(2.6rem,4.4vw,4rem)/1 var(--serif);font-variation-settings:"opsz" 72;font-variant-numeric:lining-nums tabular-nums;color:var(--detect);margin:.4rem 0 .2rem;font-variant-numeric:tabular-nums}
+  html:not(.js) #form{display:none}
+  html:not(.js) .count,html:not(.js) .count-note{display:none}
+
+  /* After the descent: the request, on solid ground. */
+  .end{position:relative;z-index:6;background:var(--ground);border-top:1px solid var(--line);padding:clamp(4rem,10vh,7rem) var(--pad) 0}
+  .end-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:clamp(24px,5vw,80px);max-width:1440px}
+  .end h2{margin-bottom:.8rem}
+  form{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem 1.4rem}
+  .field{display:flex;flex-direction:column;gap:.35rem}
+  .field label,.field legend{font:500 .8125rem var(--mono);color:var(--muted)}
+  .field input{font:400 1.0625rem var(--serif);color:var(--ink);background:var(--surface);border:1px solid #6B7A73;padding:.7rem .8rem;min-height:48px;border-radius:0}
+  .field .err{font:400 .875rem var(--serif);color:var(--accent);min-height:1.3em}
+  fieldset.field{border:0;margin:0;padding:0;grid-column:1 / -1}
+  .checks{display:flex;flex-wrap:wrap;gap:.2rem 1.4rem}
+  .checks label{display:flex;align-items:center;gap:.5rem;min-height:44px;font:400 1rem var(--serif);color:var(--ink)}
+  .checks input{width:22px;height:22px;margin:0;accent-color:var(--accent)}
+  .send{justify-self:start;font:500 .9375rem var(--mono);min-height:48px;padding:.7rem 1.2rem;background:var(--accent);color:var(--ground);border:0;cursor:pointer}
+  .send:hover{background:var(--ink)}
+  .result{grid-column:1 / -1;margin:0;border-top:1px solid var(--accent);padding-top:.8rem}
+  .result:empty{border:0;padding:0}
+  html:not(.js) .needs-js{display:none}
+  html:not(.js) .end-grid{grid-template-columns:minmax(0,1fr)}
+  html:not(.js) .end-grid>.nojs-note{grid-column:1}
+  .js .nojs-note{display:none}
+  .nojs-note{color:var(--muted);margin:0}
+  footer{position:relative;z-index:6;background:var(--ground);padding:0 var(--pad)}
+  .foot{margin-top:clamp(4rem,10vh,7rem);padding:1.4rem 0 3rem;border-top:1px solid var(--line);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:clamp(24px,5vw,80px);font-size:1rem;color:var(--muted);max-width:1440px}
+  footer p{margin:0 0 .8rem}
+  footer ol{margin:0;padding-left:1.1rem;font-size:.9375rem}
+  footer li{margin:0 0 .45rem}
+
+  /* 400% zoom (320 × 256 CSS px): the HUD scrolls away with the opening instead of covering the reading space (WCAG 1.4.10). */
+  @media (max-height:320px){ .hud{position:absolute;height:100svh} }
+
+  @media (max-width:899px){
+    .hud .note{left:var(--pad);right:calc(var(--pad) + 8.4rem);top:calc(var(--pad) + 6.3rem);bottom:auto;max-width:none;text-align:left;background:var(--ground);font-size:.75rem;line-height:1.3;padding:.3rem .5rem}
+    .pause{top:calc(var(--pad) + 6.3rem);bottom:auto}
+    .read{grid-template-columns:auto auto;font-size:.8125rem}
+    .read .opt{display:none}
+    .mark span{display:none}
+    .hud > nav{left:0;right:0;bottom:auto;top:calc(var(--pad) + 3.7rem);transform:none}
+    .rail{background:var(--ground);flex-direction:row;overflow-x:auto;padding:0 var(--pad);gap:.9rem;scrollbar-width:none}
+    .rail a{min-height:36px;white-space:nowrap}
+    .rail a i{display:none}
+    .rail li:last-child{margin:0;padding:0 0 0 .9rem;border-top:0;border-left:1px solid var(--line)}
+    .ch{align-items:flex-end;padding:0 0 4svh;min-height:150svh}
+    .ch:not(:first-child){scroll-margin-top:-33svh}
+    .ch:first-child{min-height:110svh;align-items:flex-start;padding:max(26svh,13rem) var(--pad) 0}
+    .plate{width:100%;margin-left:0;padding:1.2rem var(--pad) 1.3rem}
+    .ch:first-child .plate{width:100%;margin-left:0}
+    .end-grid,.foot{grid-template-columns:minmax(0,1fr)}
+    form{grid-template-columns:minmax(0,1fr)}
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#request">Skip the descent</a>
+
+<canvas id="gl" aria-hidden="true"></canvas>
+<svg class="fallback" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <g transform="translate(800 520) scale(.62)">
+    <path class="sec" d="M-1600 -800H1600M-1600 0H1600M-1600 800H1600M-1600 -800V800M-800 -800V800M0 -800V800M800 -800V800M1600 -800V800"/>
+    <circle cx="-1200" cy="-400" r="390" fill="#5DA35E"/><circle cx="-400" cy="-400" r="390" fill="#E9C64B"/><circle cx="400" cy="0" r="790" fill="#E9C64B"/><circle cx="1200" cy="-400" r="390" fill="#D9AE6A"/>
+    <circle cx="-1200" cy="400" r="390" fill="#E9C64B"/><circle cx="-400" cy="400" r="390" fill="#D2693A"/><circle cx="1200" cy="400" r="390" fill="#9A7CC4"/>
+    <circle cx="560" cy="-120" r="150" fill="#F0528A" fill-opacity=".85"/>
+  </g>
+</svg>
+
+<header class="hud">
+  <a class="mark" href="#top"><b>Quarter</b> <span>field intelligence from orbit</span></a>
+  <dl class="read" aria-label="Sensor readout">
+    <dt>view height</dt><dd id="r-alt">786 km</dd>
+    <dt>data pixel</dt><dd id="r-gsd">10 m</dd>
+    <dt class="opt">sensor</dt><dd class="opt" id="r-band">Sentinel-2 B4 B3 B2</dd>
+  </dl>
+  <nav aria-label="Stations and request"><ol class="rail" id="rail">
+    <li><a href="#top"><i></i>Quarter</a></li>
+    <li><a href="#orbit"><i></i>Orbit</a></li>
+    <li><a href="#grid"><i></i>Grid</a></li>
+    <li><a href="#vigour"><i></i>Vigour</a></li>
+    <li><a href="#crop"><i></i>Crop</a></li>
+    <li><a href="#stress"><i></i>Stress</a></li>
+    <li><a href="#herd"><i></i>Herd</a></li>
+    <li><a href="#request"><i></i>Request</a></li>
+  </ol></nav>
+  <button class="pause" id="pause" type="button">Pause motion</button>
+  <p class="note">Procedural scene after Finney County, Kansas. Not imagery of a real farm.</p>
+</header>
+<div class="labels" id="labels" aria-hidden="true"></div>
+
+<main id="main">
+  <section class="ch" id="top" data-ch="0" aria-labelledby="h-top">
+    <div class="plate">
+      <p class="kicker">A field-intelligence studio for the High Plains</p>
+      <h1 id="h-top">Quarter</h1>
+      <p class="lede"><span>We read farmland one quarter section at a time: what is planted, how it is growing, where it is stressed, and how many head stand in the&nbsp;pens.</span></p>
+      <p class="small"><span>Scroll to descend from 786&nbsp;km to 70&nbsp;m. Each altitude reads something the one above it cannot.</span></p>
+    </div>
+  </section>
+
+  <section class="ch" id="orbit" data-ch="1" aria-labelledby="h-orbit">
+    <div class="plate">
+      <p class="kicker">786&nbsp;km</p>
+      <h2 id="h-orbit">Two satellites, five days</h2>
+      <p>Sentinel-2 is a pair of satellites on one orbit, phased 180° apart. Each comes back over the same field every 10&nbsp;days; together, every 5 at the equator, more often at higher latitudes.</p>
+      <dl class="facts">
+        <dt>bands</dt><dd>13: four at 10&nbsp;m, six at 20&nbsp;m, three at 60&nbsp;m</dd>
+        <dt>red edge</dt><dd>B5, B6, B7 at 705, 740, 783&nbsp;nm</dd>
+        <dt>near infrared</dt><dd>B8 at 842&nbsp;nm, 10&nbsp;m</dd>
+      </dl>
+      <p class="small">Clouds are the first thing a pass has to see through, and an optical sensor cannot.</p>
+    </div>
+  </section>
+
+  <section class="ch" id="grid" data-ch="2" aria-labelledby="h-grid">
+    <div class="plate">
+      <p class="kicker">14&nbsp;km</p>
+      <h2 id="h-grid">A mile, then a quarter</h2>
+      <p>The land was surveyed before it was farmed. A section is a mile square, 640&nbsp;acres; a quarter section is 160. A centre pivot sprinkler swings a circle inside a quarter, or across a whole section, from a single well.</p>
+      <p>In Finney County, Kansas, the circles are 800 and 1,600&nbsp;m across, watered partly from the Ogallala Aquifer.</p>
+      <p class="small">The survey lines draw first; the ground fills in after them.</p>
+    </div>
+  </section>
+
+  <section class="ch" id="vigour" data-ch="3" aria-labelledby="h-vigour">
+    <div class="plate">
+      <p class="kicker">5&nbsp;km, 10&nbsp;m pixels, B8 and B4</p>
+      <h2 id="h-vigour">Vigour</h2>
+      <p>Chlorophyll absorbs red light; leaf structure scatters near infrared. The difference, normalised, is the vegetation index:</p>
+      <p class="formula">NDVI = (NIR − Red) / (NIR + Red)</p>
+      <div class="ramp" aria-hidden="true"></div>
+      <div class="rampkey" aria-hidden="true"><span>0</span><span>0.3</span><span>0.6</span><span>0.9</span></div>
+      <div class="rampends" aria-hidden="true"><span>bare</span><span>dense canopy</span></div>
+      <p class="small" style="margin-top:.9rem">At 10&nbsp;m an 800&nbsp;m pivot is about 5,000 pixels: enough to see a dry arc, not a single plant.</p>
+    </div>
+  </section>
+
+  <section class="ch" id="crop" data-ch="4" aria-labelledby="h-crop">
+    <div class="plate">
+      <p class="kicker">2.6&nbsp;km, 10&nbsp;m pixels</p>
+      <h2 id="h-crop">Crop</h2>
+      <p>The season’s curve gives each field away. USDA’s Cropland Data Layer classifies every field in the contiguous United States each year, at 30&nbsp;m from 2008 to 2023 and at 10&nbsp;m from 2024.</p>
+      <p class="small">The classes here are ours: six colours, labelled where they grow.</p>
+      <ul class="key" aria-label="Crop classes">
+        <li><i style="background:var(--corn)"></i>corn</li>
+        <li><i style="background:var(--wheat)"></i>winter wheat</li>
+        <li><i style="background:var(--sorghum)"></i>sorghum</li>
+        <li><i style="background:var(--alfalfa)"></i>alfalfa</li>
+        <li><i style="background:var(--soy)"></i>soybeans</li>
+        <li><i style="background:var(--grass)"></i>grass, fallow</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="ch" id="stress" data-ch="5" aria-labelledby="h-stress">
+    <div class="plate">
+      <p class="kicker">1.1&nbsp;km, 20&nbsp;m pixels, B4, B5, B7</p>
+      <h2 id="h-stress">Stress</h2>
+      <p>Crop disease changes how a canopy reflects the red edge. The red-edge bands B5 and B7 are native 20&nbsp;m, so the pixel coarsens here. A Sentinel-2 index built on bands 4, 5 and 7 identified wheat yellow rust with 84.1% overall accuracy against field surveys.</p>
+      <p>Further out, satellites read the conditions pests need: soil moisture with vegetation flagged favourable swarming ground about 70&nbsp;days before the November 2016 desert locust outbreak in Mauritania.</p>
+      <p class="small">An alert is a place to send someone with boots, not a diagnosis.</p>
+    </div>
+  </section>
+
+  <section class="ch" id="herd" data-ch="6" aria-labelledby="h-herd">
+    <div class="plate">
+      <p class="kicker">70&nbsp;m, 0.5&nbsp;m pixels</p>
+      <h2 id="h-herd">Herd</h2>
+      <p>At 10&nbsp;m a steer covers under 2% of one pixel. At 50&nbsp;cm, the resolution Pléiades delivers, it is four pixels long, and a model can count it. Published detectors already count cattle and elk on pasture this way.</p>
+      <p class="count" id="count">—</p>
+      <p class="small count-note" id="count-note">head detected in this scene’s feedyard: a count of the render, not of a real yard.</p>
+      <p class="sr-only" id="count-status" role="status"></p>
+      <noscript><p class="small">The count is drawn by the scene and needs JavaScript.</p></noscript>
+    </div>
+  </section>
+</main>
+
+<section class="end" id="request" aria-labelledby="h-request">
+  <div class="end-grid">
+    <div>
+      <p class="kicker">Request a pass</p>
+      <h2 id="h-request">Name a quarter</h2>
+      <p>Tell us which land and which readings. Here the form only shows what it would carry.</p>
+    </div>
+    <p class="nojs-note">The request form runs in the browser: it needs JavaScript, and it sends nothing.</p>
+    <form id="form" class="needs-js" novalidate>
+      <div class="field">
+        <label for="f-name">Your name (required)</label>
+        <input id="f-name" name="name" autocomplete="name" aria-describedby="e-name">
+        <span class="err" id="e-name" aria-live="polite"></span>
+      </div>
+      <div class="field">
+        <label for="f-county">County and state (required)</label>
+        <input id="f-county" name="county" aria-describedby="e-county">
+        <span class="err" id="e-county" aria-live="polite"></span>
+      </div>
+      <fieldset class="field">
+        <legend>Readings</legend>
+        <div class="checks">
+          <label><input type="checkbox" name="read" value="crop type" checked> Crop type</label>
+          <label><input type="checkbox" name="read" value="vigour" checked> Vigour</label>
+          <label><input type="checkbox" name="read" value="stress alerts"> Stress alerts</label>
+          <label><input type="checkbox" name="read" value="head counts"> Head counts</label>
+        </div>
+      </fieldset>
+      <button class="send" type="submit">Prepare the request</button>
+      <p class="result" id="result" role="status"></p>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="foot">
+    <div>
+      <p><b style="color:var(--ink)">Quarter</b> is a fictional studio: a ShowCase model built with BUREAU. It has no clients, no prices and no accuracy of its own, and the form sends nothing. The scene is procedural, drawn after Finney County, Kansas.</p>
+      <p>Lineage: Tufte × Cooper × Aicher. Market reference for the concept: Igloo Inc by abeto.</p>
+    </div>
+    <ol>
+      <li>Orbit: <a href="https://en.wikipedia.org/wiki/Sentinel-2">Sentinel-2</a>; <a href="https://landsat.gsfc.nasa.gov/article/sentinel-2-delivers-first-images">NASA Landsat Science</a>.</li>
+      <li>Grid: NASA Earth Observatory, <a href="https://earthobservatory.nasa.gov/images/5772/crop-circles-in-kansas">Crop Circles in Kansas</a>; <a href="https://mngeo.mn.gov/glo/Origin.htm">GLO survey plats</a>.</li>
+      <li>Vigour and Crop: <a href="https://en.wikipedia.org/wiki/Normalized_difference_vegetation_index">NDVI</a>; USDA NASS, <a href="https://www.nass.usda.gov/Research_and_Science/Cropland/sarsfaqs2.php">Cropland Data Layer FAQ</a>.</li>
+      <li>Stress: Zheng et al., <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5877331/">wheat yellow rust from Sentinel-2</a> (2018); ESA, <a href="https://www.esa.int/Applications/Observing_the_Earth/Satellites_forewarn_of_locust_plagues">satellites forewarn of locust plagues</a>.</li>
+      <li>Herd: Robinson et al., <a href="https://arxiv.org/abs/2106.15448">detecting cattle and elk from space</a> (2021); Torrusio et al., <a href="https://isprs-archives.copernicus.org/articles/XLVIII-4-2024/459/2024/">cattle counts on Pléiades imagery</a> (2024); <a href="https://www.pleiades4belgium.be/pleiades/">Pléiades resolution</a>.</li>
+    </ol>
+  </div>
+</footer>
+
+<script id="fs" type="x-shader/x-fragment">#version 300 es
+precision highp float;
+precision highp int;
+uniform vec2 uRes;
+uniform float uTime;
+uniform vec3 uO;
+uniform mat3 uCam;
+uniform float uTan, uSphere, uReveal, uLattice, uGsd, uNdvi, uClass, uStress, uHerd, uLift, uCount, uCloud;
+uniform vec2 uTarget;
+out vec4 frag;
+
+const float R = 6371000.0;
+const float SEC = 1609.344;
+const float QS = 804.672;
+// Mid-morning sun from the south-east, about 43 degrees up.
+const vec3 SUN = normalize(vec3(.55, .62, .35));
+const vec3 SUNC = vec3(1.0, .93, .82);
+const vec3 SKYC = vec3(.32, .44, .62);
+
+uint hash2(ivec2 p) {
+  uvec2 u = uvec2(p + 32768);
+  uint h = (u.x * 0x8da6b343u) ^ (u.y * 0xd8163841u);
+  h ^= h >> 13; h *= 0x5bd1e995u; h ^= h >> 15;
+  return h;
+}
+float hf(uint h) { return float(h & 0xffffu) / 65535.0; }
+float h21(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+float vn(vec2 p) {
+  vec2 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f);
+  return mix(mix(h21(i), h21(i + vec2(1, 0)), f.x), mix(h21(i + vec2(0, 1)), h21(i + vec2(1, 1)), f.x), f.y);
+}
+float fbm(vec2 p) { float a = .5, s = 0.0; for (int i = 0; i < 5; i++) { s += a * vn(p); p = mat2(1.6, 1.2, -1.2, 1.6) * p + 17.0; a *= .5; } return s; }
+float fbm3(vec2 p) { float a = .5, s = 0.0; for (int i = 0; i < 3; i++) { s += a * vn(p); p = mat2(1.6, 1.2, -1.2, 1.6) * p + 17.0; a *= .5; } return s; }
+vec3 lin(vec3 c) { return c * c; }
+vec2 sunDir2() { return normalize(SUN.xz); }
+float sunLen(float h) { return h * length(SUN.xz) / SUN.y; }
+
+// Six classes: corn, winter wheat, sorghum, alfalfa, soybeans, grass or fallow.
+float ndviOf(int c) { return c == 0 ? .82 : c == 1 ? .26 : c == 2 ? .48 : c == 3 ? .76 : c == 4 ? .66 : .22; }
+float heightOf(int c) { return c == 0 ? 2.4 : c == 1 ? .8 : c == 2 ? 1.1 : c == 3 ? .55 : c == 4 ? .7 : .2; }
+vec3 classCol(int c) {
+  if (c == 0) return vec3(.914, .776, .294);
+  if (c == 1) return vec3(.851, .682, .416);
+  if (c == 2) return vec3(.824, .412, .227);
+  if (c == 3) return vec3(.604, .486, .769);
+  if (c == 4) return vec3(.365, .639, .369);
+  return vec3(.549, .588, .439);
+}
+vec3 ramp(float v) {
+  vec3 a = vec3(.431, .322, .2), b = vec3(.761, .682, .416), c = vec3(.435, .639, .322), d = vec3(.11, .388, .216);
+  v = clamp(v / .9, 0.0, 1.0) * 3.0;
+  return v < 1.0 ? mix(a, b, v) : v < 2.0 ? mix(b, c, v - 1.0) : mix(c, d, v - 2.0);
+}
+int pickClass(uint h) {
+  uint v = h % 100u;
+  return v < 34u ? 0 : v < 54u ? 1 : v < 68u ? 2 : v < 79u ? 3 : v < 95u ? 4 : 5;
+}
+
+// Albedo of a crop canopy, with in-field variation, rows and the pivot's wheel tracks.
+vec3 cropAlbedo(int c, vec2 p, vec2 lp, float rr, float fp, uint hq) {
+  float lo = fbm(p * .006), mid = fbm3(p * .05);
+  float rows = fp < 1.2 ? (.5 + .5 * sin(dot(p, vec2(.0, 8.27)))) : .5;
+  vec3 a;
+  if (c == 0) a = mix(vec3(.19, .27, .12), vec3(.26, .32, .16), lo) * (.9 + .2 * mid);
+  else if (c == 4) a = mix(vec3(.27, .33, .16), vec3(.34, .38, .20), lo) * (.92 + .16 * mid);
+  else if (c == 2) a = mix(vec3(.46, .42, .30), vec3(.30, .38, .18), .45 + .3 * rows + .2 * lo);
+  else if (c == 3) {
+    a = mix(vec3(.25, .34, .15), vec3(.32, .39, .19), lo);
+    float wind = abs(mod(dot(p, vec2(.7, .7)), 9.0) - 4.5);
+    if (wind < 1.1) a = mix(a, vec3(.56, .55, .34), .7);
+  } else if (c == 1) {
+    // Winter wheat at harvest: standing grain, cut stubble and windrows from the combine.
+    vec3 stand = mix(vec3(.70, .58, .34), vec3(.78, .66, .40), lo);
+    vec3 stub = mix(vec3(.80, .73, .54), vec3(.86, .79, .60), mid);
+    float cut = step(hf(hq >> 5) * 2.0 - 1.0, sin(atan(lp.y, lp.x)));
+    float sw = abs(mod(rr, 9.1) - 4.55);
+    a = mix(stand, stub, cut);
+    if (cut > .5 && sw < .9) a = mix(a, vec3(.60, .50, .32), .6);
+  } else {
+    float till = .5 + .5 * sin(dot(p, vec2(.0, 1.1)) + vn(p * .02) * 3.0);
+    a = mix(vec3(.50, .41, .31), vec3(.58, .48, .36), lo) * (.92 + .08 * till);
+  }
+  a *= .9 + .2 * fbm3(p * .011 + 41.0);
+  // The pivot towers leave concentric bare tracks every ~55 m.
+  float tr = abs(mod(rr, 55.0) - 27.5);
+  float tw = max(1.2, fp * .5);
+  if (tr > 27.5 - tw) a = mix(a, vec3(.46, .38, .28), .55 * (1.0 - smoothstep(4.0, 30.0, fp)));
+  return a;
+}
+
+struct G { vec3 alb; float h; float ndvi; int cls; float edge; float stress; float box; float lat; float pivot; float shade; vec3 nrm; float spec; };
+
+// The feedyard: 17 by 15 pens of 66 by 54 m in section (-1, 1). Cattle crowd toward the feed bunk on each pen's north side.
+float occOf(ivec2 pid) { float o = hf(hash2(pid + ivec2(900, 900))); return o < .12 ? 0.0 : .35 + .55 * o; }
+float nearBunk(float cy) { return mix(.45, 1.25, clamp(cy / 51.0, 0.0, 1.0)); }
+void cattle(vec2 sl, float fp, inout G g, bool overlay) {
+  vec2 pl = sl + vec2(561.0, 405.0);
+  if (pl.x < 0.0 || pl.y < 0.0 || pl.x >= 1122.0 || pl.y >= 810.0) return;
+  ivec2 pid = ivec2(floor(pl / vec2(66.0, 54.0)));
+  vec2 pp = pl - vec2(pid) * vec2(66.0, 54.0);
+  bool inPen = pp.x > 3.0 && pp.x < 63.0 && pp.y > 3.0 && pp.y < 51.0;
+  vec2 sd = sunDir2();
+  if (!overlay) {
+    g.ndvi = .06; g.cls = 5; g.h = 0.0;
+    if (!inPen) {
+      if (pp.y > 51.0) { g.alb = pp.y < 52.4 ? vec3(.62, .52, .30) : vec3(.70, .68, .64); }
+      else g.alb = vec3(.56, .51, .44) * (.9 + .1 * vn(pl * .5));
+      // The bunk wall casts a short shadow into the pen.
+      if (pp.y < 51.0 && pp.y > 51.0 - sunLen(1.2) * abs(sd.y)) g.shade = .45;
+      return;
+    }
+    float m = fbm(pl * .21), mud = smoothstep(.45, .7, fbm3(pl * .05 + 3.0));
+    g.alb = mix(vec3(.52, .44, .34), vec3(.40, .33, .25), m) * (.86 + .26 * hf(hash2(pid + ivec2(400, 400)))) * (.9 + .18 * vn(pl * 1.7));
+    float wet = max(1.0 - smoothstep(2.0, 9.0, length(pp - vec2(58.0, 46.0))), smoothstep(44.0, 50.0, pp.y) * .7);
+    g.alb = mix(g.alb, vec3(.22, .18, .13), wet * .55);
+    g.alb = mix(g.alb, vec3(.30, .24, .18), mud * .7);
+    vec2 mc = vec2(33.0, 24.0);
+    float mound = 1.0 - length((pp - mc) / vec2(14.0, 9.0));
+    if (mound > 0.0) g.alb = mix(g.alb, vec3(.60, .52, .40), smoothstep(0.0, .4, mound) * .5);
+    vec2 tank = vec2(58.0, 46.0);
+    float tk = length(pp - tank);
+    if (tk < 2.2) { g.alb = tk < 1.8 ? vec3(.12, .16, .17) : vec3(.6, .6, .58); g.spec = tk < 1.8 ? .5 : 0.0; }
+  }
+  if (!inPen) return;
+  float occ = occOf(pid);
+  vec2 cl = pp - 3.0;
+  ivec2 cid = ivec2(floor(cl / 3.4));
+  for (int dy = -1; dy <= 1; dy++) for (int dx = -1; dx <= 1; dx++) {
+    ivec2 k = cid + ivec2(dx, dy);
+    if (k.x < 0 || k.y < 0 || k.x > 16 || k.y > 13) continue;
+    uint h = hash2(pid * 32 + k);
+    if (hf(h) >= occ * nearBunk((float(k.y) + .5) * 3.4 + 3.0)) continue;
+    vec2 c = (vec2(k) + .5) * 3.4 + (vec2(hf(h >> 16), hf(h * 2654435761u)) - .5) * 1.4;
+    vec2 q = cl - c;
+    if (overlay) {
+      if (pl.x / 1122.0 > uCount) continue;
+      float e = max(abs(q.x), abs(q.y));
+      // Corner ticks, not a full cage: a detector marks the animal, it does not tile the pen.
+      if (abs(e - 1.6) < max(.05, fp * .32) && min(abs(q.x), abs(q.y)) > .8) g.box = 1.0;
+      continue;
+    }
+    float a = (hf(h >> 8) - .5) * 1.2 + 1.5708;
+    mat2 rot = mat2(cos(a), -sin(a), sin(a), cos(a));
+    float sz = .86 + .28 * hf(h >> 24);
+    vec2 r = rot * q / sz;
+    // Shadow: the animal stands ~1.4 m tall; its shadow falls away from the sun.
+    // Swept along the sun from the hooves to its full length, so it stays attached to the animal.
+    float sb = 9.0, sl0 = sunLen(1.35);
+    for (int si = 1; si <= 4; si++) {
+      vec2 rs = rot * (q + sd * sl0 * float(si) * .25);
+      sb = min(sb, (rs.x * rs.x) / 1.3 + (rs.y * rs.y) / .26);
+    }
+    g.shade = min(g.shade, mix(.42, 1.0, smoothstep(.7, 1.2, sb)));
+    // Contact shadow: hooves trample a darker ring right under the body.
+    float cb = (r.x * r.x) / 1.6 + (r.y * r.y) / .3;
+    if (cb < 1.0) g.alb *= mix(.72, 1.0, cb);
+    // Barrel wider at the ribs than at the rump and shoulder.
+    float body = (r.x * r.x) / 1.21 + (r.y * r.y) / (.24 * (1.0 - .35 * min(r.x * r.x / 1.21, 1.0)));
+    float cov = 1.0 - smoothstep(1.0 - min(.6, fp * 1.4), 1.0, body);
+    if (cov > 0.0) {
+      uint t = (h >> 4) % 20u;
+      // Black Angus dominate a High Plains yard; red, tan and a few Charolais crosses mix in.
+      vec3 coat = t < 10u ? vec3(.085, .078, .07) : t < 14u ? vec3(.30, .18, .11) : t < 17u ? vec3(.46, .33, .21) : t < 19u ? vec3(.31, .2, .13) : vec3(.78, .74, .66);
+      coat *= .82 + .36 * hf(h >> 20);
+      float z = sqrt(1.0 - body);
+      z = sqrt(max(0.0, 1.0 - min(body, 1.0)));
+      vec3 ln = normalize(vec3(r.x / 1.1 * .45, z * 1.6 + .25, r.y / .42 * .45));
+      vec2 wxz = transpose(rot) * ln.xz;
+      g.nrm = normalize(vec3(wxz.x, ln.y, wxz.y));
+      if (t >= 17u && t < 19u && r.x > .75) coat = vec3(.72, .70, .66);
+      // Mottled hide and a lit spine: the back catches the sun, the flanks fall away.
+      coat *= .84 + .3 * vn(r * 7.0 + float(h & 255u));
+      coat *= 1.0 + .25 * (1.0 - smoothstep(0.0, .18, abs(r.y)));
+      g.alb = mix(g.alb, coat, cov); g.h = 1.4; g.spec = 0.0; g.shade = mix(g.shade, 1.0, cov);
+      if (cov < .5) g.nrm = vec3(0, 1, 0);
+    }
+    float head = length((r - vec2(1.32, 0.0)) / vec2(.3, .21));
+    float hc = 1.0 - smoothstep(1.0 - min(.6, fp * 2.0), 1.0, head);
+    if (hc > 0.0) { g.alb = mix(g.alb, (((h >> 4) % 20u) >= 17u) ? vec3(.72, .70, .66) : vec3(.085, .078, .07), hc); g.h = 1.2; g.shade = mix(g.shade, 1.0, hc); }
+  }
+}
+
+G ground(vec2 p, float fp, bool overlay) {
+  G g; g.alb = vec3(.5, .48, .37); g.h = 0.0; g.ndvi = .2; g.cls = 5; g.edge = 1e9; g.stress = 0.0; g.box = 0.0; g.lat = 1e9; g.pivot = 0.0; g.shade = 1.0; g.nrm = vec3(0, 1, 0); g.spec = 0.0;
+  vec2 sd = sunDir2();
+  ivec2 s = ivec2(floor(p / SEC));
+  vec2 sl = p - (vec2(s) + .5) * SEC;
+  float roadD = min(SEC * .5 - abs(sl.x), SEC * .5 - abs(sl.y));
+  g.lat = min(roadD, min(abs(sl.x), abs(sl.y)));
+  // The Arkansas-like river: a braided sand bed with damp threads, cottonwoods along the banks.
+  float rz = -5200.0 + 1400.0 * sin(p.x / 6100.0) + 600.0 * sin(p.x / 1700.0 + 2.0);
+  float rd = abs(p.y - rz);
+  if (rd < 280.0) {
+    g.ndvi = .2; g.cls = 5;
+    if (rd < 75.0) {
+      float br = fbm(vec2(p.x * .004, (p.y - rz) * .03));
+      g.alb = mix(vec3(.80, .74, .62), vec3(.64, .58, .48), smoothstep(.45, .6, br));
+      if (br > .62 && br < .66) { g.alb = vec3(.16, .2, .2); g.spec = .6; }
+      g.ndvi = .03;
+    } else {
+      float tree = fbm(p * .02) - (280.0 - rd) / 700.0;
+      float treeS = fbm((p + sd * sunLen(14.0)) * .02) - (280.0 - abs(p.y + sd.y * sunLen(14.0) - rz)) / 700.0;
+      if (tree > .32) { g.alb = mix(vec3(.10, .18, .08), vec3(.16, .25, .11), vn(p * .15)); g.h = 14.0; g.ndvi = .74; g.nrm = normalize(vec3((vn(p * .3) - .5) * .8, 1.0, (vn(p * .3 + 9.0) - .5) * .8)); }
+      else { g.alb = mix(vec3(.50, .49, .36), vec3(.44, .45, .30), fbm3(p * .03)); if (treeS > .32) g.shade = .5; }
+    }
+    return g;
+  }
+  if (s == ivec2(-1, 1)) {
+    cattle(sl, fp, g, overlay);
+    if (roadD < 7.0 && !overlay) g.alb = vec3(.70, .66, .58);
+    return g;
+  }
+  uint hs = hash2(s);
+  bool big = (hs % 5u) == 0u && s != ivec2(1, 0);
+  vec2 qi = step(0.0, sl);
+  ivec2 qid = s * 2 + ivec2(qi);
+  uint hq = hash2(qid + ivec2(101, 7));
+  vec2 c = big ? vec2(0.0) : (qi - .5) * QS;
+  float r = big ? 790.0 : 392.0;
+  vec2 lp = sl - c; float rr = length(lp);
+  // Real pivot edges are not compass-perfect: the end gun and the planter leave a ragged rim.
+  rr -= (vn(vec2(atan(lp.y, lp.x) * 38.0, float(hq & 1023u))) - .5) * 6.0;
+  bool strip = !big && (hq % 7u) == 0u;
+  uint hc = hash2(big ? s + ivec2(53, 11) : qid + ivec2(29, 3));
+  int cls = pickClass(hc);
+  bool stressed = qid == ivec2(3, 1);
+  if (stressed) cls = 0;
+  float ang = atan(lp.y, lp.x);
+  if (!stressed && ((hc >> 8) % 4u) == 0u && ang > (hf(hc >> 12) * 6.28 - 3.14)) cls = pickClass(hc >> 16);
+  g.edge = abs(rr - r);
+  if (strip) {
+    // Dryland wheat and fallow in strips, the old wind-erosion practice of the plains.
+    int sc = int(floor((sl.x + 900.0) / 110.0)) % 2;
+    g.cls = sc == 0 ? 1 : 5;
+    g.alb = sc == 0 ? mix(vec3(.72, .60, .36), vec3(.80, .70, .48), fbm3(p * .02)) : mix(vec3(.54, .44, .33), vec3(.60, .5, .38), fbm(p * .01));
+    if (sc == 1) g.alb *= .94 + .06 * sin(p.y * 1.3);
+    g.ndvi = sc == 0 ? .26 : .1; g.h = sc == 0 ? .8 : 0.0;
+    g.edge = abs(mod(sl.x + 900.0, 110.0));
+  } else if (rr < r) {
+    g.pivot = 1.0;
+    g.cls = cls; g.ndvi = ndviOf(cls); g.h = heightOf(cls);
+    vec3 base = cropAlbedo(cls, p, lp, rr, fp, hq);
+    // Wetter toward the well, and darker in the arc the span has just watered.
+    base *= mix(.9, 1.04, rr / r);
+    float da = mod(ang - hf(hq >> 3) * 6.2832 + 12.5664, 6.2832);
+    base *= 1.0 - .1 * (1.0 - smoothstep(0.0, .9, da));
+    // The pivot itself: a steel span from the centre well to the edge, on wheeled towers.
+    float arm = hf(hq >> 3) * 6.2832;
+    vec2 ad = vec2(cos(arm), sin(arm));
+    float along = dot(lp, ad), across = abs(lp.x * ad.y - lp.y * ad.x);
+    if (along > 0.0 && along < r) {
+      if (across < max(.35, fp * .5)) { base = vec3(.74, .75, .74); g.h = 4.0; g.spec = .4; }
+      float acs = abs((lp.x + sd.x * sunLen(4.0)) * ad.y - (lp.y + sd.y * sunLen(4.0)) * ad.x);
+      if (acs < .5) g.shade = .55;
+    }
+    if (rr < 6.0) base = vec3(.62, .6, .56);
+    if (stressed) {
+      float st = smoothstep(.2, .55, 1.0 - length((lp - vec2(130.0, -90.0)) / 170.0) + .35 * (fbm(p * .01) - .5));
+      g.stress = st;
+      g.ndvi = mix(g.ndvi, .46, st);
+      base = mix(base, vec3(.40, .40, .20) * (.9 + .2 * fbm3(p * .08)), st * .7);
+    }
+    g.alb = base;
+    // Canopy micro-relief.
+    float amp = (1.0 - smoothstep(.6, 6.0, fp)) * .35;
+    g.nrm = normalize(vec3((vn(p * 1.3) - .5) * amp, 1.0, (vn(p * 1.3 + 7.0) - .5) * amp));
+  } else {
+    g.cls = 5; g.ndvi = .28;
+    g.alb = mix(vec3(.52, .50, .37), vec3(.45, .46, .31), fbm(p * .008)) * (.92 + .1 * vn(p * .4));
+    // A tall pivot crop casts a shadow onto the dry corner beside it.
+    vec2 sp2 = lp + sd * sunLen(heightOf(cls));
+    if (length(sp2) < r) g.shade = .55;
+    // Farmsteads: grain bins, a shelterbelt of trees on the north and west.
+    if (((hs >> 4) % 6u) == 0u) {
+      vec2 fc = (qi - .5) * QS * 1.82;
+      vec2 fl = sl - fc;
+      if (max(abs(fl.x), abs(fl.y)) < 95.0) {
+        g.alb = vec3(.62, .58, .5) * (.9 + .1 * vn(fl * .3));
+        for (int b = 0; b < 4; b++) {
+          vec2 bc = vec2(-20.0 + float(b) * 15.0, -18.0);
+          float bd = length(fl - bc);
+          if (length(fl + sd * sunLen(11.0) - bc) < 6.5) g.shade = .45;
+          if (bd < 6.5) { float z = sqrt(max(0.0, 1.0 - bd * bd / 42.25)); g.alb = vec3(.78, .79, .8); g.nrm = normalize(vec3((fl - bc).x / 6.5, z * 1.5, (fl - bc).y / 6.5)); g.h = 11.0; g.spec = .6; g.shade = 1.0; }
+        }
+        vec2 hb = fl - vec2(25.0, 30.0);
+        if (abs(hb.x) < 10.0 && abs(hb.y) < 7.0) { g.alb = hb.x > 0.0 ? vec3(.42, .42, .44) : vec3(.36, .36, .38); g.h = 6.0; g.shade = 1.0; }
+        else if (abs(hb.x + sd.x * sunLen(6.0)) < 10.0 && abs(hb.y + sd.y * sunLen(6.0)) < 7.0) g.shade = .45;
+        float belt = min(abs(fl.y - 85.0), abs(fl.x + 85.0));
+        if (belt < 7.0 && vn(fl * .35) > .3) { g.alb = mix(vec3(.09, .16, .07), vec3(.15, .23, .1), vn(fl * .6)); g.h = 12.0; g.ndvi = .7; g.shade = 1.0; g.nrm = normalize(vec3((vn(fl) - .5), 1.0, (vn(fl + 3.0) - .5))); }
+      }
+    }
+  }
+  // Antialiased rim: blend crop and dry corner across the pixel footprint.
+  float aw = max(fp * .9, 1.2);
+  if (!strip && abs(rr - r) < aw) {
+    vec3 cropA = cropAlbedo(cls, p, lp, rr, fp, hq);
+    vec3 cornerA = mix(vec3(.52, .50, .37), vec3(.45, .46, .31), fbm(p * .008));
+    float k = smoothstep(-aw, aw, rr - r);
+    g.alb = mix(cropA, cornerA, k); g.ndvi = mix(ndviOf(cls), .28, k);
+  }
+  if (roadD < 7.0) {
+    g.alb = vec3(.70, .66, .58) * (.94 + .06 * vn(p * .8));
+    if (abs(roadD - 3.5) < .9 || abs(roadD - 5.6) < .6) g.alb *= .88;
+    g.ndvi = .05; g.cls = 5; g.h = 0.0; g.shade = 1.0; g.nrm = vec3(0, 1, 0);
+  }
+  return g;
+}
+
+// A coarse quarter-by-quarter estimate for the far field, where one pixel spans whole fields.
+vec3 farAlbedo(vec2 p, float fp) {
+  ivec2 s = ivec2(floor(p / SEC));
+  vec2 sl = p - (vec2(s) + .5) * SEC;
+  ivec2 qid = s * 2 + ivec2(step(0.0, sl));
+  int cls = pickClass(hash2(((hash2(s) % 5u) == 0u) ? s + ivec2(53, 11) : qid + ivec2(29, 3)));
+  vec3 crop = cls == 0 ? vec3(.22, .30, .14) : cls == 1 ? vec3(.70, .62, .44) : cls == 2 ? vec3(.40, .39, .26) : cls == 3 ? vec3(.27, .36, .17) : cls == 4 ? vec3(.30, .37, .18) : vec3(.54, .47, .36);
+  vec3 quarterMix = mix(vec3(.52, .49, .37), crop, .74);
+  // Seen from orbit, single quarters average away; only regions remain.
+  float region = fbm(p / 70000.0), irrig = smoothstep(.42, .62, fbm(p / 38000.0 + 3.0));
+  vec3 range = mix(vec3(.58, .53, .41), vec3(.50, .48, .36), fbm3(p / 14000.0));
+  vec3 dry = vec3(.61, .55, .40);
+  vec3 land = mix(range, dry, smoothstep(.4, .65, region));
+  vec3 irrAvg = vec3(.40, .42, .29);
+  float detail = smoothstep(2600.0, 900.0, fp);
+  vec3 irrigated = mix(irrAvg, quarterMix, detail);
+  float valley = smoothstep(.1, 0.0, abs(fbm3(p / 160000.0) - .5));
+  land = mix(land, vec3(.36, .39, .27), valley * .35);
+  return mix(land, irrigated, irrig * .7);
+}
+
+vec3 sky(vec3 d) {
+  float hi = clamp((uO.y - 20000.0) / 150000.0, 0.0, 1.0);
+  vec3 low = mix(lin(vec3(.86, .87, .86)), lin(vec3(.45, .60, .80)), clamp(d.y * 2.4, 0.0, 1.0));
+  low += pow(max(dot(d, SUN), 0.0), 64.0) * vec3(1.0, .9, .7) * .6;
+  vec3 oc = uO + vec3(0.0, R, 0.0);
+  float miss = length(cross(oc, d)) - R;
+  vec3 space = vec3(0.0005, 0.0007, 0.0012);
+  space += exp(-max(miss, 0.0) / 9000.0) * lin(vec3(.36, .58, .95)) * .9 + exp(-max(miss, 0.0) / 2500.0) * lin(vec3(.75, .82, .9)) * .35;
+  return mix(low, space, hi);
+}
+
+vec3 shade(G g, vec3 d, float t) {
+  vec3 a = lin(g.alb);
+  float ndl = max(dot(g.nrm, SUN), 0.0);
+  float amb = .55 + .45 * g.nrm.y;
+  vec3 c = a * (SUNC * ndl * g.shade * 2.6 + SKYC * amb * .8);
+  vec3 hlf = normalize(SUN - d);
+  c += SUNC * pow(max(dot(g.nrm, hlf), 0.0), 40.0) * g.spec * g.shade * 1.2;
+  return c;
+}
+
+void main() {
+  vec2 uv = (gl_FragCoord.xy - .5 * uRes) / uRes.y * 2.0;
+  vec3 d = normalize(uCam * vec3(uv * uTan, 1.0));
+  float t = -1.0;
+  vec2 gp;
+  if (uSphere > .5) {
+    vec3 oc = uO + vec3(0.0, R, 0.0);
+    float b = dot(oc, d);
+    float c = uO.y * (uO.y + 2.0 * R) + uO.x * uO.x + uO.z * uO.z;
+    float disc = b * b - c;
+    if (disc > 0.0 && b < 0.0) {
+      t = c / (-b + sqrt(disc));
+      vec3 q = oc + d * t;
+      gp = R * vec2(atan(q.x, q.y), atan(q.z, q.y));
+    }
+  } else if (d.y < 0.0) {
+    t = uO.y / -d.y;
+    gp = uO.xz + d.xz * t;
+  }
+  vec3 col;
+  if (t < 0.0) {
+    col = sky(d);
+  } else {
+    float fp = t * (2.0 * uTan / uRes.y) / max(abs(d.y), .12);
+    float far = smoothstep(90.0, 700.0, fp);
+    G g;
+    if (far < .999) g = ground(gp, fp, false);
+    else { g.alb = vec3(0); g.nrm = vec3(0, 1, 0); g.shade = 1.0; g.spec = 0.0; g.lat = 1e9; g.edge = 1e9; }
+    col = shade(g, d, t);
+    if (far > 0.0) {
+      vec3 fa = lin(farAlbedo(gp, fp)) * (SUNC * SUN.y * 2.6 + SKYC * .8);
+      col = mix(col, fa, far);
+    }
+    // Gentle relief at the kilometre scale, so the plains are not a table top.
+    float r0 = fbm3(gp / 3600.0), rx = fbm3((gp + vec2(60.0, 0.0)) / 3600.0), rz = fbm3((gp + vec2(0.0, 60.0)) / 3600.0);
+    col *= 1.0 + clamp(((rx - r0) * SUN.x + (rz - r0) * SUN.z) * 9.0, -.1, .1);
+    // Lattice and the outward reveal: unsurveyed land stays dim and colourless until the survey reaches it.
+    float rev = length(gp - uTarget);
+    float w = max(fp * 1.2, 1.5);
+    float lat = 0.0;
+    if (uLattice > 0.0) {
+      lat = max(1.0 - smoothstep(0.0, w, g.lat), (1.0 - smoothstep(0.0, w, g.edge)) * (1.0 - far));
+      lat *= uLattice;
+    }
+    float lumG = dot(col, vec3(.2126, .7152, .0722));
+    if (uReveal < 1e8) {
+      float inside = 1.0 - smoothstep(-max(fp * 4.0, 180.0), 0.0, rev - uReveal);
+      vec3 dim = mix(vec3(lumG), col, .45) * .45;
+      col = mix(dim, col, inside);
+      col += lat * vec3(.75, .76, .72) * mix(.16, .08, inside);
+    } else {
+      col = mix(col, vec3(.85, .84, .78), lat * .22);
+    }
+    // Cumulus with lit tops and soft shadows on the ground.
+    if (uCloud > 0.0) {
+      vec2 cp = gp / 24000.0 + vec2(uTime * .0008, 0.0);
+      vec2 wv = vec2(fbm3(cp * 1.7), fbm3(cp * 1.7 + 5.2));
+      float cd = smoothstep(.6, .86, fbm(cp + wv * .6));
+      vec2 sp3 = (gp - sunDir2() * sunLen(1800.0)) / 24000.0 + vec2(uTime * .0008, 0.0);
+      vec2 wv2 = vec2(fbm3(sp3 * 1.7), fbm3(sp3 * 1.7 + 5.2));
+      float cs = smoothstep(.6, .86, fbm(sp3 + wv2 * .6));
+      col *= 1.0 - cs * .55 * uCloud;
+      float lit = .75 + .25 * smoothstep(.0, .5, fbm3(cp * 3.0 + 1.0));
+      col = mix(col, vec3(1.0, .98, .95) * 1.15 * lit, cd * .9 * uCloud);
+    }
+    // Aerial perspective: denser and bluer with distance and altitude.
+    float k = mix(1.0 / 90000.0, 1.0 / 900000.0, clamp(uO.y / 300000.0, 0.0, 1.0));
+    float haze = 1.0 - exp(-t * k);
+    vec3 hz = uSphere > .5 ? lin(vec3(.50, .62, .82)) * .9 : lin(vec3(.74, .79, .85)) * .9;
+    col = mix(col, hz, haze * (uSphere > .5 ? .6 : .65));
+    // The analysis sheet: data sampled at the sensor's pixel, resampled smoothly and lit by the ground beneath it.
+    float ov = uNdvi + uClass + uStress + uHerd;
+    if (ov > .001 && rev <= uReveal) {
+      float tl = (uO.y - uLift) / max(-d.y, .001);
+      vec2 op = uSphere > .5 ? gp : uO.xz + d.xz * tl;
+      float px = max(uGsd, .5);
+      vec2 cf = op / px - .5, ci = floor(cf), fr = fract(cf);
+      fr = fr * fr * (3.0 - 2.0 * fr);
+      G o = ground(op, fp, false);
+      float lumO = clamp(pow(lumG / .14, 1.3), .35, 1.7);
+      float ext = max(1800.0, uO.y * 3.2);
+      float keep = 1.0 - smoothstep(ext * .85, ext, length(op - uTarget));
+      vec3 ocol = col;
+      if (uNdvi > 0.0 || uStress > 0.0) {
+        G a00 = ground((ci + .5) * px, px, false), a10 = ground((ci + vec2(1.5, .5)) * px, px, false);
+        G a01 = ground((ci + vec2(.5, 1.5)) * px, px, false), a11 = ground((ci + 1.5) * px, px, false);
+        float nd = mix(mix(a00.ndvi, a10.ndvi, fr.x), mix(a01.ndvi, a11.ndvi, fr.x), fr.y);
+        float st = mix(mix(a00.stress, a10.stress, fr.x), mix(a01.stress, a11.stress, fr.x), fr.y);
+        // Sensor grain and a touch of desaturation: the sheet is imagery, not a flat fill.
+        float grain = .88 + .24 * vn(op * 1.7 + 3.0);
+        vec3 ndC = lin(ramp(nd)) * 1.05 * lumO * grain;
+        ndC = mix(vec3(dot(ndC, vec3(.2126, .7152, .0722))), ndC, .86);
+        if (uNdvi > 0.0) ocol = mix(ocol, ndC, .52 * uNdvi);
+        if (uStress > 0.0) {
+          vec3 base = mix(vec3(dot(col, vec3(.2126, .7152, .0722))) * .8, lin(ramp(nd)) * lumO, .45);
+          // The anomaly reads as a change in the crop, marked by a contour and sparse speckle rather than a solid wash.
+          ocol = mix(ocol, base, uStress * .55);
+          float iso = 1.0 - smoothstep(0.0, max(.012, fp * .02), abs(st - .52));
+          float speck = step(.87, vn(op * .5 + 21.0)) * smoothstep(.3, .8, st);
+          ocol = mix(ocol, lin(vec3(.92, .34, .52)) * 1.2 * lumO, (iso * .6 + speck * .45) * uStress);
+        }
+      }
+      if (uClass > 0.0) {
+        // A third of the ground's light reads through, so the gel keeps the field's shading and still matches its legend chip.
+        vec3 cc = lin(classCol(o.cls)) * mix(1.0, 1.15 * min(lumO, 1.0), .35);
+        cc *= .9 + .2 * vn(op * .9 + 11.0);
+        cc = mix(vec3(dot(cc, vec3(.2126, .7152, .0722))), cc, .95);
+        float edge = 1.0 - smoothstep(0.0, max(fp * 1.5, 2.5), o.edge);
+        cc = mix(cc, cc * .25, edge * .7);
+        ocol = mix(ocol, cc, .66 * uClass);
+      }
+      if (uHerd > 0.0) {
+        ivec2 s2 = ivec2(floor(op / SEC)); o.box = 0.0;
+        if (s2 == ivec2(-1, 1)) { vec2 sl2 = op - (vec2(s2) + .5) * SEC; cattle(sl2, fp, o, true); }
+        ocol = mix(ocol, lin(vec3(.38, .84, .9)) * 1.5, o.box * uHerd * .55);
+      }
+      col = mix(col, ocol, keep);
+    }
+  }
+  // Filmic tone mapping (ACES fit), then display gamma.
+  col *= .52;
+  col = clamp((col * (2.51 * col + .03)) / (col * (2.43 * col + .59) + .14), 0.0, 1.0);
+  col = pow(col, vec3(1.0 / 2.2));
+  float vig = 1.0 - .18 * dot(uv * .55, uv * .55);
+  frag = vec4(col * vig, 1.0);
+}
+</script>
+
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+  const SEC = 1609.344, QS = 804.672;
+
+  // The same integer hash as the shader, so labels and counts agree with what is drawn.
+  const hash2 = (x, y) => {
+    const ux = (x + 32768) >>> 0, uy = (y + 32768) >>> 0;
+    let h = (Math.imul(ux, 0x8da6b343) ^ Math.imul(uy, 0xd8163841)) >>> 0;
+    h ^= h >>> 13; h = Math.imul(h, 0x5bd1e995) >>> 0; h ^= h >>> 15;
+    return h >>> 0;
+  };
+  const hf = (h) => (h & 0xffff) / 65535;
+  const CLASSES = ["Corn", "Winter wheat", "Sorghum", "Alfalfa", "Soybeans", "Grass, fallow"];
+  const CLS_VAR = ["--corn", "--wheat", "--sorghum", "--alfalfa", "--soy", "--grass"];
+  const pick = (h) => { const v = h % 100; return v < 34 ? 0 : v < 54 ? 1 : v < 68 ? 2 : v < 79 ? 3 : v < 95 ? 4 : 5; };
+  const pivotsIn = (sx, sz) => {
+    if (sx === -1 && sz === 1) return [];
+    const out = [], hs = hash2(sx, sz), big = hs % 5 === 0 && !(sx === 1 && sz === 0);
+    const cx = (sx + .5) * SEC, cz = (sz + .5) * SEC;
+    if (big) { out.push({ x: cx, z: cz, r: 790, cls: pick(hash2(sx + 53, sz + 11)) }); return out; }
+    for (const [qx, qz] of [[0, 0], [1, 0], [0, 1], [1, 1]]) {
+      const ix = sx * 2 + qx, iz = sz * 2 + qz;
+      if (hash2(ix + 101, iz + 7) % 7 === 0) continue;
+      const hc = hash2(ix + 29, iz + 3);
+      out.push({ x: cx + (qx - .5) * QS, z: cz + (qz - .5) * QS, r: 392, cls: ix === 3 && iz === 1 ? 0 : pick(hc), split: !(ix === 3 && iz === 1) && (hc >>> 8) % 4 === 0 });
+    }
+    return out;
+  };
+  // Head in the feedyard, counted with the shader's own rule.
+  let HEAD = 0;
+  for (let px = 0; px < 17; px++) for (let pz = 0; pz < 15; pz++) {
+    let occ = hf(hash2(px + 900, pz + 900)); occ = occ < .12 ? 0 : .35 + .55 * occ;
+    for (let cx = 0; cx < 17; cx++) for (let cz = 0; cz < 14; cz++) { const cy = (cz + .5) * 3.4 + 3; const nb = .45 + (1.25 - .45) * Math.min(1, Math.max(0, cy / 51)); if (hf(hash2(px * 32 + cx, pz * 32 + cz)) < occ * nb) HEAD++; }
+  }
+  const YARD = { x: -.5 * SEC, z: 1.5 * SEC };
+  const STRESS = { x: 1.5 * SEC + QS * .5 + 130, z: .5 * SEC + QS * .5 - 90 };
+
+  // Stations: target on the ground, altitude, back-distance factor, yaw.
+  const ST = [
+    { x: 0, z: 0, alt: 786000, k: 1.6, yaw: 0, tilt: .42 },
+    { x: 0, z: 0, alt: 786000, k: .95, yaw: .15 },
+    { x: 0, z: 0, alt: 14000, k: .75, yaw: .32 },
+    { x: 400, z: 300, alt: 5000, k: .7, yaw: .45 },
+    { x: 1200, z: 600, alt: 2600, k: .68, yaw: .58 },
+    { x: STRESS.x, z: STRESS.z, alt: 1100, k: .62, yaw: .7 },
+    { x: YARD.x + 120, z: YARD.z + 60, alt: 70, k: .6, yaw: .82 },
+    { x: YARD.x + 120, z: YARD.z + 60, alt: 70, k: .6, yaw: .82 }
+  ];
+  const BANDS = ["Sentinel-2 B4 B3 B2", "Sentinel-2 B4 B3 B2", "Sentinel-2 B4 B3 B2", "Sentinel-2 B8 B4", "Sentinel-2 B2 B3 B4 B8", "Sentinel-2 B4 B5 B7", "Pléiades pan-sharpened 0.5 m", "Pléiades pan-sharpened 0.5 m"];
+  const ease = (x) => x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
+  const sm = (a, b, x) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
+
+  const canvas = $("gl");
+  const gl = canvas.getContext("webgl2", { antialias: false, powerPreference: "high-performance" });
+  const chapters = [...document.querySelectorAll(".ch")];
+  const rail = [...document.querySelectorAll("#rail a")];
+  const labels = $("labels"), count = $("count"), countNote = $("count-note"), countStatus = $("count-status");
+  let prog = 0, smooth = 0, last = performance.now(), scale = innerWidth < 900 ? 1 : .75, frames = 0, ftime = 0, raf = 0;
+
+  const progress = () => {
+    const vh = innerHeight, mid = vh * .5;
+    for (let i = 0; i < chapters.length; i++) {
+      const r = chapters[i].getBoundingClientRect();
+      if (r.top <= mid && r.bottom > mid) return i + (mid - r.top) / r.height;
+    }
+    const end = $("request").getBoundingClientRect().top;
+    return end < mid ? chapters.length : 0;
+  };
+  const station = (p) => {
+    p = Number.isFinite(p) ? Math.min(ST.length - 1, Math.max(0, p)) : 0;
+    const i = Math.min(ST.length - 1, Math.floor(p)), f = p - i;
+    const a = ST[i], b = ST[Math.min(ST.length - 1, i + 1)];
+    // Each station holds while its plate is read (55%; 60% on phones, whose narrow frame loses the subject sooner),
+    // so the readout and the plate's kicker name the same altitude.
+    const m = reduce.matches ? 0 : ease(sm(innerWidth < 900 ? .6 : .55, 1, f));
+    return {
+      x: a.x + (b.x - a.x) * m, z: a.z + (b.z - a.z) * m,
+      alt: Math.exp(Math.log(a.alt) + (Math.log(b.alt) - Math.log(a.alt)) * m),
+      k: a.k + (b.k - a.k) * m, yaw: a.yaw + (b.yaw - a.yaw) * m, tilt: (a.tilt || 0) + ((b.tilt || 0) - (a.tilt || 0)) * m
+    };
+  };
+  const camera = (s, time) => {
+    const yaw = s.yaw + (reduce.matches ? 0 : time * .004);
+    const back = s.alt * s.k;
+    const pos = [s.x - Math.sin(yaw) * back, s.alt, s.z - Math.cos(yaw) * back];
+    let f = [s.x - pos[0], -s.alt, s.z - pos[2]];
+    let fl = Math.hypot(...f); f = f.map((v) => v / fl);
+    f[1] += (s.tilt || 0) + (innerWidth < 900 && !s.tilt ? -.18 : 0); fl = Math.hypot(...f); f = f.map((v) => v / fl);
+    // On desktop the plate holds the left third, so the subject is framed at 65% of the width, clear of it.
+    if (innerWidth >= 900) {
+      const r0 = [f[2], 0, -f[0]], r0l = Math.hypot(...r0), k = .3 * innerWidth / innerHeight * Math.tan(25 * Math.PI / 180);
+      f = f.map((v, i) => v - k * r0[i] / r0l); fl = Math.hypot(...f); f = f.map((v) => v / fl);
+    }
+    let r = [f[2], 0, -f[0]]; const rl = Math.hypot(...r); r = r.map((v) => v / rl);
+    const u = [f[1] * r[2] - f[2] * r[1], f[2] * r[0] - f[0] * r[2], f[0] * r[1] - f[1] * r[0]];
+    return { pos, f, r, u };
+  };
+  const layers = (p) => {
+    p = Number.isFinite(p) ? Math.max(0, p) : 0;
+    const c = Math.floor(p), f = p - c;
+    // Sheets hand over in turn: the outgoing one fades flat on the ground (0–22%), then the next rises raised and settles.
+    // One lift serves every sheet, so the two are never on screen together.
+    const win = (k) => c === k ? sm(.25, .42, f) : c === k + 1 ? 1 - sm(0, .22, f) : 0;
+    const fin = reduce.matches ? 1 : 0;
+    return {
+      c, f,
+      lattice: c < 2 ? 0 : c === 2 ? Math.max(fin, sm(0, .12, f)) : .22,
+      reveal: c === 2 ? (fin ? 1e9 : f < .12 ? 0 : sm(.12, .7, f) * 16000) : 1e9,
+      // The pixel changes only once the outgoing sheet has gone.
+      gsd: c === 5 ? (f < .23 && !fin ? 10 : 20) : c < 5 ? 10 : c === 6 ? (f < .23 && !fin ? 20 : .5) : .5,
+      ndvi: reduce.matches ? (c === 3 ? 1 : 0) : win(3),
+      cls: reduce.matches ? (c === 4 ? 1 : 0) : win(4),
+      stress: reduce.matches ? (c === 5 ? 1 : 0) : win(5),
+      herd: c >= 6 ? (reduce.matches || c > 6 ? 1 : sm(.25, .42, f)) : 0,
+      lift: fin || c < 3 || c > 6 || f < .23 ? 0 : 1 - sm(.25, .5, f),
+      count: c === 6 ? (fin ? 1 : sm(.25, .75, f)) : c > 6 ? 1 : 0
+    };
+  };
+
+  const fmtAlt = (a) => a >= 10000 ? `${Math.round(a / 1000).toLocaleString("en-US")}\u00a0km` : a >= 1000 ? `${(a / 1000).toFixed(1)}\u00a0km` : `${Math.round(a)}\u00a0m`;
+  const project = (cam, x, z, tanF) => {
+    const v = [x - cam.pos[0], -cam.pos[1], z - cam.pos[2]];
+    const cz = v[0] * cam.f[0] + v[1] * cam.f[1] + v[2] * cam.f[2];
+    if (cz <= 0) return null;
+    const cx = v[0] * cam.r[0] + v[1] * cam.r[1] + v[2] * cam.r[2], cy = v[0] * cam.u[0] + v[1] * cam.u[1] + v[2] * cam.u[2];
+    const H = innerHeight, W = innerWidth;
+    return [W / 2 + (cx / (cz * tanF)) * H / 2, H / 2 - (cy / (cz * tanF)) * H / 2];
+  };
+  const pool = [];
+  const label = (i, html, xy, color) => {
+    let el = pool[i];
+    if (!el) { el = document.createElement("span"); labels.append(el); pool[i] = el; }
+    if (el._html !== html) { el.innerHTML = html; el._html = html; el._w = 0; el._h = 0; }
+    el.style.color = color || "var(--ink)";
+    el.style.transform = `translate(${xy[0]}px, ${xy[1] - 26}px) translate(-50%, -100%)`;
+    el.hidden = false;
+    if (!el._w) { const b = el.getBoundingClientRect(); el._w = b.width; el._h = b.height; }
+    return [xy[0] - el._w / 2, xy[0] + el._w / 2, xy[1] - 26 - el._h, xy[1] - 26];
+  };
+  const placeLabels = (cam, L, tanF) => {
+    let n = 0;
+    const W = innerWidth, H = innerHeight, small = W < 900;
+    // Every plate on screen counts, not only the current chapter's: during a transition two can show.
+    const plates = [...document.querySelectorAll(".plate")].map((e) => e.getBoundingClientRect()).filter((r) => r.bottom > 0 && r.top < H && r.width > 0);
+    const plate = plates.length ? plates.reduce((a, r) => (r.right > a.right ? r : a)) : null;
+    // Fixed furniture a reading must not land on: the readout, the mark and the pause control.
+    const guards = [".read", ".mark", ".pause", ".hud > nav", ".hud .note"].map((s) => document.querySelector(s)).filter((e) => e && e.getClientRects().length && getComputedStyle(e).display !== "none").map((e) => e.getBoundingClientRect());
+    const ok = (xy) => xy && xy[0] > W * (small ? .08 : .52) && xy[0] < W * .94 && xy[1] > H * .16 && xy[1] < H * (small ? .52 : .88);
+    // A label is a reading, not a decoration: if its box would land on a plate or on the HUD, slide it clear or drop it.
+    const collide = (b) => [...plates, ...guards].some((p) => p && b[1] > p.left - 10 && b[0] < p.right + 10 && b[3] > p.top - 10 && b[2] < p.bottom + 10);
+    const put = (html, xy, color, slide) => {
+      if (!ok(xy)) return false;
+      let box = label(n, html, xy, color);
+      if (collide(box) && slide) {
+        const el = pool[n], x = (plate ? plate.right : 0) + 14 + el._w / 2;
+        if (x + el._w / 2 < W * .94) box = label(n, html, [x, xy[1]], color);
+      }
+      if (collide(box)) { pool[n].hidden = true; return false; }
+      n++;
+      return true;
+    };
+    if (L.cls > .6) {
+      const seen = [];
+      const s0x = Math.floor(ST[4].x / SEC), s0z = Math.floor(ST[4].z / SEC);
+      for (let sx = s0x - 3; sx <= s0x + 3; sx++) for (let sz = s0z - 3; sz <= s0z + 3; sz++) for (const pv of pivotsIn(sx, sz)) {
+        if (n >= (small ? 3 : 6) || pv.split) continue;
+        const xy = project(cam, pv.x, pv.z, tanF);
+        if (!ok(xy) || seen.some((q) => Math.abs(q[0] - xy[0]) < 150 && Math.abs(q[1] - xy[1]) < 60)) continue;
+        const ha = Math.round(Math.PI * pv.r * pv.r / 10000);
+        if (put(`${CLASSES[pv.cls]}<small>${ha} ha</small>`, xy, `var(${CLS_VAR[pv.cls]})`)) seen.push(xy);
+      }
+    }
+    if (L.stress > .6) {
+      const xy = project(cam, STRESS.x, STRESS.z, tanF);
+      put(`Red-edge stress<small>scout this patch</small>`, xy, "var(--stress)");
+    }
+    if (L.herd > .6 && L.c === 6) {
+      const xy = project(cam, YARD.x + 120, YARD.z + 60, tanF);
+      if (xy) put(`${Math.round(HEAD * L.count).toLocaleString("en-US")} head<small>0.5 m pixels</small>`, [Math.min(W * .9, Math.max(W * (small ? .3 : .62), xy[0])), Math.max(H * .2, xy[1] - H * .12)], "var(--detect)", true);
+    }
+    for (let i = n; i < pool.length; i++) pool[i].hidden = true;
+  };
+
+  let shown = -1, told = false;
+  let railAt = -1;
+  const hud = (s, L) => {
+    $("r-alt").textContent = fmtAlt(s.alt);
+    $("r-gsd").textContent = L.gsd === .5 ? "0.5\u00a0m" : L.gsd === 20 ? "20\u00a0m" : "10\u00a0m";
+    $("r-band").textContent = BANDS[Math.min(BANDS.length - 1, L.c)];
+    const cur = Math.min(rail.length - 1, Math.max(0, Math.floor(prog)));
+    rail.forEach((a, i) => i === cur ? a.setAttribute("aria-current", "step") : a.removeAttribute("aria-current"));
+    if (cur !== railAt) { railAt = cur; if (innerWidth < 900 && rail[cur]) {
+      // Centre the active station in the strip by scrolling the strip only; scrollIntoView would also move the page.
+      const ol = $("rail"), ar = rail[cur].getBoundingClientRect(), or = ol.getBoundingClientRect();
+      ol.scrollTo({ left: ol.scrollLeft + ar.left - or.left - (or.width - ar.width) / 2, behavior: reduce.matches ? "auto" : "smooth" });
+    } }
+    const n = Math.round(HEAD * L.count);
+    if (n !== shown) { shown = n; count.textContent = n.toLocaleString("en-US"); }
+    // One announcement per visit to the settled count, never one per frame.
+    if (!count.hidden && L.count >= 1 && !told) {
+      told = true;
+      countStatus.textContent = `${HEAD.toLocaleString("en-US")} head detected in this scene’s feedyard.`;
+    }
+  };
+
+  // The form shows what it would carry and says that nothing is sent.
+  const form = $("form"), result = $("result");
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    let first = null;
+    for (const [id, msg] of [["f-name", "Write your name."], ["f-county", "Name the county and the state."]]) {
+      const f = $(id), err = $("e-" + id.slice(2)), bad = !f.value.trim();
+      err.textContent = bad ? msg : ""; f.setAttribute("aria-invalid", String(bad));
+      if (bad && !first) first = f;
+    }
+    if (first) { first.focus(); result.textContent = ""; return; }
+    const reads = [...form.querySelectorAll("input[name=read]:checked")].map((i) => i.value);
+    result.textContent = `Prepared: ${form.name.value.trim()} asks for ${reads.length ? reads.join(", ") : "no readings yet"} over ${form.county.value.trim()}. Nothing was sent: Quarter is a fictional studio in a showcase.`;
+  });
+
+  // When the request covers the scene, the fixed HUD under it leaves the focus order (WCAG 2.4.11).
+  const hudEl = document.querySelector(".hud");
+  const cover = () => {
+    const top = $("request").getBoundingClientRect().top;
+    const reach = Math.max(...[".hud > nav", ".pause", ".mark"].map((q) => document.querySelector(q)?.getBoundingClientRect().bottom || 0));
+    hudEl.inert = top < reach;
+  };
+  addEventListener("scroll", cover, { passive: true }); cover();
+
+  if (!gl) {
+    // No render, no count: the figure describes what was drawn.
+    count.hidden = true; countNote.hidden = true;
+    countStatus.textContent = "The scene needs WebGL 2, so the count is not available.";
+    addEventListener("scroll", () => { prog = progress(); const L = layers(prog); hud(station(prog), L); }, { passive: true });
+    hud(station(0), layers(0));
+    return;
+  }
+  // Build the program; only a compiled, linked program turns the render on. Any failure keeps the SVG plan.
+  const NAMES = ["uRes", "uTime", "uO", "uCam", "uTan", "uSphere", "uReveal", "uLattice", "uGsd", "uNdvi", "uClass", "uStress", "uHerd", "uLift", "uCount", "uCloud", "uTarget"];
+  const U = {};
+  const build = () => {
+    const sh = (type, src) => { const x = gl.createShader(type); gl.shaderSource(x, src); gl.compileShader(x); if (!gl.getShaderParameter(x, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(x)); return x; };
+    const prg = gl.createProgram();
+    gl.attachShader(prg, sh(gl.VERTEX_SHADER, "#version 300 es\nin vec2 p;void main(){gl_Position=vec4(p,0.,1.);}"));
+    gl.attachShader(prg, sh(gl.FRAGMENT_SHADER, $("fs").textContent));
+    gl.linkProgram(prg);
+    if (!gl.getProgramParameter(prg, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prg));
+    gl.useProgram(prg);
+    const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(prg, "p"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+    for (const n of NAMES) U[n] = gl.getUniformLocation(prg, n);
+  };
+
+  const size = () => {
+    const w = Math.max(2, Math.round(innerWidth * scale)), h = Math.max(2, Math.round(innerHeight * scale));
+    if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; return true; }
+    return false;
+  };
+  const tanF = Math.tan(25 * Math.PI / 180);
+  // The only autonomous motion is a slow drift of the camera and the clouds; the visitor can pause it (WCAG 2.2.2).
+  const pauseBtn = $("pause");
+  let paused = reduce.matches, visible = true, dirty = true, lost = false, lastScale = 0, lastDraw = 0, ceil = 1;
+  if (pauseBtn) {
+    // The label alone carries the state, as the action it will take; no aria-pressed, so it is never read as "Resume motion, pressed".
+    const label = () => { pauseBtn.classList.toggle("is-paused", paused); pauseBtn.textContent = paused ? "Resume motion" : "Pause motion"; };
+    label();
+    pauseBtn.addEventListener("click", () => { paused = !paused; label(); dirty = true; go(); });
+  }
+  // Frame times per station, kept for the evidence pack.
+  const timing = (window.__quarterFrames = {});
+  let clock = 0;
+  const frame = (now) => {
+    raf = 0;
+    if (lost) return;
+    const dt = Math.min(.1, Math.max(0, (now - last) / 1000)); last = now;
+    if (!paused) clock += dt;
+    prog = progress();
+    const before = smooth;
+    smooth = reduce.matches ? prog : smooth + (prog - smooth) * (1 - Math.exp(-dt / .12));
+    const moving = Math.abs(prog - smooth) > 1e-4 || Math.abs(smooth - before) > 1e-5;
+    const s = station(smooth), L = layers(smooth);
+    const cam = camera(s, clock);
+    if (size()) dirty = true;
+    // When only the drift plays, 30 frames a second are enough; scrolling draws every frame.
+    const driftOnly = !dirty && !moving && !paused;
+    if ((dirty || moving || !paused) && !(driftOnly && now - lastDraw < 33)) {
+      dirty = false; lastDraw = now;
+      gl.viewport(0, 0, canvas.width, canvas.height);
+      gl.uniform2f(U.uRes, canvas.width, canvas.height);
+      gl.uniform1f(U.uTime, clock);
+      gl.uniform3f(U.uO, cam.pos[0], cam.pos[1], cam.pos[2]);
+      gl.uniformMatrix3fv(U.uCam, false, [...cam.r, ...cam.u, ...cam.f]);
+      gl.uniform1f(U.uTan, tanF);
+      gl.uniform1f(U.uSphere, s.alt > 25000 ? 1 : 0);
+      gl.uniform1f(U.uReveal, L.reveal);
+      gl.uniform1f(U.uLattice, L.lattice);
+      gl.uniform1f(U.uGsd, L.gsd);
+      gl.uniform1f(U.uNdvi, L.ndvi); gl.uniform1f(U.uClass, L.cls); gl.uniform1f(U.uStress, L.stress); gl.uniform1f(U.uHerd, L.herd);
+      gl.uniform1f(U.uLift, L.lift * s.alt * .08);
+      gl.uniform1f(U.uCount, L.count);
+      gl.uniform1f(U.uCloud, sm(20000, 120000, s.alt));
+      gl.uniform2f(U.uTarget, s.x, s.z);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+      const key = rail[Math.min(rail.length - 1, Math.max(0, Math.floor(prog)))]?.textContent.trim() || "Quarter";
+      (timing[key] ||= []).push(dt * 1000);
+      if (timing[key].length > 240) timing[key].shift();
+      // Adapt the render scale to hold the frame rate.
+      // Only scroll-driven frames count: the 30 fps drift says nothing about the cost of a full frame rate.
+      if (moving) { frames++; ftime += dt; }
+      if (frames >= 20) {
+        const avg = ftime / frames, top = Math.min(ceil, innerWidth < 900 ? 1 : .85), now2 = performance.now();
+        // Step down above 24 ms and remember the failed scale as the new ceiling;
+        // step back up when frames sit at the display interval (vsync), after a 2 s cooldown.
+        if (avg > .024 && scale > .45) { ceil = Math.max(.45, scale - .05); scale = Math.max(.45, scale - .1); lastScale = now2; }
+        else if (avg < .0185 && scale < top && now2 - lastScale > 2000) { scale = Math.min(top, scale + .05); lastScale = now2; }
+        frames = 0; ftime = 0;
+      }
+      placeLabels(cam, L, tanF);
+      hud(s, L);
+    }
+    // Keep drawing only while something moves: the scroll follow, or the drift when it is playing.
+    if (visible && !document.hidden && (moving || !paused)) raf = requestAnimationFrame(frame);
+  };
+  let started = false;
+  const go = () => { if (started && !raf && !lost) { last = performance.now(); raf = requestAnimationFrame(frame); } };
+  new IntersectionObserver(([e]) => { visible = !e.isIntersecting || e.intersectionRatio < .98; if (visible) go(); }, { threshold: [0, .98] }).observe($("request"));
+  document.addEventListener("visibilitychange", go);
+  addEventListener("scroll", go, { passive: true });
+  addEventListener("resize", () => { dirty = true; go(); });
+  canvas.addEventListener("webglcontextlost", (e) => { e.preventDefault(); lost = true; document.documentElement.classList.remove("webgl"); });
+  // While the render is lost, the readout and the rail still follow the page.
+  addEventListener("scroll", () => { if (lost) { prog = progress(); hud(station(prog), layers(prog)); } }, { passive: true });
+  const start = () => {
+    try { build(); } catch (err) {
+      count.hidden = true; countNote.hidden = true;
+      countStatus.textContent = "The scene could not start on this device, so the count is not available.";
+      addEventListener("scroll", () => { prog = progress(); hud(station(prog), layers(prog)); }, { passive: true });
+      hud(station(0), layers(0));
+      return;
+    }
+    document.documentElement.classList.add("webgl");
+    started = true; go();
+  };
+  canvas.addEventListener("webglcontextrestored", () => {
+    try { build(); lost = false; dirty = true; document.documentElement.classList.add("webgl"); go(); } catch (err) {
+      // The SVG plan stays, and the count says why it stopped.
+      count.hidden = true; countNote.hidden = true;
+      countStatus.textContent = "The scene could not restart on this device, so the count is not available.";
+    }
+  });
+  // Compile after the first paint so the headline is the largest contentful paint, not the shader.
+  hud(station(0), layers(0));
+  const later = () => requestAnimationFrame(() => setTimeout(start, 30));
+  if (document.readyState === "complete") later(); else addEventListener("load", later, { once: true });
+})();
+</script>
+</body>
+</html>

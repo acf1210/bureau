@@ -2,9 +2,9 @@
 
 **The autonomous digital design bureau.** An agent skill that gives a language model the work of a whole studio: creative direction, art direction, typography, motion, creative technology, accessibility, performance, and an adversarial review that says *no*.
 
-[![Version](https://img.shields.io/badge/version-7.10.0-F2C230?style=flat-square&labelColor=121212)](VERSION)
+[![Version](https://img.shields.io/badge/version-7.11.0-F2C230?style=flat-square&labelColor=121212)](VERSION)
 [![License](https://img.shields.io/badge/license-MIT-E2507F?style=flat-square&labelColor=121212)](LICENSE)
-[![ShowCase](https://img.shields.io/badge/showcase-4-1E4FD6?style=flat-square&labelColor=121212)](#showcase)
+[![ShowCase](https://img.shields.io/badge/showcase-5-1E4FD6?style=flat-square&labelColor=121212)](#showcase)
 [![Hosts](https://img.shields.io/badge/hosts-Claude%20%7C%20Codex%20%7C%20Antigravity%20%7C%20Hermes-EDEBE4?style=flat-square&labelColor=121212)](#install)
 
 [Português](README.md) · [English](README.en.md) · [Español](README.es.md) · [Documentation](https://acf1210.github.io/bureau/en/index.html) · [Live ShowCase](https://acf1210.github.io/bureau/showcase/index.html)
@@ -15,7 +15,7 @@
 >
 > [Explore the live projects](https://acf1210.github.io/bureau/showcase/index.html) · [Read the full workflow](docs/en/workflow.md)
 
-![The phone compositions of BUREAU's four ShowCase models: an observatory, a perfume house, an ocean institute and a type foundry](site/assets/img/readme-banner.webp)
+![The phone compositions of BUREAU's five ShowCase models: an observatory, a perfume house, an ocean institute, a type foundry and a field-intelligence studio](site/assets/img/readme-banner.webp)
 
 ---
 
@@ -33,7 +33,7 @@ Models learn the average of the internet. Without direction they ship the same c
 
 ## ShowCase
 
-Four web models, four fictional studios, each with a phone composition of its own: a mountain observatory, a perfume house, an ocean institute and a type foundry. Each model has a `LINEAGE.md` with its blend of three designers.
+Five web models, five fictional studios, each with a phone composition of its own: a mountain observatory, a perfume house, an ocean institute, a type foundry and a studio that reads farmland from orbit. Each model has a `LINEAGE.md` with its blend of three designers.
 
 <!-- gallery:start -->
 <table>
@@ -64,6 +64,13 @@ Four web models, four fictional studios, each with a phone composition of its ow
 </tr>
 <tr>
 <td colspan="2"><b>Glifo</b> · Type foundry · <sub>A. Albers × Scher × Cooper</sub><br>Pull five axes by hand, weave a field of letters, open one in depth. <a href="https://acf1210.github.io/bureau/showcase/foundry/index.html">Open ↗</a></td>
+</tr>
+<tr>
+<td width="72%" valign="top"><a href="https://acf1210.github.io/bureau/showcase/fields/index.html"><img src="site/assets/img/showcase/fields-desktop.webp" alt="Quarter: A satellite view of the High Plains under a large serif Quarter headline, with an amber station rail and a monospaced altitude readout" width="100%"></a></td>
+<td width="28%" valign="top"><a href="https://acf1210.github.io/bureau/showcase/fields/index.html"><img src="site/assets/img/showcase/fields-mobile.webp" alt="Quarter, mobile" width="100%"></a></td>
+</tr>
+<tr>
+<td colspan="2"><b>Quarter</b> · Field intelligence · <sub>Tufte × Cooper × Aicher</sub><br>Descend from orbit to the herd, one sensor resolution at a time. <a href="https://acf1210.github.io/bureau/showcase/fields/index.html">Open ↗</a></td>
 </tr>
 </table>
 <!-- gallery:end -->
