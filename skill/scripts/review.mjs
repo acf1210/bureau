@@ -21,18 +21,20 @@ import {
   gates, gateById, GATE_ORDER, VERDICTS,
   checkEvidence, normalizeScores, validateEvidenceFiles,
   sourceHash, pointsFor, verdict,
-  CRITIQUE_AXES, parseDelivery, deliveryTemplate
+  CRITIQUE_AXES, parseDelivery, deliveryTemplate,
+  REVIEW_MODES, DEFAULT_REVIEW_MODE, reviewModeById, gatesForMode, modeWeight
 } from "./lib/gates.mjs";
 
 const STATE_VERSION = 1;
 
 function parseArgs(argv) {
-  const opts = { root: process.cwd(), json: false, gate: null, scores: null, final: false, tribunal: null, status: false, reset: false, yes: false, report: false, deliveryInit: false, juryInit: false, jury: null, regate: false };
+  const opts = { root: process.cwd(), json: false, gate: null, scores: null, final: false, tribunal: null, status: false, reset: false, yes: false, report: false, deliveryInit: false, juryInit: false, jury: null, regate: false, mode: null };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === "--root") opts.root = path.resolve(argv[++i]);
     else if (a === "--gate") opts.gate = argv[++i];
     else if (a === "--scores") opts.scores = argv[++i];
+    else if (a === "--mode") opts.mode = argv[++i];
     else if (a === "--final") opts.final = true;
     else if (a === "--tribunal") opts.tribunal = argv[++i];
     else if (a === "--status") opts.status = true;
@@ -51,8 +53,9 @@ function parseArgs(argv) {
 
 Usage:
   node scripts/review.mjs --status
+  node scripts/review.mjs --mode fast|standard|signature
   node scripts/review.mjs --gate <id> --scores <file>
-  node scripts/review.mjs --regate          replay every gate from .bureau/review/<gate>.json
+  node scripts/review.mjs --regate          replay every required gate from .bureau/review/<gate>.json
   node scripts/review.mjs --delivery-init
   node scripts/review.mjs --jury-init
   node scripts/review.mjs --jury-start     start the 10-minute jury loop
@@ -96,10 +99,16 @@ function loadState(root) {
   const existing = readJson(p.state);
   if (existing && existing.version === STATE_VERSION) return existing;
   let project = path.basename(root);
-  try { project = JSON.parse(fs.readFileSync(path.join(root, ".bureau", "config.json"), "utf8")).name || project; } catch {}
+  let configured = DEFAULT_REVIEW_MODE;
+  try {
+    const config = JSON.parse(fs.readFileSync(path.join(root, ".bureau", "config.json"), "utf8"));
+    project = config.name || project;
+    if (reviewModeById(config?.review?.mode)) configured = config.review.mode;
+  } catch {}
   return {
     version: STATE_VERSION,
     project,
+    mode: configured,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
     gates: {},
@@ -107,6 +116,10 @@ function loadState(root) {
     total: null,
     verdict: null
   };
+}
+
+function stateMode(state) {
+  return reviewModeById(state.mode) || REVIEW_MODES[DEFAULT_REVIEW_MODE];
 }
 
 function saveState(root, state) {
@@ -126,15 +139,16 @@ function gateRows(root, state) {
 }
 
 function printStatus(root, state, asJson) {
-  const rows = gateRows(root, state);
+  const mode = stateMode(state);
+  const rows = gateRows(root, state).filter((r) => mode.gates.includes(r.def.id));
   const passed = rows.filter((r) => r.result?.status === "passed").length;
   const current = sourceHash(root);
   if (asJson) {
-    console.log(JSON.stringify({ project: state.project, sourceHash: current.hash, gates: rows.map((r) => ({ id: r.def.id, name: r.def.name, weight: r.def.weight, status: r.result?.status || "open", score: r.result?.score ?? null, stale: r.stale })), total: state.total, verdict: state.verdict }, null, 2));
+    console.log(JSON.stringify({ project: state.project, mode: mode.id, sourceHash: current.hash, gates: rows.map((r) => ({ id: r.def.id, name: r.def.name, weight: r.def.weight, status: r.result?.status || "open", score: r.result?.score ?? null, stale: r.stale })), total: state.total, verdict: state.verdict }, null, 2));
     return;
   }
   console.log(`BUREAU circuit — ${state.project}`);
-  console.log(`${passed}/${gates.length} gates passed · source ${current.hash.slice(0, 10)} · ${current.files} files`);
+  console.log(`Mode: ${mode.label} · ${mode.jury ? "jury required" : "no jury"} · ${passed}/${rows.length} gates passed · source ${current.hash.slice(0, 10)} · ${current.files} files`);
   console.log("");
   for (const row of rows) {
     const r = row.result;
@@ -158,23 +172,28 @@ function ensureDirs(root) {
 }
 
 // Gate 1 reads the survey itself: presence alone would let an empty queue through.
-function gateSurveyErrors(root, gateId) {
+function gateSurveyErrors(root, gateId, modeId = "standard") {
   if (gateId !== "g1-concept") return [];
   const file = path.join(root, ".bureau", "research", "survey.json");
   if (!fs.existsSync(file)) return [];
-  return validateSurvey(readJson(file)).errors;
+  const target = modeId === "signature" ? 5 : 3;
+  return validateSurvey(readJson(file), { target }).errors;
 }
 
-function gateMotionResearchErrors(root, gateId) {
+function gateMotionResearchErrors(root, gateId, modeId = "standard") {
   if (gateId !== "g5-motion") return [];
   const file = path.join(root, ".bureau", "research", "motion.json");
-  return validateMotionResearch(readJson(file), (p) => { try { return fs.statSync(path.resolve(root, p)).isFile(); } catch { return false; } }).errors;
+  const target = modeId === "signature" ? 5 : 3;
+  return validateMotionResearch(readJson(file), (p) => { try { return fs.statSync(path.resolve(root, p)).isFile(); } catch { return false; } }, { target }).errors;
 }
 
 function gateCommand(root, state, gateId, scoresFile) {
+  const mode = stateMode(state);
   const gate = gateById.get(gateId);
-  if (!gate) {
-    console.error(`Unknown gate: ${gateId}\nValid: ${GATE_ORDER.join(", ")}`);
+  const required = gatesForMode(mode.id).map((g) => g.id);
+  const position = required.indexOf(gateId);
+  if (!gate || position < 0) {
+    console.error(`Gate ${gateId} is not part of review mode ${mode.id}. Required: ${required.join(", ")}.`);
     process.exit(2);
   }
   if (!scoresFile) {
@@ -186,9 +205,8 @@ function gateCommand(root, state, gateId, scoresFile) {
     console.error(`Could not read JSON: ${scoresFile}`);
     process.exit(2);
   }
-  const index = gate.index;
   const currentHash = sourceHash(root).hash;
-  for (const prevId of GATE_ORDER.slice(0, index)) {
+  for (const prevId of required.slice(0, position)) {
     const prev = state.gates[prevId];
     if (!prev || prev.status !== "passed") {
       console.error(`Gate ${gateId} cannot open before ${prevId} passes.`);
@@ -206,12 +224,12 @@ function gateCommand(root, state, gateId, scoresFile) {
   }
 
   const ev = checkEvidence(root, gate.evidence);
-  const surveyErrors = gateSurveyErrors(root, gate.id);
+  const surveyErrors = gateSurveyErrors(root, gate.id, mode.id);
   if (surveyErrors.length) {
     console.error("Gate blocked: reference survey incomplete (scripts/survey.mjs --check).\n- " + surveyErrors.join("\n- "));
     process.exit(4);
   }
-  const motionResearchErrors = gateMotionResearchErrors(root, gate.id);
+  const motionResearchErrors = gateMotionResearchErrors(root, gate.id, mode.id);
   if (motionResearchErrors.length) {
     console.error("Gate blocked: awarded motion research incomplete (scripts/motion-research.mjs --check).\n- " + motionResearchErrors.join("\n- "));
     process.exit(4);
@@ -240,8 +258,8 @@ function gateCommand(root, state, gateId, scoresFile) {
   const status = score >= 3.5 && p0.length === 0 && !lowAxes.length && !lowHeuristics ? "passed" : "failed";
   const h = sourceHash(root);
 
-  // Re-running a gate invalidates every later gate.
-  for (const laterId of GATE_ORDER.slice(index + 1)) {
+  // Re-running a gate invalidates every later gate in this mode.
+  for (const laterId of required.slice(position + 1)) {
     if (state.gates[laterId]) delete state.gates[laterId];
   }
   state.gates[gate.id] = {
@@ -274,7 +292,7 @@ function gateCommand(root, state, gateId, scoresFile) {
   if (lowAxes.length) console.log(`BLOCKING: pre-build critique under 3 on ${lowAxes.join(", ")}. Revise the direction before building.`);
   if (heuristics) console.log(`Heuristics ${heuristics.sum}/${heuristics.max}${lowHeuristics ? " — BLOCKING: under half the applicable maximum." : ""}`);
   console.log(`Evidence: ${ev.found.map((e) => `${e.label} (${e.count})`).join(", ")}`);
-  const next = gates[index + 1];
+  const next = gatesForMode(mode.id)[position + 1];
   if (next) console.log(`Next: ${next.id} — ${next.question}`);
   if (status === "failed") process.exit(1);
 }
@@ -284,7 +302,8 @@ function escapeHtml(s) {
 }
 
 function scorecardData(root, state) {
-  const rows = gateRows(root, state);
+  const mode = stateMode(state);
+  const rows = gateRows(root, state).filter((r) => mode.gates.includes(r.def.id));
   const gateResults = rows.map((r) => ({
     id: r.def.id,
     name: r.def.name,
@@ -300,7 +319,8 @@ function scorecardData(root, state) {
     evidence: r.result?.evidence || [],
     at: r.result?.at || null
   }));
-  const total = gateResults.reduce((n, g) => n + (g.status === "passed" ? g.points : 0), 0);
+  const available = modeWeight(mode.id);
+  const total = (gateResults.reduce((n, g) => n + (g.status === "passed" ? g.points : 0), 0) / available) * 100;
   const missing = [];
   for (const row of rows) {
     if (!row.result) { missing.push(`${row.def.id}: not reviewed`); continue; }
@@ -309,7 +329,10 @@ function scorecardData(root, state) {
     if (row.stale) missing.push(`${row.def.id}: stale — source changed since review`);
   }
   const v = state.verdict || verdict(Math.round(total * 10) / 10, gateResults, state.tribunal);
-  return { project: state.project, generatedAt: new Date().toISOString(), gates: gateResults, total: Math.round(total * 10) / 10, verdict: v, missing, tribunal: state.tribunal };
+  const capped = !mode.award && v.verdict === "award"
+    ? { verdict: "pass", reason: `${mode.label} mode cannot claim Award Track; Signature adds the jury and the isolated Tribunal.` }
+    : v;
+  return { project: state.project, mode: mode.id, modeLabel: mode.label, generatedAt: new Date().toISOString(), gates: gateResults, total: Math.round(total * 10) / 10, verdict: capped, missing, tribunal: state.tribunal };
 }
 
 function renderScorecardMd(data, state) {
@@ -317,6 +340,7 @@ function renderScorecardMd(data, state) {
   lines.push(`# BUREAU — Review Scorecard`);
   lines.push("");
   lines.push(`**Project:** ${data.project}  `);
+  lines.push(`**Mode:** ${data.modeLabel || data.mode || "standard"}  `);
   lines.push(`**Date:** ${data.generatedAt}  `);
   lines.push(`**Verdict:** ${data.verdict.verdict.toUpperCase()} — ${data.total}/100  `);
   lines.push(`**Reason:** ${data.verdict.reason}`);
@@ -399,6 +423,7 @@ footer{margin-top:40px;border-top:1px solid var(--line);padding-top:16px;color:v
 </style></head><body><main>
 <p class="eyebrow">BUREAU · Review Circuit · ${escapeHtml(data.generatedAt)}</p>
 <h1>${escapeHtml(data.project)}</h1>
+<p class="muted"><strong>Mode:</strong> ${escapeHtml(data.modeLabel || data.mode || "standard")}</p>
 <div class="verdict ${badgeClass}"><span class="eyebrow">Verdict</span><b>${escapeHtml(data.verdict.verdict.toUpperCase())}</b><span>${data.total}/100</span></div>
 <p>${escapeHtml(data.verdict.reason)}</p>
 ${data.tribunal ? `<p class="muted"><strong>Tribunal:</strong> ${escapeHtml(data.tribunal.decision)} (${escapeHtml(data.tribunal.method === "degraded" ? "DEGRADED, single context" : data.tribunal.method || "method not declared")}) — ${escapeHtml(data.tribunal.notes || "")}${data.tribunal.fix ? ` · Smallest fix: ${escapeHtml(data.tribunal.fix)}` : ""}</p>` : ""}
@@ -419,12 +444,13 @@ function writeScorecards(root, state) {
 }
 
 function finalCommand(root, state, tribunalFile, asJson) {
-  const missingGates = gates.filter((g) => !state.gates[g.id]);
+  const mode = stateMode(state);
+  const missingGates = gatesForMode(mode.id).filter((g) => !state.gates[g.id]);
   if (missingGates.length) {
-    console.error(`Cannot finalize: missing gates ${missingGates.map((g) => g.id).join(", ")}`);
+    console.error(`Cannot finalize in ${mode.id} mode: missing gates ${missingGates.map((g) => g.id).join(", ")}`);
     process.exit(3);
   }
-  const rows = gateRows(root, state);
+  const rows = gateRows(root, state).filter((r) => mode.gates.includes(r.def.id));
   let blocked = false;
   for (const row of rows) {
     if (row.result.status !== "passed") {
@@ -440,12 +466,12 @@ function finalCommand(root, state, tribunalFile, asJson) {
       console.error(`Cannot finalize: ${row.def.id} evidence missing: ${ev.missing.map((m) => m.path).join(", ")}`);
       blocked = true;
     }
-    const survey = gateSurveyErrors(root, row.def.id);
+    const survey = gateSurveyErrors(root, row.def.id, mode.id);
     if (survey.length) {
       console.error(`Cannot finalize: reference survey incomplete: ${survey.join("; ")}`);
       blocked = true;
     }
-    const motionResearch = gateMotionResearchErrors(root, row.def.id);
+    const motionResearch = gateMotionResearchErrors(root, row.def.id, mode.id);
     if (motionResearch.length) {
       console.error(`Cannot finalize: awarded motion research incomplete: ${motionResearch.join("; ")}`);
       blocked = true;
@@ -464,17 +490,21 @@ function finalCommand(root, state, tribunalFile, asJson) {
     console.error("Cannot finalize: .bureau/review/delivery.md is missing. Run --delivery-init, fill every line with evidence, then finalize.");
     process.exit(4);
   }
-  const delivery = parseDelivery(fs.readFileSync(deliveryFile, "utf8"));
+  const delivery = parseDelivery(fs.readFileSync(deliveryFile, "utf8"), mode.deliveryBlocks);
   if (delivery.errors.length) {
     console.error("Cannot finalize: Delivery Gate not clean.\n- " + delivery.errors.join("\n- "));
     process.exit(1);
   }
 
-  const jury = readJson(path.join(root, ".bureau", "review", "jury.json"));
-  const juryCheck = validateJury(jury, GATE_ORDER, sourceHash(root).hash, evidenceChecker(root));
-  if (juryCheck.errors.length) {
-    console.error("Cannot finalize: jury incomplete or stale.\n- " + juryCheck.errors.join("\n- "));
-    process.exit(1);
+  let juryCheck = null;
+  let jury = null;
+  if (mode.jury) {
+    jury = readJson(path.join(root, ".bureau", "review", "jury.json"));
+    juryCheck = validateJury(jury, GATE_ORDER, sourceHash(root).hash, evidenceChecker(root));
+    if (juryCheck.errors.length) {
+      console.error("Cannot finalize: jury incomplete or stale.\n- " + juryCheck.errors.join("\n- "));
+      process.exit(1);
+    }
   }
 
   let tribunal = null;
@@ -504,11 +534,12 @@ function finalCommand(root, state, tribunalFile, asJson) {
     points: r.result.points,
     stale: r.stale
   }));
-  const total = Math.round(gateResults.reduce((n, g) => n + g.points, 0) * 10) / 10;
+  const available = modeWeight(mode.id);
+  const total = Math.round((gateResults.reduce((n, g) => n + g.points, 0) / available) * 1000) / 10;
   const auto = verdict(total, gateResults, tribunal);
 
-  if (!tribunal && ["pass", "award"].includes(auto.verdict)) {
-    console.error("Tribunal statement required for PASS/AWARD. Write .bureau/review/tribunal.json with decision, notes, and (if needed) fix.");
+  if (mode.tribunal !== "optional" && !tribunal && ["pass", "award"].includes(auto.verdict)) {
+    console.error(`Tribunal statement required for PASS/AWARD in ${mode.id} mode. Write .bureau/review/tribunal.json with decision, notes, and (if needed) fix.`);
     process.exit(3);
   }
   if (!tribunal && auto.verdict === "conditional") {
@@ -527,14 +558,20 @@ function finalCommand(root, state, tribunalFile, asJson) {
   if (blocking.length) { finalVerdict = "fail"; reason = `${blocking.length} unresolved P0 issue(s).`; }
   // A single-context review cannot certify Award Track: the thread that built the work is its weakest reviewer.
   if (tribunal?.method === "degraded" && finalVerdict === "award") { finalVerdict = "pass"; reason = "DEGRADED review: single context; Award Track needs an isolated Tribunal."; }
+  // Only Signature work — ten gates, full Delivery Gate, isolated Tribunal and a jury — can claim Award Track.
+  if (!mode.award && finalVerdict === "award") {
+    finalVerdict = "pass";
+    reason = `${mode.label} mode cannot claim Award Track; Signature adds the jury and the isolated Tribunal.`;
+  }
   // The time box keeps the best round; a best round with dissent is a decision, not a unanimous pass.
-  if (!juryCheck.unanimous && ["pass", "award"].includes(finalVerdict)) {
+  if (juryCheck && !juryCheck.unanimous && ["pass", "award"].includes(finalVerdict)) {
     finalVerdict = "conditional";
     reason = `Jury time box closed on round ${juryCheck.best.n} at ${juryCheck.best.score}/100 with ${juryCheck.fails.length} dissenting vote(s); written acceptance required.`;
   }
 
+  state.mode = mode.id;
   state.tribunal = tribunal;
-  state.jury = { round: juryCheck.best.n, score: juryCheck.best.score, unanimous: juryCheck.unanimous, dissent: juryCheck.fails, rounds: jury.rounds.length };
+  state.jury = juryCheck ? { round: juryCheck.best.n, score: juryCheck.best.score, unanimous: juryCheck.unanimous, dissent: juryCheck.fails, rounds: jury.rounds.length } : null;
   state.total = total;
   state.verdict = { verdict: finalVerdict, reason, at: new Date().toISOString() };
   state.issues = issues;
@@ -544,7 +581,7 @@ function finalCommand(root, state, tribunalFile, asJson) {
   const data = writeScorecards(root, state);
 
   console.log(`BUREAU TRIBUNAL — ${finalVerdict.toUpperCase()}`);
-  console.log(`${total}/100 · ${data.gates.length} gates · P0 ${blocking.length} · P1 ${conditional.length} · jury ${juryCheck.best.score}/100 (round ${juryCheck.best.n} of ${jury.rounds.length})`);
+  console.log(`${total}/100 · ${mode.label} mode · ${data.gates.length} gates · P0 ${blocking.length} · P1 ${conditional.length}${juryCheck ? ` · jury ${juryCheck.best.score}/100 (round ${juryCheck.best.n} of ${jury.rounds.length})` : " · no jury"}`);
   console.log(reason);
   console.log(`\nScorecard: ${path.relative(process.cwd(), paths(root).scorecardHtml)}`);
   if (asJson) console.log(JSON.stringify(data, null, 2));
@@ -555,13 +592,15 @@ function finalCommand(root, state, tribunalFile, asJson) {
 // score files in order, one command, keeps a correction round inside the time box.
 function regateCommand(root) {
   const self = fileURLToPath(import.meta.url);
-  for (const id of GATE_ORDER) {
+  const mode = stateMode(loadState(root));
+  const required = gatesForMode(mode.id).map((g) => g.id);
+  for (const id of required) {
     const file = path.join(".bureau", "review", `${id}.json`);
     if (!fs.existsSync(path.join(root, file))) { console.error(`Regate stopped: ${file} missing.`); process.exit(2); }
     const r = spawnSync(process.execPath, [self, "--root", root, "--gate", id, "--scores", path.join(root, file)], { encoding: "utf8" });
     if (r.status !== 0) { console.error(`Regate stopped at ${id}:\n${r.stdout}${r.stderr}`); process.exit(r.status || 1); }
   }
-  console.log(`Regate: ${GATE_ORDER.length} gates replayed against ${sourceHash(root).hash.slice(0, 12)}.`);
+  console.log(`Regate: ${required.length} gates replayed against ${sourceHash(root).hash.slice(0, 12)} in ${mode.id} mode.`);
 }
 
 function evidenceChecker(root) {
@@ -640,8 +679,19 @@ function main() {
     console.log("Circuit state reset.");
     return;
   }
-  if (opts.status || (!opts.gate && !opts.final && !opts.report && !opts.deliveryInit && !opts.juryInit && !opts.jury && !opts.regate)) {
+  if (opts.status || (!opts.gate && !opts.final && !opts.report && !opts.deliveryInit && !opts.juryInit && !opts.jury && !opts.regate && !opts.mode)) {
     printStatus(root, state, opts.json);
+    return;
+  }
+  if (opts.mode) {
+    const mode = reviewModeById(opts.mode);
+    if (!mode) {
+      console.error(`Unknown review mode: ${opts.mode}\nValid: ${Object.keys(REVIEW_MODES).join(", ")}`);
+      process.exit(2);
+    }
+    state.mode = mode.id;
+    saveState(root, state);
+    console.log(`Review mode: ${mode.label} — ${mode.summary}`);
     return;
   }
   if (opts.gate) {

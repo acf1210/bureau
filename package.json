@@ -1,7 +1,7 @@
 {
   "name": "bureau",
-  "version": "7.11.0",
-  "description": "BUREAU \u2014 the autonomous digital design bureau. Skill, toolkit and review circuit for award-grade web design.",
+  "version": "8.0.0",
+  "description": "BUREAU — the autonomous digital design bureau. Skill, toolkit and review circuit for award-grade web design.",
   "type": "module",
   "license": "MIT",
   "homepage": "https://github.com/acf1210/bureau",
@@ -14,6 +14,7 @@
   },
   "scripts": {
     "audit": "node skill/scripts/audit.mjs",
+    "realism": "node skill/scripts/realism.mjs",
     "slop": "node skill/scripts/audit.mjs .",
     "qa": "node skill/scripts/visual-audit.mjs",
     "review": "node skill/scripts/review.mjs",

@@ -1,6 +1,6 @@
 # BUREAU — the repository's own site
 
-> Brief for the artifact this repository ships: the landing at `site/index.html`, the documentation under `docs/`, the ShowCase and the thirteen scaffold templates. Rewritten for the 7.5.0 site rebuild on 2026-10-27. Every claim below is checkable in this checkout.
+> Brief for the artifact this repository ships: the landing at `site/index.html`, the documentation under `docs/`, the ShowCase and the thirteen scaffold templates. Rewritten for the 8.0.0 Realism First update on 2026-10-28. Every claim below is checkable in this checkout.
 
 ## Truth
 
@@ -9,10 +9,10 @@
 - **Job to be done:** decide in one visit whether this is a serious design instrument, then install it or leave.
 - **Offer:** the skill, its scripts, thirteen scaffold templates and the ShowCase, MIT licensed, no account, no telemetry, no paid tier.
 - **Proof (sourced, this checkout, 2026-10-27):**
-  - `npm test` → 42 tests, 42 pass.
-  - The detector: 32 regex rules in `skill/scripts/lib/rules.mjs` plus 21 project checks in `skill/scripts/audit.mjs`.
-  - The landing's specimen: the same 32 rules mark `site/assets/specimen/generic.html` 13 times (one P0) and `reviewed.html` 0 times; `scripts/proof.mjs --check` keeps the static list on the page equal to that output.
-  - Thirteen scaffold templates, thirty-nine references, five ShowCase models, four hosts, three languages: counted from `skill/assets/templates`, `skill/references`, `showcase/catalog.json`, `installers/`, `docs/`.
+  - `npm test` → 61 tests, 61 pass.
+  - The detector: 32 regex rules in `skill/scripts/lib/rules.mjs`, 21 project checks in `skill/scripts/audit.mjs`, and 6 mechanical realism checks in `skill/scripts/lib/realism.mjs`.
+  - The landing's specimen: the same 32 rules mark `site/assets/specimen/generic.html` 18 times (three P0) and `reviewed.html` 0 times; `scripts/proof.mjs --check` keeps the static list on the page equal to that output.
+  - Thirteen scaffold templates, forty-two references, five ShowCase models, four hosts, three languages: counted from `skill/assets/templates`, `skill/references`, `showcase/catalog.json`, `installers/`, `docs/`.
 - **Claims we cannot make:** adoption or user counts; results on client work; awards or nominations; comparative benchmark superiority over other tools; uptime or SLA; security certification; WCAG conformance beyond the automated audit and the manual keyboard checks recorded in `.bureau/evidence/`.
 - **Non-goals:** no hosted product or account system; no analytics or tracking; no CMS; no invented testimonials, logos, metrics or awards; no claim that the 13 templates are client work.
 

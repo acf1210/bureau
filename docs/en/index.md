@@ -74,7 +74,7 @@ Read the full circuit in [review-circuit.md](review-circuit.md).
 - **It does not accept "beautiful".** Every claim points to a screenshot, metric, recording, or file.
 - **It does not average.** A 95 with one accessibility P0 is a Fail.
 - **It does not fabricate credibility.** Unsourced metrics, logos, quotes, and awards are P0.
-- **It does not ship a template.** Every deliverable has a signature move and a technological proof.
+- **It does not ship a template.** Every deliverable has a signature move and a proof chosen for the subject: photographic, cinematic or technological.
 - **It does not abandon craft.** The detector covers the mechanical; the eye covers the rest.
 
 ---

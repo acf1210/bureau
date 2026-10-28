@@ -4,6 +4,22 @@ The circuit exists to stop the bureau from shipping work it has talked itself in
 
 **Gate Zero + Nine Gates + Tribunal.** Weighted 100. Any hard failure vetoes the release, regardless of score.
 
+## Review modes
+
+The circuit is the same instrument at every level. The mode decides which gates are required, whether a jury is convened, and the highest verdict the run may claim. Set it with `review.mjs --mode`, or with `review.mode` in `.bureau/config.json`.
+
+| Mode | Required gates | Delivery Gate | Tribunal | Jury | Highest verdict |
+|---|---|---|---|---|---|
+| **Fast** | G0, G2, G4, G6, G7, G8 | Floor block only | Optional | None | Pass |
+| **Standard** | All ten | All blocks | Required, isolated or degraded | None | Pass |
+| **Signature** | All ten | All blocks | Required, isolated | 10–15 fresh-context reviewers | Award |
+
+- **Fast** is for a small change or a fix where concept, direction and evidence already exist. It still reads every touched gate in context; it is not a licence to skip truth or access.
+- **Standard** is the default for a complete professional build. It carries the full circuit and the Delivery Gate, but a single strong reviewer can act as the Tribunal.
+- **Signature** is for high-complexity work: research, cinematic production, immersive experiences. Only Signature can reach Award Track.
+- Switching to a heavier mode never deletes evidence. Switching to a lighter mode does not erase the gates already scored; they simply stop being required.
+- The score is normalised to the mode's available weight, so Fast is not punished for the gates it does not run.
+
 Gate 5 also requires five documented awarded motion references and a project-specific synthesis, checked as described in `31-motion-production.md`. The script validates the record, not the truth of the cited awards or observations.
 
 ## Design generation: UI, UX and innovation
@@ -346,7 +362,7 @@ Name the weakest axis and what you changed (`critique.weakest`). A perfect row m
 
 **Persona: The Partner.** Reads every gate, the evidence, and the original brief. Has veto power.
 
-Before the Tribunal can finalize, an independent jury of 10–15 distinct specialists must review every gate and every Laws of UX principle as described in `29-jury-and-ux.md`. Every member must vote on every gate and every principle. The loop is time-boxed to ten minutes from `--jury-start`; each `--jury-round` scores the votes, and the decision is the best round inside the window (dissent in that round caps the verdict at conditional). The Tribunal then asks:
+Before a **Signature** Tribunal can finalize, an independent jury of 10–15 distinct specialists must review every gate and every Laws of UX principle as described in `29-jury-and-ux.md`. Every member must vote on every gate and every principle. The loop is time-boxed to ten minutes from `--jury-start`; each `--jury-round` scores the votes, and the decision is the best round inside the window (dissent in that round caps the verdict at conditional). Standard and Fast runs do not convene a jury; their Tribunal is the reviewer named in `.bureau/review/tribunal.json`. The Tribunal then asks:
 
 1. Does the work keep the promise of `BUREAU.md`?
 2. Is the signature move actually memorable, or merely present?
@@ -398,6 +414,7 @@ g0 must pass → g1 → g2 → g3 → g4 → g5 → g6 → g7 → g8 → g9 → 
 
 ```bash
 node scripts/review.mjs --status
+node scripts/review.mjs --mode fast|standard|signature
 node scripts/review.mjs --gate g2-direction --scores .bureau/review/g2.json
 node scripts/review.mjs --delivery-init
 node scripts/review.mjs --jury-start

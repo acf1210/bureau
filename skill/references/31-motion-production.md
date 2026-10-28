@@ -1,8 +1,8 @@
 # 31 — Motion production from awarded references
 
-For animation, 2D or 3D, sound and video, start from the actual brief and study at least five distinct awarded projects before approving G5. This complements the general five-source survey; it does not replace it. A project can appear in both records only if its separate motion observations and award evidence are documented. No reference grants permission to reproduce protected assets, identity or code.
+For animation, 2D or 3D, sound and video, start from the actual brief and study at least three distinct awarded projects in Standard (five in Signature) before approving G5. This complements the general reference survey; it does not replace it. A project can appear in both records only if its separate motion observations and award evidence are documented. No reference grants permission to reproduce protected assets, identity or code.
 
-## 1. Brief and five-project study
+## 1. Brief and awarded-project study
 
 Record audience, purpose, output (interactive web, video, or both), content, states, duration, aspect ratios, accessibility, performance and distribution. Establish the job of each movement before selecting technology. Create a blank record:
 
@@ -10,7 +10,7 @@ Record audience, purpose, output (interactive web, video, or both), content, sta
 node "$BUREAU_DIR/scripts/motion-research.mjs" --init
 ```
 
-For each of five distinct projects, inspect the actual project or an authorized recording, identify the exact award and link to its source, date the visit, and save observation evidence locally. Record viewport and state, timing and trigger, what the movement communicates, a transferable principle and what must not be copied. A listed award or a reachable URL is not proof of usability, speed or commercial performance. If a reference cannot be inspected or its award confirmed, do not count it; select another. Do not present examples below as the project's completed research.
+For each of the required distinct projects, inspect the actual project or an authorized recording, identify the exact award and link to its source, date the visit, and save observation evidence locally. Record viewport and state, timing and trigger, what the movement communicates, a transferable principle and what must not be copied. A listed award or a reachable URL is not proof of usability, speed or commercial performance. If a reference cannot be inspected or its award confirmed, do not count it; select another. Do not present examples below as the project's completed research.
 
 Starting points: [Finely Crafted](https://www.awwwards.com/sites/finely-crafted), [Kaleidoz](https://www.awwwards.com/sites/kaleidoztm-design-website), [Oat the Goat](https://www.awwwards.com/sites/oat-the-goat), [My Little Storybook](https://www.awwwards.com/sites/my-little-storybook), [Rhythm of Nature](https://www.awwwards.com/sites/rhythm-of-nature). Their Awwwards pages identify award entries; access and live behavior can change. Verify each before use.
 
@@ -21,7 +21,7 @@ node "$BUREAU_DIR/scripts/motion-research.mjs" --check
 node "$BUREAU_DIR/scripts/motion-research.mjs" --plan
 ```
 
-The checker verifies record structure, five unique project URLs, award citations, dates, descriptions and existing local evidence. `--plan` turns a complete record into `.bureau/research/motion-plan.md` with the cited principles, synthesis and production decisions to complete; it refuses to overwrite an existing plan. Neither command fetches pages, authenticates an award, assesses visual originality or verifies observations; an independent reviewer must do those things. G5 and final review reject missing or incomplete research. The record uses `.bureau/research/motion.json`; evidence paths resolve from the project root. Do not put confidential material in public artifacts.
+The checker verifies record structure, the required number of unique project URLs, award citations, dates, descriptions and existing local evidence. `--plan` turns a complete record into `.bureau/research/motion-plan.md` with the cited principles, synthesis and production decisions to complete; it refuses to overwrite an existing plan. Neither command fetches pages, authenticates an award, assesses visual originality or verifies observations; an independent reviewer must do those things. G5 and final review reject missing or incomplete research. The record uses `.bureau/research/motion.json`; evidence paths resolve from the project root. Do not put confidential material in public artifacts.
 
 ## 2. Tool selection
 

@@ -2,6 +2,17 @@
 
 `10-imagery-art.md` and `09-video-parallax.md` decide what an image or a clip must do. This file lists where to find one when the project has no commissioned shoot, and how to keep the result specific and licensed. Stock is a material, not a direction: an image chosen before its brief is stock-photo drift, and a stranger's face presented as a customer is fabricated proof (P0, BS-W05).
 
+## 0. The hierarchy and the record
+
+Stock sits at level 2 of the media hierarchy in `39-realism-engine.md`, below an original shoot and above photoreal generation. Before searching, exhaust the project's own photography: a real, imperfect image of the actual subject beats a perfect stock scene of a fictional one.
+
+Every downloaded file is recorded twice:
+
+- `data-license` on the `<img>` or `<video>` (source, licence, date).
+- `.bureau/media/provenance.json`, the machine-readable record the realism audit reads.
+
+The audit checks that the attribute or the record exists (`BS-R05`, `BS-R06`). It cannot judge whether the licence actually covers the use; that is a human check at Gate 8.
+
 ## 1. Rules for every asset
 
 | Do | Never |

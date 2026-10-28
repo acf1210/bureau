@@ -2,6 +2,8 @@
 
 Video is the closest thing the web has to cinema. Parallax is the closest thing to depth. Both are easy to overuse.
 
+**Realism first.** Source the film in the order set by `39-realism-engine.md`: original footage, licensed footage, commissioned production, photoreal generation, physically based render. Camera grammar, temporal integrity and frame-by-frame verification are `40-cinematic-video.md`. A slow zoom on a still is a still with a camera move; label it that way and never present it as footage.
+
 ## 1. Video as material
 
 Use video when **motion is the content**: a product in use, a place, a face, fabric, weather, a process, a performance.
@@ -59,7 +61,7 @@ ffmpeg -i source.mov -an -vf "scale=1920:-2,fps=30" \
 # Poster at 1s
 ffmpeg -ss 1 -i hero.mp4 -frames:v 1 -q:v 2 poster.jpg
 
-# Short abstract loop from a still (no footage)
+# Short camera move from a still (a still, not footage: label it)
 ffmpeg -loop 1 -i still.jpg -vf "scale=1920:-2,zoompan=z='min(zoom+0.0004,1.08)':d=180:s=1920x1080:fps=30,format=yuv420p" \
   -t 6 -an -c:v libx264 -crf 24 -movflags +faststart ambient.mp4
 ```

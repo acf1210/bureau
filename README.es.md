@@ -2,7 +2,7 @@
 
 **El bureau de diseño digital autónomo.** Una skill de agente que le da a un modelo de lenguaje el trabajo de un estudio entero: dirección creativa, dirección de arte, tipografía, motion, creative technology, accesibilidad, rendimiento y una revisión adversarial que dice *no*.
 
-[![Versión](https://img.shields.io/badge/version-7.11.0-F2C230?style=flat-square&labelColor=121212)](VERSION)
+[![Versión](https://img.shields.io/badge/version-8.0.0-F2C230?style=flat-square&labelColor=121212)](VERSION)
 [![Licencia](https://img.shields.io/badge/license-MIT-E2507F?style=flat-square&labelColor=121212)](LICENSE)
 [![ShowCase](https://img.shields.io/badge/showcase-5-1E4FD6?style=flat-square&labelColor=121212)](#showcase)
 [![Hosts](https://img.shields.io/badge/hosts-Claude%20%7C%20Codex%20%7C%20Antigravity%20%7C%20Hermes-EDEBE4?style=flat-square&labelColor=121212)](#instalación)
@@ -217,12 +217,12 @@ El scaffold crea `BUREAU.md`, `DESIGN.md` (con linaje y dials), `MOTION.md`, `.b
 | Capa | Contenido |
 |---|---|
 | **Skill** | `SKILL.md` con doctrina, contrato de autonomía, router, reglas duras y protocolo de herramientas |
-| **Profundidad** | 31 referencias, de concepto y dirección de arte a linaje y mezcla y pasadas de refinamiento |
+| **Profundidad** | 42 referencias, de concepto y dirección de arte a linaje y mezcla y pasadas de refinamiento |
 | **Scripts** | audit anti-slop, audit visual Playwright, divergencia, relevamiento de cinco fuentes, circuito de revisión con estado y jurado de 10 minutos, tokens, sync Figma, doctor, scaffold |
 | **ShowCase** | 5 modelos web con composición móvil propia, diseño primero, cada uno con `LINEAGE.md` |
 | **Plantillas** | 13 mundos de scaffold para `new-project.mjs`, cada uno con `LINEAGE.md` |
 | **Assets** | tokens DTCG, snippets de motion, media generada, diagramas SVG |
-| **Docs** | 9 páginas × 3 idiomas (PT-BR, EN, ES) |
+| **Docs** | 10 páginas × 3 idiomas (PT-BR, EN, ES) |
 | **Pruebas** | 40 pruebas `node --test`, con fixtures en los dos sentidos para cada regla |
 | **Installers** | Claude Code, Codex, Antigravity, Hermes; bash y PowerShell |
 

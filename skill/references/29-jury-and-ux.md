@@ -2,6 +2,8 @@
 
 The former percentage-improvement target is replaced by a jury decision. This is an evidence-based review, not proof that every possible defect has been found. Never invent people, agents, independence, evidence or votes. If 10 genuinely independent reviewers are unavailable, the verdict remains pending; simulated personas in one context are not independent jurors.
 
+**When a jury is required.** Only **Signature** mode convenes a jury. **Standard** runs all ten gates with a single named Tribunal and no jury; **Fast** runs six gates with no jury. The panel below applies when the project is Signature, or when a Standard project chooses to convene one voluntarily. A Standard project that wants an Award judgement must switch to Signature with `review.mjs --mode signature` and complete the panel.
+
 ## Composition
 
 Use 10–15 distinct reviewers, each with a different documented specialty. A 10-member panel can cover creative direction, visual systems, typography, information architecture, interaction, motion, accessibility, frontend engineering, content and research. Add product strategy, responsive design, performance, security or editorial review where relevant. Record the actual reviewer identity, specialty, independence and conflicts. Reviewers must not have built the work they judge. Every member reviews every gate and every principle, not only their specialty.

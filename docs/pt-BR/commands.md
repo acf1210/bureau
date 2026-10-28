@@ -160,6 +160,8 @@ O relatório inclui overflow, contraste, alvos de toque, imagens, fontes, vídeo
 
 ```bash
 node skill/scripts/review.mjs --status
+node skill/scripts/review.mjs --mode fast|standard|signature
+node skill/scripts/realism.mjs . --json --out .bureau/evidence/realism.json
 node skill/scripts/review.mjs --gate g1-concept --scores .bureau/review/g1.json
 node skill/scripts/survey.mjs --init --need landing --probe
 node skill/scripts/survey.mjs --check

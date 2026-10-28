@@ -158,21 +158,23 @@ Pick one. Build it properly. Do not stack three.
 
 ## 8. Image direction
 
-Write an image brief for every asset:
+Photography and film are the default material; the source hierarchy, the full brief and the rejection list are `39-realism-engine.md`. An image brief is written before anything is commissioned, licensed or generated:
 
 ```markdown
 - Subject: <what, who, how many>
+- Story: <what happened one second before and after>
 - Crop: <full bleed / 4:5 / 1:1 / detail>
 - Lens: <24mm environmental / 50mm neutral / 85mm portrait / macro>
-- Light: <hard sun / overcast / single tungsten / neon rim>
+- Light: <hard sun / overcast / single tungsten / neon rim, colour temperature>
 - Palette: <3 colors from the world>
 - Material: <skin, metal, fabric, dust, steam>
+- Imperfection: <wear, grain, asymmetry, a crease, a wet edge>
 - Grade: <neutral, warm highlights, cool shadows, bleach bypass>
-- Grain: <none / fine 35mm / coarse>
+- Rights: <owner, licence, territory, credit>
 - Must not contain: <plastic skin, fake text, extra fingers, logos, generic bokeh>
 ```
 
-For AI-generated images, generate a contact sheet of 6–12 options, choose one, then grade it into the world. Never ship the first output.
+The hierarchy: original shoot, licensed photograph, commissioned production, photoreal generation, physically based render. Do not substitute a vector illustration for a missing photograph; if the asset cannot be produced, the section becomes typographic and material. For generated images, generate a contact sheet of 6–12 options, choose one, then grade it into the world. Never ship the first output. Record provenance in `.bureau/media/provenance.json`.
 
 ## 9. Motion as art direction
 

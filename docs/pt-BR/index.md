@@ -74,7 +74,7 @@ Leia o circuito completo em [review-circuit.md](review-circuit.md).
 - **Não aceita "bonito".** Cada afirmação aponta para screenshot, métrica, gravação ou arquivo.
 - **Não premia média.** Um 95 com um P0 de acessibilidade é Fail.
 - **Não fabrica credibilidade.** Métrica, logo, depoimento e prêmio sem fonte são P0.
-- **Não entrega template.** Toda entrega tem um *signature move* e uma *technological proof*.
+- **Não entrega template.** Toda entrega tem um *signature move* e uma prova escolhida para o assunto: fotográfica, cinematográfica ou tecnológica.
 - **Não abandona o ofício.** O detector cobre o mecânico; o olho humano cobre o resto.
 
 ---

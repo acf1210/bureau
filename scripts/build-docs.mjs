@@ -37,6 +37,7 @@ const LANGS = {
       commands: "Comandos",
       antislop: "Anti-AI-slop",
       "design-language": "Linguagem visual",
+      realism: "Realismo primeiro",
       install: "Instalação"
     },
     descriptions: {
@@ -47,7 +48,8 @@ const LANGS = {
       "review-circuit": "Dez portões ponderados e um Tribunal com poder de veto.",
       commands: "Todos os comandos, flags, scripts e códigos de saída.",
       antislop: "A taxonomia dos sinais de IA e como o BUREAU os remove.",
-      "design-language": "Pantone, OKLCH, tipografia, motion e prova tecnológica.",
+      "design-language": "Pantone, OKLCH, tipografia, motion e prova técnica.",
+      realism: "Fotografia e filme como linguagem padrão, briefing fotográfico, proveniência e validação.",
       install: "Claude Code, Codex, Antigravity, Hermes; atualização, remoção e troubleshooting."
     }
   },
@@ -73,6 +75,7 @@ const LANGS = {
       commands: "Commands",
       antislop: "Anti-AI-slop",
       "design-language": "Visual language",
+      realism: "Realism first",
       install: "Install"
     },
     descriptions: {
@@ -83,7 +86,8 @@ const LANGS = {
       "review-circuit": "Ten weighted gates and a Tribunal with veto power.",
       commands: "Every command, flag, script, and exit code.",
       antislop: "The taxonomy of AI tells and how BUREAU removes them.",
-      "design-language": "Pantone, OKLCH, typography, motion, and technological proof.",
+      "design-language": "Pantone, OKLCH, typography, motion, and technical proof.",
+      realism: "Photography and film as the default language, the photographic brief, provenance and validation.",
       install: "Claude Code, Codex, Antigravity, Hermes; update, uninstall, troubleshooting."
     }
   },
@@ -109,6 +113,7 @@ const LANGS = {
       commands: "Comandos",
       antislop: "Anti-AI-slop",
       "design-language": "Lenguaje visual",
+      realism: "Realismo primero",
       install: "Instalación"
     },
     descriptions: {
@@ -119,7 +124,8 @@ const LANGS = {
       "review-circuit": "Diez puertas ponderadas y un Tribunal con poder de veto.",
       commands: "Todos los comandos, flags, scripts y códigos de salida.",
       antislop: "La taxonomía de las señales de IA y cómo BUREAU las elimina.",
-      "design-language": "Pantone, OKLCH, tipografía, motion y prueba tecnológica.",
+      "design-language": "Pantone, OKLCH, tipografía, motion y prueba técnica.",
+      realism: "Fotografía y filme como lenguaje predeterminado, briefing fotográfico, procedencia y validación.",
       install: "Claude Code, Codex, Antigravity, Hermes; actualización, desinstalación y troubleshooting."
     }
   }
@@ -127,7 +133,7 @@ const LANGS = {
 
 const ORDER = [
   "index", "quickstart", "architecture", "workflow",
-  "review-circuit", "commands", "antislop", "design-language", "install"
+  "review-circuit", "commands", "antislop", "design-language", "realism", "install"
 ];
 
 function ensureDir(p) { fs.mkdirSync(p, { recursive: true }); }

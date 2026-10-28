@@ -2,6 +2,15 @@
 
 The bureau's operating system. Read before any creative work.
 
+**Realism first.** Photography, film and physical material are the default visual language. Every page starts from the question "what would this look like if it existed?", not "what can I draw in CSS?". A vector illustration is never the fallback for a missing photograph. The full engine is `39-realism-engine.md`; film is `40-cinematic-video.md`; inspection is `41-media-validation.md`.
+
+Four consequences:
+
+- **The subject is photographed or filmed.** If it cannot be, the page is typographic and material, not illustrated.
+- **Light is physical.** One direction, one temperature, one plausible source per scene.
+- **Imperfection is evidence.** Wear, grain, asymmetry and dust are what separate a photograph from a render.
+- **SVG has a job.** Logos, icons, diagrams, maps and data graphics, never a decorative hero.
+
 ## 1. What we are actually making
 
 A website is not a container for information. It is a **designed argument**: a sequence of impressions that makes a specific person feel, understand, and act. Every pixel either strengthens that argument or dilutes it.
@@ -19,7 +28,7 @@ If those answers are vague, the design will be vague, no matter how good the CSS
 Taste is the ability to make coherent choices under constraint. It is built from:
 
 - **Reference literacy** — knowing why a thing works, not just that it looks good.
-- **Material honesty** — a digital surface should exploit what screens do well (light, motion, precision, real-time data), not imitate paper badly.
+- **Material honesty** — a digital surface should exploit what screens do well (light, motion, precision, real-time data), and show real material when it shows material at all. A blurred orb is not light; a gradient is not a photograph.
 - **Restraint under pressure** — the confidence to remove the second-best idea.
 - **Specificity** — the refusal of generic nouns, generic images, generic layouts.
 - **Repair** — the willingness to rebuild when the concept is wrong.
@@ -62,13 +71,14 @@ If the move could be dropped onto any other site unchanged, it is not a signatur
 
 ## 5. The Technological Proof
 
-"Technological" does not mean "more libraries". It means the experience could only exist on the web, in this browser, now.
+"Technological" does not mean "more libraries". It means the experience could only exist on the web, in this browser, now. It is optional: many excellent pages need no shader, and a photograph is often the stronger proof. When the subject does not need a technology, the photography or the film is the proof.
 
-Choose one proof per project:
+If a technological proof is chosen, it must be the one the subject needs:
 
 | Proof | When it is right | Cost |
 |---|---|---|
 | **Scroll-driven choreography** (CSS `animation-timeline` + IntersectionObserver fallback) | Narrative pages, product stories | Low |
+| **Photographic sequence** (art-directed stills, crops, reveals) | Any subject that exists in the world | Low–medium |
 | **WebGL/shader atmosphere** | Immersive, generative, spatial brands | Medium–high |
 | **Real-time 3D** (Three.js/R3F) | Products with form, configurators, spatial data | High |
 | **Video as material** | Fashion, travel, motion brands, film | Medium |
@@ -77,18 +87,18 @@ Choose one proof per project:
 | **View Transitions / native app-like flow** | Multi-page product surfaces | Low |
 | **Physical computing / device APIs** | Installations, experimental campaigns | Variable |
 
-The proof must serve the argument. A shader on a bakery site is not ambitious; it is confused.
+The proof must serve the argument. A shader on a bakery site is not ambitious; it is confused. A photograph of the bread, lit like the room it is sold in, is the proof.
 
 ## 6. The ambition floor
 
 Every deliverable must include:
 
 1. A written concept and a named signature move.
-2. At least one technological proof.
+2. At least one proof chosen for the subject: photographic, cinematic or technological. A technology is not required.
 3. A designed first viewport that is not a template.
 4. A motion grammar with reduced-motion behavior.
 5. A real content pass (no lorem ipsum, no fake credibility).
-6. Evidence: screenshots at three viewports, an audit report, and a review verdict.
+6. Evidence: screenshots at three viewports, an audit report, a media inspection when the page carries media, and a review verdict.
 
 "Simple" is allowed only as a deliberate, high-precision restraint (see `minimal.gallery` for the difference between minimal and empty). "Default" is never allowed.
 

@@ -2,6 +2,8 @@
 
 Images are not filler. Each one is a claim about the world.
 
+**Realism first.** The default material is photography and film. Work the hierarchy in `39-realism-engine.md` before considering an illustration: original shoot, licensed photograph, commissioned production, photoreal generation, physically based render. A missing photograph is never permission to draw a decorative vector. Film follows `40-cinematic-video.md`; inspection follows `41-media-validation.md`.
+
 ## 1. Image direction
 
 Every image gets a brief (see `03-art-direction.md`). The brief protects against stock-photo drift and AI slop.
@@ -156,6 +158,10 @@ Emoji are content, not iconography. Never use them as UI icons, feature bullets,
 
 ## 8. Illustration
 
+Illustration is a commissioned language, not a fallback. It is allowed when the brand's subject is genuinely drawn (a publisher, a game, a children's product, a technical explainer) and the work commits to one technique with a made library. It is forbidden as the automatic answer to a missing photograph, and a vector scene must never be the dominant hero image of a page whose subject exists in the physical world.
+
+A diagram is not an illustration. Logos, icons, maps, plans, data graphics and interface primitives stay in SVG; they are exempt from the realism check.
+
 If illustration is part of the world:
 
 - Choose one technique: line, flat, isometric, collage, 3D, generative.
@@ -176,3 +182,6 @@ If illustration is part of the world:
 - [ ] No image is the only carrier of essential information.
 - [ ] Texture is subtle and consistent.
 - [ ] Icons share a grid, stroke, and optical size.
+- [ ] Every photograph and film has a provenance record (source, owner, licence, date).
+- [ ] A synthetic asset is labelled synthetic and is never evidence of a real product, person or event.
+- [ ] No vector illustration is doing the job of a photograph.

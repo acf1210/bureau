@@ -2,11 +2,23 @@
 
 Each juror also examines ten lenses adapted from the [Agency Design Awards criteria](https://www.agencydesignawards.com/judging-criteria): visual presentation, written presentation, purpose, relevance, creativity, innovation, delivery, experience, society and judges' opinion. Record evidence or a reason a lens does not apply, and route findings into gate votes; see `skill/references/16-review-circuit.md`. This supplemental review is manual and does not create an official award score.
 
-Finalization also requires the 10–15-member independent jury and complete Laws of UX review described in `skill/references/29-jury-and-ux.md`. All members vote on all gates and principles. The jury loop runs at most 10 minutes from `--jury-start`; each `--jury-round` scores the votes and the decision is the best round recorded in that time. Dissent in the best round caps the verdict at conditional. If independent reviewers are unavailable, the verdict remains pending.
+Finalization in **Signature** mode also requires the 10–15-member independent jury and complete Laws of UX review described in `skill/references/29-jury-and-ux.md`. All members vote on all gates and principles. The jury loop runs at most 10 minutes from `--jury-start`; each `--jury-round` scores the votes and the decision is the best round recorded in that time. Dissent in the best round caps the verdict at conditional. If independent reviewers are unavailable, the verdict remains pending. **Standard** and **Fast** runs do not convene a jury.
 
 Ten independent gates and a Tribunal. The goal is not a pretty score; it is to stop the bureau from approving work it has fallen for.
 
 ![Review circuit](../assets/diagrams/circuit.svg)
+
+## Review modes
+
+Set the mode with `review.mjs --mode`, or with `review.mode` in `.bureau/config.json`.
+
+| Mode | Required gates | Tribunal | Jury | Highest verdict |
+|---|---|---|---|---|
+| **Fast** | 6 | Optional | None | Pass |
+| **Standard** | 10 | Required | None | Pass |
+| **Signature** | 10 | Required, isolated | 10–15 reviewers | Award |
+
+Fast is for a small change where the concept and evidence already exist. Standard is the default for a complete professional build. Signature is for high-complexity work, and only Signature can reach Award Track. The score is normalised to the mode's available weight, so a Fast run is not punished for gates it does not open.
 
 ## How scoring works
 

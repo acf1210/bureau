@@ -7,14 +7,15 @@ const url = (x) => {
 };
 const date = (x) => typeof x === "string" && /^\d{4}-\d{2}-\d{2}$/.test(x) && !Number.isNaN(Date.parse(`${x}T00:00:00Z`)) && new Date(`${x}T00:00:00Z`).toISOString().slice(0, 10) === x;
 
-export function draftMotionResearch() {
-  return { references: Array.from({ length: TARGET }, () => ({ project: "", projectUrl: "", award: "", awardUrl: "", accessedAt: "", viewportAndState: "", observation: "", principle: "", avoid: "", evidence: "" })), synthesis: { sharedPattern: "", departure: "", briefConnection: "", fallback: "" } };
+export function draftMotionResearch(target = TARGET) {
+  return { references: Array.from({ length: target }, () => ({ project: "", projectUrl: "", award: "", awardUrl: "", accessedAt: "", viewportAndState: "", observation: "", principle: "", avoid: "", evidence: "" })), synthesis: { sharedPattern: "", departure: "", briefConnection: "", fallback: "" } };
 }
 
-export function validateMotionResearch(data, evidenceExists) {
+export function validateMotionResearch(data, evidenceExists, options = {}) {
+  const target = Number.isInteger(options.target) && options.target >= 3 ? options.target : TARGET;
   const errors = [];
   if (!data || typeof data !== "object" || !Array.isArray(data.references)) return { errors: ["references array missing"], count: 0 };
-  if (data.references.length < TARGET) errors.push(`at least ${TARGET} awarded projects required`);
+  if (data.references.length < target) errors.push(`at least ${target} awarded projects required`);
   const projects = new Set();
   for (const [i, ref] of data.references.entries()) {
     const label = `reference ${i + 1}`;

@@ -8,11 +8,20 @@ import { monitor } from "./source-monitor.mjs";
 
 const usage = `Usage:
   node scripts/survey.mjs --init [--need <${NEEDS.join("|")}>] [--probe] [--file <survey.json>]
-  node scripts/survey.mjs --check [--file <survey.json>] [--json]
+  node scripts/survey.mjs --check [--file <survey.json>] [--min <3|5>] [--json]
 
 --init writes the queue for the brief's need; --probe checks robots.txt reachability in queue
 order and skips unreachable or redirected sources until ${SURVEY_TARGET + 2} reachable ones are queued.
---check exits 1 until ${SURVEY_TARGET} sources are verified in queue order with a synthesis.`;
+--check exits 1 until the target number of sources are verified in queue order with a synthesis.
+The target is 3 in Standard/Fast projects and 5 in Signature, read from .bureau/config.json.`;
+
+// Standard and Fast need three verified references; Signature needs five.
+function targetFromConfig() {
+  try {
+    const config = JSON.parse(fs.readFileSync(path.join(".bureau", "config.json"), "utf8"));
+    return config?.review?.mode === "signature" ? 5 : 3;
+  } catch { return SURVEY_TARGET; }
+}
 
 const byId = new Map(SOURCES.map((s) => [s.id, s]));
 
@@ -37,11 +46,11 @@ export async function probeQueue(queue, fetcher = fetch, clock = () => new Date(
   return queue;
 }
 
-export function draft(need, queue) {
+export function draft(need, queue, target = SURVEY_TARGET) {
   return {
     need,
-    target: SURVEY_TARGET,
-    instructions: "Work the queue in order. For each source open a project page: verified needs url, accessedAt, lens, observation, principle, avoid. If it cannot be verified, set skipped with the reason and move to the next.",
+    target,
+    instructions: `Work the queue in order. For each source open a project page: verified needs url, accessedAt, lens, observation, principle, avoid. If it cannot be verified, set skipped with the reason and move to the next. Verify ${target}.`,
     queue: queue.map((entry) => entry.status === "pending" ? { ...entry, url: "", accessedAt: "", lens: "", observation: "", principle: "", avoid: "" } : entry),
     synthesis: { pattern: "", patternSources: [], creative: "", avoid: "" }
   };
@@ -54,21 +63,24 @@ async function main() {
   if (args.includes("--init")) {
     const need = opt("--need") || "general";
     if (!NEEDS.includes(need)) { console.error(usage); process.exitCode = 2; return; }
+    const target = targetFromConfig();
     let queue = surveyQueue(need);
     if (args.includes("--probe")) queue = await probeQueue(queue);
     fs.mkdirSync(path.dirname(file), { recursive: true });
-    try { fs.writeFileSync(file, JSON.stringify(draft(need, queue), null, 2) + "\n", { flag: "wx" }); }
+    try { fs.writeFileSync(file, JSON.stringify(draft(need, queue, target), null, 2) + "\n", { flag: "wx" }); }
     catch (error) { if (error.code === "EEXIST") { console.error(`${file} exists; finish or move it before initializing.`); process.exitCode = 2; return; } throw error; }
     const skipped = queue.filter((e) => e.status === "skipped").length;
-    console.log(`Survey queue written: ${path.relative(process.cwd(), file)} · need ${need} · ${queue.length} sources · ${skipped} skipped. Verify ${SURVEY_TARGET} in order.`);
+    console.log(`Survey queue written: ${path.relative(process.cwd(), file)} · need ${need} · ${queue.length} sources · ${skipped} skipped. Verify ${target} in order.`);
     return;
   }
   if (args.includes("--check")) {
     let survey;
     try { survey = JSON.parse(fs.readFileSync(file, "utf8")); } catch { survey = null; }
-    const result = validateSurvey(survey);
+    const min = Number(opt("--min"));
+    const target = min === 3 || min === 5 ? min : targetFromConfig();
+    const result = validateSurvey(survey, { target });
     if (args.includes("--json")) console.log(JSON.stringify(result, null, 2));
-    else if (result.errors.length) console.error(`Survey incomplete (${result.verified}/${SURVEY_TARGET}):\n- ${result.errors.join("\n- ")}`);
+    else if (result.errors.length) console.error(`Survey incomplete (${result.verified}/${target}):\n- ${result.errors.join("\n- ")}`);
     else console.log(`Survey complete: ${result.verified} verified sources · lenses ${result.lenses.join(", ")}.`);
     process.exitCode = result.errors.length ? 1 : 0;
     return;

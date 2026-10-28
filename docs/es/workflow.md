@@ -55,7 +55,7 @@ Un sitio de campaña cabe en 5–7 días. Un producto con CMS y múltiples super
 **Qué hacer:**
 
 - Generar tres direcciones con lentes diferentes (material, editorial, sistémico, espacial, temporal, instrumental, documental, lúdico).
-- Para cada una: tesis, tensión, emoción, ground/voice/light/motion, *signature move*, *technological proof*, riesgo.
+- Para cada una: tesis, tensión, emoción, ground/voice/light/motion, *signature move*, prueba (fotográfica, cinematográfica o tecnológica), riesgo.
 - Producir tres comps en el mismo viewport con contenido real.
 - Puntuar con la matriz de 6 criterios.
 - Registrar la decisión y las direcciones rechazadas.
