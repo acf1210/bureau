@@ -2,7 +2,7 @@
 
 **O bureau de design digital autônomo.** Uma skill de agente que dá a um modelo de linguagem o trabalho de um estúdio inteiro: direção de criação, direção de arte, tipografia, motion, creative technology, acessibilidade, performance e uma revisão adversarial que diz *não*.
 
-[![Versão](https://img.shields.io/badge/version-7.11.0-F2C230?style=flat-square&labelColor=121212)](VERSION)
+[![Versão](https://img.shields.io/badge/version-8.0.0-F2C230?style=flat-square&labelColor=121212)](VERSION)
 [![Licença](https://img.shields.io/badge/license-MIT-E2507F?style=flat-square&labelColor=121212)](LICENSE)
 [![ShowCase](https://img.shields.io/badge/showcase-5-1E4FD6?style=flat-square&labelColor=121212)](#showcase)
 [![Hosts](https://img.shields.io/badge/hosts-Claude%20%7C%20Codex%20%7C%20Antigravity%20%7C%20Hermes-EDEBE4?style=flat-square&labelColor=121212)](#instalação)
@@ -217,12 +217,12 @@ O scaffold cria `BUREAU.md`, `DESIGN.md` (com linhagem e dials), `MOTION.md`, `.
 | Camada | Conteúdo |
 |---|---|
 | **Skill** | `SKILL.md` com doutrina, contrato de autonomia, roteador, regras duras e protocolo de ferramentas |
-| **Profundidade** | 31 referências, de conceito e direção de arte a linhagem e mescla e passes de refinamento |
+| **Profundidade** | 42 referências, de conceito e direção de arte a linhagem e mescla e passes de refinamento |
 | **Scripts** | audit anti-slop, audit visual Playwright, divergência, levantamento de cinco fontes, circuito de revisão com estado e júri de 10 minutos, tokens, sync Figma, doctor, scaffold |
 | **ShowCase** | 5 modelos web com composição mobile própria, design primeiro, cada um com `LINEAGE.md` |
 | **Templates** | 13 mundos de scaffold para `new-project.mjs`, cada um com `LINEAGE.md` |
 | **Assets** | tokens DTCG, snippets de motion, mídia gerada, diagramas SVG |
-| **Docs** | 9 páginas × 3 idiomas (PT-BR, EN, ES) |
+| **Docs** | 10 páginas × 3 idiomas (PT-BR, EN, ES) |
 | **Testes** | 40 testes `node --test`, com fixtures nos dois sentidos para cada regra |
 | **Installers** | Claude Code, Codex, Antigravity, Hermes; bash e PowerShell |
 

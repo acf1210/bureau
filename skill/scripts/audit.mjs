@@ -10,6 +10,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { rules, SEVERITY_PENALTY, createMatcher, stripHtmlForText } from "./lib/rules.mjs";
+import { realismFindings } from "./lib/realism.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const VERSION = readVersion();
@@ -31,7 +32,7 @@ function readVersion() {
     const p = path.join(__dirname, "..", "..", "VERSION");
     return fs.readFileSync(p, "utf8").trim();
   } catch {
-    return "7.11.0";
+    return "8.0.0";
   }
 }
 
@@ -499,6 +500,9 @@ function projectChecks(scanned, root) {
       });
     }
   }
+
+  // Realism First: the mechanical subset. Photographic judgement stays human.
+  findings.push(...realismFindings(scanned, { root }));
 
   const kept = findings.filter((f) => {
     if (!f.file || f.file === "(project)") return true;

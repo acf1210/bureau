@@ -2,6 +2,8 @@
 
 Use these styles as lenses for art direction, not templates or predictions of business results. This vocabulary is informed by [Tilda Education's guide to popular web design styles](https://pt-br.tilda.education/en/web-design-styles), accessed 2026-10-27. Its discussion of 2025 trends is historical; verify contemporary examples before claiming a style is current.
 
+**Realism is not a style on this list.** It is the default material underneath all of them. A minimal page can be photographic; a brutalist page can use documentary images; a flat interface still needs real product photography where the product is shown. None of these lenses authorises a vector hero or an abstract object in place of a subject that exists in the world. See `39-realism-engine.md`.
+
 ## Choose from the brief
 
 Start with the audience's task, content, brand truth and constraints. For each direction, identify the visual principle, the specific need it serves and the trade-off. Combine influences across different axes rather than copying a site's composition or adopting an aesthetic for its own sake. Test the resulting direction with real content, at mobile and desktop sizes, with keyboard and reduced motion.

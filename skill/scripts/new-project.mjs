@@ -87,7 +87,14 @@ function brief(name, mode, template) {
 - Emotional target: TODO — three specific adjectives.
 - Must never look like: TODO
 - Signature move (hypothesis): TODO
-- Technological proof (hypothesis): TODO
+- Photographic direction (hypothesis): TODO — subject, light, lens, material, what the frame must prove
+- Cinematic direction (hypothesis): TODO — camera move, subject, duration, or "no film: the still is the film"
+- Technological proof (only if it earns its place): TODO
+
+## Media
+- Media hierarchy: original photography/film → licensed stock → commissioned production → photoreal generation → physically based render.
+- Provenance: every image and film is listed in .bureau/media/provenance.json (source, owner, licence, URL, date).
+- No vector illustration as the hero image; SVG is for logos, icons, diagrams and functional interface.
 
 ## Constraints
 - Stack: vanilla HTML/CSS/JS (scaffold)
@@ -102,7 +109,7 @@ function brief(name, mode, template) {
 - Primary metric: TODO
 - Secondary: TODO
 - Instrumentation: TODO
-- Definition of done: PASS on the Nine Gates + launch checklist
+- Definition of done: PASS on the ten gates + launch checklist
 
 ## Open questions
 - TODO — owner, deadline, default assumption
@@ -211,7 +218,26 @@ function config(name, template) {
       { name: "wide", width: 1920, height: 1080, dpr: 1 }
     ],
     budgets: { lcpMs: 2500, inpMs: 200, cls: 0.1, jsKbGzip: 250, heroMediaKb: 1500 },
-    review: { pass: 82, award: 90, conditional: 72 },
+    visual_direction: {
+      realism_mode: "photographic",
+      photography_first: true,
+      cinematic_video: true,
+      physical_plausibility: "required",
+      artificial_decorative_objects: "forbidden",
+      vector_hero_illustration: "forbidden",
+      generic_abstract_visuals: "forbidden",
+      functional_svg: "allowed",
+      physically_based_rendering: "conditional"
+    },
+    creative_execution: {
+      autonomy: "high",
+      review_mode: "standard",
+      unnecessary_checkpoints: false,
+      technology_selection: "contextual",
+      visual_refinement: "required",
+      media_provenance: "required"
+    },
+    review: { mode: "standard", pass: 82, award: 90, conditional: 72 },
     locales: ["pt-BR", "en-US", "es-ES"],
     figma: { fileKey: null, mcp: "https://mcp.figma.com/mcp", variablesPath: "design/figma-variables.json" }
   }, null, 2) + "\n";
@@ -246,6 +272,14 @@ function main() {
     process.exit(2);
   }
   copyDir(tpl, target);
+  // The scaffold attribute protects the bundled demos from the realism audit;
+  // a real project must be judged by it from the first build.
+  for (const entry of fs.readdirSync(target)) {
+    if (!entry.endsWith(".html")) continue;
+    const file = path.join(target, entry);
+    const html = fs.readFileSync(file, "utf8").replace(/\s+data-scaffold="true"/g, "");
+    fs.writeFileSync(file, html);
+  }
 
   const media = path.join(SKILL_ROOT, "assets", "media");
   const usesMedia = fs.readFileSync(path.join(tpl, "index.html"), "utf8").includes("media/");

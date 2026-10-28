@@ -55,7 +55,7 @@ Um site de campanha cabe em 5–7 dias. Um produto com CMS e múltiplas superfí
 **Faça:**
 
 - Gere três direções com lentes diferentes (material, editorial, sistêmico, espacial, temporal, instrumental, documental, lúdico).
-- Para cada uma: tese, tensão, emoção, ground/voice/light/motion, *signature move*, *technological proof*, risco.
+- Para cada uma: tese, tensão, emoção, ground/voice/light/motion, *signature move*, prova (fotográfica, cinematográfica ou tecnológica), risco.
 - Produza três comps no mesmo viewport com conteúdo real.
 - Pontue com a matriz de 6 critérios.
 - Registre a decisão e as direções rejeitadas.

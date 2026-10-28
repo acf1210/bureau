@@ -2,11 +2,23 @@
 
 Cada jurado também examina dez perspectivas adaptadas dos [critérios do Agency Design Awards](https://www.agencydesignawards.com/judging-criteria): apresentação visual, apresentação escrita, propósito, relevância, criatividade, inovação, entrega, experiência, sociedade e opinião dos jurados. Registre evidências ou a razão de uma perspectiva não se aplicar e encaminhe achados aos votos dos portões; veja `skill/references/16-review-circuit.md`. Essa revisão complementar é manual e não cria uma nota oficial da premiação.
 
-A finalização também exige o júri independente de 10–15 membros e a revisão completa das Laws of UX descritos em `skill/references/29-jury-and-ux.md`. Todos votam em todos os portões e princípios. O loop do júri dura no máximo 10 minutos a partir de `--jury-start`; cada `--jury-round` pontua os votos e a decisão é a melhor rodada registrada nesse tempo. Dissidência na melhor rodada limita o veredito a condicional. Sem avaliadores independentes, o veredito permanece pendente.
+A finalização no modo **Signature** também exige o júri independente de 10–15 membros e a revisão completa das Laws of UX descritos em `skill/references/29-jury-and-ux.md`. Todos votam em todos os portões e princípios. O loop do júri dura no máximo 10 minutos a partir de `--jury-start`; cada `--jury-round` pontua os votos e a decisão é a melhor rodada registrada nesse tempo. Dissidência na melhor rodada limita o veredito a condicional. Sem avaliadores independentes, o veredito permanece pendente. Execuções **Standard** e **Fast** não convocam júri.
 
 Dez portões independentes e um Tribunal. O objetivo não é produzir uma nota bonita; é impedir que o bureau aprove um trabalho por apego.
 
 ![Circuito de revisão](../assets/diagrams/circuit.svg)
+
+## Modos de revisão
+
+Defina o modo com `review.mjs --mode`, ou com `review.mode` em `.bureau/config.json`.
+
+| Modo | Portões exigidos | Tribunal | Júri | Veredito máximo |
+|---|---|---|---|---|
+| **Fast** | 6 | Opcional | Nenhum | Pass |
+| **Standard** | 10 | Obrigatório | Nenhum | Pass |
+| **Signature** | 10 | Obrigatório, isolado | 10–15 avaliadores | Award |
+
+Fast serve para uma mudança pequena em que conceito e evidência já existem. Standard é o padrão para uma entrega profissional completa. Signature é para trabalho de alta complexidade, e só Signature alcança o Award Track. A nota é normalizada pelo peso disponível do modo, então uma execução Fast não é punida por portões que não abre.
 
 ## Como a nota funciona
 

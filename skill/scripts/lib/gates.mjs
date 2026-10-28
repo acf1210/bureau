@@ -55,7 +55,7 @@ export const gates = [
     hardFails: [
       "The concept could belong to any competitor unchanged",
       "One source dominates: the attribution test names it",
-      "Fewer than five references verified in queue order, or no named pattern and departure",
+      "Fewer than three references verified in queue order (five for Signature), or no named pattern and departure",
       "No signature move, or a generic effect",
       "Depends on assets that do not exist and cannot be produced"
     ]
@@ -216,6 +216,67 @@ export const gates = [
 
 export const gateById = new Map(gates.map((g) => [g.id, g]));
 
+/**
+ * Review modes. The circuit is the same instrument at every level; the mode
+ * decides which gates are required, whether a jury is convened, and the
+ * highest verdict the run may claim.
+ *
+ * FAST      small change or fix: floor, direction, composition, engineering,
+ *           access and truth. No jury. Floor block of the Delivery Gate only.
+ * STANDARD  a complete professional build: all ten gates and the full Delivery
+ *           Gate; an isolated or degraded Tribunal; no jury.
+ * SIGNATURE high-complexity work: all ten gates, full Delivery Gate, an
+ *           isolated Tribunal and a 10-15-member fresh-context jury. The only
+ *           mode that can reach Award Track.
+ */
+export const REVIEW_MODES = {
+  fast: {
+    id: "fast",
+    label: "Fast",
+    gates: ["g0-intake", "g2-direction", "g4-composition", "g6-engineering", "g7-access", "g8-truth"],
+    jury: false,
+    tribunal: "optional",
+    award: false,
+    deliveryBlocks: ["Floor"],
+    summary: "Small change or fix: six gates, no jury, Floor checks only."
+  },
+  standard: {
+    id: "standard",
+    label: "Standard",
+    gates: [...GATE_ORDER],
+    jury: false,
+    tribunal: "required",
+    award: false,
+    deliveryBlocks: ["Floor", "Reflex", "Liveliness", "Finish", "Process"],
+    summary: "Complete professional build: ten gates, full Delivery Gate, no jury."
+  },
+  signature: {
+    id: "signature",
+    label: "Signature",
+    gates: [...GATE_ORDER],
+    jury: true,
+    tribunal: "isolated",
+    award: true,
+    deliveryBlocks: ["Floor", "Reflex", "Liveliness", "Finish", "Process"],
+    summary: "High-complexity work: ten gates, full Delivery Gate, isolated Tribunal and a 10-15-member jury."
+  }
+};
+
+export const DEFAULT_REVIEW_MODE = "standard";
+
+export function reviewModeById(id) {
+  return REVIEW_MODES[String(id || "").toLowerCase()] || null;
+}
+
+export function gatesForMode(id) {
+  const mode = reviewModeById(id) || REVIEW_MODES[DEFAULT_REVIEW_MODE];
+  return mode.gates.map((gateId) => gateById.get(gateId)).filter(Boolean);
+}
+
+export function modeWeight(id) {
+  return gatesForMode(id).reduce((n, gate) => n + gate.weight, 0);
+}
+
 export const VERDICTS = {
   award: 90,
   pass: 82,
@@ -340,14 +401,15 @@ export const DELIVERY_ITEMS = [
   { id: "DG-P2", block: "Process", text: "Tribunal read the work in a fresh context, or declared degraded" }
 ];
 
-export function parseDelivery(text) {
+export function parseDelivery(text, blocks = null) {
   const items = new Map();
   for (const line of String(text).split(/\r?\n/)) {
     const m = line.match(/^\s*[-*]\s*\[(PASS|FAIL|N\/A|\s?)\]\s*(DG-[A-Z]\d+)\b\s*(?:—|-|:)?\s*(.*)$/i);
     if (m) items.set(m[2].toUpperCase(), { status: m[1].trim().toUpperCase() || "OPEN", evidence: m[3].trim() });
   }
+  const required = blocks && blocks.length ? DELIVERY_ITEMS.filter((item) => blocks.includes(item.block)) : DELIVERY_ITEMS;
   const errors = [];
-  for (const item of DELIVERY_ITEMS) {
+  for (const item of required) {
     const got = items.get(item.id);
     if (!got) { errors.push(`${item.id} missing`); continue; }
     if (got.status === "FAIL") errors.push(`${item.id} is FAIL: ${got.evidence || "no note"}`);

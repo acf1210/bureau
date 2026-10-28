@@ -2,7 +2,7 @@
 
 **The autonomous digital design bureau.** An agent skill that gives a language model the work of a whole studio: creative direction, art direction, typography, motion, creative technology, accessibility, performance, and an adversarial review that says *no*.
 
-[![Version](https://img.shields.io/badge/version-7.11.0-F2C230?style=flat-square&labelColor=121212)](VERSION)
+[![Version](https://img.shields.io/badge/version-8.0.0-F2C230?style=flat-square&labelColor=121212)](VERSION)
 [![License](https://img.shields.io/badge/license-MIT-E2507F?style=flat-square&labelColor=121212)](LICENSE)
 [![ShowCase](https://img.shields.io/badge/showcase-5-1E4FD6?style=flat-square&labelColor=121212)](#showcase)
 [![Hosts](https://img.shields.io/badge/hosts-Claude%20%7C%20Codex%20%7C%20Antigravity%20%7C%20Hermes-EDEBE4?style=flat-square&labelColor=121212)](#install)
@@ -119,7 +119,7 @@ Any P0, any gate under 3.5/5, missing evidence, source changed after review, or 
 | **Finish** | P2 | answered, never blocks |
 
 ```bash
-node skill/scripts/audit.mjs .                 # 32 regex rules + project checks
+node skill/scripts/audit.mjs .                 # 32 regex rules + project and realism checks
 node skill/scripts/visual-audit.mjs http://localhost:4173 --out .bureau/qa
 node skill/scripts/divergence.mjs index.html --templates
 ```
@@ -217,12 +217,12 @@ The scaffold writes `BUREAU.md`, `DESIGN.md` (with lineage and dials), `MOTION.m
 | Layer | Contents |
 |---|---|
 | **Skill** | `SKILL.md` with doctrine, autonomy contract, router, hard rules and tool protocol |
-| **Depth** | 31 references, from concept and art direction to lineage and blend and refinement passes |
+| **Depth** | 42 references, from concept and art direction to lineage and blend and refinement passes |
 | **Scripts** | anti-slop audit, Playwright visual audit, divergence, five-source reference survey, stateful review circuit with a 10-minute jury, tokens, Figma sync, doctor, scaffold |
 | **ShowCase** | 5 web models with their own phone composition, design first, each with a `LINEAGE.md` |
 | **Templates** | 13 scaffold worlds for `new-project.mjs`, each with a `LINEAGE.md` |
 | **Assets** | DTCG tokens, motion snippets, generated media, SVG diagrams |
-| **Docs** | 9 pages × 3 languages (PT-BR, EN, ES) |
+| **Docs** | 10 pages × 3 languages (PT-BR, EN, ES) |
 | **Tests** | 40 `node --test` tests, with fixtures in both directions for every rule |
 | **Installers** | Claude Code, Codex, Antigravity, Hermes; bash and PowerShell |
 

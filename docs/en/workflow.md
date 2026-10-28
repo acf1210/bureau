@@ -55,7 +55,7 @@ A campaign site fits 5–7 days. A product with CMS and multiple surfaces, 2–4
 **Do:**
 
 - Generate three directions with different lenses (material, editorial, systemic, spatial, temporal, instrumental, documentary, play).
-- For each: thesis, tension, emotion, ground/voice/light/motion, signature move, technological proof, risk.
+- For each: thesis, tension, emotion, ground/voice/light/motion, signature move, proof (photographic, cinematic or technological), risk.
 - Produce three comps at the same viewport with real content.
 - Score with the 6-criteria matrix.
 - Record the decision and rejected directions.

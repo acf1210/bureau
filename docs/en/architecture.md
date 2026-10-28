@@ -10,7 +10,7 @@ BUREAU is a **progressive-disclosure** system: a short router, 33 depth modules,
 |---|---|---|
 | **Doctrine** | `SKILL.md` | identity, hard rules, autonomy contract |
 | **Router** | `SKILL.md` §4 | intent → command → reference |
-| **Depth** | `references/00–30` | one domain per file, loaded on demand |
+| **Depth** | `references/00–41` | one domain per file, loaded on demand |
 | **Execution** | `scripts/*.mjs` | detector, QA, tokens, Figma, review, scaffold |
 | **Material** | `assets/templates`, `tokens`, `snippets`, `media` | real starting points |
 | **State** | `BUREAU.md`, `DESIGN.md`, `MOTION.md`, `.bureau/` | project memory and evidence |
@@ -39,6 +39,7 @@ If the request is vague, BUREAU chooses the most defensible route and states the
 | Script | Input | Output | When |
 |---|---|---|---|
 | `audit.mjs` | source | findings + score | before any review |
+| `realism.mjs` | source or URL | media, vector-hero and provenance findings | before direction and before review |
 | `visual-audit.mjs` | URL or file | screenshots, JSON, MD | layout, contrast, motion QA |
 | `review.mjs` | scores JSON | state + scorecard | circuit and Tribunal |
 | `tokens.mjs` | tokens JSON | CSS, Tailwind, contrast | design system |
@@ -122,7 +123,7 @@ To add a domain:
 
 1. create `references/33-your-domain.md`;
 2. add the row to the router table (§4) in `SKILL.md`;
-3. if it has mechanical rules, add `BS-*` rules to `scripts/lib/rules.mjs`;
+3. if it has mechanical rules, add regex rules to `scripts/lib/rules.mjs` or structural checks to `scripts/lib/realism.mjs`, with a `BS-*` id;
 4. if it adds a gate, adjust `scripts/lib/gates.mjs` and rebalance weights to 100;
 5. test with `node --test`.
 

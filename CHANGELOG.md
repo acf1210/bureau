@@ -4,6 +4,39 @@ All notable changes to BUREAU are recorded here. The format follows Keep a Chang
 
 ## [Unreleased]
 
+## [8.0.0] — 2026-10-28
+
+### Added
+
+- **Realism Engine** (`skill/references/39-realism-engine.md`): a five-level media hierarchy (original shoot, licensed asset, commissioned production, photoreal generation, physically based render), the photographic brief, ten realism criteria, continuity rules and the provenance record.
+- **Cinematic video** (`skill/references/40-cinematic-video.md`): camera grammar, temporal integrity, duration and format budgets, accessibility, frame-by-frame verification and the named failure modes.
+- **Media validation** (`skill/references/41-media-validation.md`): a two-layer review (mechanical and human), the ten-question inspection pass, the asset score table and the false-positive list.
+- **Realism audit** (`skill/scripts/lib/realism.mjs`, `skill/scripts/realism.mjs`, `npm run realism`): six mechanical checks — vector hero (`BS-R01`), gradient standing in for imagery (`BS-R02`), blurred orb (`BS-R03`), autoplaying film without a poster (`BS-R04`), stock media without a licence record (`BS-R05`), media without provenance when the project requires it (`BS-R06`). Functional SVG, diagrams, logos and scaffold demos are exempt.
+- **Review modes** (`REVIEW_MODES` in `skill/scripts/lib/gates.mjs`, `review.mjs --mode`): Fast (6 gates, Floor checks, no jury), Standard (10 gates, full Delivery Gate, named Tribunal, no jury) and Signature (10 gates, isolated Tribunal, 10–15-member jury). Only Signature can reach Award Track; scores are normalised to the mode's available weight.
+- Scaffold config now declares `visual_direction` (realism mode, photography first, cinematic video, physical plausibility, functional SVG) and `creative_execution` (autonomy, adaptive review, contextual technology, provenance). The scaffold brief gains photographic and cinematic direction plus a media provenance contract.
+- New documentation page, **Realism first**, in PT-BR, EN and ES, with the media hierarchy, the photographic brief, the rejection list, video checks, validation, provenance, review modes and limits.
+
+### Changed
+
+- Doctrine, art direction, imagery, video, anti-slop, review circuit, jury, reference survey, motion production, visual vocabulary and stock media references now open with the Realism First contract instead of treating a technological proof as mandatory.
+- Survey and motion research are contextual: three verified references in Standard and Fast, five in Signature. The CLIs read `review.mode` from `.bureau/config.json`; the gate checks apply the same target.
+- Bundled templates carry `data-scaffold="true"` so the realism audit judges finished projects, while `new-project.mjs` strips the attribute on install. The scaffold's "Nine Gates" string is corrected to ten.
+- Jury is convened only in Signature mode. Standard and Fast runs use a named Tribunal and no jury; the final verdict is capped at Pass outside Signature.
+- BUREAU.md proof counts corrected (59 tests, 42 references, five ShowCase models, 18 specimen marks with three P0, 21 project checks + 6 realism checks).
+- READMEs (PT-BR, EN, ES) and the landing caption now count 42 references, 10 documentation pages and the realism checks.
+
+### Removed
+
+- The unconditional requirement for one technological proof in every deliverable. A photographic or cinematic proof now satisfies the ambition floor; a shader is chosen only when the subject needs it.
+- The fixed five-reference survey and five-project motion study as universal rules; the count now follows the review mode and the brief.
+- The universal 10–15-member jury as a release blocker for every project; it is a Signature requirement.
+
+### Validation
+
+- `npm test`: 61 tests, 61 pass (including new realism and review-mode suites).
+- `npm run audit` and `npm run realism` on `skill/assets/templates`, `showcase` and `site/index.html`: 0 findings.
+- `npm run docs:build`: 37 pages, 3 languages, 5 showcase models.
+
 ## [7.11.0] — 2026-10-28
 
 ### Added
@@ -360,7 +393,8 @@ The review circuit asks for more evidence. Projects reviewed under 1.0.0 need th
 - `visual-audit` uses hash-level screenshot comparison, not pixel diff.
 - The three templates use fictional demo content, clearly labeled where it could be mistaken for proof.
 
-[Unreleased]: https://github.com/acf1210/bureau/compare/v7.11.0...HEAD
+[Unreleased]: https://github.com/acf1210/bureau/compare/v8.0.0...HEAD
+[8.0.0]: https://github.com/acf1210/bureau/compare/v7.11.0...v8.0.0
 [7.11.0]: https://github.com/acf1210/bureau/compare/v7.10.0...v7.11.0
 [7.10.0]: https://github.com/acf1210/bureau/compare/v7.9.6...v7.10.0
 [7.9.6]: https://github.com/acf1210/bureau/compare/v7.9.5...v7.9.6

@@ -1,8 +1,8 @@
 {
   "$schema": "https://agentskills.io/schema/skill.json",
   "name": "bureau",
-  "version": "7.11.0",
-  "description": "Autonomous digital design bureau: concept, art direction, motion, WebGL, video, Figma, Playwright QA, accessibility, performance, anti-AI-slop review.",
+  "version": "8.0.0",
+  "description": "Autonomous digital design bureau: photography-first art direction, cinematic video, concept, motion, WebGL, Figma, Playwright QA, accessibility, performance, realism audit, anti-AI-slop review.",
   "license": "MIT",
   "homepage": "https://github.com/acf1210/bureau",
   "repository": "https://github.com/acf1210/bureau",
@@ -23,7 +23,10 @@
     "accessibility",
     "anti-ai-slop",
     "awards",
-    "design-system"
+    "design-system",
+    "photography",
+    "realism",
+    "cinematic-video"
   ],
   "hosts": [
     "claude",

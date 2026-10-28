@@ -24,10 +24,12 @@ node skill/scripts/doctor.mjs
 
 ## Rules
 
+- **Realism first.** Photography, film and physical material are the default; vector illustration is never the fallback for a missing photograph. SVG stays for logos, icons, diagrams and interface. `skill/references/39-realism-engine.md` is the contract.
 - **No P0 or P1** in templates, landing, or docs. P2 is acceptable only with a rationale.
+- **Review modes.** Fast (6 gates), Standard (10 gates, default) and Signature (10 gates + jury). Only Signature can reach Award Track. The mode is a product contract; do not add a hidden fourth.
 - **One idea per file.** References are independent; do not create circular reads.
 - **Evidence over opinion.** Scripts must produce artifacts, not claims.
-- **No fabricated proof.** No fake metrics, logos, testimonials, or awards anywhere, including demos.
+- **No fabricated proof.** No fake metrics, logos, testimonials, or awards anywhere, including demos. A synthetic image is never evidence of a real product, person, place or event.
 - **Truth in docs.** If a command, path, or flag is documented, it must work.
 - **Three languages.** PT-BR, EN, ES. Keep structure, links, code and numbers identical; translate prose only.
 - **No dependency creep.** `marked` and `playwright` are the only runtime/tooling dependencies. Justify anything else.
@@ -59,6 +61,7 @@ Semver: changed circuit, script or file contract → major; new capability → m
 ```bash
 npm test
 node skill/scripts/audit.mjs skill/assets/templates showcase site/index.html --fail-on p1
+node skill/scripts/realism.mjs skill/assets/templates showcase site/index.html --fail-on p1
 node skill/scripts/visual-audit.mjs http://localhost:4173 --out .bureau/qa --fail-on p0
 npm run docs:build
 ```

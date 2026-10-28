@@ -112,8 +112,10 @@ test("review circuit gates in order and returns an award scorecard", () => {
   assert.equal(r.status, 1, `final must refuse an unchecked Delivery Gate: ${r.status} ${r.stdout} ${r.stderr}`);
   const deliveryFile = path.join(project, ".bureau", "review", "delivery.md");
   fs.writeFileSync(deliveryFile, fs.readFileSync(deliveryFile, "utf8").replace(/- \[ \] (DG-\w+)(.*) — evidence:/g, "- [PASS] $1$2 — evidence: .bureau/qa/report.json, 0 issues"));
+  assert.equal(run(review, ["--mode", "signature"], project).status, 0);
   r = run(review, ["--final", "--tribunal", ".bureau/review/tribunal.json"], project);
-  assert.equal(r.status, 1, "final must refuse a missing jury");
+  assert.equal(r.status, 1, "signature final must refuse a missing jury");
+  assert.match(r.stderr, /jury incomplete/);
   const vote = () => ({ result: "pass", reason: "Reviewed in this test fixture", evidence: ".bureau/qa/report.json" });
   const juryFile = path.join(project, ".bureau", "review", "jury.json");
   assert.equal(run(review, ["--jury-init"], project).status, 0);
@@ -172,7 +174,7 @@ test("pre-build critique under 3 fails Gate 1", () => {
   assert.equal(run(path.join(root, "skill", "scripts", "survey.mjs"), ["--init", "--need", "product"], project).status, 0);
   r = run(review, ["--gate", "g1-concept", "--scores", ".bureau/review/g1.json"], project);
   assert.equal(r.status, 4, "an unworked queue blocks Gate 1");
-  assert.match(r.stderr, /0\/5 sources verified/);
+  assert.match(r.stderr, /0\/3 sources verified/);
   fs.rmSync(path.join(project, ".bureau", "research"), { recursive: true });
   writeSurvey(project);
   r = run(review, ["--gate", "g1-concept", "--scores", ".bureau/review/g1.json"], project);

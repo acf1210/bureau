@@ -48,6 +48,18 @@ test("survey closes only with five verified sources taken in queue order", () =>
   assert.ok(validateSurvey(thin).errors.some((e) => e.includes("patternSources")));
 });
 
+test("a Standard project closes with three verified sources; Signature still needs five", () => {
+  const queue = surveyQueue("landing");
+  let n = 0;
+  const out = queue.map((entry) => entry.status === "pending" && n < 3 ? verify(entry, n++) : entry);
+  const ids = out.filter((e) => e.status === "verified").map((e) => e.source);
+  const three = { queue: out, synthesis: { pattern: "A fixed index column beside a single reading measure", patternSources: ids, creative: "The index becomes the price list and scrolls with the order", avoid: "No layout, identity or copy is lifted from any reference" } };
+  assert.deepEqual(validateSurvey(three, { target: 3 }).errors, []);
+  assert.ok(validateSurvey(three, { target: 5 }).errors.some((e) => e.includes("3/5")));
+  const two = { ...three, queue: out.map((e, i) => i === out.findLastIndex((x) => x.status === "verified") ? { source: e.source, status: "pending" } : e) };
+  assert.ok(validateSurvey(two, { target: 3 }).errors.some((e) => e.includes("2/3")));
+});
+
 test("probe skips unreachable and redirected sources and stops once enough are reachable", async () => {
   const queue = surveyQueue("general");
   const calls = [];

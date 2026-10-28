@@ -53,7 +53,8 @@ const filled = (value, min = 12) => typeof value === "string" && value.trim().le
 
 // A survey closes with five verified references from five different sources, taken in queue order:
 // every source ahead of the last verified one is verified or skipped with a reason (no silent cherry-picking).
-export function validateSurvey(survey) {
+export function validateSurvey(survey, options = {}) {
+  const target = Number.isInteger(options.target) && options.target >= 3 ? options.target : SURVEY_TARGET;
   const errors = [];
   if (!survey || typeof survey !== "object" || !Array.isArray(survey.queue)) return ["survey record missing or has no queue"];
   const seen = new Set();
@@ -83,9 +84,9 @@ export function validateSurvey(survey) {
       verified.push({ ...entry, source: source.id });
     } else if (!["pending", "skipped"].includes(entry.status)) errors.push(`${source.id}: status must be pending, skipped or verified`);
   });
-  if (verified.length < SURVEY_TARGET) errors.push(`${verified.length}/${SURVEY_TARGET} sources verified; move to the next source in the queue`);
+  if (verified.length < target) errors.push(`${verified.length}/${target} sources verified; move to the next source in the queue`);
   const lenses = new Set(verified.map((v) => v.lens));
-  if (verified.length >= SURVEY_TARGET && lenses.size < 3) errors.push(`verified references cover ${lenses.size} lens(es); at least 3 of ${LENSES.join(", ")}`);
+  if (verified.length >= target && lenses.size < 3) errors.push(`verified references cover ${lenses.size} lens(es); at least 3 of ${LENSES.join(", ")}`);
   const s = survey.synthesis || {};
   const ids = new Set(verified.map((v) => v.source));
   if (!filled(s.pattern, 20)) errors.push("synthesis.pattern: name the convention the references share");

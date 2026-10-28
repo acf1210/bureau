@@ -134,6 +134,16 @@ Three or more "no" answers → the page is slop, regardless of polish.
 | BS-I08 | Grain/glass/glow applied globally | One material, used with intent |
 | BS-I09 | 3D blob with no relation to the product | A 3D object that explains the product |
 | BS-I10 | Images of text that should be live text | Set it in HTML |
+| BS-R01 | Vector illustration carrying a page that has no photograph or film | Photograph the subject; keep SVG for logos, icons and diagrams |
+| BS-R02 | Hero gradient standing in for an image | Art-direct a photograph, or commit to a typographic hero with no image slot |
+| BS-R03 | Large blurred orb as decoration | Replace with light, material or a subject |
+| BS-R04 | Autoplaying film with no poster frame | Poster from the film itself, preloaded |
+| BS-R05 | Stock media with no licence record | Record source, licence, URL and date |
+| BS-R06 | Media with no provenance when the project requires it | Add `data-provenance` or `.bureau/media/provenance.json` |
+| BS-R07 | Two assets in one section with different light directions or colour temperatures | Re-shoot, re-grade or separate them |
+| BS-R08 | Synthetic image presented as evidence of a real product, person, place or event | Label it, replace it, or remove the claim |
+
+`BS-R01` to `BS-R06` are checked mechanically by `scripts/realism.mjs` and by `audit.mjs`; `BS-R07` and `BS-R08` are human findings at Gate 2 and Gate 8. No regex is allowed to claim it can see a photograph.
 
 ### G. Engineering/behavior tells
 
@@ -262,10 +272,11 @@ A page built with no direction is labelled *draft without direction*, dials 1 / 
 ```bash
 node scripts/audit.mjs .
 node scripts/audit.mjs . --json --out .bureau/evidence/audit.json
+node scripts/realism.mjs . --json --out .bureau/evidence/realism.json
 node scripts/audit.mjs . --fail-on p0
 ```
 
-The detector covers the mechanical subset (code-level patterns, missing alt, slop lexicon, fake placeholders, autoplay issues, etc.). It cannot judge composition or taste. It is a **tripwire**, not a critic.
+The detector covers the mechanical subset (code-level patterns, missing alt, slop lexicon, fake placeholders, autoplay issues, vector-hero and gradient habits, media provenance). It cannot judge composition, photographic realism or taste. It is a **tripwire**, not a critic. Realism is judged on rendered screenshots and film frames at 100% (`41-media-validation.md`).
 
 Rules:
 

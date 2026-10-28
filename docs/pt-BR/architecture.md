@@ -10,7 +10,7 @@ BUREAU é um sistema de **divulgação progressiva**: um roteador curto, 33 mód
 |---|---|---|
 | **Doutrina** | `SKILL.md` | identidade, regras duras, contrato de autonomia |
 | **Roteador** | `SKILL.md` §4 | intenção → comando → referência |
-| **Profundidade** | `references/00–30` | um domínio por arquivo, carregado sob demanda |
+| **Profundidade** | `references/00–41` | um domínio por arquivo, carregado sob demanda |
 | **Execução** | `scripts/*.mjs` | detector, QA, tokens, Figma, review, scaffold |
 | **Matéria** | `assets/templates`, `tokens`, `snippets`, `media` | pontos de partida reais |
 | **Estado** | `BUREAU.md`, `DESIGN.md`, `MOTION.md`, `.bureau/` | memória do projeto e evidência |
@@ -39,6 +39,7 @@ Se o pedido é vago, o BUREAU escolhe a rota mais defensável e declara a suposi
 | Script | Entrada | Saída | Quando |
 |---|---|---|---|
 | `audit.mjs` | código-fonte | findings + score | antes de qualquer review |
+| `realism.mjs` | código-fonte ou URL | achados de mídia, herói vetorial e proveniência | antes da direção e antes do review |
 | `visual-audit.mjs` | URL ou arquivo | screenshots, JSON, MD | QA de layout, contraste, motion |
 | `review.mjs` | scores JSON | estado + scorecard | circuito e Tribunal |
 | `tokens.mjs` | tokens JSON | CSS, Tailwind, contraste | design system |
@@ -122,7 +123,7 @@ Para adicionar um domínio:
 
 1. crie `references/33-seu-dominio.md`;
 2. adicione a linha na tabela do roteador (§4) do `SKILL.md`;
-3. se houver regra mecânica, adicione em `scripts/lib/rules.mjs` com ID `BS-*`;
+3. se houver regra mecânica, adicione regex em `scripts/lib/rules.mjs` ou verificações estruturais em `scripts/lib/realism.mjs`, com ID `BS-*`;
 4. se houver portão novo, ajuste `scripts/lib/gates.mjs` e redistribua os pesos para 100;
 5. teste com `node --test`.
 
