@@ -12,7 +12,7 @@
   - `npm test` → 42 tests, 42 pass.
   - The detector: 32 regex rules in `skill/scripts/lib/rules.mjs` plus 21 project checks in `skill/scripts/audit.mjs`.
   - The landing's specimen: the same 32 rules mark `site/assets/specimen/generic.html` 13 times (one P0) and `reviewed.html` 0 times; `scripts/proof.mjs --check` keeps the static list on the page equal to that output.
-  - Thirteen scaffold templates, thirty-three references, four ShowCase models, four hosts, three languages: counted from `skill/assets/templates`, `skill/references`, `showcase/catalog.json`, `installers/`, `docs/`.
+  - Thirteen scaffold templates, thirty-nine references, five ShowCase models, four hosts, three languages: counted from `skill/assets/templates`, `skill/references`, `showcase/catalog.json`, `installers/`, `docs/`.
 - **Claims we cannot make:** adoption or user counts; results on client work; awards or nominations; comparative benchmark superiority over other tools; uptime or SLA; security certification; WCAG conformance beyond the automated audit and the manual keyboard checks recorded in `.bureau/evidence/`.
 - **Non-goals:** no hosted product or account system; no analytics or tracking; no CMS; no invented testimonials, logos, metrics or awards; no claim that the 13 templates are client work.
 

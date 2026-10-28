@@ -62,5 +62,21 @@
       "es": "Tira de cinco ejes con la mano, teje un campo de letras, abre una en profundidad"
     },
     "alt": "A heavy black and red variable-font headline over five axis sliders on proof paper"
+  },
+  {
+    "id": "fields",
+    "title": "Quarter",
+    "theme": {
+      "en": "Field intelligence",
+      "pt-BR": "Inteligência agrícola",
+      "es": "Inteligencia agrícola"
+    },
+    "lineage": "Tufte × Cooper × Aicher",
+    "move": {
+      "en": "Descend from orbit to the herd, one sensor resolution at a time",
+      "pt-BR": "Desça da órbita ao rebanho, uma resolução de sensor por vez",
+      "es": "Desciende de la órbita al rebaño, una resolución de sensor por vez"
+    },
+    "alt": "A satellite view of the High Plains under a large serif Quarter headline, with an amber station rail and a monospaced altitude readout"
   }
 ]

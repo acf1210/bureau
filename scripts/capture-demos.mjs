@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /* @bureau-internal — excluded from design audits */
-/** Capture every ShowCase model, desktop and mobile, for the landing and the README gallery. */
+/** Capture every ShowCase model, desktop and mobile, for the landing and the README gallery. Pass --only=<id> to refresh one. */
 import { chromium } from "playwright";
 import fs from "node:fs";
 import path from "node:path";
@@ -12,11 +12,14 @@ const outDir = path.join(root, "site", "assets", "img", "showcase");
 fs.mkdirSync(outDir, { recursive: true });
 
 const catalog = JSON.parse(fs.readFileSync(path.join(root, "showcase", "catalog.json"), "utf8"));
+const only = process.argv.slice(2).find((a) => a.startsWith("--only="))?.split("=")[1];
+const targets = only ? catalog.filter((m) => m.id === only) : catalog;
+if (!targets.length) throw new Error(`No model matches --only=${only}`);
 const shots = [["desktop", { width: 1440, height: 900 }, 1200], ["mobile", { width: 390, height: 844 }, 480]];
 
 // The models are live renderings (WebGL, canvas): motion stays on and each gets time to draw before the capture.
 const browser = await chromium.launch({ headless: true, executablePath: process.env.BUREAU_CHROMIUM || "/usr/bin/chromium", args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader"] });
-for (const { id } of catalog) {
+for (const { id } of targets) {
   for (const [kind, viewport, width] of shots) {
     const page = await browser.newPage({ viewport, deviceScaleFactor: kind === "mobile" ? 2 : 1 });
     await page.goto(pathToFileURL(path.join(root, "showcase", id, "index.html")).href, { waitUntil: "networkidle" });

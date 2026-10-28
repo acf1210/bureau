@@ -70,12 +70,12 @@ test("catalog and scaffold cover every template", () => {
   for (const id of folders) assert.match(list, new RegExp(`^${id}\\b`, "m"), `new-project --list is missing ${id}`);
 });
 
-test("the ShowCase lists four models with lineage, captures and a current gallery", () => {
+test("the ShowCase lists five models with lineage, captures and a current gallery", () => {
   const dir = path.join(root, "showcase");
   const catalog = JSON.parse(fs.readFileSync(path.join(dir, "catalog.json"), "utf8")).map((t) => t.id).sort();
   const folders = fs.readdirSync(dir).filter((d) => fs.existsSync(path.join(dir, d, "index.html"))).sort();
   assert.deepEqual(catalog, folders, "showcase/catalog.json must list every model folder");
-  assert.equal(folders.length, 4);
+  assert.equal(folders.length, 5);
   for (const id of folders) {
     assert.ok(fs.existsSync(path.join(dir, id, "LINEAGE.md")), `missing LINEAGE.md for ${id}`);
     for (const kind of ["desktop", "mobile"]) assert.ok(fs.existsSync(path.join(root, "site", "assets", "img", "showcase", `${id}-${kind}.webp`)), `missing ${kind} capture for ${id}`);
